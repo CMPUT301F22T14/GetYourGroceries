@@ -4,4 +4,20 @@
         android:id="@+id/home_icon"
         android:title="Home"
         android:icon="@drawable/home_icon"/>
+    <item
+        android:id="@+id/ingredients_icon"
+        android:title="Ingredients"
+        android:icon="@drawable/cup_icon"/>
+    <item
+        android:id="@+id/recipe_icon"
+        android:title="Recipe List"
+        android:icon="@drawable/recipe_icon"/>
+    <item
+        android:id="@+id/meal_icon"
+        android:title="Meal Plans"
+        android:icon="@drawable/meal_icon"/>
+    <item
+        android:id="@+id/shopping_icon"
+        android:title="Shopping List"
+        android:icon="@drawable/shopping_icon"/>
 </menu>

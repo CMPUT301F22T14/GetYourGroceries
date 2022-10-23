@@ -29,7 +29,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:name="com.example.getyourgroceries.HomeScreen"
+        android:name="com.example.getyourgroceries.HomeScreenFragment"
         tools:layout="@layout/fragment_home_screen" />
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"

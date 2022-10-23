@@ -9,9 +9,9 @@ import androidx.fragment.app.Fragment;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-public class RecipeList extends Fragment {
+public class RecipeListFragment extends Fragment {
 
-    public RecipeList(){
+    public RecipeListFragment(){
 
     }
     @Nullable

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".IngredientList"
+    tools:context=".IngredientListFragment"
     tools:showIn="@layout/activity_ingredient_list">
 
     <TextView

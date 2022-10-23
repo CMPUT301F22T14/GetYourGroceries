@@ -9,9 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-public class HomeScreen extends Fragment {
+public class HomeScreenFragment extends Fragment {
 
-       public HomeScreen() {
+       public HomeScreenFragment() {
         // Required empty public constructor
     }
 

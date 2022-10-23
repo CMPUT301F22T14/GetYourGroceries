@@ -9,9 +9,9 @@ import androidx.fragment.app.Fragment;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-public class MealPlans extends Fragment {
+public class ShoppingListFragment extends Fragment {
 
-    public MealPlans(){
+    public ShoppingListFragment(){
 
     }
     @Nullable
@@ -19,6 +19,6 @@ public class MealPlans extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_meal_plans, container, false);
+        return inflater.inflate(R.layout.fragment_shopping_list, container, false);
     }
 }

@@ -1,4 +1,4 @@
-package com.example.getyourgroceries;
+package com.example.getyourgroceries.entity;
 
 import java.util.ArrayList;
 

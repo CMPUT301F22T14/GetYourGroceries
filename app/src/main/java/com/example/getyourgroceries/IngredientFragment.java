@@ -71,7 +71,7 @@ public class IngredientFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_ingredient, container, false);
-        ((TextView)v.findViewById(R.id.ingredient_name)).setText("Description: " +name);
+        ((TextView)v.findViewById(R.id.ingredient_name)).setText(name);
         ((TextView)v.findViewById(R.id.ingredient_qty)).setText("Quantity: "+String.valueOf(quantity));
         ((TextView)v.findViewById(R.id.ingredient_bestbefore)).setText("BBD: "+(new SimpleDateFormat("MM/dd/yyy")).format(bestBefore));
         ((TextView)v.findViewById(R.id.ingredient_location)).setText("Location: "+location);

@@ -7,6 +7,7 @@ public class Ingredient {
     private Integer amount;
     private Double unit;
     private String category;
+    private String id;
     //private Date bestBefore;
 
     public Ingredient(String description, Integer amount, Double unit, String category) {
@@ -46,5 +47,13 @@ public class Ingredient {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

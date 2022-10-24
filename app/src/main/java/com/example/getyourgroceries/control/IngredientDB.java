@@ -37,7 +37,7 @@ public class IngredientDB {
      * @return newly created document id
      * @NOTE make sure to assign the ingredient the given returned ID after calling function
      */
-    public String addRecipe(Ingredient ingredient) {
+    public String addIngredient(Ingredient ingredient) {
         // TODO: only add ingredient for logged in user
         final String[] id = new String[1];
         ingredientCollection
@@ -62,7 +62,7 @@ public class IngredientDB {
      * Updates a given ingredient in the database
      * @param ingredient: updated ingredient object
      */
-    public void updateRecipe(Ingredient ingredient) {
+    public void updateIngredient(Ingredient ingredient) {
         // TODO: only update ingredient for logged in user
         ingredientCollection.document(ingredient.getId())
                 .set(ingredient);

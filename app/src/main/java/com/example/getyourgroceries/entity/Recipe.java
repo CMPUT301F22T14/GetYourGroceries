@@ -3,7 +3,6 @@ package com.example.getyourgroceries.entity;
 import java.util.ArrayList;
 
 public class Recipe {
-
     private String name;
     private int prepTime;
     private int numOfServings;
@@ -11,7 +10,7 @@ public class Recipe {
     private String comment;
     private String photo;
     private ArrayList<Ingredient> ingredientList;
-
+    private String id;
 
     public Recipe(String name, int prepTime, int numOfServings, String recipeCategory, String comment, String photo) {
         this.name = name;
@@ -91,5 +90,13 @@ public class Recipe {
         } else {
             // does not contain ingredient
         }
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

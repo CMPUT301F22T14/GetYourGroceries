@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.getyourgroceries.entity.Ingredient;
+import com.example.getyourgroceries.entity.StoredIngredient;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
@@ -16,7 +17,13 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
 
 public class IngredientDB {
     public static final String TAG = "INGREDIENTDB";
@@ -72,18 +79,34 @@ public class IngredientDB {
      * Fetches all ingredients from ingredients collection
      * @return all ingredients in an array list
      */
-    public ArrayList<Ingredient> getIngredients(){
+    public ArrayList<StoredIngredient> getIngredients(){
         // TODO: only fetch ingredients for logged in user
-        ArrayList<Ingredient> ingredients = new ArrayList<>();
+        // TODO: Retrieve data from Firebase.
+        ArrayList<StoredIngredient> ingredients = new ArrayList<>();
         ingredientCollection.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
+                assert queryDocumentSnapshots != null;
+                SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
                 for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
-                    Ingredient ingredient = doc.toObject(Ingredient.class);
-                    ingredients.add(ingredient);
+                    Map<String, Object> m = doc.getData();
+                    StoredIngredient s = null;
+                    Log.d("map", m.toString());
+                    try {
+                        s = new StoredIngredient(Objects.requireNonNull(m.get("description")).toString(),
+                                Integer.parseInt(Objects.requireNonNull(m.get("amount")).toString()),
+                                Double.parseDouble(Objects.requireNonNull(m.get("unit")).toString()),
+                                Objects.requireNonNull(m.get("category")).toString(),
+                                formatter.parse("12/31/2030"),
+                                Objects.requireNonNull(m.get("location")).toString());
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    ingredients.add(s);
                 }
             }
         });
+        Log.d("end", ingredients.toString());
         return ingredients;
     }
 }

@@ -5,101 +5,153 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/add_ingredient_description"
-        android:layout_width="300dp"
-        android:layout_height="60dp"
-        android:autofillHints=""
-        android:background="@drawable/edittext"
-        android:ems="10"
-        android:hint="@string/add_ingredient_description"
-        android:inputType="textPersonName"
-        android:minHeight="48dp"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textColorHighlight="@color/white"
-        android:textColorHint="@android:color/darker_gray"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@id/add_ingredient_quantity"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/add_ingredient_quantity"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/add_ingredient_description_til"
         android:layout_width="300dp"
-        android:layout_height="60dp"
-        android:autofillHints=""
-        android:background="@drawable/edittext"
-        android:ems="10"
-        android:hint="@string/enter_the_quantity"
-        android:inputType="number"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textColorHint="@android:color/darker_gray"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@id/add_ingredient_expiry"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/add_ingredient_description"
-        app:layout_constraintVertical_bias="0" />
-
-    <TextView
-        android:id="@+id/add_ingredient_expiry"
-        android:layout_width="300dp"
-        android:layout_height="60dp"
-        android:autofillHints=""
-        android:background="@drawable/edittext"
-        android:ems="10"
-        android:hint="@string/enter_the_best_before_date"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textColorHint="@android:color/darker_gray"
-        app:layout_constraintBottom_toTopOf="@id/add_ingredient_location"
+        android:layout_height="85dp"
+        android:layout_centerInParent="true"
+        app:layout_constraintBottom_toTopOf="@+id/add_ingredient_quantity_til"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/add_ingredient_quantity" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:counterEnabled="true"
+        app:counterMaxLength="30"
+        android:textColorHint="@color/white"
+        app:hintTextColor="@color/white"
+        app:boxStrokeWidth="0dp"
+        app:boxStrokeWidthFocused="0dp">
 
-    <Spinner
-        android:id="@+id/add_ingredient_location"
+        <EditText
+            android:id="@+id/add_ingredient_description"
+            android:layout_width="300dp"
+            android:layout_height="60dp"
+            android:autofillHints=""
+            android:background="@drawable/edittext"
+            android:ems="10"
+            android:hint="@string/add_ingredient_description"
+            android:inputType="textPersonName"
+            android:minHeight="48dp"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textColorHighlight="@color/white"
+            android:textColorHint="@android:color/darker_gray"
+            android:textSize="20sp"
+            android:maxLength="30"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/add_ingredient_quantity_til"
         android:layout_width="300dp"
-        android:layout_height="60dp"
-        android:autofillHints=""
-        android:background="@drawable/edittext"
-        android:contentDescription="@string/enter_a_location"
-        android:ems="10"
-        android:popupBackground="@color/black"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textColorHint="@android:color/darker_gray"
-        app:layout_constraintBottom_toTopOf="@id/add_ingredient_category"
+        android:layout_height="85dp"
+        android:layout_centerInParent="true"
+        app:layout_constraintBottom_toTopOf="@+id/add_ingredient_expiry_til"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/add_ingredient_expiry" />
+        app:layout_constraintTop_toBottomOf="@id/add_ingredient_description_til"
+        android:textColorHint="@color/white"
+        app:hintTextColor="@color/white"
+        app:boxStrokeWidth="0dp"
+        app:boxStrokeWidthFocused="0dp">
 
-    <Spinner
-        android:id="@+id/add_ingredient_category"
+        <EditText
+            android:id="@+id/add_ingredient_quantity"
+            android:layout_width="300dp"
+            android:layout_height="60dp"
+            android:autofillHints=""
+            android:background="@drawable/edittext"
+            android:ems="10"
+            android:hint="@string/enter_the_quantity"
+            android:inputType="number"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textColorHint="@android:color/darker_gray"
+            android:textSize="20sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/add_ingredient_expiry_til"
         android:layout_width="300dp"
-        android:layout_height="60dp"
-        android:autofillHints=""
-        android:background="@drawable/edittext"
-        android:contentDescription="@string/enter_the_ingredient_category"
-        android:ems="10"
-        android:popupBackground="@color/black"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textColorHint="@android:color/darker_gray"
-        app:layout_constraintBottom_toTopOf="@id/add_ingredient_confirm"
+        android:layout_height="75dp"
+        android:layout_centerInParent="true"
+        app:layout_constraintBottom_toTopOf="@+id/add_ingredient_location_til"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/add_ingredient_location" />
+        app:layout_constraintTop_toBottomOf="@id/add_ingredient_quantity_til"
+        android:textColorHint="@color/white">
+
+        <TextView
+            android:id="@+id/add_ingredient_expiry"
+            android:layout_width="300dp"
+            android:layout_height="60dp"
+            android:autofillHints=""
+            android:background="@drawable/edittext"
+            android:ems="10"
+            android:hint="@string/enter_the_best_before_date"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/add_ingredient_location_til"
+        android:layout_width="300dp"
+        android:layout_height="75dp"
+        android:layout_centerInParent="true"
+        app:layout_constraintBottom_toTopOf="@+id/add_ingredient_category_til"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/add_ingredient_expiry_til"
+        android:textColorHint="@color/white">
+
+        <Spinner
+            android:id="@+id/add_ingredient_location"
+            android:layout_width="300dp"
+            android:layout_height="60dp"
+            android:autofillHints=""
+            android:background="@drawable/edittext"
+            android:contentDescription="@string/enter_a_location"
+            android:ems="10"
+            android:popupBackground="@color/black"
+            android:textColor="@color/white"
+            android:textColorHint="@android:color/darker_gray" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/add_ingredient_category_til"
+        android:layout_width="300dp"
+        android:layout_height="75dp"
+        android:layout_centerInParent="true"
+        app:layout_constraintBottom_toTopOf="@+id/add_ingredient_confirm"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/add_ingredient_location_til"
+        android:textColorHint="@color/white">
+
+        <Spinner
+            android:id="@+id/add_ingredient_category"
+            android:layout_width="300dp"
+            android:layout_height="60dp"
+            android:autofillHints=""
+            android:background="@drawable/edittext"
+            android:contentDescription="@string/enter_the_ingredient_category"
+            android:ems="10"
+            android:popupBackground="@color/black"
+            android:textColor="@color/white"
+            android:textColorHint="@android:color/darker_gray" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/add_ingredient_confirm"
         android:layout_width="200dp"
         android:layout_height="60dp"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="60dp"
         android:backgroundTint="@color/black"
         android:text="@string/confirm"
         android:textColor="@color/accent"
@@ -107,6 +159,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/add_ingredient_category" />
+        app:layout_constraintTop_toBottomOf="@id/add_ingredient_category_til" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,11 +2,14 @@ package com.example.getyourgroceries;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
 
@@ -18,7 +21,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(this);
+        bottomNavigationView.setOnItemSelectedListener(this);
         bottomNavigationView.setSelectedItemId(R.id.home_icon);
     }
     IngredientListFragment ingredientListFragment = new IngredientListFragment();
@@ -31,21 +34,26 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         switch (item.getItemId()) {
             case R.id.home_icon:
+                Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
                 getSupportFragmentManager().beginTransaction().replace(R.id.container, homeScreenFragment).commit();
                 return true;
 
             case R.id.ingredients_icon:
+                Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
                 getSupportFragmentManager().beginTransaction().replace(R.id.container, ingredientListFragment).commit();
                 return true;
 
             case R.id.recipe_icon:
+                Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
                 getSupportFragmentManager().beginTransaction().replace(R.id.container, recipeListFragment).commit();
                 return true;
 
             case R.id.meal_icon:
+                Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
                 getSupportFragmentManager().beginTransaction().replace(R.id.container, mealPlansFragment).commit();
                 return true;
             case R.id.shopping_icon:
+                Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
                 getSupportFragmentManager().beginTransaction().replace(R.id.container, shoppingListFragment).commit();
                 return true;
         }

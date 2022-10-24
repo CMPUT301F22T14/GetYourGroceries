@@ -1,18 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".IngredientListFragment">
 
+
     <LinearLayout
         android:id="@+id/linearLayoutIngredients"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="100dp"
-        android:orientation="vertical">
+        android:layout_margin="10dp"
+        android:showDividers="middle"
+        android:divider="@drawable/space_divider"
+        android:orientation="vertical"
+        android:gravity="center">
 
-        <TextView
+        <!--<TextView
             android:id="@+id/ingredientListTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -20,11 +25,18 @@
             android:layout_marginBottom="16dp"
             android:text="Ingredient List"
             android:textSize="48sp" />
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/text_margin"
-            android:text="@string/large_text" />
+            android:text="@string/large_text" />-->
+        <Button
+            android:id="@+id/addIngredientButton"
+            android:layout_width="200dp"
+            android:layout_height="60dp"
+            android:backgroundTint="@color/black"
+            android:text="@string/add_ingredient"
+            android:textColor="#00FFD1"
+            app:cornerRadius="8dp" />
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

@@ -132,11 +132,11 @@ public class AddIngredientFragment extends Fragment {
         // TODO: Add ingredient categories.
         Spinner category = requireActivity().findViewById(R.id.add_ingredient_category);
         ArrayList<String> categories = new ArrayList<>();
-        locations.add("Enter A Category");
-        locations.add("Category 1");
-        locations.add("Category 2");
-        locations.add("Category 3");
-        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner, locations) {
+        categories.add("Enter A Category");
+        categories.add("Category 1");
+        categories.add("Category 2");
+        categories.add("Category 3");
+        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner, categories) {
 
             /**
              * The isEnabled method will disallow te first dropdown choice.

@@ -79,7 +79,6 @@ public class IngredientDB {
 
     /**
      * Fetches all ingredients from ingredients collection
-     * @return all ingredients in an array list
      */
     public void getIngredients(IngredientDBCallback myCallback) {
         ArrayList<StoredIngredient> ingredients = new ArrayList<>();
@@ -96,5 +95,10 @@ public class IngredientDB {
                         myCallback.onCallback(ingredients);
                     }
                 });
+    }
+
+    public void deleteIngredient(Ingredient ingredient) {
+        // TODO: only delete ingredient for logged in user(do not allow deletion for a ingredient that belongs to a different user)
+        ingredientCollection.document(ingredient.getId()).delete();
     }
 }

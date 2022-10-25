@@ -71,7 +71,6 @@ public class RecipeDB {
 
     /**
      * Fetches all recipes from recipe collection
-     * @return all recipes in an array list
      */
     public void getRecipes(RecipeDBCallback myCallback) {
         ArrayList<Recipe> recipes = new ArrayList<>();
@@ -88,5 +87,10 @@ public class RecipeDB {
                         myCallback.onCallback(recipes);
                     }
                 });
+    }
+
+    public void deleteRecipe(Recipe recipe) {
+        // TODO: only delete recipe for logged in user(do not allow deletion for a recipe that belongs to a different user)
+        recipeCollection.document(recipe.getId()).delete();
     }
 }

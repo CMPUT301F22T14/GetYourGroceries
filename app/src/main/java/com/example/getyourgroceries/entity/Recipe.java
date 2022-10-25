@@ -12,6 +12,10 @@ public class Recipe {
     private ArrayList<Ingredient> ingredientList;
     private String id;
 
+    public Recipe() {
+
+    }
+
     public Recipe(String name, int prepTime, int numOfServings, String recipeCategory, String comment, String photo) {
         this.name = name;
         this.prepTime = prepTime;

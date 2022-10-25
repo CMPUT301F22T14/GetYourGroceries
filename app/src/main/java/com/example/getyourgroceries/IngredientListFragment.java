@@ -39,12 +39,6 @@ public class IngredientListFragment extends Fragment {
             requireActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).replace(container.getId(), addIngredientFragment).addToBackStack(null).commit();
         });
 
-        // Testing
-//        StoredIngredient s = new StoredIngredient("Apple", 12, 12.0, "Fruit", new Date(2012,12,12), "Pantry");
-//        getParentFragmentManager().beginTransaction().add(R.id.linearLayoutIngredients, IngredientFragment.newInstance(s)).commit();
-//        getParentFragmentManager().beginTransaction().add(R.id.linearLayoutIngredients, IngredientFragment.newInstance(s)).commit();
-//        getParentFragmentManager().beginTransaction().add(R.id.linearLayoutIngredients, IngredientFragment.newInstance(s)).commit();
-
         // Output all of the ingredients from Firebase.
         IngredientDB db = new IngredientDB();
         db.getIngredients(new IngredientDBCallback() {

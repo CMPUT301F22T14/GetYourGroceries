@@ -9,6 +9,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -18,11 +20,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
+import com.example.getyourgroceries.control.IngredientDB;
+import com.example.getyourgroceries.entity.StoredIngredient;
+import com.google.android.material.textfield.TextInputLayout;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * The AddIngredientFragment is the class for the add ingredient screen.
+ * AddIngredientFragment extends {@link Fragment}.
+ */
 public class AddIngredientFragment extends Fragment {
 
     // Attributes.
@@ -68,7 +81,7 @@ public class AddIngredientFragment extends Fragment {
         AtomicInteger daySet = new AtomicInteger(cal.get(Calendar.DAY_OF_MONTH));
         TextView displayDate = requireActivity().findViewById(R.id.add_ingredient_expiry);
         displayDate.setTextSize(20);
-        displayDate.setGravity(Gravity.CENTER);
+        displayDate.setGravity(Gravity.CENTER_VERTICAL);
         displayDate.setOnClickListener(view2 -> {
             DatePickerDialog dialog = new DatePickerDialog(getContext(), 0, dateSetListener, yearSet.get(), monthSet.get(), daySet.get());
             dialog.getDatePicker().setMinDate(cal.getTimeInMillis());
@@ -168,6 +181,79 @@ public class AddIngredientFragment extends Fragment {
             }
         };
         category.setAdapter(categoryAdapter);
+
+        // Get the text layouts.
+        TextInputLayout tilDescription = requireActivity().findViewById(R.id.add_ingredient_description_til);
+        TextInputLayout tilQuantity = requireActivity().findViewById(R.id.add_ingredient_quantity_til);
+        TextInputLayout tilExpiry = requireActivity().findViewById(R.id.add_ingredient_expiry_til);
+        TextInputLayout tilLocation = requireActivity().findViewById(R.id.add_ingredient_location_til);
+        TextInputLayout tilCategory = requireActivity().findViewById(R.id.add_ingredient_category_til);
+
+        // Add the ingredient.
+        Button confirmButton = requireActivity().findViewById(R.id.add_ingredient_confirm);
+        confirmButton.setOnClickListener(view1 ->{
+
+            // Create the required objects.
+            EditText descriptionText = requireActivity().findViewById(R.id.add_ingredient_description);
+            EditText quantityText = requireActivity().findViewById(R.id.add_ingredient_quantity);
+
+            // Get the data.
+            String description = descriptionText.getText().toString();
+            String quantity = quantityText.getText().toString();
+            String expiry = displayDate.getText().toString();
+            String locationText = location.getSelectedItem().toString();
+            String categoryText = category.getSelectedItem().toString();
+
+            // Error checking.
+            int error = 0;
+            if (description.equals("")) {
+                tilDescription.setError("Description cannot be empty!");
+                error = 1;
+            } else {
+                tilDescription.setErrorEnabled(false);
+            }
+            if (quantity.equals("")) {
+                tilQuantity.setError("Quantity cannot be empty!");
+                error = 1;
+            } else {
+                tilQuantity.setErrorEnabled(false);
+            }
+            if (expiry.equals("")) {
+                tilExpiry.setError("Date cannot be empty!");
+                error = 1;
+            } else {
+                tilExpiry.setErrorEnabled(false);
+            }
+            if (locationText.equals("Enter A Location")) {
+                tilLocation.setError("Location cannot be empty!");
+                error = 1;
+            } else {
+                tilLocation.setErrorEnabled(false);
+            }
+            if (categoryText.equals("Enter A Category")) {
+                tilCategory.setError("Category cannot be empty!");
+                error = 1;
+            } else {
+                tilCategory.setErrorEnabled(false);
+            }
+            if (error == 1) {
+                return;
+            }
+
+            // Create the ingredient object.
+            SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
+            StoredIngredient ingredient = null;
+            try {
+                ingredient = new StoredIngredient(description, Integer.parseInt(quantity), 1.0, categoryText, formatter.parse(expiry), locationText);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            // Add the ingredient to Firebase.
+            IngredientDB db = new IngredientDB();
+            db.addRecipe(ingredient);
+            requireActivity().getSupportFragmentManager().popBackStackImmediate();
+        });
     }
 
     /**

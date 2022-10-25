@@ -11,9 +11,10 @@ import androidx.fragment.app.Fragment;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.example.getyourgroceries.entity.storedIngredient;
+import com.example.getyourgroceries.control.IngredientDB;
+import com.example.getyourgroceries.entity.StoredIngredient;
 
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class IngredientListFragment extends Fragment {
@@ -32,14 +33,23 @@ public class IngredientListFragment extends Fragment {
         Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
 
         // Button listener.
-        addIngredientButton.setOnClickListener(view -> getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).replace(container.getId(), addIngredientFragment).addToBackStack(null).commit());
+        addIngredientButton.setOnClickListener(view -> {
+            assert container != null;
+            requireActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).replace(container.getId(), addIngredientFragment).addToBackStack(null).commit();
+        });
 
         // Testing
-        storedIngredient s = new storedIngredient("Apple", 12, 12.0, "Fruit", new Date(2012,12,12), "Pantry");
-        getParentFragmentManager().beginTransaction().add(R.id.linearLayoutIngredients, IngredientFragment.newInstance(s)).commit();
-        getParentFragmentManager().beginTransaction().add(R.id.linearLayoutIngredients, IngredientFragment.newInstance(s)).commit();
-        getParentFragmentManager().beginTransaction().add(R.id.linearLayoutIngredients, IngredientFragment.newInstance(s)).commit();
+//        StoredIngredient s = new StoredIngredient("Apple", 12, 12.0, "Fruit", new Date(2012,12,12), "Pantry");
+//        getParentFragmentManager().beginTransaction().add(R.id.linearLayoutIngredients, IngredientFragment.newInstance(s)).commit();
+//        getParentFragmentManager().beginTransaction().add(R.id.linearLayoutIngredients, IngredientFragment.newInstance(s)).commit();
+//        getParentFragmentManager().beginTransaction().add(R.id.linearLayoutIngredients, IngredientFragment.newInstance(s)).commit();
 
+        // Output all of the ingredients from Firebase.
+        IngredientDB db = new IngredientDB();
+        ArrayList<StoredIngredient> ingredients = db.getIngredients();
+        for (int i = 0; i < ingredients.size(); i++) {
+            getParentFragmentManager().beginTransaction().add(R.id.linearLayoutIngredients, IngredientFragment.newInstance(ingredients.get(i))).commit();
+        }
         return v;
     }
 }

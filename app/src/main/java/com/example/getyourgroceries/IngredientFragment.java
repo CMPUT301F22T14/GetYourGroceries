@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.getyourgroceries.entity.storedIngredient;
+import com.example.getyourgroceries.entity.StoredIngredient;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -42,7 +42,7 @@ public class IngredientFragment extends Fragment {
 
 
     // TODO: Rename and change types and number of parameters
-    public static IngredientFragment newInstance(storedIngredient ingredient) {
+    public static IngredientFragment newInstance(StoredIngredient ingredient) {
         IngredientFragment fragment = new IngredientFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, ingredient.getDescription());

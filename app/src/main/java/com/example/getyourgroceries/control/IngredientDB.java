@@ -114,16 +114,4 @@ public class IngredientDB {
                 .set(ingredient);
     }
 
-    /**
-     * Fetches all ingredients from ingredients collection
-     * @return all ingredients in an array list
-     */
-    public ArrayList<StoredIngredient> getIngredients(){
-        // TODO: only fetch ingredients for logged in user
-        // TODO: Retrieve data from Firebase.
-        ArrayList<StoredIngredient> ingredients = new ArrayList<>();
-
-        Log.d("end", ingredients.toString());
-        return ingredients;
-    }
 }

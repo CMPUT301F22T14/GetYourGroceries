@@ -10,6 +10,10 @@ public class Ingredient {
     private String id;
     //private Date bestBefore;
 
+    protected Ingredient(){
+        super();
+    }
+
     public Ingredient(String description, Integer amount, Double unit, String category) {
         this.description = description;
         this.amount = amount;

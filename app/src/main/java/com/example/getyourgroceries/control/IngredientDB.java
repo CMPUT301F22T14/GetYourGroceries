@@ -6,9 +6,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.getyourgroceries.entity.Ingredient;
+import com.example.getyourgroceries.entity.IngredientStorage;
 import com.example.getyourgroceries.entity.StoredIngredient;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.EventListener;
@@ -36,6 +39,42 @@ public class IngredientDB {
     public IngredientDB() {
         db = FirebaseFirestore.getInstance();
         ingredientCollection = db.collection("Ingredients");
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
+
+        //get initial ingredient collection from firebase and populate ingredient storage
+        ingredientCollection
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            IngredientStorage.ingredientStorage.clear();
+                            for (QueryDocumentSnapshot doc : task.getResult()) {
+                                StoredIngredient s = doc.toObject(StoredIngredient.class);
+                                IngredientStorage.ingredientStorage.add(s);
+                            }
+                            IngredientStorage.ingredientAdapter.notifyDataSetChanged();
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+
+        //create listener for future changes
+        ingredientCollection.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
+                IngredientStorage.ingredientStorage.clear();
+                assert queryDocumentSnapshots != null;
+                for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+                    StoredIngredient s = doc.toObject(StoredIngredient.class);
+
+                    IngredientStorage.ingredientStorage.add(s);
+                }
+                IngredientStorage.ingredientAdapter.notifyDataSetChanged();
+            }
+        });
+        //ingredientCollection.sn
     }
 
     /**
@@ -83,29 +122,7 @@ public class IngredientDB {
         // TODO: only fetch ingredients for logged in user
         // TODO: Retrieve data from Firebase.
         ArrayList<StoredIngredient> ingredients = new ArrayList<>();
-        ingredientCollection.addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
-                assert queryDocumentSnapshots != null;
-                SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
-                for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
-                    Map<String, Object> m = doc.getData();
-                    StoredIngredient s = null;
-                    Log.d("map", m.toString());
-                    try {
-                        s = new StoredIngredient(Objects.requireNonNull(m.get("description")).toString(),
-                                Integer.parseInt(Objects.requireNonNull(m.get("amount")).toString()),
-                                Double.parseDouble(Objects.requireNonNull(m.get("unit")).toString()),
-                                Objects.requireNonNull(m.get("category")).toString(),
-                                formatter.parse("12/31/2030"),
-                                Objects.requireNonNull(m.get("location")).toString());
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    ingredients.add(s);
-                }
-            }
-        });
+
         Log.d("end", ingredients.toString());
         return ingredients;
     }

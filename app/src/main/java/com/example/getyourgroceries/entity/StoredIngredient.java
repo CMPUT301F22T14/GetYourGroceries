@@ -6,6 +6,10 @@ public class StoredIngredient extends Ingredient{
     private Date bestBefore;
     private String location;
 
+    public StoredIngredient() {
+        super();
+    }
+
     public StoredIngredient(String description, Integer amount, Double unit, String category, Date bestBefore, String location) {
         super(description, amount, unit, category);
         this.bestBefore = bestBefore;

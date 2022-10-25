@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.getyourgroceries.control.IngredientDB;
+import com.example.getyourgroceries.control.IngredientDBCallback;
 import com.example.getyourgroceries.entity.StoredIngredient;
 
 import java.util.ArrayList;
@@ -46,10 +47,14 @@ public class IngredientListFragment extends Fragment {
 
         // Output all of the ingredients from Firebase.
         IngredientDB db = new IngredientDB();
-        ArrayList<StoredIngredient> ingredients = db.getIngredients();
-        for (int i = 0; i < ingredients.size(); i++) {
-            getParentFragmentManager().beginTransaction().add(R.id.linearLayoutIngredients, IngredientFragment.newInstance(ingredients.get(i))).commit();
-        }
+        db.getIngredients(new IngredientDBCallback() {
+            @Override
+            public void onCallback(ArrayList<StoredIngredient> ingredients) {
+                ingredients.forEach(ingredient ->
+                        getParentFragmentManager().beginTransaction().add(R.id.linearLayoutIngredients, IngredientFragment.newInstance(ingredient)).commit());
+            }
+        });
+
         return v;
     }
 }

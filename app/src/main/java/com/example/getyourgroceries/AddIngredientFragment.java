@@ -2,7 +2,9 @@ package com.example.getyourgroceries;
 
 import android.app.DatePickerDialog;
 import android.graphics.Color;
+import android.nfc.Tag;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -21,6 +23,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import com.example.getyourgroceries.control.IngredientDB;
+import com.example.getyourgroceries.entity.Ingredient;
 import com.example.getyourgroceries.entity.StoredIngredient;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -59,6 +62,9 @@ public class AddIngredientFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.add_ingredient, container, false);
+        IngredientDB db = new IngredientDB();
+//        ArrayList<StoredIngredient> ingredients = db.getIngredients();
+//        Log.d("ADDFRAG", ingredients.toString());
         Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         setHasOptionsMenu(true);
         return v;
@@ -106,7 +112,7 @@ public class AddIngredientFragment extends Fragment {
         locations.add("Pantry");
         locations.add("Fridge");
         locations.add("Freezer");
-        ArrayAdapter<String> locationAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner, locations) {
+        ArrayAdapter<String> locationAdapter = new ArrayAdapter<String>(getContext(), R.layout.spinner, locations) {
 
             /**
              * The isEnabled method will disallow te first dropdown choice.
@@ -149,7 +155,7 @@ public class AddIngredientFragment extends Fragment {
         categories.add("Category 1");
         categories.add("Category 2");
         categories.add("Category 3");
-        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner, categories) {
+        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<String>(getContext(), R.layout.spinner, categories) {
 
             /**
              * The isEnabled method will disallow te first dropdown choice.
@@ -247,11 +253,13 @@ public class AddIngredientFragment extends Fragment {
                 ingredient = new StoredIngredient(description, Integer.parseInt(quantity), 1.0, categoryText, formatter.parse(expiry), locationText);
             } catch (ParseException e) {
                 e.printStackTrace();
+                return; // don't want to add null value to db
             }
 
             // Add the ingredient to Firebase.
             IngredientDB db = new IngredientDB();
-            db.addRecipe(ingredient);
+            String id = db.addIngredient(ingredient);
+            ingredient.setId(id);
             requireActivity().getSupportFragmentManager().popBackStackImmediate();
         });
     }

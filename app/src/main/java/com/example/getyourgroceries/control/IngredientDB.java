@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.getyourgroceries.entity.Ingredient;
+import com.example.getyourgroceries.entity.Recipe;
 import com.example.getyourgroceries.entity.StoredIngredient;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -75,38 +76,25 @@ public class IngredientDB {
                 .set(ingredient);
     }
 
+
     /**
      * Fetches all ingredients from ingredients collection
      * @return all ingredients in an array list
      */
-    public ArrayList<StoredIngredient> getIngredients(){
-        // TODO: only fetch ingredients for logged in user
-        // TODO: Retrieve data from Firebase.
+    public void getIngredients(IngredientDBCallback myCallback) {
         ArrayList<StoredIngredient> ingredients = new ArrayList<>();
-        ingredientCollection.addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
-                assert queryDocumentSnapshots != null;
-                SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
-                for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
-                    Map<String, Object> m = doc.getData();
-                    StoredIngredient s = null;
-                    Log.d("map", m.toString());
-                    try {
-                        s = new StoredIngredient(Objects.requireNonNull(m.get("description")).toString(),
-                                Integer.parseInt(Objects.requireNonNull(m.get("amount")).toString()),
-                                Double.parseDouble(Objects.requireNonNull(m.get("unit")).toString()),
-                                Objects.requireNonNull(m.get("category")).toString(),
-                                formatter.parse("12/31/2030"),
-                                Objects.requireNonNull(m.get("location")).toString());
-                    } catch (ParseException e) {
-                        e.printStackTrace();
+        ingredientCollection.addSnapshotListener(
+                new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
+                        assert queryDocumentSnapshots != null;
+                        for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+                            StoredIngredient ingredient = doc.toObject(StoredIngredient.class);
+                            ingredient.setId(doc.getId());
+                            ingredients.add(ingredient);
+                        }
+                        myCallback.onCallback(ingredients);
                     }
-                    ingredients.add(s);
-                }
-            }
-        });
-        Log.d("end", ingredients.toString());
-        return ingredients;
+                });
     }
 }

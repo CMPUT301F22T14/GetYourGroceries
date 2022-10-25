@@ -75,11 +75,13 @@ public class RecipeDB {
     public ArrayList<Recipe> getRecipes(){
         // TODO: only fetch recipes for logged in user
         ArrayList<Recipe> recipes = new ArrayList<>();
+
         recipeCollection.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
                 for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
                     Recipe recipe = doc.toObject(Recipe.class);
+                    recipe.setId(doc.getId());
                     recipes.add(recipe);
                 }
             }

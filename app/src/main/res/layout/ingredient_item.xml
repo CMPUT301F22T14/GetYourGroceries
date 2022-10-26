@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/roundrect"
-    tools:context=".IngredientFragment"
     android:orientation="vertical"
     android:paddingVertical="15dp"
     android:paddingHorizontal="30dp">

@@ -93,7 +93,7 @@ public class AddIngredientFragment extends Fragment {
             yearSet.set(year);
             monthSet.set(month);
             daySet.set(day);
-            String date = month + "/" + day + "/" + year;
+            String date = (month+1) + "/" + day + "/" + year;
             displayDate.setText(date);
         };
 

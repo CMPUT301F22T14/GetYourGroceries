@@ -99,4 +99,10 @@
     <string name="confirm">Confirm</string>
     <string name="enter_a_location">Enter A Location</string>
     <string name="enter_the_ingredient_category">Enter The Ingredient Category</string>
+    <string-array name="ingredientSortBy">
+        <item>Description</item>
+        <item>Best Before Date</item>
+        <item>Location</item>
+        <item>Ingredient Category</item>
+    </string-array>
 </resources>

@@ -167,7 +167,7 @@
             android:background="@drawable/edittext"
             android:ems="10"
             android:hint="@string/enter_unit"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textColorHint="@android:color/darker_gray"

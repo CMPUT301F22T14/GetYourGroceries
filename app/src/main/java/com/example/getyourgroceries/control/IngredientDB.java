@@ -113,4 +113,7 @@ public class IngredientDB {
                 .set(ingredient);
     }
 
+    public void deleteIngredient(String id) {
+        ingredientCollection.document(id).delete();
+    }
 }

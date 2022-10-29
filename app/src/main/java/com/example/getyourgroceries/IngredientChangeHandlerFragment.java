@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -21,9 +20,11 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import com.example.getyourgroceries.control.IngredientDB;
+import com.example.getyourgroceries.entity.IngredientStorage;
 import com.example.getyourgroceries.entity.StoredIngredient;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -36,15 +37,16 @@ import java.util.concurrent.atomic.AtomicInteger;
  * The AddIngredientFragment is the class for the add ingredient screen.
  * AddIngredientFragment extends {@link Fragment}.
  */
-public class AddIngredientFragment extends Fragment {
+public class IngredientChangeHandlerFragment extends Fragment {
 
     // Attributes.
     private DatePickerDialog.OnDateSetListener dateSetListener;
-
+    private StoredIngredient editIngredient = null;
+    private static final DecimalFormat df = new DecimalFormat("0.00");
     /**
      * The AddIngredientFragment constructor.
      */
-    public AddIngredientFragment() {
+    public IngredientChangeHandlerFragment() {
         super();
     }
 
@@ -58,7 +60,7 @@ public class AddIngredientFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.add_ingredient, container, false);
+        View v = inflater.inflate(R.layout.change_ingredient, container, false);
         Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         setHasOptionsMenu(true);
         return v;
@@ -71,15 +73,19 @@ public class AddIngredientFragment extends Fragment {
      */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        ConstraintLayout addIngredientLayout = requireActivity().findViewById(R.id.add_ingredient_layout);
+        ConstraintLayout addIngredientLayout = requireActivity().findViewById(R.id.change_ingredient_layout);
         addIngredientLayout.setImportantForAutofill(View.IMPORTANT_FOR_AUTOFILL_NO);
+        if (getArguments() != null){
+           editIngredient = IngredientStorage.ingredientAdapter.getItem(getArguments().getInt("editIngredient"));
+        }
+
 
         // Set up calendar.
         Calendar cal = Calendar.getInstance();
         AtomicInteger yearSet = new AtomicInteger(cal.get(Calendar.YEAR));
         AtomicInteger monthSet = new AtomicInteger(cal.get(Calendar.MONTH));
         AtomicInteger daySet = new AtomicInteger(cal.get(Calendar.DAY_OF_MONTH));
-        TextView displayDate = requireActivity().findViewById(R.id.add_ingredient_expiry);
+        TextView displayDate = requireActivity().findViewById(R.id.change_ingredient_expiry);
         displayDate.setTextSize(20);
         displayDate.setGravity(Gravity.CENTER_VERTICAL);
         displayDate.setOnClickListener(view2 -> {
@@ -100,7 +106,7 @@ public class AddIngredientFragment extends Fragment {
         // Set up location spinner.
         // TODO: Make the hint text gray.
         // TODO: Add rounded corners to the dropdown view.
-        Spinner location = requireActivity().findViewById(R.id.add_ingredient_location);
+        Spinner location = requireActivity().findViewById(R.id.change_ingredient_location);
         ArrayList<String> locations = new ArrayList<>();
         locations.add("Enter A Location");
         locations.add("Pantry");
@@ -143,7 +149,7 @@ public class AddIngredientFragment extends Fragment {
         // TODO: Make the hint text gray.
         // TODO: Add rounded corners to the dropdown view.
         // TODO: Add ingredient categories.
-        Spinner category = requireActivity().findViewById(R.id.add_ingredient_category);
+        Spinner category = requireActivity().findViewById(R.id.change_ingredient_category);
         ArrayList<String> categories = new ArrayList<>();
         categories.add("Enter A Category");
         categories.add("Category 1");
@@ -182,28 +188,51 @@ public class AddIngredientFragment extends Fragment {
         };
         category.setAdapter(categoryAdapter);
 
+        //Populate fields if its an edit
+        TextView descriptionText = requireActivity().findViewById(R.id.change_ingredient_description);
+        TextView quantityText = requireActivity().findViewById(R.id.change_ingredient_quantity);
+        TextView unitText = requireActivity().findViewById(R.id.change_ingredient_unit);
+
+        // when focus is changed off of edit box, format double to correct format
+        unitText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                //when focus leaves textbox, round it to 2 decimal places
+                if (!b && !unitText.getText().toString().isEmpty())
+                    unitText.setText(df.format(Double.parseDouble(unitText.getText().toString())));
+            }
+
+
+        });
+        if (editIngredient != null){
+            descriptionText.setText(editIngredient.getDescription());
+            quantityText.setText(String.valueOf(editIngredient.getAmount()));
+            displayDate.setText((new SimpleDateFormat("MM/dd/yyy")).format(editIngredient.getBestBefore()));
+            location.setSelection(locationAdapter.getPosition(editIngredient.getLocation()));
+            category.setSelection(categoryAdapter.getPosition(editIngredient.getCategory()));
+            unitText.setText(df.format(editIngredient.getUnit()));
+        }
+
         // Get the text layouts.
-        TextInputLayout tilDescription = requireActivity().findViewById(R.id.add_ingredient_description_til);
-        TextInputLayout tilQuantity = requireActivity().findViewById(R.id.add_ingredient_quantity_til);
-        TextInputLayout tilExpiry = requireActivity().findViewById(R.id.add_ingredient_expiry_til);
-        TextInputLayout tilLocation = requireActivity().findViewById(R.id.add_ingredient_location_til);
-        TextInputLayout tilCategory = requireActivity().findViewById(R.id.add_ingredient_category_til);
+        TextInputLayout tilDescription = requireActivity().findViewById(R.id.change_ingredient_description_til);
+        TextInputLayout tilQuantity = requireActivity().findViewById(R.id.change_ingredient_quantity_til);
+        TextInputLayout tilExpiry = requireActivity().findViewById(R.id.change_ingredient_expiry_til);
+        TextInputLayout tilLocation = requireActivity().findViewById(R.id.change_ingredient_location_til);
+        TextInputLayout tilCategory = requireActivity().findViewById(R.id.change_ingredient_category_til);
+        TextInputLayout tilUnit = requireActivity().findViewById(R.id.change_ingredient_unit_til);
 
         // Add the ingredient.
-        Button confirmButton = requireActivity().findViewById(R.id.add_ingredient_confirm);
+        Button confirmButton = requireActivity().findViewById(R.id.change_ingredient_confirm);
         confirmButton.setOnClickListener(view1 ->{
 
             // Create the required objects.
-            EditText descriptionText = requireActivity().findViewById(R.id.add_ingredient_description);
-            EditText quantityText = requireActivity().findViewById(R.id.add_ingredient_quantity);
-
             // Get the data.
             String description = descriptionText.getText().toString();
             String quantity = quantityText.getText().toString();
             String expiry = displayDate.getText().toString();
             String locationText = location.getSelectedItem().toString();
             String categoryText = category.getSelectedItem().toString();
-
+            String unitCost = unitText.getText().toString();
             // Error checking.
             int error = 0;
             if (description.equals("")) {
@@ -236,22 +265,48 @@ public class AddIngredientFragment extends Fragment {
             } else {
                 tilCategory.setErrorEnabled(false);
             }
+            if (unitCost.equals("Enter Unit Cost")){
+                tilUnit.setError("Cost cannot be empty!");
+                error = 1;
+            } else {
+                tilUnit.setErrorEnabled(false);
+            }
             if (error == 1) {
                 return;
             }
 
-            // Create the ingredient object.
             SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
+
+            //if in edit mode, update attributes
+            if (editIngredient != null){
+                editIngredient.setDescription(description);
+                editIngredient.setAmount(Integer.parseInt(quantity));
+                editIngredient.setCategory(categoryText);
+                editIngredient.setLocation(locationText);
+                editIngredient.setUnit(Double.parseDouble(unitCost));
+                try{
+                    editIngredient.setBestBefore(formatter.parse(expiry));
+                }
+                catch (ParseException e){
+                    e.printStackTrace();
+                }
+                IngredientDB db = new IngredientDB();
+                db.updateIngredient(editIngredient);
+                requireActivity().getSupportFragmentManager().popBackStackImmediate();
+                return;
+            }
+            // Create the ingredient object.
+
             StoredIngredient ingredient = null;
             try {
-                ingredient = new StoredIngredient(description, Integer.parseInt(quantity), 1.0, categoryText, formatter.parse(expiry), locationText);
+                ingredient = new StoredIngredient(description, Integer.parseInt(quantity), Double.parseDouble(unitCost), categoryText, formatter.parse(expiry), locationText);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
 
             // Add the ingredient to Firebase.
             IngredientDB db = new IngredientDB();
-            db.addRecipe(ingredient);
+            db.addIngredient(ingredient);
             requireActivity().getSupportFragmentManager().popBackStackImmediate();
         });
     }

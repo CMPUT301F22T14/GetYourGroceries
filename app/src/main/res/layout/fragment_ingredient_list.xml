@@ -12,7 +12,7 @@
         android:layout_width="200dp"
         android:layout_height="60dp"
         android:backgroundTint="@color/black"
-        android:text="@string/add_ingredient"
+        android:text="@string/change_ingredient"
         android:textColor="#00FFD1"
         app:cornerRadius="8dp" />
 

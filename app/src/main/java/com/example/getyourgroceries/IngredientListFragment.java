@@ -1,12 +1,10 @@
 package com.example.getyourgroceries;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -17,9 +15,7 @@ import androidx.annotation.Nullable;
 
 import com.example.getyourgroceries.control.IngredientDB;
 import com.example.getyourgroceries.entity.IngredientStorage;
-import com.example.getyourgroceries.entity.StoredIngredient;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 public class IngredientListFragment extends Fragment {
@@ -43,8 +39,8 @@ public class IngredientListFragment extends Fragment {
         // Button listener.
         addIngredientButton.setOnClickListener(view -> {
             assert container != null;
-            AddIngredientFragment addIngredientFragment = new AddIngredientFragment();
-            requireActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).replace(container.getId(), addIngredientFragment).addToBackStack(null).commit();
+            IngredientChangeHandlerFragment ingredientChangeHandlerFragment = new IngredientChangeHandlerFragment();
+            requireActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).replace(container.getId(), ingredientChangeHandlerFragment).addToBackStack(null).commit();
         });
 
         //requireActivity().getFragmentManager().addOnBackStackChangedListener();
@@ -59,9 +55,9 @@ public class IngredientListFragment extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putInt("editIngredient", i);
                 //pass item position in extra so new activity can find food item
-                AddIngredientFragment addIngredientFragment = new AddIngredientFragment();
-                addIngredientFragment.setArguments(bundle);
-                requireActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).replace(container.getId(), addIngredientFragment).addToBackStack(null).commit();
+                IngredientChangeHandlerFragment ingredientChangeHandlerFragment = new IngredientChangeHandlerFragment();
+                ingredientChangeHandlerFragment.setArguments(bundle);
+                requireActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).replace(container.getId(), ingredientChangeHandlerFragment).addToBackStack(null).commit();
             }
         });
         ingredientListView.setAdapter(IngredientStorage.ingredientAdapter);

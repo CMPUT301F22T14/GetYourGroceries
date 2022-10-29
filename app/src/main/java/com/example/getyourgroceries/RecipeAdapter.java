@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.getyourgroceries.entity.Recipe;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -71,14 +72,35 @@ public class RecipeAdapter extends ArrayAdapter<Recipe> {
         recipeCategory.setText(categoryText);
 
         storage = FirebaseStorage.getInstance();
-        storageRef = storage.getReference();
+        storageRef = storage.getReferenceFromUrl("gs://get-your-groceries-13c6b.appspot.com/recipes/apple.jpg");
+        String imageUrl = "https://images.app.goo.gl/2FWUjMsZBqkrJ1pT7";
+        //imageRef = storageRef.child(recipe.getPhoto());
+        Log.d(TAG, storageRef.toString());
 
-        imageRef = storageRef.child(recipe.getPhoto());
-        Log.d(TAG, imageRef.getPath());
+        File localFile = null;
+        try {
+            localFile = File.createTempFile("apple", "jpg");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        Glide.with(context)
-                .load(imageRef)
-                .into(recipePhoto);
+        storageRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                // Local temp file has been created
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+            }
+        });
+
+        Glide.with(getContext())
+                .load(storageRef)
+                .apply(new RequestOptions().override(600, 200))
+                .into(recipePhoto)
+                ;
         Log.d(TAG, recipePhoto.toString());
 
 

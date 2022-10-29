@@ -49,5 +49,4 @@ public class IngredientStorageAdapter extends ArrayAdapter<StoredIngredient> {
 
     }
 
-
 }

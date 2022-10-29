@@ -1,10 +1,12 @@
 package com.example.getyourgroceries.control;
 
 import android.util.Log;
+import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.getyourgroceries.IngredientStorageAdapter;
 import com.example.getyourgroceries.entity.Ingredient;
 import com.example.getyourgroceries.entity.IngredientStorage;
 import com.example.getyourgroceries.entity.StoredIngredient;
@@ -20,19 +22,13 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
 
 public class IngredientDB {
     public static final String TAG = "INGREDIENTDB";
     CollectionReference ingredientCollection;
     FirebaseFirestore db;
-
     /**
      * Initializes firebase instance and ingredient collection
      */
@@ -48,10 +44,10 @@ public class IngredientDB {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            IngredientStorage.ingredientStorage.clear();
+                            IngredientStorage.ingredientAdapter.clear();
                             for (QueryDocumentSnapshot doc : task.getResult()) {
                                 StoredIngredient s = doc.toObject(StoredIngredient.class);
-                                IngredientStorage.ingredientStorage.add(s);
+                                IngredientStorage.ingredientAdapter.add(s);
                             }
                             IngredientStorage.ingredientAdapter.notifyDataSetChanged();
                         } else {
@@ -64,12 +60,12 @@ public class IngredientDB {
         ingredientCollection.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
-                IngredientStorage.ingredientStorage.clear();
+                IngredientStorage.ingredientAdapter.clear();
                 assert queryDocumentSnapshots != null;
                 for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
                     StoredIngredient s = doc.toObject(StoredIngredient.class);
 
-                    IngredientStorage.ingredientStorage.add(s);
+                    IngredientStorage.ingredientAdapter.add(s);
                 }
                 IngredientStorage.ingredientAdapter.notifyDataSetChanged();
             }
@@ -83,7 +79,7 @@ public class IngredientDB {
      * @return newly created document id
      * @NOTE make sure to assign the ingredient the given returned ID after calling function
      */
-    public String addRecipe(Ingredient ingredient) {
+    public String addIngredient(Ingredient ingredient) {
         // TODO: only add ingredient for logged in user
         final String[] id = new String[1];
         ingredientCollection
@@ -92,6 +88,8 @@ public class IngredientDB {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         id[0] = documentReference.getId();
+                        ingredient.setId(id[0]);
+                        ingredientCollection.document(id[0]).update("id", id[0]);
                         Log.d(TAG, "Added Recipe to db");
                     }
                 })
@@ -101,6 +99,7 @@ public class IngredientDB {
                         Log.w(TAG, "Error adding ingredient", e);
                     }
                 });
+
         return id[0];
     }
 
@@ -108,7 +107,7 @@ public class IngredientDB {
      * Updates a given ingredient in the database
      * @param ingredient: updated ingredient object
      */
-    public void updateRecipe(Ingredient ingredient) {
+    public void updateIngredient(Ingredient ingredient) {
         // TODO: only update ingredient for logged in user
         ingredientCollection.document(ingredient.getId())
                 .set(ingredient);

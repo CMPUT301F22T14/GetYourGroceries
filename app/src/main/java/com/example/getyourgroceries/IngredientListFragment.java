@@ -59,7 +59,6 @@ public class IngredientListFragment extends Fragment {
         sortDropDown = v.findViewById(R.id.sortIngredientSpinner);
         ArrayAdapter<CharSequence> sortAdapter = ArrayAdapter.createFromResource(context,R.array.ingredientSortBy,android.R.layout.simple_spinner_item);
         sortDropDown.setAdapter(sortAdapter);
-        System.out.println("test");
         return v;
     }
 }

@@ -1,19 +1,17 @@
+/* IngredientStorage class. */
 package com.example.getyourgroceries.entity;
 
+// Import statements.
 import android.widget.ArrayAdapter;
-
 import java.util.ArrayList;
-import java.util.Observable;
 
+/**
+ * Create an object to represent a list of ingredients.
+ * TODO: Add sorting.
+ */
 public class IngredientStorage {
+
+    // Attributes.
     public static ArrayList<StoredIngredient> ingredientStorage = new ArrayList<>();
     public static ArrayAdapter<StoredIngredient> ingredientAdapter;
-    //public static ArrayAdapter<StoredIngredient> ingredientArrayAdapter = ingredientStorage;
-
-    /*public void addIngredient(StoredIngredient ingredient){
-        ingredientStorage.add(ingredient);
-
-        notifyObservers();
-    }*/
-    //TODO: add sorting capabilities here
 }

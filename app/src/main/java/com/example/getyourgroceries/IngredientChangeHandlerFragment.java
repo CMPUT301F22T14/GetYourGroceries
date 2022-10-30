@@ -1,5 +1,8 @@
+/* IngredientChangeHandlerFragment class. */
 package com.example.getyourgroceries;
 
+// Import statements.
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -12,18 +15,15 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
-
 import com.example.getyourgroceries.control.IngredientDB;
 import com.example.getyourgroceries.entity.IngredientStorage;
 import com.example.getyourgroceries.entity.StoredIngredient;
 import com.google.android.material.textfield.TextInputLayout;
-
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -43,6 +43,7 @@ public class IngredientChangeHandlerFragment extends Fragment {
     private DatePickerDialog.OnDateSetListener dateSetListener;
     private StoredIngredient editIngredient = null;
     private static final DecimalFormat df = new DecimalFormat("0.00");
+
     /**
      * The AddIngredientFragment constructor.
      */
@@ -60,6 +61,8 @@ public class IngredientChangeHandlerFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        // Create the view.
         View v = inflater.inflate(R.layout.change_ingredient, container, false);
         Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         setHasOptionsMenu(true);
@@ -71,14 +74,16 @@ public class IngredientChangeHandlerFragment extends Fragment {
      * @param view The created view.
      * @param savedInstanceState The saved state.
      */
+    @SuppressLint("SimpleDateFormat")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+
+        // Initialization.
         ConstraintLayout addIngredientLayout = requireActivity().findViewById(R.id.change_ingredient_layout);
         addIngredientLayout.setImportantForAutofill(View.IMPORTANT_FOR_AUTOFILL_NO);
         if (getArguments() != null){
            editIngredient = IngredientStorage.ingredientAdapter.getItem(getArguments().getInt("editIngredient"));
         }
-
 
         // Set up calendar.
         Calendar cal = Calendar.getInstance();
@@ -104,8 +109,6 @@ public class IngredientChangeHandlerFragment extends Fragment {
         };
 
         // Set up location spinner.
-        // TODO: Make the hint text gray.
-        // TODO: Add rounded corners to the dropdown view.
         Spinner location = requireActivity().findViewById(R.id.change_ingredient_location);
         ArrayList<String> locations = new ArrayList<>();
         locations.add("Enter A Location");
@@ -146,9 +149,6 @@ public class IngredientChangeHandlerFragment extends Fragment {
         location.setAdapter(locationAdapter);
 
         // Set up the ingredient category spinner.
-        // TODO: Make the hint text gray.
-        // TODO: Add rounded corners to the dropdown view.
-        // TODO: Add ingredient categories.
         Spinner category = requireActivity().findViewById(R.id.change_ingredient_category);
         ArrayList<String> categories = new ArrayList<>();
         categories.add("Enter A Category");
@@ -193,17 +193,24 @@ public class IngredientChangeHandlerFragment extends Fragment {
         TextView quantityText = requireActivity().findViewById(R.id.change_ingredient_quantity);
         TextView unitText = requireActivity().findViewById(R.id.change_ingredient_unit);
 
-        // when focus is changed off of edit box, format double to correct format
+        // Format unit price.
         unitText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+            /**
+             * Format the unit price when focus changes.
+             * @param view The containing view.
+             * @param b Focus status.
+             */
             @Override
             public void onFocusChange(View view, boolean b) {
-                //when focus leaves textbox, round it to 2 decimal places
+
+                // When the focus leaves, round the unit price to 2 decimals.
                 if (!b && !unitText.getText().toString().isEmpty())
                     unitText.setText(df.format(Double.parseDouble(unitText.getText().toString())));
             }
-
-
         });
+
+        // Set the values to the previous values.
         if (editIngredient != null){
             descriptionText.setText(editIngredient.getDescription());
             quantityText.setText(String.valueOf(editIngredient.getAmount()));
@@ -225,7 +232,6 @@ public class IngredientChangeHandlerFragment extends Fragment {
         Button confirmButton = requireActivity().findViewById(R.id.change_ingredient_confirm);
         confirmButton.setOnClickListener(view1 ->{
 
-            // Create the required objects.
             // Get the data.
             String description = descriptionText.getText().toString();
             String quantity = quantityText.getText().toString();
@@ -233,6 +239,7 @@ public class IngredientChangeHandlerFragment extends Fragment {
             String locationText = location.getSelectedItem().toString();
             String categoryText = category.getSelectedItem().toString();
             String unitCost = unitText.getText().toString();
+
             // Error checking.
             int error = 0;
             if (description.equals("")) {
@@ -274,10 +281,9 @@ public class IngredientChangeHandlerFragment extends Fragment {
             if (error == 1) {
                 return;
             }
-
             SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
 
-            //if in edit mode, update attributes
+            // If in edit mode, update the attributes.
             if (editIngredient != null){
                 editIngredient.setDescription(description);
                 editIngredient.setAmount(Integer.parseInt(quantity));
@@ -295,8 +301,8 @@ public class IngredientChangeHandlerFragment extends Fragment {
                 requireActivity().getSupportFragmentManager().popBackStackImmediate();
                 return;
             }
-            // Create the ingredient object.
 
+            // Create the ingredient object.
             StoredIngredient ingredient = null;
             try {
                 ingredient = new StoredIngredient(description, Integer.parseInt(quantity), Double.parseDouble(unitCost), categoryText, formatter.parse(expiry), locationText);
@@ -306,7 +312,8 @@ public class IngredientChangeHandlerFragment extends Fragment {
 
             // Add the ingredient to Firebase.
             IngredientDB db = new IngredientDB();
-            db.addIngredient(ingredient);
+            assert ingredient != null;
+            ingredient.setId(db.addIngredient(ingredient));
             requireActivity().getSupportFragmentManager().popBackStackImmediate();
         });
     }

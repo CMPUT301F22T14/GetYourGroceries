@@ -2,7 +2,6 @@
 package com.example.getyourgroceries.fragments;
 
 // Import statements.
-import static com.example.getyourgroceries.entity.IngredientStorage.ingredientAdapter;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.graphics.Color;
@@ -86,7 +85,7 @@ public class IngredientChangeHandlerFragment extends Fragment {
         ConstraintLayout addIngredientLayout = requireActivity().findViewById(R.id.change_ingredient_layout);
         addIngredientLayout.setImportantForAutofill(View.IMPORTANT_FOR_AUTOFILL_NO);
         if (getArguments() != null){
-           editIngredient = ingredientAdapter.getItem(getArguments().getInt("editIngredient"));
+           editIngredient = IngredientStorage.getIngredient(getArguments().getInt("editIngredient"));
         }
 
         // Set up calendar.

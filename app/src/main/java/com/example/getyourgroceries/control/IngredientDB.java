@@ -54,12 +54,11 @@ public class IngredientDB {
                         if (task.isSuccessful()) {
 
                             // Successful.
-                            IngredientStorage.ingredientAdapter.clear();
+                            IngredientStorage.clearIngredients();
                             for (QueryDocumentSnapshot doc : task.getResult()) {
                                 StoredIngredient s = doc.toObject(StoredIngredient.class);
-                                IngredientStorage.ingredientAdapter.add(s);
+                                IngredientStorage.addIngredient(s);
                             }
-                            IngredientStorage.ingredientAdapter.notifyDataSetChanged();
                         } else {
 
                             // Failed.
@@ -80,13 +79,12 @@ public class IngredientDB {
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
 
                 // Add updated ingredients to the storage.
-                IngredientStorage.ingredientAdapter.clear();
+                IngredientStorage.clearIngredients();
                 assert queryDocumentSnapshots != null;
                 for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
                     StoredIngredient s = doc.toObject(StoredIngredient.class);
-                    IngredientStorage.ingredientAdapter.add(s);
+                    IngredientStorage.addIngredient(s);
                 }
-                IngredientStorage.ingredientAdapter.notifyDataSetChanged();
             }
         });
     }

@@ -12,9 +12,9 @@ public class ShoppingList {
      * Constructor for shopping list to initialize an empty ingredient
      * @param name shopping list name
      */
-    public ShoppingList(String name) {
+    public ShoppingList(String name, ArrayList<Ingredient> ingredients) {
         this.name = name;
-        ingredientList = new ArrayList<>();
+        ingredientList = ingredients;
     }
 
     /**
@@ -55,7 +55,7 @@ public class ShoppingList {
      */
     public void deleteIngredient(Ingredient ingredient) {
         if(!ingredientList.contains(ingredient)) {
-            throw new Resources.NotFoundException();
+            throw new IllegalArgumentException();
         }
         ingredientList.remove(ingredient);
     }

@@ -118,7 +118,7 @@ public class IngredientChangeHandlerFragment extends Fragment {
         ArrayAdapter<String> locationAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner, locations) {
 
             /**
-             * The isEnabled method will disallow te first dropdown choice.
+             * The isEnabled method will disallow the first dropdown choice.
              * @param position The selected choice.
              * @return True if the position should be disallowed.
              */

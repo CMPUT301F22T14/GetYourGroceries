@@ -1,39 +1,24 @@
 package com.example.getyourgroceries;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import android.app.Activity;
-import android.util.Log;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.Spinner;
-import android.widget.TextView;
 
-import com.example.getyourgroceries.entity.StoredIngredient;
-import com.google.android.material.bottomnavigation.BottomNavigationItemView;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationView;
-import com.robotium.solo.Solo;
-
-import androidx.fragment.app.Fragment;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
+
+import com.google.android.material.bottomnavigation.BottomNavigationItemView;
+import com.robotium.solo.Solo;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
 /**
- * The UI tests for the main activity
+ * All UI tests for the meal plan
  */
-public class MainActivityTest {
+public class MealPlanFragmentTest {
     private Solo solo;
 
     @Rule
@@ -59,11 +44,6 @@ public class MainActivityTest {
         solo.clickOnView(navItem.getChildAt(1));
 
         assertTrue(solo.waitForText("Meal Plans"));
-
-        navItem = (BottomNavigationItemView) solo.getView(R.id.home_icon);
-        solo.clickOnView(navItem.getChildAt(1));
-
-        assertTrue(solo.waitForText("Home"));
     }
 
     @After

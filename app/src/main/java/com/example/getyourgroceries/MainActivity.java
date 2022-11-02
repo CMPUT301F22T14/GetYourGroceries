@@ -1,11 +1,13 @@
 package com.example.getyourgroceries;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.Window;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -17,7 +19,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
         setContentView(R.layout.activity_main);
+//        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
 

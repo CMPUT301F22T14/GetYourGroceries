@@ -2,6 +2,7 @@
 package com.example.getyourgroceries;
 
 // Import statements.
+import static com.example.getyourgroceries.entity.IngredientStorage.ingredientAdapter;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.graphics.Color;
@@ -29,6 +30,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -82,11 +84,14 @@ public class IngredientChangeHandlerFragment extends Fragment {
         ConstraintLayout addIngredientLayout = requireActivity().findViewById(R.id.change_ingredient_layout);
         addIngredientLayout.setImportantForAutofill(View.IMPORTANT_FOR_AUTOFILL_NO);
         if (getArguments() != null){
-           editIngredient = IngredientStorage.ingredientAdapter.getItem(getArguments().getInt("editIngredient"));
+           editIngredient = ingredientAdapter.getItem(getArguments().getInt("editIngredient"));
         }
 
         // Set up calendar.
         Calendar cal = Calendar.getInstance();
+        if (getArguments() != null) {
+            cal.setTime(editIngredient.getBestBefore());
+        }
         AtomicInteger yearSet = new AtomicInteger(cal.get(Calendar.YEAR));
         AtomicInteger monthSet = new AtomicInteger(cal.get(Calendar.MONTH));
         AtomicInteger daySet = new AtomicInteger(cal.get(Calendar.DAY_OF_MONTH));
@@ -95,7 +100,7 @@ public class IngredientChangeHandlerFragment extends Fragment {
         displayDate.setGravity(Gravity.CENTER_VERTICAL);
         displayDate.setOnClickListener(view2 -> {
             DatePickerDialog dialog = new DatePickerDialog(getContext(), 0, dateSetListener, yearSet.get(), monthSet.get(), daySet.get());
-            dialog.getDatePicker().setMinDate(cal.getTimeInMillis());
+            dialog.getDatePicker().setMinDate(Calendar.getInstance().getTimeInMillis());
             dialog.show();
         });
 

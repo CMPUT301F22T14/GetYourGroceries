@@ -12,9 +12,7 @@ public class Ingredient {
     private Double unit;
     private String category;
     private String id;
-    protected Ingredient() {
-        super();
-    }
+    protected Ingredient() {}
 
     /**
      * Constructor for ingredient.

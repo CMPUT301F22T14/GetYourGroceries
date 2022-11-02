@@ -92,6 +92,7 @@ public class RecipeListFragment extends Fragment {
             builder.setPositiveButton("Yes", (DialogInterface.OnClickListener) (dialog, which) -> {
                 Recipe recipe = (Recipe) recipeList.getItemAtPosition(i);
                 //db.deleteRecipe(recipe);
+                collectionReference.document(recipe.getId()).delete();
                 recipeDataList.remove(recipe);
             });
             builder.setNegativeButton("No", (DialogInterface.OnClickListener) (dialog, which) -> dialog.cancel());
@@ -102,9 +103,6 @@ public class RecipeListFragment extends Fragment {
             recipeAdapter.notifyDataSetChanged();
             return true;
         });
-
-        
-
 
         return v;
     }

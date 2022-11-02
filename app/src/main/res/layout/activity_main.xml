@@ -30,15 +30,16 @@
         app:layout_constraintTop_toTopOf="parent"
         android:name="com.example.getyourgroceries.HomeScreenFragment"
         tools:layout="@layout/fragment_home_screen" />
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"
         android:layout_height="75dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/bottom_nav_menu"/>
+        app:menu="@menu/bottom_nav_menu" />
     <!--<TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"

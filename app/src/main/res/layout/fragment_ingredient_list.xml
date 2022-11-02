@@ -7,56 +7,59 @@
     android:orientation="vertical"
     android:gravity="center"
     >
-<<<<<<< HEAD
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="139dp">
 
-        <Spinner
-            android:id="@+id/sortIngredientSpinner"
-            android:layout_width="77dp"
-            android:layout_height="26dp"
-            android:layout_marginTop="64dp"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/ingredient_spinner"
-            android:dropDownVerticalOffset="27dp"
-            android:spinnerMode="dropdown"
-            android:dropDownWidth="50dp"
-            android:popupBackground="@drawable/ingredient_spinner_dropdown"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.952"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
-
         <Button
             android:id="@+id/addIngredientButton"
-            android:layout_width="200dp"
-            android:layout_height="60dp"
+            android:layout_width="177dp"
+            android:layout_height="52dp"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="60dp"
             android:backgroundTint="@color/black"
-            android:text="@string/add_ingredient"
+            android:text="@string/change_ingredient"
             android:textColor="#00FFD1"
             app:cornerRadius="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Spinner
+            android:id="@+id/sortIngredientSpinner"
+            android:layout_width="133dp"
+            android:layout_height="28dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/ingredient_spinner"
+            android:dropDownWidth="100dp"
+            android:dropDownVerticalOffset="27dp"
+            android:popupBackground="@drawable/ingredient_spinner_dropdown"
+            android:spinnerMode="dropdown"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.127"
+            app:layout_constraintHorizontal_bias="0.973"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.797" />
+            app:layout_constraintVertical_bias="0.754" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/sortingSwitch"
+            android:layout_width="69dp"
+            android:layout_height="41dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="16dp"
+            android:textOff="Asc"
+            android:textOn="Desc"
+            android:textSize="1sp"
+            android:thumb="@drawable/ingredient_sorting_switch_thumb"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:showText="true"
+            app:track="@drawable/ingredient_sorting_switch_track" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-=======
-    <Button
-        android:id="@+id/addIngredientButton"
-        android:layout_width="200dp"
-        android:layout_height="60dp"
-        android:backgroundTint="@color/black"
-        android:text="@string/change_ingredient"
-        android:textColor="#00FFD1"
-        app:cornerRadius="8dp" />
->>>>>>> main
+
 
     <ListView
         android:id="@+id/ingredientListView"

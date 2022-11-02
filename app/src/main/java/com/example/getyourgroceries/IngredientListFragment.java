@@ -9,19 +9,27 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Switch;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.example.getyourgroceries.control.IngredientDB;
 import com.example.getyourgroceries.entity.Ingredient;
 import com.example.getyourgroceries.entity.IngredientStorage;
+import com.example.getyourgroceries.entity.StoredIngredient;
+
+import java.util.Comparator;
 import java.util.Objects;
+
+import io.grpc.internal.JsonUtil;
 
 /**
  * Create an object to represent the ingredient storage.
@@ -29,7 +37,7 @@ import java.util.Objects;
  */
 public class IngredientListFragment extends Fragment {
     Spinner sortDropDown;
-
+    SwitchCompat sorting_switch;
     // Attributes.
     ListView ingredientListView;
 
@@ -99,8 +107,115 @@ public class IngredientListFragment extends Fragment {
         }*/
         Context context = this.getContext();
         sortDropDown = v.findViewById(R.id.sortIngredientSpinner);
-        ArrayAdapter<CharSequence> sortAdapter = ArrayAdapter.createFromResource(context,R.array.ingredientSortBy,android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> sortAdapter = ArrayAdapter.createFromResource(context,R.array.ingredientSortBy,R.layout.ingredient_spinner_selected);
+        sortAdapter.setDropDownViewResource(R.layout.ingredient_spinner_dropdown);
         sortDropDown.setAdapter(sortAdapter);
+
+
+        //Sorting
+        sortDropDown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                sorting_switch = v.findViewById(R.id.sortingSwitch);
+                boolean desc = sorting_switch.isChecked();
+                switch(position){
+                    case 0:
+                        if (desc) {
+                            IngredientStorage.ingredientAdapter.sort((o1, o2) -> o1.getDescription().compareTo(o2.getDescription())*-1);
+                        }
+                        else{
+                            IngredientStorage.ingredientAdapter.sort((o1, o2) -> o1.getDescription().compareTo(o2.getDescription()));
+                        }
+                        IngredientStorage.ingredientAdapter.notifyDataSetChanged();
+                        break;
+
+                    case 1:
+                        if (desc){
+                            
+
+                        }
+                        else{
+
+                        }
+
+                        break;
+                    case 2:
+                        if (desc){
+
+                        }
+                        else{
+
+                        }
+
+                        break;
+                    case 3:
+                        if (desc){
+
+                        }
+                        else{
+
+                        }
+
+                        break;
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+
+
+
+
+
+
+
+
+
+//        String sort_type = sortDropDown.getSelectedItem().toString();
+//        sorting_switch = v.findViewById(R.id.sortingSwitch);
+//        boolean desc = sorting_switch.isChecked();
+//
+//        if (desc){
+//
+//
+//        }
+//
+//
+//        else{
+//
+//        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         return v;
     }
 }

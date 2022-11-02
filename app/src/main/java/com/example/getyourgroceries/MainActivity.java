@@ -7,11 +7,9 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
-<<<<<<< HEAD
+
 import android.view.Window;
 
-=======
->>>>>>> main
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.Objects;
 
@@ -37,12 +35,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         super.onCreate(savedInstanceState);
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
+
         setContentView(R.layout.activity_main);
-<<<<<<< HEAD
+
 //        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-=======
->>>>>>> main
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(this);
         bottomNavigationView.setSelectedItemId(R.id.home_icon);

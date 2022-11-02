@@ -16,6 +16,8 @@ import com.example.getyourgroceries.entity.StoredIngredient;
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.robotium.solo.Solo;
 
+import junit.framework.TestSuite;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -104,6 +106,40 @@ public class IngredientFragmentTest {
         solo.assertCurrentActivity("Wrong Activity!", MainActivity.class);
         BottomNavigationItemView navItem = (BottomNavigationItemView) solo.getView(R.id.ingredients_icon);
         solo.clickOnView(navItem.getChildAt(1));
+
+        ListView ingredientList = (ListView) solo.getView(R.id.ingredientListView);
+        int size = ingredientList.getAdapter().getCount();
+        for(int i = 0; i < size; i++) {
+            StoredIngredient tv = (StoredIngredient) ingredientList.getAdapter().getItem(i);
+            if(Objects.equals(tv.getDescription(), "Test")) {
+                solo.clickInList(i, 0);
+
+                solo.clearEditText((EditText) solo.getView(R.id.change_ingredient_description));
+                solo.enterText((EditText) solo.getView(R.id.change_ingredient_description), "Test2");
+                assertTrue(solo.waitForText("Test2", 1, 2000));
+
+                solo.enterText((EditText) solo.getView(R.id.change_ingredient_quantity), "6");
+                assertTrue(solo.waitForText("6", 1, 2000));
+
+                TextView calendar = (TextView) solo.getView(R.id.change_ingredient_expiry);
+                solo.clickOnView(calendar);
+                solo.clickOnButton("OK");
+
+                solo.pressSpinnerItem(0,2);
+                assertTrue(solo.waitForText("Freezer", 1, 2000));
+
+                solo.pressSpinnerItem(1,2);
+                assertTrue(solo.waitForText("Category 3", 1, 2000));
+
+                solo.clearEditText((EditText) solo.getView(R.id.change_ingredient_unit));
+                solo.enterText((EditText) solo.getView(R.id.change_ingredient_unit), "1.99");
+                assertTrue(solo.waitForText("1.99", 1, 2000));
+
+                // click on confirm button
+                solo.clickOnButton(0);
+                assertTrue(solo.waitForText("Ingredients"));
+            }
+        }
     }
 
     /**
@@ -119,8 +155,7 @@ public class IngredientFragmentTest {
         int size = ingredientList.getAdapter().getCount();
         for(int i = 0; i < size; i++) {
             StoredIngredient tv = (StoredIngredient) ingredientList.getAdapter().getItem(i);
-            Log.d("DELETE TEST", "testDeleteIngredient: " + tv.getDescription());
-            if(Objects.equals(tv.getDescription(), "Test")) {
+            if(Objects.equals(tv.getDescription(), "Test") || Objects.equals(tv.getDescription(), "Test2")) {
                 solo.clickLongInList(i, 0);
                 solo.clickOnButton("Yes");
                 break;

@@ -131,31 +131,33 @@ public class IngredientListFragment extends Fragment {
 
                     case 1:
                         if (desc){
-                            
+                            IngredientStorage.ingredientAdapter.sort((o1, o2) -> o1.getBestBefore().compareTo(o2.getBestBefore())*-1);
 
                         }
                         else{
-
+                            IngredientStorage.ingredientAdapter.sort((o1, o2) -> o1.getBestBefore().compareTo(o2.getBestBefore()));
                         }
-
+                        IngredientStorage.ingredientAdapter.notifyDataSetChanged();
                         break;
                     case 2:
                         if (desc){
-
+                            IngredientStorage.ingredientAdapter.sort((o1, o2) -> o1.getLocation().compareTo(o2.getLocation())*-1);
                         }
                         else{
+                            IngredientStorage.ingredientAdapter.sort((o1, o2) -> o1.getLocation().compareTo(o2.getLocation()));
 
                         }
-
+                        IngredientStorage.ingredientAdapter.notifyDataSetChanged();
                         break;
                     case 3:
                         if (desc){
-
+                            IngredientStorage.ingredientAdapter.sort((o1, o2) -> o1.getCategory().compareTo(o2.getCategory())*-1);
                         }
                         else{
+                            IngredientStorage.ingredientAdapter.sort((o1, o2) -> o1.getCategory().compareTo(o2.getCategory()));
 
                         }
-
+                        IngredientStorage.ingredientAdapter.notifyDataSetChanged();
                         break;
                 }
 

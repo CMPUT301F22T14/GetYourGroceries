@@ -101,9 +101,9 @@
     <string name="enter_the_ingredient_category">Enter The Ingredient Category</string>
     <string-array name="ingredientSortBy">
         <item>Description</item>
-        <item>Best Before Date</item>
+        <item>Date</item>
         <item>Location</item>
-        <item>Ingredient Category</item>
+        <item>Category</item>
     </string-array>
     <string name="enter_unit">Enter Unit Cost</string>
 </resources>

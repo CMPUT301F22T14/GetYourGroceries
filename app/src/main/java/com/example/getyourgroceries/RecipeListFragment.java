@@ -82,7 +82,7 @@ public class RecipeListFragment extends Fragment {
             recipeAdapter.notifyDataSetChanged();
         });
 
-        /*
+
         // Listener to delete a recipe.
         recipeList.setOnItemLongClickListener((adapterView, view, i, l)-> {
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -103,7 +103,7 @@ public class RecipeListFragment extends Fragment {
             return true;
         });
 
-        */
+        
 
 
         return v;

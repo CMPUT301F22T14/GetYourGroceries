@@ -169,55 +169,6 @@ public class IngredientListFragment extends Fragment {
             }
         });
 
-
-
-
-
-
-
-
-
-
-
-//        String sort_type = sortDropDown.getSelectedItem().toString();
-//        sorting_switch = v.findViewById(R.id.sortingSwitch);
-//        boolean desc = sorting_switch.isChecked();
-//
-//        if (desc){
-//
-//
-//        }
-//
-//
-//        else{
-//
-//        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         return v;
     }
 }

@@ -27,6 +27,5 @@
             android:id="@+id/recipe_list"
             android:layout_weight="1"/>
 
-
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

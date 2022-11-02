@@ -16,7 +16,7 @@ public class IngredientTest {
      * @return mocked ingredient
      */
     public Ingredient MockIngredient(){
-        ingredient = new Ingredient("Apple", 12, 0.99, "Pantry");
+        ingredient = new Ingredient("Apple", 12, 0.99, "Fruit");
         return ingredient;
     }
 
@@ -83,7 +83,7 @@ public class IngredientTest {
     @Test
     public void testGetCategory() {
         ingredient = MockIngredient();
-        assertEquals("Pantry", ingredient.getCategory());
+        assertEquals("Fruit", ingredient.getCategory());
     }
 
     /**
@@ -92,7 +92,7 @@ public class IngredientTest {
     @Test
     public void testSetCategory() {
         ingredient = MockIngredient();
-        ingredient.setCategory("Freezer");
-        assertEquals("Freezer", ingredient.getCategory());
+        ingredient.setCategory("Vegetable");
+        assertEquals("Vegetable", ingredient.getCategory());
     }
 }

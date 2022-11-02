@@ -1,7 +1,5 @@
 package com.example.getyourgroceries.entity;
 
-import android.content.res.Resources;
-
 import java.util.ArrayList;
 
 public class ShoppingList {

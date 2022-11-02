@@ -3,6 +3,8 @@ package com.example.getyourgroceries.control;
 
 // Import statements.
 import android.util.Log;
+
+import com.example.getyourgroceries.entity.Ingredient;
 import com.example.getyourgroceries.entity.Recipe;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -51,6 +53,17 @@ public class RecipeDB {
         // Return the ID.
         return id[0];
     }
+
+
+    /**
+     * Deletes a given recipe from the firebase database
+     * @param recipe: recipe to delete.
+     */
+    public void deleteRecipe(Recipe recipe) {
+        recipeCollection.document(recipe.getId()).delete();
+    }
+
+
 
     /**
      * Updates a given recipe in the database.

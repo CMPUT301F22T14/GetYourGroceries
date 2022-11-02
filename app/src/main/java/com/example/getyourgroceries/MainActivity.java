@@ -1,51 +1,71 @@
+/* MainActivity class. */
 package com.example.getyourgroceries;
 
+// Import statements.
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.view.MenuItem;
-
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import java.util.Objects;
 
+/**
+ * Create an object to be the start point of the app.
+ */
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
 
+    // Attributes.
     BottomNavigationView bottomNavigationView;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        bottomNavigationView = findViewById(R.id.bottomNavigationView);
-
-        bottomNavigationView.setOnNavigationItemSelectedListener(this);
-        bottomNavigationView.setSelectedItemId(R.id.home_icon);
-    }
     IngredientListFragment ingredientListFragment = new IngredientListFragment();
     HomeScreenFragment homeScreenFragment = new HomeScreenFragment();
     RecipeListFragment recipeListFragment = new RecipeListFragment();
     MealPlansFragment mealPlansFragment = new MealPlansFragment();
     ShoppingListFragment shoppingListFragment = new ShoppingListFragment();
+
+    /**
+     * Create the app.
+     * @param savedInstanceState The saved state.
+     */
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setOnItemSelectedListener(this);
+        bottomNavigationView.setSelectedItemId(R.id.home_icon);
+    }
+
+    /**
+     * Create the appropriate fragment.
+     * @param item The navigation bar.
+     * @return True on success.
+     */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
+        // Call the appropriate method based on the user selection.
         switch (item.getItemId()) {
             case R.id.home_icon:
+                Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
                 getSupportFragmentManager().beginTransaction().replace(R.id.container, homeScreenFragment).commit();
                 return true;
 
             case R.id.ingredients_icon:
+                Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
                 getSupportFragmentManager().beginTransaction().replace(R.id.container, ingredientListFragment).commit();
                 return true;
 
             case R.id.recipe_icon:
+                Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
                 getSupportFragmentManager().beginTransaction().replace(R.id.container, recipeListFragment).commit();
                 return true;
 
             case R.id.meal_icon:
+                Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
                 getSupportFragmentManager().beginTransaction().replace(R.id.container, mealPlansFragment).commit();
                 return true;
             case R.id.shopping_icon:
+                Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
                 getSupportFragmentManager().beginTransaction().replace(R.id.container, shoppingListFragment).commit();
                 return true;
         }

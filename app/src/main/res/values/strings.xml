@@ -92,4 +92,12 @@
     <string name="action_settings">Settings</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="change_ingredient_description">Enter A Description</string>
+    <string name="enter_the_quantity">Enter The Quantity</string>
+    <string name="enter_the_best_before_date">Enter The Best Before Date</string>
+    <string name="change_ingredient">Add Ingredient</string>
+    <string name="confirm">Confirm</string>
+    <string name="enter_a_location">Enter A Location</string>
+    <string name="enter_the_ingredient_category">Enter The Ingredient Category</string>
+    <string name="enter_unit">Enter Unit Cost</string>
 </resources>

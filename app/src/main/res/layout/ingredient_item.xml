@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:background="@drawable/roundrect"
     android:orientation="vertical"
-    android:paddingVertical="15dp"
+    android:paddingVertical="14dp"
     android:paddingHorizontal="30dp">
 
     <!-- TODO: Update blank fragment layout -->
@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:text="@string/hello_blank_fragment"
             android:layout_weight="1"
-            android:textSize="20dp"
+            android:textSize="14dp"
             android:gravity="right"
             android:textColor="@color/white"/>
 
@@ -48,7 +48,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/hello_blank_fragment"
-            android:textSize="20dp"
+            android:textSize="14dp"
             android:layout_weight="1"
             android:textColor="@color/white"/>
 
@@ -60,7 +60,7 @@
             android:layout_height="wrap_content"
             android:text="@string/hello_blank_fragment"
             android:layout_weight="1"
-            android:textSize="20dp"
+            android:textSize="14dp"
             android:gravity="right"
             android:textColor="@color/white"/>
 
@@ -78,8 +78,18 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/hello_blank_fragment"
-            android:textSize="20dp"
+            android:textSize="14dp"
             android:layout_weight="1"
+            android:textColor="@color/white"/>
+
+        <TextView
+            android:id="@+id/ingredient_unit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/hello_blank_fragment"
+            android:layout_weight="1"
+            android:textSize="14dp"
+            android:gravity="right"
             android:textColor="@color/white"/>
 
 

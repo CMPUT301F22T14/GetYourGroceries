@@ -2,12 +2,13 @@
 package com.example.getyourgroceries.entity;
 
 // Import statements.
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Create an object to represent a recipe.
  */
-public class Recipe {
+public class Recipe implements Serializable {
 
     // Attributes.
     private String name;

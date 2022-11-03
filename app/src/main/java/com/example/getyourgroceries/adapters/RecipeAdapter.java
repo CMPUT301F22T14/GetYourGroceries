@@ -75,59 +75,7 @@ public class RecipeAdapter extends ArrayAdapter<Recipe> {
         recipePrepTime.setText(prepTimeText);
         recipeCategory.setText(categoryText);
 
-        // Get the image from Firebase.
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageRef = storage.getReferenceFromUrl("gs://get-your-groceries-13c6b.appspot.com/recipes/apple.jpg");
-        String imageUrl = "https://images.app.goo.gl/2FWUjMsZBqkrJ1pT7";
-        Log.d(TAG, storageRef.toString());
-        File localFile = null;
-        try {
-            localFile = File.createTempFile("apple", "jpg");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        assert localFile != null;
-        storageRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                // Local temp file has been created
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle any errors
-            }
-        });
 
-        // Show the image.
-        Glide.with(getContext())
-                .load(storageRef)
-                .apply(new RequestOptions().override(600, 200))
-                .into(recipePhoto)
-                ;
-        Log.d(TAG, recipePhoto.toString());
-        /*
-        try {
-            final File localPic = File.createTempFile(recipe.getName().toLowerCase(), ".jpg");
-            storageRef.getFile(localPic)
-                    .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                            Bitmap bitmap = BitmapFactory.decodeFile(localPic.getAbsolutePath());
-                            recipePhoto.setImageBitmap(bitmap);
-                            Log.d(TAG, "onSuccess: Retrieved picture");
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.d(TAG, "onFailure: image not retrieved");
-                        }
-                    });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
-
-        //recipePhoto.setClipToOutline(true);
         return view;
     }
 }

@@ -44,4 +44,38 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/add_recipe_description" />
 
+    <EditText
+        android:id="@+id/add_recipe_unit"
+        android:layout_width="300dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="20dp"
+        android:autofillHints=""
+        android:background="@drawable/edittext"
+        android:ems="10"
+        android:hint="@string/enter_unit"
+        android:inputType="numberDecimal"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textColorHint="@android:color/darker_gray"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/add_recipe_quantity" />
+
+    <Spinner
+        android:id="@+id/add_recipe_category"
+        android:layout_width="300dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="20dp"
+        android:autofillHints=""
+        android:background="@drawable/edittext"
+        android:contentDescription="@string/enter_the_ingredient_category"
+        android:ems="10"
+        android:popupBackground="@color/black"
+        android:textColor="@color/white"
+        android:textColorHint="@android:color/darker_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/add_recipe_unit" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,9 +9,8 @@
         android:id="@+id/linearLayoutRecipeList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="15dp"
         android:orientation="vertical">
-        <!--
         <TextView
             android:id="@+id/recipeListTitle"
             android:layout_width="wrap_content"
@@ -19,13 +18,23 @@
             android:layout_marginTop="32dp"
             android:layout_marginBottom="16dp"
             android:text="Recipe List"
-            android:textSize="48sp" />!-->
+            android:textSize="48sp" />
+
+        <Button
+            android:id="@+id/addRecipeButton"
+            android:layout_width="match_parent"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginBottom="15dp"
+            android:layout_height="wrap_content"
+            android:text="Add Recipe" />
 
         <ListView
             android:layout_width="match_parent"
             android:layout_height="500dp"
             android:id="@+id/recipe_list"
-            android:layout_weight="1"/>
+            android:layout_weight="1">
+
+        </ListView>
 
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

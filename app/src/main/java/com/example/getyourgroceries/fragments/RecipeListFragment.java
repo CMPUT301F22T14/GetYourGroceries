@@ -1,5 +1,5 @@
 /* RecipeListFragment class. */
-package com.example.getyourgroceries;
+package com.example.getyourgroceries.fragments;
 
 // Import statements.
 import android.app.AlertDialog;
@@ -9,8 +9,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 
+import com.example.getyourgroceries.R;
+import com.example.getyourgroceries.RecipeAdapter;
 import com.example.getyourgroceries.entity.Ingredient;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
@@ -32,9 +36,10 @@ public class RecipeListFragment extends Fragment {
     // Attributes.
     private static final String TAG = "RecipeListFragment";
     ArrayList<Recipe> recipeDataList;
-    RecipeAdapter recipeAdapter;
+    com.example.getyourgroceries.RecipeAdapter recipeAdapter;
     FirebaseFirestore db;
     ListView recipeList;
+    Button addRecipeButton;
 
     /**
      * Empty constructor.
@@ -74,12 +79,29 @@ public class RecipeListFragment extends Fragment {
                 String category = (String) doc.getData().get("recipeCategory");
                 String comment = (String) doc.getData().get("comment");
                 String photo = (String) doc.getData().get("photo");
-                Log.d(TAG, photo);
+
                 Recipe newRecipe = new Recipe(name, prepTime, servings, category, comment, "recipes/apple.jpg");
                 newRecipe.setId(doc.getId());
+                Log.d(TAG, newRecipe.getId());
+
                 recipeDataList.add(newRecipe);
             }
             recipeAdapter.notifyDataSetChanged();
+        });
+
+        // Listener to edit a recipe
+        recipeList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Bundle bundle = new Bundle();
+
+                Recipe editRecipe = recipeDataList.get(position);
+                bundle.putSerializable("editRecipe", editRecipe);
+
+                RecipeChangeHandlerFragment recipeChangeHandlerFragment = new RecipeChangeHandlerFragment();
+                recipeChangeHandlerFragment.setArguments(bundle);
+                requireActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).replace(container.getId(), recipeChangeHandlerFragment).addToBackStack(null).commit();
+            }
         });
 
 
@@ -103,6 +125,20 @@ public class RecipeListFragment extends Fragment {
             recipeAdapter.notifyDataSetChanged();
             return true;
         });
+
+        addRecipeButton = v.findViewById(R.id.addRecipeButton);
+
+        addRecipeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RecipeChangeHandlerFragment recipeChangeHandlerFragment = new RecipeChangeHandlerFragment();
+                requireActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).replace(container.getId(), recipeChangeHandlerFragment).addToBackStack(null).commit();
+            }
+        });
+
+
+
+
 
         return v;
     }

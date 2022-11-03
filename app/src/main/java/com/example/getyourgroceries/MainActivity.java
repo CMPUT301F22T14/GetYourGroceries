@@ -10,6 +10,11 @@ import android.view.MenuItem;
 
 import android.view.Window;
 
+import com.example.getyourgroceries.fragments.RecipeListFragment;
+import com.example.getyourgroceries.IngredientListFragment;
+import com.example.getyourgroceries.HomeScreenFragment;
+import com.example.getyourgroceries.MealPlansFragment;
+import com.example.getyourgroceries.ShoppingListFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.Objects;
 
@@ -20,11 +25,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     // Attributes.
     BottomNavigationView bottomNavigationView;
-    IngredientListFragment ingredientListFragment = new IngredientListFragment();
-    HomeScreenFragment homeScreenFragment = new HomeScreenFragment();
+    IngredientListFragment ingredientListFragment = new com.example.getyourgroceries.IngredientListFragment();
+    HomeScreenFragment homeScreenFragment = new com.example.getyourgroceries.HomeScreenFragment();
     RecipeListFragment recipeListFragment = new RecipeListFragment();
-    MealPlansFragment mealPlansFragment = new MealPlansFragment();
-    ShoppingListFragment shoppingListFragment = new ShoppingListFragment();
+    MealPlansFragment mealPlansFragment = new com.example.getyourgroceries.MealPlansFragment();
+    ShoppingListFragment shoppingListFragment = new com.example.getyourgroceries.ShoppingListFragment();
 
     /**
      * Create the app.

@@ -14,7 +14,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.Switch;
+import com.example.getyourgroceries.IngredientChangeHandlerFragment;
+import com.example.getyourgroceries.IngredientStorageAdapter;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
@@ -24,7 +25,6 @@ import androidx.annotation.Nullable;
 import com.example.getyourgroceries.control.IngredientDB;
 import com.example.getyourgroceries.entity.Ingredient;
 import com.example.getyourgroceries.entity.IngredientStorage;
-import com.example.getyourgroceries.entity.StoredIngredient;
 
 import java.util.Comparator;
 import java.util.Objects;

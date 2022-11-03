@@ -82,8 +82,14 @@ public class RecipeViewFragment extends Fragment {
         //TextView commentsText = requireActivity().findViewById(R.id.change_recipe_comments);
 
 
-        db = FirebaseFirestore.getInstance();
-        final CollectionReference collectionReference = db.collection("Recipes");
+        // Set the values to the previous values.
+        if (viewRecipe != null){
+            title.setText(viewRecipe.getName());
+            prepTime.setText(String.valueOf(viewRecipe.getPrepTime()));
+            category.setText(String.valueOf(viewRecipe.getRecipeCategory()));
+            //servingsText.setText(String.valueOf(editRecipe.getNumOfServings()));
+            //commentsText.setText(editRecipe.getComment());
+        }
 
 
     }

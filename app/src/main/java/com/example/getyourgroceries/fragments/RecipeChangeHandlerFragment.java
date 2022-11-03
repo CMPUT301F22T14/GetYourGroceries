@@ -1,9 +1,7 @@
 package com.example.getyourgroceries.fragments;
 
-import static com.example.getyourgroceries.entity.IngredientStorage.ingredientAdapter;
 
 import android.annotation.SuppressLint;
-import android.app.DatePickerDialog;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -14,22 +12,18 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.getyourgroceries.R;
-import com.example.getyourgroceries.control.IngredientDB;
-import com.example.getyourgroceries.entity.Ingredient;
+import com.example.getyourgroceries.control.RecipeDB;
 import com.example.getyourgroceries.entity.Recipe;
-import com.example.getyourgroceries.entity.StoredIngredient;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputLayout;
@@ -37,15 +31,10 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -57,9 +46,12 @@ public class RecipeChangeHandlerFragment extends Fragment {
     private static final String TAG = "RecipeChangeHandlerFrag";
 
     private Recipe editRecipe;
-    FirebaseFirestore db;
+    RecipeDB db;
 
-    public RecipeChangeHandlerFragment() { super();}
+    public RecipeChangeHandlerFragment() {
+        super();
+        db = new RecipeDB();
+    }
 
 
     @Override
@@ -90,7 +82,7 @@ public class RecipeChangeHandlerFragment extends Fragment {
         }
 
         // Set up category spinner.
-        Spinner category = requireActivity().findViewById(R.id.change_recipe_category);
+        Spinner category = view.findViewById(R.id.change_recipe_category);
         ArrayList<String> categories = new ArrayList<>();
         categories.add("Enter A Category");
         categories.add("Baking");
@@ -132,10 +124,10 @@ public class RecipeChangeHandlerFragment extends Fragment {
 
 
         //Populate fields if its an edit
-        TextView nameText = requireActivity().findViewById(R.id.change_recipe_name);
-        TextView prepTimeText = requireActivity().findViewById(R.id.change_recipe_prep_time);
-        TextView servingsText = requireActivity().findViewById(R.id.change_recipe_servings);
-        TextView commentsText = requireActivity().findViewById(R.id.change_recipe_comments);
+        TextView nameText = view.findViewById(R.id.change_recipe_name);
+        TextView prepTimeText = view.findViewById(R.id.change_recipe_prep_time);
+        TextView servingsText = view.findViewById(R.id.change_recipe_servings);
+        TextView commentsText = view.findViewById(R.id.change_recipe_comments);
 
 
         // Set the values to the previous values.
@@ -148,18 +140,17 @@ public class RecipeChangeHandlerFragment extends Fragment {
         }
 
         // Get the text layouts.
-        TextInputLayout tilName = requireActivity().findViewById(R.id.change_recipe_name_til);
-        TextInputLayout tilPrepTime = requireActivity().findViewById(R.id.change_recipe_prep_time_til);
-        TextInputLayout tilServings = requireActivity().findViewById(R.id.change_recipe_servings_til);
-        TextInputLayout tilCategory = requireActivity().findViewById(R.id.change_recipe_category_til);
-        TextInputLayout tilComments = requireActivity().findViewById(R.id.change_recipe_comments_til);
+        TextInputLayout tilName = view.findViewById(R.id.change_recipe_name_til);
+        TextInputLayout tilPrepTime = view.findViewById(R.id.change_recipe_prep_time_til);
+        TextInputLayout tilServings = view.findViewById(R.id.change_recipe_servings_til);
+        TextInputLayout tilCategory = view.findViewById(R.id.change_recipe_category_til);
+        TextInputLayout tilComments = view.findViewById(R.id.change_recipe_comments_til);
 
         Button addIngredientBtn = view.findViewById(R.id.add_ingredient_btn);
         addIngredientBtn.setOnClickListener(view12 -> new AddIngredientRecipeFragment().show(getActivity().getSupportFragmentManager(), "ADD_INGREDIENT"));
 
-
         // Add the recipe.
-        Button confirmButton = requireActivity().findViewById(R.id.change_recipe_confirm);
+        Button confirmButton = view.findViewById(R.id.change_recipe_confirm);
         confirmButton.setOnClickListener(view1 ->{
 
             // Get the data.
@@ -199,57 +190,13 @@ public class RecipeChangeHandlerFragment extends Fragment {
                 return;
             }
 
-            db = FirebaseFirestore.getInstance();
-            final CollectionReference collectionReference = db.collection("Recipes");
-
-            Map<String, Object> data = new HashMap<>();
-
-            data.put("name", name);
-            data.put("prepTime", Integer.parseInt(prepTime));
-            data.put("numOfServings", Integer.parseInt(servings));
-            data.put("recipeCategory", categoryText);
-            data.put("comment", comments);
-            data.put("photo", "recipes/apple.jpg");
-
+            Recipe newRecipe = new Recipe(name, Integer.parseInt(prepTime), Integer.parseInt(servings), categoryText, comments, "recipes/apple.jpg");
             // If in edit mode, update the attributes.
             if (editRecipe != null){
-
-                collectionReference.document(editRecipe.getId())
-                        .set(data)
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void unused) {
-                                Log.d(TAG, "onSuccess: object updated!");
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                              @Override
-                              public void onFailure(@NonNull Exception e) {
-                                  Log.w(TAG, "onFailure: error updating document", e);
-                              }
-                        });
-
-                                /*
-                                 * get id from bundle passer, then update based on id
-                                 * */
+                newRecipe.setId(editRecipe.getId());
+                db.updateRecipe(newRecipe);
             } else {
-
-                collectionReference
-                        .add(data)
-                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                            @Override
-                            public void onSuccess(DocumentReference documentReference) {
-                                Log.d(TAG, "onSuccess: ID =" + documentReference.getId());
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.w(TAG, "onFailure: Error adding document", e);
-                            }
-                        });
-
-
+                db.addRecipe(newRecipe);
             }
             requireActivity().getSupportFragmentManager().popBackStackImmediate();
         });

@@ -9,15 +9,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 
-import android.view.Window;
-
 import com.example.getyourgroceries.entity.Ingredient;
 import com.example.getyourgroceries.fragments.AddIngredientRecipeFragment;
 import com.example.getyourgroceries.fragments.RecipeListFragment;
-import com.example.getyourgroceries.IngredientListFragment;
-import com.example.getyourgroceries.HomeScreenFragment;
-import com.example.getyourgroceries.MealPlansFragment;
-import com.example.getyourgroceries.ShoppingListFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.Objects;
 

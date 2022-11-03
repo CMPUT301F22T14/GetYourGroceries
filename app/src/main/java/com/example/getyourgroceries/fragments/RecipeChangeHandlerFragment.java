@@ -27,6 +27,7 @@ import android.widget.TextView;
 
 import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.control.IngredientDB;
+import com.example.getyourgroceries.entity.Ingredient;
 import com.example.getyourgroceries.entity.Recipe;
 import com.example.getyourgroceries.entity.StoredIngredient;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -152,6 +153,10 @@ public class RecipeChangeHandlerFragment extends Fragment {
         TextInputLayout tilServings = requireActivity().findViewById(R.id.change_recipe_servings_til);
         TextInputLayout tilCategory = requireActivity().findViewById(R.id.change_recipe_category_til);
         TextInputLayout tilComments = requireActivity().findViewById(R.id.change_recipe_comments_til);
+
+        Button addIngredientBtn = view.findViewById(R.id.add_ingredient_btn);
+        addIngredientBtn.setOnClickListener(view12 -> new AddIngredientRecipeFragment().show(getActivity().getSupportFragmentManager(), "ADD_INGREDIENT"));
+
 
         // Add the recipe.
         Button confirmButton = requireActivity().findViewById(R.id.change_recipe_confirm);

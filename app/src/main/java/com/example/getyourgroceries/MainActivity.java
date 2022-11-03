@@ -6,10 +6,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import android.view.Window;
 
+import com.example.getyourgroceries.entity.Ingredient;
+import com.example.getyourgroceries.fragments.AddIngredientRecipeFragment;
 import com.example.getyourgroceries.fragments.RecipeListFragment;
 import com.example.getyourgroceries.IngredientListFragment;
 import com.example.getyourgroceries.HomeScreenFragment;
@@ -21,7 +24,7 @@ import java.util.Objects;
 /**
  * Create an object to be the start point of the app.
  */
-public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, AddIngredientRecipeFragment.OnFragmentInteractionListener {
 
     // Attributes.
     BottomNavigationView bottomNavigationView;
@@ -42,8 +45,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         actionBar.hide();
 
         setContentView(R.layout.activity_main);
-
-//        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(this);
@@ -85,5 +86,15 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 return true;
         }
         return false;
+    }
+
+    /**
+     * Executes when the user hits "ok" on the add ingredient dialog
+     * @param newIngredient item to add to recipe
+     */
+    @Override
+    public void onOkPressed(Ingredient newIngredient) {
+        // TODO: add ingredient to recipes ingredient list
+        Log.d("RECIPE", "onOkPressed: HERE");
     }
 }

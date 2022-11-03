@@ -88,7 +88,7 @@ public class RecipeListFragment extends Fragment {
             }
             recipeAdapter.notifyDataSetChanged();
         });
-
+        /*
         // Listener to edit a recipe
         recipeList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -103,6 +103,7 @@ public class RecipeListFragment extends Fragment {
                 requireActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).replace(container.getId(), recipeChangeHandlerFragment).addToBackStack(null).commit();
             }
         });
+        */
 
         // Listener to view a recipe
         recipeList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -113,9 +114,9 @@ public class RecipeListFragment extends Fragment {
                 Recipe viewRecipe = recipeDataList.get(position);
                 bundle.putSerializable("viewRecipe", viewRecipe);
 
-                RecipeChangeHandlerFragment recipeChangeHandlerFragment = new RecipeChangeHandlerFragment();
-                recipeChangeHandlerFragment.setArguments(bundle);
-                requireActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).replace(container.getId(), recipeChangeHandlerFragment).addToBackStack(null).commit();
+                RecipeViewFragment RecipeViewFragment = new RecipeViewFragment();
+                RecipeViewFragment.setArguments(bundle);
+                requireActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).replace(container.getId(), RecipeViewFragment).addToBackStack(null).commit();
             }
         });
 

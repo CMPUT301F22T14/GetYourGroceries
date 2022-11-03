@@ -10,6 +10,7 @@ import android.view.MenuItem;
 
 import android.view.Window;
 
+import com.example.getyourgroceries.fragments.IngredientListFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.Objects;
 

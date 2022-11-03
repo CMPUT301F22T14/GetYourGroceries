@@ -104,6 +104,21 @@ public class RecipeListFragment extends Fragment {
             }
         });
 
+        // Listener to view a recipe
+        recipeList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Bundle bundle = new Bundle();
+
+                Recipe viewRecipe = recipeDataList.get(position);
+                bundle.putSerializable("viewRecipe", viewRecipe);
+
+                RecipeChangeHandlerFragment recipeChangeHandlerFragment = new RecipeChangeHandlerFragment();
+                recipeChangeHandlerFragment.setArguments(bundle);
+                requireActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).replace(container.getId(), recipeChangeHandlerFragment).addToBackStack(null).commit();
+            }
+        });
+
 
         // Listener to delete a recipe.
         recipeList.setOnItemLongClickListener((adapterView, view, i, l)-> {

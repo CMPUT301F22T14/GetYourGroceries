@@ -42,6 +42,28 @@ public class Recipe implements Serializable {
     }
 
     /**
+     * Constructor for recipe including ingredient list.
+     * @param name The name.
+     * @param prepTime The preparation time.
+     * @param numOfServings The number of servings.
+     * @param recipeCategory The category.
+     * @param comment The comments.
+     * @param photo The photo.
+     * @param ingredients The list of ingredients
+     */
+    public Recipe(String name, int prepTime, int numOfServings, String recipeCategory, String comment, String photo, ArrayList<Ingredient> ingredients) {
+
+        // Set the attributes.
+        this.name = name;
+        this.prepTime = prepTime;
+        this.numOfServings = numOfServings;
+        this.recipeCategory = recipeCategory;
+        this.comment = comment;
+        this.photo = photo;
+        this.ingredientList = ingredients;
+    }
+
+    /**
      * Empty constructor
      */
     public Recipe() {
@@ -169,9 +191,10 @@ public class Recipe implements Serializable {
      * @param ingredient The ingredient to delete.
      */
     public void deleteIngredient(Ingredient ingredient) {
-
-        // Delete the ingredient if it is there.
-        ingredientList.remove(ingredient);
+        if(ingredientList.contains(ingredient)){
+            // Delete the ingredient if it is there.
+            ingredientList.remove(ingredient);
+        }
     }
 
     /**

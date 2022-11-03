@@ -1,6 +1,5 @@
 package com.example.getyourgroceries.fragments;
 
-
 import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -11,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,17 +21,11 @@ import android.widget.TextView;
 
 import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.control.RecipeDB;
+import com.example.getyourgroceries.entity.Ingredient;
 import com.example.getyourgroceries.entity.Recipe;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -41,19 +33,27 @@ import java.util.Objects;
  * Use the  factory method to
  * create an instance of this fragment.
  */
-public class RecipeChangeHandlerFragment extends Fragment {
-
-    private static final String TAG = "RecipeChangeHandlerFrag";
-
+public class RecipeChangeHandlerFragment extends Fragment implements AddIngredientRecipeFragment.OnFragmentInteractionListener {
     private Recipe editRecipe;
+    private ArrayList<Ingredient> ingredientList;
     RecipeDB db;
 
+    /**
+     * Fragment constructor to initialize its database class
+     */
     public RecipeChangeHandlerFragment() {
         super();
         db = new RecipeDB();
+        ingredientList = new ArrayList<>();
     }
 
-
+    /**
+     * Display logic when fragment is loaded
+     * @param inflater loads the fragment
+     * @param container underlying fragment container
+     * @param savedInstanceState information passed in
+     * @return view to display
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -72,7 +72,6 @@ public class RecipeChangeHandlerFragment extends Fragment {
     @SuppressLint("SimpleDateFormat")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-
         // Initialization.
         ConstraintLayout addIngredientLayout = requireActivity().findViewById(R.id.change_recipe_layout);
         addIngredientLayout.setImportantForAutofill(View.IMPORTANT_FOR_AUTOFILL_NO);
@@ -90,7 +89,6 @@ public class RecipeChangeHandlerFragment extends Fragment {
         categories.add("Microwaving");
         categories.add("Cooking");
         ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner, categories) {
-
             /**
              * The isEnabled method will disallow the first dropdown choice.
              * @param position The selected choice.
@@ -122,7 +120,6 @@ public class RecipeChangeHandlerFragment extends Fragment {
         };
         category.setAdapter(categoryAdapter);
 
-
         //Populate fields if its an edit
         TextView nameText = view.findViewById(R.id.change_recipe_name);
         TextView prepTimeText = view.findViewById(R.id.change_recipe_prep_time);
@@ -137,6 +134,7 @@ public class RecipeChangeHandlerFragment extends Fragment {
             servingsText.setText(String.valueOf(editRecipe.getNumOfServings()));
             category.setSelection(categoryAdapter.getPosition(editRecipe.getRecipeCategory()));
             commentsText.setText(editRecipe.getComment());
+            ingredientList.addAll(editRecipe.getIngredientList());
         }
 
         // Get the text layouts.
@@ -147,12 +145,11 @@ public class RecipeChangeHandlerFragment extends Fragment {
         TextInputLayout tilComments = view.findViewById(R.id.change_recipe_comments_til);
 
         Button addIngredientBtn = view.findViewById(R.id.add_ingredient_btn);
-        addIngredientBtn.setOnClickListener(view12 -> new AddIngredientRecipeFragment().show(getActivity().getSupportFragmentManager(), "ADD_INGREDIENT"));
+        addIngredientBtn.setOnClickListener(view12 -> new AddIngredientRecipeFragment().show(getActivity().getSupportFragmentManager(), "ADD_INGREDIENT_RECIPE"));
 
         // Add the recipe.
         Button confirmButton = view.findViewById(R.id.change_recipe_confirm);
         confirmButton.setOnClickListener(view1 ->{
-
             // Get the data.
             String name = nameText.getText().toString();
             String prepTime = prepTimeText.getText().toString();
@@ -190,7 +187,7 @@ public class RecipeChangeHandlerFragment extends Fragment {
                 return;
             }
 
-            Recipe newRecipe = new Recipe(name, Integer.parseInt(prepTime), Integer.parseInt(servings), categoryText, comments, "recipes/apple.jpg");
+            Recipe newRecipe = new Recipe(name, Integer.parseInt(prepTime), Integer.parseInt(servings), categoryText, comments, "recipes/apple.jpg", ingredientList);
             // If in edit mode, update the attributes.
             if (editRecipe != null){
                 newRecipe.setId(editRecipe.getId());
@@ -210,5 +207,16 @@ public class RecipeChangeHandlerFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         return requireActivity().getSupportFragmentManager().popBackStackImmediate();
+    }
+
+    /**
+     * Executes when the user hits "ok" on the add ingredient dialog
+     * @param newIngredient item to add to recipe
+     */
+    @Override
+    public void onOkPressed(Ingredient newIngredient) {
+        if(!ingredientList.contains(newIngredient)) {
+            ingredientList.add(newIngredient);
+        }
     }
 }

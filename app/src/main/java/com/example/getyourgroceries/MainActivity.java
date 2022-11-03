@@ -18,7 +18,7 @@ import java.util.Objects;
 /**
  * Create an object to be the start point of the app.
  */
-public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, AddIngredientRecipeFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     // Attributes.
     BottomNavigationView bottomNavigationView;
@@ -80,15 +80,5 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 return true;
         }
         return false;
-    }
-
-    /**
-     * Executes when the user hits "ok" on the add ingredient dialog
-     * @param newIngredient item to add to recipe
-     */
-    @Override
-    public void onOkPressed(Ingredient newIngredient) {
-        // TODO: add ingredient to recipes ingredient list
-        Log.d("RECIPE", "onOkPressed: HERE");
     }
 }

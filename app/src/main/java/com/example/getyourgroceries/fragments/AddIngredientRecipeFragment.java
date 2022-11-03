@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import com.example.getyourgroceries.MainActivity;
 import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.entity.Ingredient;
 
@@ -36,12 +37,10 @@ public class AddIngredientRecipeFragment extends DialogFragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
+        MainActivity act = (MainActivity) context;
 
-        if(context instanceof OnFragmentInteractionListener) {
-            listener = (OnFragmentInteractionListener)context;
-        } else {
-            throw new RuntimeException(context.toString() + "must implement OnFragmentInteractionListener");
-        }
+        RecipeChangeHandlerFragment frag = (RecipeChangeHandlerFragment) act.getSupportFragmentManager().findFragmentByTag("EDIT_RECIPE");
+        listener = (OnFragmentInteractionListener)frag;
     }
 
     @NonNull
@@ -52,6 +51,7 @@ public class AddIngredientRecipeFragment extends DialogFragment {
         amount = view.findViewById(R.id.add_recipe_quantity);
         unit = view.findViewById(R.id.add_recipe_unit);
         category = view.findViewById(R.id.add_recipe_category);
+
         // create category categories
         ArrayList<String> categories = new ArrayList<>();
         categories.add("Enter A Category");
@@ -101,7 +101,7 @@ public class AddIngredientRecipeFragment extends DialogFragment {
                 .setPositiveButton("OK", (dialogInterface, i) -> {
                     String ingDescription = description.getText().toString();
                     int ingAmount = Integer.parseInt(amount.getText().toString());
-                    double ingUnit = Double.parseDouble(unit.toString());
+                    double ingUnit = Double.parseDouble(unit.getText().toString());
                     String ingCategory = category.getSelectedItem().toString();
                     listener.onOkPressed(new Ingredient(ingDescription, ingAmount, ingUnit, ingCategory));
                 }).create();

@@ -42,6 +42,13 @@ public class Recipe implements Serializable {
     }
 
     /**
+     * Empty constructor
+     */
+    public Recipe() {
+        ingredientList = new ArrayList<>();
+    }
+
+    /**
      * Get the name.
      * @return The name.
      */

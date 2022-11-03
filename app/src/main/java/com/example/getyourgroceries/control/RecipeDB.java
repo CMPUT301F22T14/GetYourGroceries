@@ -4,11 +4,23 @@ package com.example.getyourgroceries.control;
 // Import statements.
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.example.getyourgroceries.entity.Ingredient;
+import com.example.getyourgroceries.entity.IngredientStorage;
 import com.example.getyourgroceries.entity.Recipe;
+import com.example.getyourgroceries.entity.RecipeStorage;
+import com.example.getyourgroceries.entity.StoredIngredient;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
 import java.util.ArrayList;
 
 /**
@@ -29,6 +41,55 @@ public class RecipeDB {
         // Initialize.
         db = FirebaseFirestore.getInstance();
         recipeCollection = db.collection("Recipes");
+        recipeCollection
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<>() {
+
+                    /**
+                     * Execute the code when getting the ingredient collection is completed (or fails).
+                     *
+                     * @param task The task being done.
+                     */
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+
+                            // Successful.
+                            RecipeStorage.recipeAdapter.clear();
+                            for (QueryDocumentSnapshot doc : task.getResult()) {
+                                Recipe recipe = doc.toObject(Recipe.class);
+                                RecipeStorage.recipeAdapter.add(recipe);
+                            }
+                            RecipeStorage.recipeAdapter.notifyDataSetChanged();
+                        } else {
+
+                            // Failed.
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+
+        // Create a listener for future changes.
+        recipeCollection.addSnapshotListener(new EventListener<>() {
+
+            /**
+             * Listen for changes to the data set.
+             * @param queryDocumentSnapshots Snapshot of the data.
+             * @param error                  Possible errors.
+             */
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
+
+                // Add updated recipes to the storage.
+                RecipeStorage.recipeAdapter.clear();
+                assert queryDocumentSnapshots != null;
+                for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+                    Recipe recipe = doc.toObject(Recipe.class);
+                    RecipeStorage.recipeAdapter.add(recipe);
+                }
+                RecipeStorage.recipeAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     /**
@@ -63,8 +124,6 @@ public class RecipeDB {
         recipeCollection.document(recipe.getId()).delete();
     }
 
-
-
     /**
      * Updates a given recipe in the database.
      * @param recipe The recipe to update.
@@ -75,24 +134,5 @@ public class RecipeDB {
         // Update the recipe.
         recipeCollection.document(recipe.getId())
                 .set(recipe);
-    }
-
-    /**
-     * Fetches all recipes from recipe collection.
-     * @return All recipes in an array list.
-     * TODO: User account verification.
-     */
-    public ArrayList<Recipe> getRecipes(){
-
-        // Get the recipes.
-        ArrayList<Recipe> recipes = new ArrayList<>();
-        recipeCollection.addSnapshotListener((queryDocumentSnapshots, error) -> {
-            assert queryDocumentSnapshots != null;
-            for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
-                Recipe recipe = doc.toObject(Recipe.class);
-                recipes.add(recipe);
-            }
-        });
-        return recipes;
     }
 }

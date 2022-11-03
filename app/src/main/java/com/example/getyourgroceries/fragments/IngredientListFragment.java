@@ -15,7 +15,8 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.Switch;
+import com.example.getyourgroceries.IngredientChangeHandlerFragment;
+import com.example.getyourgroceries.IngredientStorageAdapter;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
@@ -28,12 +29,9 @@ import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.control.IngredientDB;
 import com.example.getyourgroceries.entity.Ingredient;
 import com.example.getyourgroceries.entity.IngredientStorage;
-import com.example.getyourgroceries.entity.StoredIngredient;
 
-import java.util.Comparator;
 import java.util.Objects;
 
-import io.grpc.internal.JsonUtil;
 
 /**
  * Create an object to represent the ingredient storage.
@@ -60,7 +58,6 @@ public class IngredientListFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         // Inflate the layout for this fragment.
         View v = inflater.inflate(R.layout.fragment_ingredient_list, container, false);
         Button addIngredientButton = v.findViewById(R.id.addIngredientButton);
@@ -106,16 +103,11 @@ public class IngredientListFragment extends Fragment {
 
         // Return the updated view.
         ingredientListView.setAdapter(IngredientStorage.ingredientAdapter);
-//        IngredientDB db = new IngredientDB();
-        /*for (int i = 0; i < ingredients.size(); i++) {
-            getParentFragmentManager().beginTransaction().add(R.id.linearLayoutIngredients, IngredientFragment.newInstance(ingredients.get(i))).commit();
-        }*/
         Context context = this.getContext();
         sortDropDown = v.findViewById(R.id.sortIngredientSpinner);
         ArrayAdapter<CharSequence> sortAdapter = ArrayAdapter.createFromResource(context,R.array.ingredientSortBy,R.layout.ingredient_spinner_selected);
         sortAdapter.setDropDownViewResource(R.layout.ingredient_spinner_dropdown);
         sortDropDown.setAdapter(sortAdapter);
-
 
         //Sorting
         sortDropDown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

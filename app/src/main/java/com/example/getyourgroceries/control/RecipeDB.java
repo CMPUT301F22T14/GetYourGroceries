@@ -67,12 +67,12 @@ public class RecipeDB {
              */
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
-
                 // Add updated recipes to the storage.
                 RecipeStorage.recipeAdapter.clear();
                 assert queryDocumentSnapshots != null;
                 for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
                     Recipe recipe = doc.toObject(Recipe.class);
+                    recipe.setId(doc.getId());
                     RecipeStorage.recipeAdapter.add(recipe);
                 }
                 RecipeStorage.recipeAdapter.notifyDataSetChanged();

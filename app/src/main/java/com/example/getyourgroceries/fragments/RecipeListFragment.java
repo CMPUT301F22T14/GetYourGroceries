@@ -55,9 +55,10 @@ public class RecipeListFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View v = inflater.inflate(R.layout.fragment_recipe_list, container, false);
-        RecipeDB recipeDB = new RecipeDB();
 
         RecipeStorage.recipeAdapter = new RecipeAdapter(requireActivity().getBaseContext(), RecipeStorage.recipeStorage);
+        RecipeDB recipeDB = new RecipeDB();
+
         recipeList = v.findViewById(R.id.recipe_list);
         recipeList.setAdapter(RecipeStorage.recipeAdapter);
 
@@ -85,6 +86,7 @@ public class RecipeListFragment extends Fragment {
             builder.setCancelable(true);
             builder.setPositiveButton("Yes", (DialogInterface.OnClickListener) (dialog, which) -> {
                 Recipe recipe = (Recipe) recipeList.getItemAtPosition(i);
+                Log.d("RECIPE", "ID: " + recipe.getId());
                 recipeDB.deleteRecipe(recipe);
             });
             builder.setNegativeButton("No", (DialogInterface.OnClickListener) (dialog, which) -> dialog.cancel());

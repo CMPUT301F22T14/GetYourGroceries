@@ -87,28 +87,6 @@ public class RecipeListFragment extends Fragment {
         recipeList = v.findViewById(R.id.recipe_list);
         recipeList.setAdapter(RecipeStorage.recipeAdapter);
 
-
-
-
-/*
-        // Listener to edit a recipe
-
-        recipeList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Bundle bundle = new Bundle();
-
-                Recipe editRecipe = (Recipe) recipeList.getItemAtPosition(position);
-                bundle.putSerializable("editRecipe", editRecipe);
-
-                RecipeChangeHandlerFragment recipeChangeHandlerFragment = new RecipeChangeHandlerFragment();
-                recipeChangeHandlerFragment.setArguments(bundle);
-                requireActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).replace(container.getId(), recipeChangeHandlerFragment, "EDIT_RECIPE").addToBackStack("EDIT_RECIPE").commit();
-            }
-        });
-        */
-
-
         // Listener to view a recipe
         recipeList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -190,10 +168,6 @@ public class RecipeListFragment extends Fragment {
             }
         });
 
-
-
-
-
         return v;
     }
     
@@ -225,7 +199,6 @@ public class RecipeListFragment extends Fragment {
                 }
                 else{
                     RecipeStorage.recipeAdapter.sort(Comparator.comparingInt(Recipe::getNumOfServings));
-
                 }
                 RecipeStorage.recipeAdapter.notifyDataSetChanged();
                 break;
@@ -235,7 +208,6 @@ public class RecipeListFragment extends Fragment {
                 }
                 else{
                     RecipeStorage.recipeAdapter.sort(Comparator.comparing(Recipe::getRecipeCategory));
-
                 }
                 RecipeStorage.recipeAdapter.notifyDataSetChanged();
                 break;

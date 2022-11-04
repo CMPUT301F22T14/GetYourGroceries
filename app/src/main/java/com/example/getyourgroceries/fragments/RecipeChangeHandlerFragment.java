@@ -1,6 +1,8 @@
 package com.example.getyourgroceries.fragments;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -40,9 +42,9 @@ import java.util.Objects;
  * create an instance of this fragment.
  */
 public class RecipeChangeHandlerFragment extends Fragment implements AddIngredientRecipeFragment.OnFragmentInteractionListener {
-    private Recipe editRecipe;
-    private ArrayList<Ingredient> ingredientList;
+    private final ArrayList<Ingredient> ingredientList;
     private RecipeIngredientAdapter ingredientAdapter;
+    private Recipe editRecipe;
     RecipeDB db;
 
     /**
@@ -56,8 +58,9 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
 
     /**
      * Display logic when fragment is loaded
-     * @param inflater loads the fragment
-     * @param container underlying fragment container
+     *
+     * @param inflater           loads the fragment
+     * @param container          underlying fragment container
      * @param savedInstanceState information passed in
      * @return view to display
      */
@@ -65,7 +68,7 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_recipe_change_handler, container, false);
+        View view = inflater.inflate(R.layout.fragment_recipe_change_handler, container, false);
         Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         setHasOptionsMenu(true);
         return view;
@@ -73,7 +76,8 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
 
     /**
      * The onViewCreated method will be called once the view has been created.
-     * @param view The created view.
+     *
+     * @param view               The created view.
      * @param savedInstanceState The saved state.
      */
     @SuppressLint("SimpleDateFormat")
@@ -84,7 +88,6 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
         addIngredientLayout.setImportantForAutofill(View.IMPORTANT_FOR_AUTOFILL_NO);
         ingredientAdapter = new RecipeIngredientAdapter(requireActivity().getBaseContext(), ingredientList);
         FragmentManager fmManager = getActivity().getSupportFragmentManager();
-        FragmentTransaction transaction = fmManager.beginTransaction();
 
         if (getArguments() != null) {
             editRecipe = (Recipe) getArguments().getSerializable("editRecipe");
@@ -138,8 +141,24 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
         ListView ingredientListView = view.findViewById(R.id.add_ingredients_recipe);
         ingredientListView.setAdapter(ingredientAdapter);
 
+        ingredientListView.setOnItemLongClickListener((adapterView, view2, i, l) -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setMessage("Would you like to delete this ingredient?");
+            builder.setTitle("Delete Ingredient");
+            builder.setCancelable(true);
+            builder.setPositiveButton("Yes", (DialogInterface.OnClickListener) (dialog, which) -> {
+                Ingredient recipe = (Ingredient) ingredientListView.getItemAtPosition(i);
+                ingredientList.remove(recipe);
+                ingredientAdapter.notifyDataSetChanged();
+            });
+            builder.setNegativeButton("No", (DialogInterface.OnClickListener) (dialog, which) -> dialog.cancel());
+            AlertDialog alert = builder.create();
+            alert.show();
+            return true;
+        });
+
         // Set the values to the previous values.
-        if (editRecipe != null){
+        if (editRecipe != null) {
             nameText.setText(editRecipe.getName());
             prepTimeText.setText(String.valueOf(editRecipe.getPrepTime()));
             servingsText.setText(String.valueOf(editRecipe.getNumOfServings()));
@@ -153,14 +172,13 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
         TextInputLayout tilPrepTime = view.findViewById(R.id.change_recipe_prep_time_til);
         TextInputLayout tilServings = view.findViewById(R.id.change_recipe_servings_til);
         TextInputLayout tilCategory = view.findViewById(R.id.change_recipe_category_til);
-        TextInputLayout tilComments = view.findViewById(R.id.change_recipe_comments_til);
 
         Button addIngredientBtn = view.findViewById(R.id.add_ingredient_btn);
         addIngredientBtn.setOnClickListener(view12 -> new AddIngredientRecipeFragment().show(getActivity().getSupportFragmentManager(), "ADD_INGREDIENT_RECIPE"));
 
         // Add the recipe.
         Button confirmButton = view.findViewById(R.id.change_recipe_confirm);
-        confirmButton.setOnClickListener(view1 ->{
+        confirmButton.setOnClickListener(view1 -> {
             // Get the data.
             String name = nameText.getText().toString();
             String prepTime = prepTimeText.getText().toString();
@@ -201,7 +219,7 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
             Recipe newRecipe = new Recipe(name, Integer.parseInt(prepTime), Integer.parseInt(servings), categoryText, comments, "recipes/apple.jpg", ingredientList);
 
             // If in edit mode, update the attributes.
-            if (editRecipe != null){
+            if (editRecipe != null) {
                 newRecipe.setId(editRecipe.getId());
                 db.updateRecipe(newRecipe);
             } else {
@@ -214,6 +232,7 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
 
     /**
      * The onOptionsItemSelected method will go to the previous fragment when the back button is pressed.
+     *
      * @param item The item selected.
      * @return On success, true.
      */
@@ -224,11 +243,12 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
 
     /**
      * Executes when the user hits "ok" on the add ingredient dialog
+     *
      * @param newIngredient item to add to recipe
      */
     @Override
     public void onOkPressed(Ingredient newIngredient) {
-        if(!ingredientList.contains(newIngredient)) {
+        if (!ingredientList.contains(newIngredient)) {
             ingredientList.add(newIngredient);
             ingredientAdapter.notifyDataSetChanged();
         }

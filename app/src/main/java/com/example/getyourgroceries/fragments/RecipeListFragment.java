@@ -15,7 +15,6 @@ import android.widget.ListView;
 
 import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.adapters.RecipeAdapter;
-import com.example.getyourgroceries.RecipeAdapter;
 import com.example.getyourgroceries.control.RecipeDB;
 import com.example.getyourgroceries.entity.Ingredient;
 import com.example.getyourgroceries.entity.RecipeStorage;
@@ -65,14 +64,6 @@ public class RecipeListFragment extends Fragment {
         recipeList = v.findViewById(R.id.recipe_list);
         recipeList.setAdapter(RecipeStorage.recipeAdapter);
 
-                Recipe newRecipe = new Recipe(name, prepTime, servings, category, comment, photo);
-                newRecipe.setId(doc.getId());
-                Log.d(TAG, newRecipe.getId());
-
-                recipeDataList.add(newRecipe);
-            }
-            recipeAdapter.notifyDataSetChanged();
-        });
 
 
         // Listener to edit a recipe

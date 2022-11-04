@@ -26,7 +26,9 @@
             android:layout_marginHorizontal="15dp"
             android:layout_marginBottom="15dp"
             android:layout_height="wrap_content"
-            android:text="Add Recipe" />
+            android:text="Add Recipe"
+            android:backgroundTint="@color/black"
+            android:textColor="#00FFD1"/>
 
         <ListView
             android:layout_width="match_parent"

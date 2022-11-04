@@ -21,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
+import com.example.getyourgroceries.GlideApp;
 import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.entity.Recipe;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -29,6 +30,8 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.text.BreakIterator;
 import java.util.ArrayList;
@@ -40,9 +43,10 @@ public class RecipeViewFragment extends Fragment {
 
     private static final String TAG = "RecipeViewFrag";
     private Recipe viewRecipe;
-    FirebaseFirestore db;
+    FirebaseStorage storage;
     ImageButton editButton;
     ViewGroup containerView;
+    StorageReference imageRef;
 
     public RecipeViewFragment() {
         super();
@@ -91,10 +95,25 @@ public class RecipeViewFragment extends Fragment {
         // Set the values to the previous values.
         if (viewRecipe != null){
             title.setText(viewRecipe.getName());
-            prepTime.setText(String.valueOf(viewRecipe.getPrepTime()));
-            category.setText(String.valueOf(viewRecipe.getRecipeCategory()));
-            commentsText.setText(viewRecipe.getComment());
+            int prep_hours = viewRecipe.getPrepTime() / 60;
+            int prep_min = viewRecipe.getPrepTime() % 60;
+            String prepTimeText = prep_hours + "h " + prep_min + "m";
+            prepTime.setText(prepTimeText);
+            category.setText(viewRecipe.getRecipeCategory());
+            commentsText.setText("Comments:\n" + viewRecipe.getComment());
             //servingsText.setText(String.valueOf(editRecipe.getNumOfServings()));
+
+            // get photo
+            storage = FirebaseStorage.getInstance();
+            try {
+                imageRef = storage.getReference().child(viewRecipe.getPhoto());
+
+                GlideApp.with(view)
+                        .load(imageRef)
+                        .into(image);
+            } catch (IllegalArgumentException e) {
+                image.setImageResource(R.drawable.placeholder);
+            }
         }
 
         editButton = view.findViewById(R.id.edit_recipe_btn);

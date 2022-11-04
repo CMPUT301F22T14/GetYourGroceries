@@ -120,5 +120,16 @@
         app:layout_constraintVertical_bias="0.276"
         app:srcCompat="@drawable/time_icon" />
 
+    <ImageButton
+        android:id="@+id/edit_recipe_btn"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="4dp"
+        android:backgroundTint="#00FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/edit_icon" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

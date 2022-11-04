@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -40,6 +41,8 @@ public class RecipeViewFragment extends Fragment {
     private static final String TAG = "RecipeViewFrag";
     private Recipe viewRecipe;
     FirebaseFirestore db;
+    ImageButton editButton;
+    ViewGroup containerView;
 
     public RecipeViewFragment() {
         super();
@@ -52,6 +55,10 @@ public class RecipeViewFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_view_recipe, container, false);
         Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         setHasOptionsMenu(true);
+        containerView= container;
+
+
+
         return view;
     }
 
@@ -90,7 +97,19 @@ public class RecipeViewFragment extends Fragment {
             //servingsText.setText(String.valueOf(editRecipe.getNumOfServings()));
         }
 
+        editButton = view.findViewById(R.id.edit_recipe_btn);
+
+        editButton.setOnClickListener(v1 -> {
+            Bundle bundle = new Bundle();
+            Recipe editRecipe = viewRecipe;
+            bundle.putSerializable("editRecipe", editRecipe);
+            RecipeChangeHandlerFragment recipeChangeHandlerFragment = new RecipeChangeHandlerFragment();
+            recipeChangeHandlerFragment.setArguments(bundle);
+            requireActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).replace(containerView.getId(), recipeChangeHandlerFragment).addToBackStack(null).commit();
+        });
+
 
     }
+
 
 }

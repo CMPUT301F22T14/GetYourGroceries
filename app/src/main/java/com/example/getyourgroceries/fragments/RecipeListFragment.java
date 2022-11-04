@@ -88,8 +88,11 @@ public class RecipeListFragment extends Fragment {
         recipeList.setAdapter(RecipeStorage.recipeAdapter);
 
 
+
+
 /*
         // Listener to edit a recipe
+
         recipeList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -105,6 +108,7 @@ public class RecipeListFragment extends Fragment {
         });
         */
 
+
         // Listener to view a recipe
         recipeList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -112,7 +116,6 @@ public class RecipeListFragment extends Fragment {
                 Bundle bundle = new Bundle();
                 Recipe viewRecipe = (Recipe) recipeList.getItemAtPosition(position);
                 bundle.putSerializable("viewRecipe", viewRecipe);
-
                 RecipeViewFragment RecipeViewFragment = new RecipeViewFragment();
                 RecipeViewFragment.setArguments(bundle);
                 requireActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).replace(container.getId(), RecipeViewFragment).addToBackStack(null).commit();

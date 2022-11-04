@@ -14,7 +14,7 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.getyourgroceries.R;
-import com.example.getyourgroceries.RecipeAdapter;
+import com.example.getyourgroceries.adapters.RecipeAdapter;
 import com.example.getyourgroceries.entity.Ingredient;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
@@ -36,7 +36,7 @@ public class RecipeListFragment extends Fragment {
     // Attributes.
     private static final String TAG = "RecipeListFragment";
     ArrayList<Recipe> recipeDataList;
-    com.example.getyourgroceries.RecipeAdapter recipeAdapter;
+    RecipeAdapter recipeAdapter;
     FirebaseFirestore db;
     ListView recipeList;
     Button addRecipeButton;
@@ -80,7 +80,7 @@ public class RecipeListFragment extends Fragment {
                 String comment = (String) doc.getData().get("comment");
                 String photo = (String) doc.getData().get("photo");
 
-                Recipe newRecipe = new Recipe(name, prepTime, servings, category, comment, "recipes/apple.jpg");
+                Recipe newRecipe = new Recipe(name, prepTime, servings, category, comment, photo);
                 newRecipe.setId(doc.getId());
                 Log.d(TAG, newRecipe.getId());
 

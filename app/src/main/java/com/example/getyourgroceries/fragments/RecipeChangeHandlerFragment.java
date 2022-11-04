@@ -9,6 +9,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -81,6 +83,8 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
         ConstraintLayout addIngredientLayout = requireActivity().findViewById(R.id.change_recipe_layout);
         addIngredientLayout.setImportantForAutofill(View.IMPORTANT_FOR_AUTOFILL_NO);
         ingredientAdapter = new RecipeIngredientAdapter(requireActivity().getBaseContext(), ingredientList);
+        FragmentManager fmManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction transaction = fmManager.beginTransaction();
 
         if (getArguments() != null) {
             editRecipe = (Recipe) getArguments().getSerializable("editRecipe");
@@ -203,7 +207,8 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
             } else {
                 db.addRecipe(newRecipe);
             }
-            requireActivity().getSupportFragmentManager().popBackStackImmediate();
+            fmManager.popBackStack();
+            fmManager.popBackStack();
         });
     }
 

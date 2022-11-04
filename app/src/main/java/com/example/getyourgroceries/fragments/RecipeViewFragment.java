@@ -111,5 +111,4 @@ public class RecipeViewFragment extends Fragment {
 
     }
 
-
 }

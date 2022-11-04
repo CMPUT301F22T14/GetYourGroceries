@@ -73,13 +73,12 @@ public class RecipeViewFragment extends Fragment {
             viewRecipe = (Recipe) getArguments().getSerializable("viewRecipe");
         }
 
-
         //Populate fields if its a view
         ImageView image = requireActivity().findViewById(R.id.image);
         TextView title = requireActivity().findViewById(R.id.titleTextField);
         TextView prepTime = requireActivity().findViewById(R.id.prepTimeTextField);
         TextView category = requireActivity().findViewById(R.id.categoryTextField);
-        //TextView commentsText = requireActivity().findViewById(R.id.change_recipe_comments);
+        TextView commentsText = requireActivity().findViewById(R.id.commentsTextField);
 
 
         // Set the values to the previous values.
@@ -87,8 +86,8 @@ public class RecipeViewFragment extends Fragment {
             title.setText(viewRecipe.getName());
             prepTime.setText(String.valueOf(viewRecipe.getPrepTime()));
             category.setText(String.valueOf(viewRecipe.getRecipeCategory()));
+            commentsText.setText(viewRecipe.getComment());
             //servingsText.setText(String.valueOf(editRecipe.getNumOfServings()));
-            //commentsText.setText(editRecipe.getComment());
         }
 
 

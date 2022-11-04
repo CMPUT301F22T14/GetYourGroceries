@@ -52,11 +52,46 @@
         app:layout_constraintHorizontal_bias="0.847"
         app:layout_constraintStart_toStartOf="parent" />
 
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/recipe_comments_til"
+        android:layout_width="300dp"
+        android:layout_height="75dp"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="460dp"
+        android:textColorHint="@color/white"
+        app:boxStrokeWidth="0dp"
+        app:boxStrokeWidthFocused="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/image"
+        app:layout_constraintVertical_bias="0.051">
+
+        <TextView
+            android:id="@+id/commentsTextField"
+            android:layout_width="300dp"
+            android:layout_height="60dp"
+            android:autofillHints=""
+            android:background="@drawable/edittext"
+            android:ems="10"
+            android:hint="Comments: "
+            android:inputType="textMultiLine"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textColorHint="@android:color/darker_gray"
+            android:textSize="20sp"
+            tools:layout_editor_absoluteX="55dp"
+            tools:layout_editor_absoluteY="478dp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
     <TextView
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="196dp"
+        android:layout_marginBottom="108dp"
         android:text="Ingredients"
         android:textSize="40sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -86,5 +121,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView2"
         app:srcCompat="@drawable/time_icon" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

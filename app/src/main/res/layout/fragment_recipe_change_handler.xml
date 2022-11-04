@@ -81,7 +81,9 @@
         app:layout_constraintBottom_toTopOf="@+id/change_recipe_category_til"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/change_recipe_prep_time_til">
+        app:layout_constraintTop_toBottomOf="@id/change_recipe_prep_time_til"
+        app:boxStrokeWidth="0dp"
+        app:boxStrokeWidthFocused="0dp">
 
         <EditText
             android:id="@+id/change_recipe_servings"
@@ -108,7 +110,9 @@
         app:layout_constraintBottom_toTopOf="@+id/change_recipe_comments_til"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/change_recipe_servings_til">
+        app:layout_constraintTop_toBottomOf="@id/change_recipe_servings_til"
+        app:boxStrokeWidth="0dp"
+        app:boxStrokeWidthFocused="0dp">
 
         <Spinner
             android:id="@+id/change_recipe_category"
@@ -159,7 +163,7 @@
     <ListView
         android:id="@+id/add_ingredients_recipe"
         android:layout_width="300dp"
-        android:layout_height="80dp"
+        android:layout_height="25dp"
         android:layout_marginTop="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -169,12 +173,13 @@
         android:id="@+id/add_ingredient_btn"
         android:layout_width="200dp"
         android:layout_height="60dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginBottom="40dp"
         android:backgroundTint="@color/black"
         android:text="@string/add_ingredient"
         android:textColor="@color/white"
         app:cornerRadius="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/change_recipe_confirm"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/add_ingredients_recipe" />
 
@@ -189,9 +194,9 @@
         app:cornerRadius="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/add_ingredient_btn"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/add_ingredient_btn"
+        app:layout_constraintTop_toBottomOf="@id/add_ingredients_recipe"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView

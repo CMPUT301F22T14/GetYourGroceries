@@ -1,6 +1,8 @@
 /* Ingredient class. */
 package com.example.getyourgroceries.entity;
 
+import java.util.Objects;
+
 /**
  * Create an object to represent an ingredient/
  */
@@ -103,10 +105,18 @@ public class Ingredient {
     }
 
     /**
-     * Set the ID.
+     * Set the ID (for firestore retrieval).
      * @param id The ID.
      */
     public void setId(String id) {
         this.id = id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Ingredient that = (Ingredient) o;
+        return Objects.equals(id, that.id);
     }
 }

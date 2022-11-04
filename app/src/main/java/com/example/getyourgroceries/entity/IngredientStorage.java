@@ -50,4 +50,12 @@ public class IngredientStorage {
     public static ArrayAdapter<StoredIngredient> getIngredientAdapter(){
         return ingredientAdapter;
     }
+
+    public static void deleteIngredient(StoredIngredient ingredient) {
+        if(!ingredientStorage.contains(ingredient)) {
+            throw new IllegalArgumentException();
+        }
+        ingredientAdapter.remove(ingredient);
+        ingredientAdapter.notifyDataSetChanged();
+    }
 }

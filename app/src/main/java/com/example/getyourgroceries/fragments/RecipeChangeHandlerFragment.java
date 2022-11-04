@@ -195,6 +195,7 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
             }
 
             Recipe newRecipe = new Recipe(name, Integer.parseInt(prepTime), Integer.parseInt(servings), categoryText, comments, "recipes/apple.jpg", ingredientList);
+
             // If in edit mode, update the attributes.
             if (editRecipe != null){
                 newRecipe.setId(editRecipe.getId());

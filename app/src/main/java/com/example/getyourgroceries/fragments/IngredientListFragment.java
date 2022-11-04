@@ -15,9 +15,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.Spinner;
-import com.example.getyourgroceries.IngredientChangeHandlerFragment;
 import com.example.getyourgroceries.IngredientStorageAdapter;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
@@ -29,9 +27,10 @@ import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.control.IngredientDB;
 import com.example.getyourgroceries.entity.Ingredient;
 import com.example.getyourgroceries.entity.IngredientStorage;
+import com.example.getyourgroceries.entity.StoredIngredient;
 
+import java.util.Comparator;
 import java.util.Objects;
-
 
 /**
  * Create an object to represent the ingredient storage.
@@ -63,7 +62,7 @@ public class IngredientListFragment extends Fragment {
         Button addIngredientButton = v.findViewById(R.id.addIngredientButton);
         IngredientDB db = new IngredientDB();
         Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
-        sorting_switch = v.findViewById(R.id.sortingSwitch);
+        sorting_switch = v.findViewById(R.id.sortingSwitchIngredient);
         // Button listener to add an ingredient.
         addIngredientButton.setOnClickListener(view -> {
             assert container != null;
@@ -126,43 +125,21 @@ public class IngredientListFragment extends Fragment {
         sorting_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked){
-                    String type = sortDropDown.getSelectedItem().toString();
-                    boolean desc = sorting_switch.isChecked();
-                    if (type.equals("Description")){
-                        sortCategory(0,true);
+                String type = sortDropDown.getSelectedItem().toString();
+                if (type.equals("Description")){
+                    sortCategory(0,isChecked);
 
-                    }
-                    else if (type.equals("Date")){
-                        sortCategory(1,true);
-
-                    }
-                    else if (type.equals("Location")){
-                        sortCategory(2,true);
-
-                    }
-                    else if (type.equals("Category")){
-                        sortCategory(3,true);
-                    }
                 }
-                else{
-                    String type = sortDropDown.getSelectedItem().toString();
-                    if (type.equals("Description")){
-                        sortCategory(0,false);
+                else if (type.equals("Date")){
+                    sortCategory(1,isChecked);
 
-                    }
-                    else if (type.equals("Date")){
-                        sortCategory(1,false);
+                }
+                else if (type.equals("Location")){
+                    sortCategory(2,isChecked);
 
-                    }
-                    else if (type.equals("Location")){
-                        sortCategory(2,false);
-
-                    }
-                    else if (type.equals("Category")){
-                        sortCategory(3,false);
-                    }
-
+                }
+                else if (type.equals("Category")){
+                    sortCategory(3,isChecked);
                 }
             }
         });
@@ -172,15 +149,12 @@ public class IngredientListFragment extends Fragment {
     }
 
     void sortCategory(int type,boolean desc){
-        System.out.println(desc);
         switch(type){
             case 0:
                 if (desc) {
-                    //System.out.println("Case 1");
                     IngredientStorage.ingredientAdapter.sort((o1, o2) -> o1.getDescription().compareTo(o2.getDescription())*-1);
                 }
                 else{
-                    //System.out.println("Case 2");
                     IngredientStorage.ingredientAdapter.sort(Comparator.comparing(Ingredient::getDescription));
                 }
                 IngredientStorage.ingredientAdapter.notifyDataSetChanged();

@@ -44,7 +44,7 @@
             app:layout_constraintVertical_bias="0.754" />
 
         <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/sortingSwitch"
+            android:id="@+id/sortingSwitchIngredient"
             android:layout_width="69dp"
             android:layout_height="41dp"
             android:layout_marginTop="32dp"

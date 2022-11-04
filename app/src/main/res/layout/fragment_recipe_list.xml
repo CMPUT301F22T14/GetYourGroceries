@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".RecipeListFragment">
 
     <LinearLayout
@@ -11,29 +12,73 @@
         android:layout_height="match_parent"
         android:layout_marginTop="15dp"
         android:orientation="vertical">
-        <TextView
-            android:id="@+id/recipeListTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:layout_marginBottom="16dp"
-            android:text="Recipe List"
-            android:textSize="48sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/recipeListTitle"
+                android:layout_marginRight= "20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="16dp"
+                android:text="Recipe List"
+                android:textSize="48sp"
+                />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/sortingSwitchRecipe"
+                    android:layout_width="69dp"
+                    android:layout_height="41dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="64dp"
+                    android:textOff="Asc"
+                    android:textOn="Desc"
+                    android:textSize="1sp"
+                    android:thumb="@drawable/ingredient_sorting_switch_thumb"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:showText="true"
+                    app:track="@drawable/ingredient_sorting_switch_track" />
+
+                <Spinner
+                    android:id="@+id/sort_recipe_spinner"
+                    android:layout_width="133dp"
+                    android:layout_height="28dp"
+                    android:layout_marginBottom="24dp"
+                    android:background="@drawable/ingredient_spinner"
+                    android:dropDownWidth="100dp"
+                    android:dropDownVerticalOffset="27dp"
+                    android:popupBackground="@drawable/ingredient_spinner_dropdown"
+                    android:spinnerMode="dropdown"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
 
         <Button
             android:id="@+id/addRecipeButton"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginHorizontal="15dp"
             android:layout_marginBottom="15dp"
-            android:layout_height="wrap_content"
-            android:text="Add Recipe"
             android:backgroundTint="@color/black"
-            android:textColor="#00FFD1"/>
+            android:text="Add Recipe"
+            android:textColor="#00FFD1" />
 
         <ListView
+            android:id="@+id/recipe_list"
             android:layout_width="match_parent"
             android:layout_height="500dp"
-            android:id="@+id/recipe_list"
             android:layout_weight="1">
 
         </ListView>

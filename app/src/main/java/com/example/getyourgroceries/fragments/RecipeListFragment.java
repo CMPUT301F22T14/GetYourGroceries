@@ -13,7 +13,7 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.getyourgroceries.R;
-import com.example.getyourgroceries.RecipeAdapter;
+import com.example.getyourgroceries.adapters.RecipeAdapter;
 import com.example.getyourgroceries.control.RecipeDB;
 
 import com.example.getyourgroceries.entity.RecipeStorage;
@@ -22,6 +22,9 @@ import androidx.fragment.app.Fragment;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.example.getyourgroceries.entity.Recipe;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.ArrayList;
 
 
 /**
@@ -29,6 +32,10 @@ import com.example.getyourgroceries.entity.Recipe;
  */
 public class RecipeListFragment extends Fragment {
     private static final String TAG = "RecipeListFragment";
+    ArrayList<Recipe> recipeDataList;
+    RecipeAdapter recipeAdapter;
+    FirebaseFirestore db;
+
     ListView recipeList;
     Button addRecipeButton;
 

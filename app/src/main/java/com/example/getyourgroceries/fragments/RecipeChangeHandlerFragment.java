@@ -204,7 +204,7 @@ public class RecipeChangeHandlerFragment extends Fragment {
             data.put("numOfServings", Integer.parseInt(servings));
             data.put("recipeCategory", categoryText);
             data.put("comment", comments);
-            data.put("photo", "recipes/apple.jpg");
+            data.put("photo", "");
 
             // If in edit mode, update the attributes.
             if (editRecipe != null){

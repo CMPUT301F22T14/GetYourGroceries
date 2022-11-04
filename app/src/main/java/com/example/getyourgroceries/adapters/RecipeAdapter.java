@@ -1,7 +1,7 @@
 /* RecipeAdapter class. */
 
 // Import statements.
-package com.example.getyourgroceries;
+package com.example.getyourgroceries.adapters;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.getyourgroceries.GlideApp;
+import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.entity.Recipe;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -33,6 +35,7 @@ public class RecipeAdapter extends ArrayAdapter<Recipe> {
     private final ArrayList<Recipe> recipes;
     private final Context context;
     private StorageReference imageRef;
+    FirebaseStorage storage;
     private static final String TAG = "RecipeList";
 
     /**
@@ -75,6 +78,19 @@ public class RecipeAdapter extends ArrayAdapter<Recipe> {
         recipePrepTime.setText(prepTimeText);
         recipeCategory.setText(categoryText);
 
+
+        // get photo
+        storage = FirebaseStorage.getInstance();
+        try {
+            imageRef = storage.getReference().child(recipe.getPhoto());
+
+            GlideApp.with(view)
+                    .load(imageRef)
+                    .override(300, 300)
+                    .into(recipePhoto);
+        } catch (IllegalArgumentException e) {
+            recipePhoto.setImageResource(R.drawable.placeholder);
+        }
 
         return view;
     }

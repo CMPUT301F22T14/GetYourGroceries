@@ -79,6 +79,7 @@ public class RecipeAdapter extends ArrayAdapter<Recipe> {
         recipeCategory.setText(categoryText);
 
 
+
         // get photo
         storage = FirebaseStorage.getInstance();
         try {

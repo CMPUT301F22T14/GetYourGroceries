@@ -8,10 +8,10 @@
 
     <ImageView
         android:id="@+id/image"
-        android:layout_width="410dp"
-        android:layout_height="229dp"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:scaleType="fitXY"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.097"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/recipe_icon" />
@@ -19,106 +19,94 @@
 
     <TextView
         android:id="@+id/titleTextField"
-        android:layout_width="248dp"
+        android:layout_width="wrap_content"
         android:layout_height="48dp"
-        android:layout_marginTop="204dp"
-        android:text="TextView"
+        android:layout_marginStart="125dp"
+        android:layout_marginTop="180dp"
+        android:background="@drawable/layout_recipe_view_title"
+        android:gravity="center"
+        android:minWidth="212dp"
+        android:paddingStart="50dp"
+        android:paddingEnd="50dp"
+        android:text="Test View Recipe"
+        android:textColor="@color/white"
         android:textSize="25sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/prepTimeTextField"
-        android:layout_width="168dp"
+        android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="60dp"
         android:text="TextView"
+        android:gravity="center"
         android:textSize="25sp"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.387"
-        app:layout_constraintStart_toEndOf="@+id/imageView2"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/image" />
 
     <TextView
         android:id="@+id/categoryTextField"
-        android:layout_width="168dp"
+        android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_marginTop="32dp"
         android:text="Category:"
+        android:gravity="center"
         android:textSize="25sp"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.383"
-        app:layout_constraintStart_toEndOf="@+id/imageView3"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/prepTimeTextField" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/recipe_comments_til"
-        android:layout_width="303dp"
-        android:layout_height="58dp"
-        android:layout_centerInParent="true"
-        android:textColorHint="@color/white"
-        app:boxStrokeWidth="0dp"
-        app:boxStrokeWidthFocused="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <TextView
+        android:id="@+id/commentsTextField"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:inputType="textMultiLine"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="25sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.604"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image"
-        app:layout_constraintVertical_bias="0.472">
-
-        <TextView
-            android:id="@+id/commentsTextField"
-            android:layout_width="300dp"
-            android:layout_height="60dp"
-            android:layout_marginEnd="16dp"
-            android:autofillHints=""
-            android:background="@drawable/edittext"
-            android:ems="10"
-            android:hint="Comments: "
-            android:inputType="textMultiLine"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textColorHint="@android:color/darker_gray"
-            android:textSize="20sp" />
-    </com.google.android.material.textfield.TextInputLayout>
+        app:layout_constraintTop_toBottomOf="@+id/categoryTextField" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/ingredientTextField"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="148dp"
         android:text="Ingredients"
-        android:textSize="40sp"
+        android:textSize="25sp"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.44"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/clock_image"
         android:layout_width="70dp"
         android:layout_height="60dp"
-        android:layout_marginTop="276dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.178"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="50dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/image"
         app:srcCompat="@drawable/time_icon" />
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/category_image"
         android:layout_width="70dp"
         android:layout_height="60dp"
-        android:layout_marginBottom="288dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.178"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="120dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2"
-        app:layout_constraintVertical_bias="0.276"
-        app:srcCompat="@drawable/time_icon" />
+        app:layout_constraintTop_toBottomOf="@+id/image"
+        app:srcCompat="@drawable/recipe_category_icon" />
 
     <ImageButton
         android:id="@+id/edit_recipe_btn"

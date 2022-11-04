@@ -1,9 +1,6 @@
 package com.example.getyourgroceries.fragments;
 
-import static com.example.getyourgroceries.entity.IngredientStorage.ingredientAdapter;
-
 import android.annotation.SuppressLint;
-import android.app.DatePickerDialog;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -13,54 +10,55 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.example.getyourgroceries.IngredientStorageAdapter;
 import com.example.getyourgroceries.R;
-import com.example.getyourgroceries.control.IngredientDB;
+import com.example.getyourgroceries.adapters.RecipeIngredientAdapter;
+import com.example.getyourgroceries.control.RecipeDB;
+import com.example.getyourgroceries.entity.Ingredient;
+import com.example.getyourgroceries.entity.IngredientStorage;
 import com.example.getyourgroceries.entity.Recipe;
-import com.example.getyourgroceries.entity.StoredIngredient;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the  factory method to
  * create an instance of this fragment.
  */
-public class RecipeChangeHandlerFragment extends Fragment {
-
-    private static final String TAG = "RecipeChangeHandlerFrag";
-
+public class RecipeChangeHandlerFragment extends Fragment implements AddIngredientRecipeFragment.OnFragmentInteractionListener {
     private Recipe editRecipe;
-    FirebaseFirestore db;
+    private ArrayList<Ingredient> ingredientList;
+    private RecipeIngredientAdapter ingredientAdapter;
+    RecipeDB db;
 
-    public RecipeChangeHandlerFragment() { super();}
+    /**
+     * Fragment constructor to initialize its database class
+     */
+    public RecipeChangeHandlerFragment() {
+        super();
+        db = new RecipeDB();
+        ingredientList = new ArrayList<>();
+    }
 
-
+    /**
+     * Display logic when fragment is loaded
+     * @param inflater loads the fragment
+     * @param container underlying fragment container
+     * @param savedInstanceState information passed in
+     * @return view to display
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -79,17 +77,17 @@ public class RecipeChangeHandlerFragment extends Fragment {
     @SuppressLint("SimpleDateFormat")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-
         // Initialization.
         ConstraintLayout addIngredientLayout = requireActivity().findViewById(R.id.change_recipe_layout);
         addIngredientLayout.setImportantForAutofill(View.IMPORTANT_FOR_AUTOFILL_NO);
+        ingredientAdapter = new RecipeIngredientAdapter(requireActivity().getBaseContext(), ingredientList);
 
         if (getArguments() != null) {
             editRecipe = (Recipe) getArguments().getSerializable("editRecipe");
         }
 
         // Set up category spinner.
-        Spinner category = requireActivity().findViewById(R.id.change_recipe_category);
+        Spinner category = view.findViewById(R.id.change_recipe_category);
         ArrayList<String> categories = new ArrayList<>();
         categories.add("Enter A Category");
         categories.add("Baking");
@@ -97,7 +95,6 @@ public class RecipeChangeHandlerFragment extends Fragment {
         categories.add("Microwaving");
         categories.add("Cooking");
         ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner, categories) {
-
             /**
              * The isEnabled method will disallow the first dropdown choice.
              * @param position The selected choice.
@@ -129,13 +126,13 @@ public class RecipeChangeHandlerFragment extends Fragment {
         };
         category.setAdapter(categoryAdapter);
 
-
         //Populate fields if its an edit
-        TextView nameText = requireActivity().findViewById(R.id.change_recipe_name);
-        TextView prepTimeText = requireActivity().findViewById(R.id.change_recipe_prep_time);
-        TextView servingsText = requireActivity().findViewById(R.id.change_recipe_servings);
-        TextView commentsText = requireActivity().findViewById(R.id.change_recipe_comments);
-
+        TextView nameText = view.findViewById(R.id.change_recipe_name);
+        TextView prepTimeText = view.findViewById(R.id.change_recipe_prep_time);
+        TextView servingsText = view.findViewById(R.id.change_recipe_servings);
+        TextView commentsText = view.findViewById(R.id.change_recipe_comments);
+        ListView ingredientListView = view.findViewById(R.id.add_ingredients_recipe);
+        ingredientListView.setAdapter(ingredientAdapter);
 
         // Set the values to the previous values.
         if (editRecipe != null){
@@ -144,19 +141,22 @@ public class RecipeChangeHandlerFragment extends Fragment {
             servingsText.setText(String.valueOf(editRecipe.getNumOfServings()));
             category.setSelection(categoryAdapter.getPosition(editRecipe.getRecipeCategory()));
             commentsText.setText(editRecipe.getComment());
+            ingredientList.addAll(editRecipe.getIngredientList());
         }
 
         // Get the text layouts.
-        TextInputLayout tilName = requireActivity().findViewById(R.id.change_recipe_name_til);
-        TextInputLayout tilPrepTime = requireActivity().findViewById(R.id.change_recipe_prep_time_til);
-        TextInputLayout tilServings = requireActivity().findViewById(R.id.change_recipe_servings_til);
-        TextInputLayout tilCategory = requireActivity().findViewById(R.id.change_recipe_category_til);
-        TextInputLayout tilComments = requireActivity().findViewById(R.id.change_recipe_comments_til);
+        TextInputLayout tilName = view.findViewById(R.id.change_recipe_name_til);
+        TextInputLayout tilPrepTime = view.findViewById(R.id.change_recipe_prep_time_til);
+        TextInputLayout tilServings = view.findViewById(R.id.change_recipe_servings_til);
+        TextInputLayout tilCategory = view.findViewById(R.id.change_recipe_category_til);
+        TextInputLayout tilComments = view.findViewById(R.id.change_recipe_comments_til);
+
+        Button addIngredientBtn = view.findViewById(R.id.add_ingredient_btn);
+        addIngredientBtn.setOnClickListener(view12 -> new AddIngredientRecipeFragment().show(getActivity().getSupportFragmentManager(), "ADD_INGREDIENT_RECIPE"));
 
         // Add the recipe.
-        Button confirmButton = requireActivity().findViewById(R.id.change_recipe_confirm);
+        Button confirmButton = view.findViewById(R.id.change_recipe_confirm);
         confirmButton.setOnClickListener(view1 ->{
-
             // Get the data.
             String name = nameText.getText().toString();
             String prepTime = prepTimeText.getText().toString();
@@ -194,57 +194,14 @@ public class RecipeChangeHandlerFragment extends Fragment {
                 return;
             }
 
-            db = FirebaseFirestore.getInstance();
-            final CollectionReference collectionReference = db.collection("Recipes");
-
-            Map<String, Object> data = new HashMap<>();
-
-            data.put("name", name);
-            data.put("prepTime", Integer.parseInt(prepTime));
-            data.put("numOfServings", Integer.parseInt(servings));
-            data.put("recipeCategory", categoryText);
-            data.put("comment", comments);
-            data.put("photo", "");
+            Recipe newRecipe = new Recipe(name, Integer.parseInt(prepTime), Integer.parseInt(servings), categoryText, comments, "recipes/apple.jpg", ingredientList);
 
             // If in edit mode, update the attributes.
             if (editRecipe != null){
-
-                collectionReference.document(editRecipe.getId())
-                        .set(data)
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void unused) {
-                                Log.d(TAG, "onSuccess: object updated!");
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                              @Override
-                              public void onFailure(@NonNull Exception e) {
-                                  Log.w(TAG, "onFailure: error updating document", e);
-                              }
-                        });
-
-                                /*
-                                 * get id from bundle passer, then update based on id
-                                 * */
+                newRecipe.setId(editRecipe.getId());
+                db.updateRecipe(newRecipe);
             } else {
-
-                collectionReference
-                        .add(data)
-                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                            @Override
-                            public void onSuccess(DocumentReference documentReference) {
-                                Log.d(TAG, "onSuccess: ID =" + documentReference.getId());
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.w(TAG, "onFailure: Error adding document", e);
-                            }
-                        });
-
-
+                db.addRecipe(newRecipe);
             }
             requireActivity().getSupportFragmentManager().popBackStackImmediate();
         });
@@ -258,5 +215,17 @@ public class RecipeChangeHandlerFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         return requireActivity().getSupportFragmentManager().popBackStackImmediate();
+    }
+
+    /**
+     * Executes when the user hits "ok" on the add ingredient dialog
+     * @param newIngredient item to add to recipe
+     */
+    @Override
+    public void onOkPressed(Ingredient newIngredient) {
+        if(!ingredientList.contains(newIngredient)) {
+            ingredientList.add(newIngredient);
+            ingredientAdapter.notifyDataSetChanged();
+        }
     }
 }

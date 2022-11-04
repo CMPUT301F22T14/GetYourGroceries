@@ -112,4 +112,6 @@
         <item>Category</item>
     </string-array>
     <string name="enter_unit">Enter Unit Cost</string>
+    <string name="add_ingredient">Add Ingredient</string>
+    <string name="ingredients_header">Ingredients:</string>
 </resources>

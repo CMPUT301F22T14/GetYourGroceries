@@ -6,8 +6,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
+import com.example.getyourgroceries.entity.Ingredient;
+import com.example.getyourgroceries.fragments.AddIngredientRecipeFragment;
+import com.example.getyourgroceries.fragments.RecipeListFragment;
 import android.view.Window;
 
 import com.example.getyourgroceries.fragments.IngredientListFragment;
@@ -22,7 +26,7 @@ import java.util.Objects;
 /**
  * Create an object to be the start point of the app.
  */
-public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     // Attributes.
     BottomNavigationView bottomNavigationView;
@@ -43,8 +47,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         actionBar.hide();
 
         setContentView(R.layout.activity_main);
-
-//        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(this);

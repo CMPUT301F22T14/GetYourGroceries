@@ -78,10 +78,12 @@ public class RecipeListFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
         View v = inflater.inflate(R.layout.fragment_recipe_list, container, false);
-        RecipeDB recipeDB = new RecipeDB();
 
         RecipeStorage.recipeAdapter = new RecipeAdapter(requireActivity().getBaseContext(), RecipeStorage.recipeStorage);
+        RecipeDB recipeDB = new RecipeDB();
+
         recipeList = v.findViewById(R.id.recipe_list);
         recipeList.setAdapter(RecipeStorage.recipeAdapter);
 
@@ -98,7 +100,7 @@ public class RecipeListFragment extends Fragment {
 
                 RecipeChangeHandlerFragment recipeChangeHandlerFragment = new RecipeChangeHandlerFragment();
                 recipeChangeHandlerFragment.setArguments(bundle);
-                requireActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).replace(container.getId(), recipeChangeHandlerFragment).addToBackStack(null).commit();
+                requireActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).replace(container.getId(), recipeChangeHandlerFragment, "EDIT_RECIPE").addToBackStack("EDIT_RECIPE").commit();
             }
         });
         */
@@ -134,11 +136,11 @@ public class RecipeListFragment extends Fragment {
         });
         sorting_switch = v.findViewById(R.id.sortingSwitchRecipe);
 
+        // Listener to go to add recipe fragment
         addRecipeButton = v.findViewById(R.id.addRecipeButton);
-
         addRecipeButton.setOnClickListener(v1 -> {
             RecipeChangeHandlerFragment recipeChangeHandlerFragment = new RecipeChangeHandlerFragment();
-            requireActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).replace(container.getId(), recipeChangeHandlerFragment).addToBackStack(null).commit();
+            requireActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).replace(container.getId(), recipeChangeHandlerFragment, "EDIT_RECIPE").addToBackStack("EDIT_RECIPE").commit();
         });
 
         Context context = this.getContext();

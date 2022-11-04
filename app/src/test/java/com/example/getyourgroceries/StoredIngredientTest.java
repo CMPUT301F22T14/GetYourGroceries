@@ -7,6 +7,7 @@ import com.example.getyourgroceries.entity.StoredIngredient;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class StoredIngredientTest {
@@ -60,4 +61,6 @@ public class StoredIngredientTest {
         storedIngredient.setLocation("Freezer");
         assertEquals(storedIngredient.getLocation(), "Freezer");
     }
+
+
 }

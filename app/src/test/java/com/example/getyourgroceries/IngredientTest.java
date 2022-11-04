@@ -3,13 +3,17 @@ package com.example.getyourgroceries;
 import static org.junit.Assert.assertEquals;
 
 import com.example.getyourgroceries.entity.Ingredient;
+import com.example.getyourgroceries.entity.IngredientStorage;
+import com.example.getyourgroceries.entity.StoredIngredient;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 public class IngredientTest {
     private Ingredient ingredient;
+    private Ingredient ingredient2;
 
     /**
      * create a mock list for ingredient
@@ -19,6 +23,14 @@ public class IngredientTest {
         ingredient = new Ingredient("Apple", 12, 0.99, "Fruit");
         return ingredient;
     }
+
+
+//    public IngredientStorage MockIngredientStorage(){
+//        IngredientStorage ingredientStorage = new IngredientStorage();
+//        ingredient = new Ingredient("Apple", 12, 0.99, "Fruit");
+//        ingredient2 = new Ingredient("Banana", 14, 2.00, "Not Fruit");
+//        return IngredientStorage;
+//    }
 
     /**
      * test description getter
@@ -95,4 +107,5 @@ public class IngredientTest {
         ingredient.setCategory("Vegetable");
         assertEquals("Vegetable", ingredient.getCategory());
     }
+
 }

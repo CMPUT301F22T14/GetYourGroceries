@@ -14,7 +14,7 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.getyourgroceries.R;
-import com.example.getyourgroceries.RecipeAdapter;
+import com.example.getyourgroceries.adapters.RecipeAdapter;
 import com.example.getyourgroceries.control.RecipeDB;
 import com.example.getyourgroceries.entity.Ingredient;
 import com.example.getyourgroceries.entity.RecipeStorage;
@@ -35,6 +35,10 @@ import java.util.ArrayList;
  */
 public class RecipeListFragment extends Fragment {
     private static final String TAG = "RecipeListFragment";
+    ArrayList<Recipe> recipeDataList;
+    RecipeAdapter recipeAdapter;
+    FirebaseFirestore db;
+
     ListView recipeList;
     Button addRecipeButton;
 
@@ -59,6 +63,7 @@ public class RecipeListFragment extends Fragment {
         RecipeStorage.recipeAdapter = new RecipeAdapter(requireActivity().getBaseContext(), RecipeStorage.recipeStorage);
         recipeList = v.findViewById(R.id.recipe_list);
         recipeList.setAdapter(RecipeStorage.recipeAdapter);
+
 
 
         // Listener to edit a recipe

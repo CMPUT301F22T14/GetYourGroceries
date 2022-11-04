@@ -16,12 +16,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.example.getyourgroceries.IngredientStorageAdapter;
 import com.example.getyourgroceries.R;
+import com.example.getyourgroceries.adapters.RecipeIngredientAdapter;
 import com.example.getyourgroceries.control.RecipeDB;
 import com.example.getyourgroceries.entity.Ingredient;
+import com.example.getyourgroceries.entity.IngredientStorage;
 import com.example.getyourgroceries.entity.Recipe;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -36,6 +40,7 @@ import java.util.Objects;
 public class RecipeChangeHandlerFragment extends Fragment implements AddIngredientRecipeFragment.OnFragmentInteractionListener {
     private Recipe editRecipe;
     private ArrayList<Ingredient> ingredientList;
+    private RecipeIngredientAdapter ingredientAdapter;
     RecipeDB db;
 
     /**
@@ -75,6 +80,7 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
         // Initialization.
         ConstraintLayout addIngredientLayout = requireActivity().findViewById(R.id.change_recipe_layout);
         addIngredientLayout.setImportantForAutofill(View.IMPORTANT_FOR_AUTOFILL_NO);
+        ingredientAdapter = new RecipeIngredientAdapter(requireActivity().getBaseContext(), ingredientList);
 
         if (getArguments() != null) {
             editRecipe = (Recipe) getArguments().getSerializable("editRecipe");
@@ -125,7 +131,8 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
         TextView prepTimeText = view.findViewById(R.id.change_recipe_prep_time);
         TextView servingsText = view.findViewById(R.id.change_recipe_servings);
         TextView commentsText = view.findViewById(R.id.change_recipe_comments);
-
+        ListView ingredientListView = view.findViewById(R.id.add_ingredients_recipe);
+        ingredientListView.setAdapter(ingredientAdapter);
 
         // Set the values to the previous values.
         if (editRecipe != null){
@@ -217,6 +224,7 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
     public void onOkPressed(Ingredient newIngredient) {
         if(!ingredientList.contains(newIngredient)) {
             ingredientList.add(newIngredient);
+            ingredientAdapter.notifyDataSetChanged();
         }
     }
 }

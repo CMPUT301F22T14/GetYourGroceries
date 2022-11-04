@@ -41,7 +41,7 @@ public class RecipeIngredientAdapter extends ArrayAdapter<Ingredient> {
         // Create the view if it doesn't exist.
         View view = convertView;
         if(view == null){
-            view = LayoutInflater.from(context).inflate(R.layout.ingredient_item, parent,false);
+            view = LayoutInflater.from(context).inflate(R.layout.recipe_ingredient_item, parent,false);
         }
 
         // Show the ingredient.

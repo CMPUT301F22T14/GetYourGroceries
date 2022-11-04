@@ -105,5 +105,11 @@
         <item>Location</item>
         <item>Category</item>
     </string-array>
+    <string-array name="recipeSortBy">
+        <item>Name</item>
+        <item>Prep Time</item>
+        <item>Serving Count</item>
+        <item>Category</item>
+    </string-array>
     <string name="enter_unit">Enter Unit Cost</string>
 </resources>

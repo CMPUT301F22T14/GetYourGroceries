@@ -1,5 +1,5 @@
 /* IngredientListFragment class. */
-package com.example.getyourgroceries;
+package com.example.getyourgroceries.fragments;
 
 import android.content.Context;
 // Import statements.
@@ -12,22 +12,25 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.Spinner;
-import com.example.getyourgroceries.IngredientChangeHandlerFragment;
 import com.example.getyourgroceries.IngredientStorageAdapter;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.example.getyourgroceries.IngredientStorageAdapter;
+import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.control.IngredientDB;
 import com.example.getyourgroceries.entity.Ingredient;
 import com.example.getyourgroceries.entity.IngredientStorage;
+import com.example.getyourgroceries.entity.StoredIngredient;
 
+import java.util.Comparator;
 import java.util.Objects;
-
 
 /**
  * Create an object to represent the ingredient storage.
@@ -59,6 +62,7 @@ public class IngredientListFragment extends Fragment {
         Button addIngredientButton = v.findViewById(R.id.addIngredientButton);
         IngredientDB db = new IngredientDB();
         Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
+        sorting_switch = v.findViewById(R.id.sortingSwitchIngredient);
         // Button listener to add an ingredient.
         addIngredientButton.setOnClickListener(view -> {
             assert container != null;
@@ -108,51 +112,8 @@ public class IngredientListFragment extends Fragment {
         sortDropDown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                sorting_switch = v.findViewById(R.id.sortingSwitch);
                 boolean desc = sorting_switch.isChecked();
-                switch(position){
-                    case 0:
-                        if (desc) {
-                            IngredientStorage.ingredientAdapter.sort((o1, o2) -> o1.getDescription().compareTo(o2.getDescription())*-1);
-                        }
-                        else{
-                            IngredientStorage.ingredientAdapter.sort((o1, o2) -> o1.getDescription().compareTo(o2.getDescription()));
-                        }
-                        IngredientStorage.ingredientAdapter.notifyDataSetChanged();
-                        break;
-
-                    case 1:
-                        if (desc){
-                            IngredientStorage.ingredientAdapter.sort((o1, o2) -> o1.getBestBefore().compareTo(o2.getBestBefore())*-1);
-
-                        }
-                        else{
-                            IngredientStorage.ingredientAdapter.sort((o1, o2) -> o1.getBestBefore().compareTo(o2.getBestBefore()));
-                        }
-                        IngredientStorage.ingredientAdapter.notifyDataSetChanged();
-                        break;
-                    case 2:
-                        if (desc){
-                            IngredientStorage.ingredientAdapter.sort((o1, o2) -> o1.getLocation().compareTo(o2.getLocation())*-1);
-                        }
-                        else{
-                            IngredientStorage.ingredientAdapter.sort((o1, o2) -> o1.getLocation().compareTo(o2.getLocation()));
-
-                        }
-                        IngredientStorage.ingredientAdapter.notifyDataSetChanged();
-                        break;
-                    case 3:
-                        if (desc){
-                            IngredientStorage.ingredientAdapter.sort((o1, o2) -> o1.getCategory().compareTo(o2.getCategory())*-1);
-                        }
-                        else{
-                            IngredientStorage.ingredientAdapter.sort((o1, o2) -> o1.getCategory().compareTo(o2.getCategory()));
-
-                        }
-                        IngredientStorage.ingredientAdapter.notifyDataSetChanged();
-                        break;
-                }
-
+                sortCategory(position, desc);
             }
 
             @Override
@@ -161,6 +122,75 @@ public class IngredientListFragment extends Fragment {
             }
         });
 
+        sorting_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                String type = sortDropDown.getSelectedItem().toString();
+                if (type.equals("Description")){
+                    sortCategory(0,isChecked);
+
+                }
+                else if (type.equals("Date")){
+                    sortCategory(1,isChecked);
+
+                }
+                else if (type.equals("Location")){
+                    sortCategory(2,isChecked);
+
+                }
+                else if (type.equals("Category")){
+                    sortCategory(3,isChecked);
+                }
+            }
+        });
+
+
         return v;
+    }
+
+    void sortCategory(int type,boolean desc){
+        switch(type){
+            case 0:
+                if (desc) {
+                    IngredientStorage.ingredientAdapter.sort((o1, o2) -> o1.getDescription().compareTo(o2.getDescription())*-1);
+                }
+                else{
+                    IngredientStorage.ingredientAdapter.sort(Comparator.comparing(Ingredient::getDescription));
+                }
+                IngredientStorage.ingredientAdapter.notifyDataSetChanged();
+                break;
+
+            case 1:
+                if (desc){
+                    IngredientStorage.ingredientAdapter.sort((o1, o2) -> o1.getBestBefore().compareTo(o2.getBestBefore())*-1);
+
+                }
+                else{
+                    IngredientStorage.ingredientAdapter.sort(Comparator.comparing(StoredIngredient::getBestBefore));
+                }
+                IngredientStorage.ingredientAdapter.notifyDataSetChanged();
+                break;
+            case 2:
+                if (desc){
+                    IngredientStorage.ingredientAdapter.sort((o1, o2) -> o1.getLocation().compareTo(o2.getLocation())*-1);
+                }
+                else{
+                    IngredientStorage.ingredientAdapter.sort(Comparator.comparing(StoredIngredient::getLocation));
+
+                }
+                IngredientStorage.ingredientAdapter.notifyDataSetChanged();
+                break;
+            case 3:
+                if (desc){
+                    IngredientStorage.ingredientAdapter.sort((o1, o2) -> o1.getCategory().compareTo(o2.getCategory())*-1);
+                }
+                else{
+                    IngredientStorage.ingredientAdapter.sort(Comparator.comparing(Ingredient::getCategory));
+
+                }
+                IngredientStorage.ingredientAdapter.notifyDataSetChanged();
+                break;
+        }
+
     }
 }

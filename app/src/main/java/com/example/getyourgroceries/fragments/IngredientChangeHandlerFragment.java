@@ -1,5 +1,5 @@
 /* IngredientChangeHandlerFragment class. */
-package com.example.getyourgroceries;
+package com.example.getyourgroceries.fragments;
 
 // Import statements.
 import static com.example.getyourgroceries.entity.IngredientStorage.ingredientAdapter;
@@ -21,6 +21,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+
+import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.control.IngredientDB;
 import com.example.getyourgroceries.entity.IngredientStorage;
 import com.example.getyourgroceries.entity.StoredIngredient;

@@ -19,8 +19,6 @@ import java.util.ArrayList;
  * Create an object to represent the list of ingredients.
  */
 public class IngredientStorageAdapter extends ArrayAdapter<StoredIngredient> {
-
-    // Attributes.
     private final ArrayList<StoredIngredient> ingredients;
     private final Context context;
     private static final DecimalFormat df = new DecimalFormat("0.00");

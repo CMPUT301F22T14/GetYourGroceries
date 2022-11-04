@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.Spinner;
 
@@ -133,13 +134,36 @@ public class RecipeListFragment extends Fragment {
             }
         });
 
+        sorting_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                String type = sortDropDown.getSelectedItem().toString();
+                System.out.println("THIS IS HAPPENING"+ " " + type);
+                if (type.equals("Name")){
+                    sortCategory(0,isChecked);
+
+                }
+                else if (type.equals("Prep Time")){
+                    sortCategory(1,isChecked);
+
+                }
+                else if (type.equals("Serving Count")){
+                    sortCategory(2,isChecked);
+
+                }
+                else if (type.equals("Category")){
+                    sortCategory(3,isChecked);
+                }
+            }
+        });
+
+
+
 
 
         return v;
     }
-
-
-
+    
     void sortCategory(int type,boolean desc){
         switch(type){
             case 0:
@@ -154,21 +178,20 @@ public class RecipeListFragment extends Fragment {
 
             case 1:
                 if (desc){
-
-                    RecipeStorage.recipeAdapter.sort((o1, o2) -> String.valueOf(o1.getPrepTime()).compareTo(String.valueOf(o2.getPrepTime()*-1)));
-
+                    RecipeStorage.recipeAdapter.sort(Comparator.comparingInt(Recipe::getPrepTime).reversed());
                 }
                 else{
-                    RecipeStorage.recipeAdapter.sort(Comparator.comparing(Recipe::getPrepTime));
+                    RecipeStorage.recipeAdapter.sort(Comparator.comparingInt(Recipe::getPrepTime));
                 }
                 RecipeStorage.recipeAdapter.notifyDataSetChanged();
                 break;
             case 2:
                 if (desc){
-                    RecipeStorage.recipeAdapter.sort((o1, o2) -> String.valueOf(o1.getNumOfServings()).compareTo(String.valueOf(o2.getNumOfServings()*-1)));
+                    RecipeStorage.recipeAdapter.sort(Comparator.comparingInt(Recipe::getNumOfServings).reversed());
+                    //RecipeStorage.recipeAdapter.sort((o1, o2) -> String.valueOf(o1.getNumOfServings()).compareTo(String.valueOf(o2.getNumOfServings()*-1)));
                 }
                 else{
-                    RecipeStorage.recipeAdapter.sort(Comparator.comparing(Recipe::getNumOfServings));
+                    RecipeStorage.recipeAdapter.sort(Comparator.comparingInt(Recipe::getNumOfServings));
 
                 }
                 RecipeStorage.recipeAdapter.notifyDataSetChanged();

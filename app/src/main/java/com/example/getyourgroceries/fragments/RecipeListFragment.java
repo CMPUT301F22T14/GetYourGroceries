@@ -15,7 +15,10 @@ import android.widget.ListView;
 
 import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.adapters.RecipeAdapter;
+import com.example.getyourgroceries.RecipeAdapter;
+import com.example.getyourgroceries.control.RecipeDB;
 import com.example.getyourgroceries.entity.Ingredient;
+import com.example.getyourgroceries.entity.RecipeStorage;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -32,21 +35,18 @@ import java.util.ArrayList;
  * Create an object to show the recipe list.
  */
 public class RecipeListFragment extends Fragment {
-
-    // Attributes.
     private static final String TAG = "RecipeListFragment";
     ArrayList<Recipe> recipeDataList;
     RecipeAdapter recipeAdapter;
     FirebaseFirestore db;
+
     ListView recipeList;
     Button addRecipeButton;
 
     /**
      * Empty constructor.
      */
-    public RecipeListFragment(){
-
-    }
+    public RecipeListFragment(){}
 
     /**
      * Create the view.
@@ -59,26 +59,11 @@ public class RecipeListFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_recipe_list, container, false);
+        RecipeDB recipeDB = new RecipeDB();
+
+        RecipeStorage.recipeAdapter = new RecipeAdapter(requireActivity().getBaseContext(), RecipeStorage.recipeStorage);
         recipeList = v.findViewById(R.id.recipe_list);
-        recipeDataList = new ArrayList<>();
-        recipeAdapter = new RecipeAdapter(getContext(), recipeDataList);
-        recipeList.setAdapter(recipeAdapter);
-
-        db = FirebaseFirestore.getInstance();
-        final CollectionReference collectionReference = db.collection("Recipes");
-
-        // Listen for updates from the database.
-        collectionReference.addSnapshotListener((value, error) -> {
-            recipeDataList.clear();
-            assert value != null;
-            for(QueryDocumentSnapshot doc: value) {
-                Log.d(TAG, (String) doc.getData().get("name"));
-                String name = (String) doc.getData().get("name");
-                int prepTime = Integer.parseInt(String.valueOf(doc.getData().get("prepTime")));
-                int servings = Integer.parseInt(String.valueOf(doc.getData().get("numOfServings")));
-                String category = (String) doc.getData().get("recipeCategory");
-                String comment = (String) doc.getData().get("comment");
-                String photo = (String) doc.getData().get("photo");
+        recipeList.setAdapter(RecipeStorage.recipeAdapter);
 
                 Recipe newRecipe = new Recipe(name, prepTime, servings, category, comment, photo);
                 newRecipe.setId(doc.getId());
@@ -89,13 +74,14 @@ public class RecipeListFragment extends Fragment {
             recipeAdapter.notifyDataSetChanged();
         });
 
+
         // Listener to edit a recipe
         recipeList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Bundle bundle = new Bundle();
 
-                Recipe editRecipe = recipeDataList.get(position);
+                Recipe editRecipe = (Recipe) recipeList.getItemAtPosition(position);
                 bundle.putSerializable("editRecipe", editRecipe);
 
                 RecipeChangeHandlerFragment recipeChangeHandlerFragment = new RecipeChangeHandlerFragment();
@@ -103,7 +89,6 @@ public class RecipeListFragment extends Fragment {
                 requireActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).replace(container.getId(), recipeChangeHandlerFragment).addToBackStack(null).commit();
             }
         });
-
 
         // Listener to delete a recipe.
         recipeList.setOnItemLongClickListener((adapterView, view, i, l)-> {
@@ -113,32 +98,20 @@ public class RecipeListFragment extends Fragment {
             builder.setCancelable(true);
             builder.setPositiveButton("Yes", (DialogInterface.OnClickListener) (dialog, which) -> {
                 Recipe recipe = (Recipe) recipeList.getItemAtPosition(i);
-                //db.deleteRecipe(recipe);
-                collectionReference.document(recipe.getId()).delete();
-                recipeDataList.remove(recipe);
+                recipeDB.deleteRecipe(recipe);
             });
             builder.setNegativeButton("No", (DialogInterface.OnClickListener) (dialog, which) -> dialog.cancel());
             AlertDialog alert = builder.create();
             alert.show();
-
-            //notify the recipe adapter that the data has been changed
-            recipeAdapter.notifyDataSetChanged();
             return true;
         });
 
         addRecipeButton = v.findViewById(R.id.addRecipeButton);
 
-        addRecipeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                RecipeChangeHandlerFragment recipeChangeHandlerFragment = new RecipeChangeHandlerFragment();
-                requireActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).replace(container.getId(), recipeChangeHandlerFragment).addToBackStack(null).commit();
-            }
+        addRecipeButton.setOnClickListener(v1 -> {
+            RecipeChangeHandlerFragment recipeChangeHandlerFragment = new RecipeChangeHandlerFragment();
+            requireActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).replace(container.getId(), recipeChangeHandlerFragment).addToBackStack(null).commit();
         });
-
-
-
-
 
         return v;
     }

@@ -9,8 +9,6 @@ import java.util.ArrayList;
  * Create an object to represent a recipe.
  */
 public class Recipe implements Serializable {
-
-    // Attributes.
     private String name;
     private int prepTime;
     private int numOfServings;
@@ -30,8 +28,6 @@ public class Recipe implements Serializable {
      * @param photo The photo.
      */
     public Recipe(String name, int prepTime, int numOfServings, String recipeCategory, String comment, String photo) {
-
-        // Set the attributes.
         this.name = name;
         this.prepTime = prepTime;
         this.numOfServings = numOfServings;
@@ -52,8 +48,6 @@ public class Recipe implements Serializable {
      * @param ingredients The list of ingredients
      */
     public Recipe(String name, int prepTime, int numOfServings, String recipeCategory, String comment, String photo, ArrayList<Ingredient> ingredients) {
-
-        // Set the attributes.
         this.name = name;
         this.prepTime = prepTime;
         this.numOfServings = numOfServings;
@@ -190,11 +184,11 @@ public class Recipe implements Serializable {
      * Delete an ingredient from the recipe.
      * @param ingredient The ingredient to delete.
      */
-    public void deleteIngredient(Ingredient ingredient) {
-        if(ingredientList.contains(ingredient)){
-            // Delete the ingredient if it is there.
-            ingredientList.remove(ingredient);
+    public void deleteIngredient(Ingredient ingredient) throws IllegalArgumentException {
+        if(!ingredientList.contains(ingredient)){
+            throw new IllegalArgumentException();
         }
+        ingredientList.remove(ingredient);
     }
 
     /**

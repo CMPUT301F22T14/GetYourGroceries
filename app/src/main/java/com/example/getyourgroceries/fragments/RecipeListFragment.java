@@ -5,7 +5,6 @@ package com.example.getyourgroceries.fragments;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,19 +15,17 @@ import android.widget.ListView;
 import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.adapters.RecipeAdapter;
 import com.example.getyourgroceries.control.RecipeDB;
-import com.example.getyourgroceries.entity.Ingredient;
+
 import com.example.getyourgroceries.entity.RecipeStorage;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
+
 import androidx.fragment.app.Fragment;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.example.getyourgroceries.entity.Recipe;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.ArrayList;
+
 
 /**
  * Create an object to show the recipe list.
@@ -65,7 +62,7 @@ public class RecipeListFragment extends Fragment {
         recipeList.setAdapter(RecipeStorage.recipeAdapter);
 
 
-
+/*
         // Listener to edit a recipe
         recipeList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -78,6 +75,21 @@ public class RecipeListFragment extends Fragment {
                 RecipeChangeHandlerFragment recipeChangeHandlerFragment = new RecipeChangeHandlerFragment();
                 recipeChangeHandlerFragment.setArguments(bundle);
                 requireActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).replace(container.getId(), recipeChangeHandlerFragment).addToBackStack(null).commit();
+            }
+        });
+        */
+
+        // Listener to view a recipe
+        recipeList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Bundle bundle = new Bundle();
+                Recipe viewRecipe = (Recipe) recipeList.getItemAtPosition(position);
+                bundle.putSerializable("viewRecipe", viewRecipe);
+
+                RecipeViewFragment RecipeViewFragment = new RecipeViewFragment();
+                RecipeViewFragment.setArguments(bundle);
+                requireActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).replace(container.getId(), RecipeViewFragment).addToBackStack(null).commit();
             }
         });
 

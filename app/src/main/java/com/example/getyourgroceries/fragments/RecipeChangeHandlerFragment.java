@@ -141,6 +141,8 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
         ListView ingredientListView = view.findViewById(R.id.add_ingredients_recipe);
         ingredientListView.setAdapter(ingredientAdapter);
 
+        ingredientListView.setOnItemClickListener((adapterView, view12, i, l) -> new AddIngredientRecipeFragment(ingredientList.get(i), i).show(getActivity().getSupportFragmentManager(), "EDIT_INGREDIENT_RECIPE"));
+
         ingredientListView.setOnItemLongClickListener((adapterView, view2, i, l) -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
             builder.setMessage("Would you like to delete this ingredient?");
@@ -252,5 +254,16 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
             ingredientList.add(newIngredient);
             ingredientAdapter.notifyDataSetChanged();
         }
+    }
+
+    /**
+     * Executes when the user hits "ok" on the edit ingredient dialog
+     * @param newIngredient updated ingredient info
+     * @param index position in ingredient list
+     */
+    @Override
+    public void onItemPressed(Ingredient newIngredient, int index) {
+        ingredientList.set(index, newIngredient);
+        ingredientAdapter.notifyDataSetChanged();
     }
 }

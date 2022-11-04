@@ -24,15 +24,25 @@ import com.example.getyourgroceries.entity.Ingredient;
 import java.util.ArrayList;
 
 public class AddIngredientRecipeFragment extends DialogFragment {
+    private OnFragmentInteractionListener listener;
+    private Ingredient ingredient;
     private EditText description;
+    private Spinner category;
     private EditText amount;
     private EditText unit;
-    private Spinner category;
-    private OnFragmentInteractionListener listener;
+    private int index;
 
     public interface OnFragmentInteractionListener {
         void onOkPressed(Ingredient newIngredient);
+        void onItemPressed(Ingredient newIngredient, int index);
     }
+
+    AddIngredientRecipeFragment(Ingredient ingredient, int index) {
+        this.ingredient = ingredient;
+        this.index = index;
+    }
+
+    AddIngredientRecipeFragment() {}
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -92,6 +102,13 @@ public class AddIngredientRecipeFragment extends DialogFragment {
         };
         category.setAdapter(categoryAdapter);
 
+        if(ingredient != null) {
+            description.setText(ingredient.getDescription());
+            amount.setText(ingredient.getAmount().toString());
+            unit.setText(ingredient.getUnit().toString());
+            category.setSelection(categories.indexOf(ingredient.getCategory()));
+        }
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
         return builder
@@ -103,7 +120,11 @@ public class AddIngredientRecipeFragment extends DialogFragment {
                     int ingAmount = Integer.parseInt(amount.getText().toString());
                     double ingUnit = Double.parseDouble(unit.getText().toString());
                     String ingCategory = category.getSelectedItem().toString();
-                    listener.onOkPressed(new Ingredient(ingDescription, ingAmount, ingUnit, ingCategory));
+                    if(ingredient != null) {
+                        listener.onItemPressed(new Ingredient(ingDescription, ingAmount, ingUnit, ingCategory), index);
+                    } else {
+                        listener.onOkPressed(new Ingredient(ingDescription, ingAmount, ingUnit, ingCategory));
+                    }
                 }).create();
     }
 }

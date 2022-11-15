@@ -60,7 +60,6 @@ public class IngredientListFragment extends Fragment {
         // Inflate the layout for this fragment.
         View v = inflater.inflate(R.layout.fragment_ingredient_list, container, false);
         Button addIngredientButton = v.findViewById(R.id.addIngredientButton);
-        IngredientDB db = new IngredientDB();
         Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
         sorting_switch = v.findViewById(R.id.sortingSwitchIngredient);
         // Button listener to add an ingredient.
@@ -71,7 +70,7 @@ public class IngredientListFragment extends Fragment {
         });
 
         // Output all of the ingredients from Firebase.
-        IngredientStorage.ingredientAdapter = new IngredientStorageAdapter(requireActivity().getBaseContext(), IngredientStorage.ingredientStorage);
+        //IngredientStorage.ingredientAdapter = new IngredientStorageAdapter(requireActivity().getBaseContext(), IngredientStorage.ingredientStorage);
         ingredientListView = v.findViewById(R.id.ingredientListView);
 
         // Listener to edit an ingredient.
@@ -91,8 +90,8 @@ public class IngredientListFragment extends Fragment {
             builder.setTitle("Delete Ingredient");
             builder.setCancelable(true);
             builder.setPositiveButton("Yes", (DialogInterface.OnClickListener) (dialog, which) -> {
-               Ingredient ingredient = (Ingredient) ingredientListView.getItemAtPosition(i);
-               db.deleteIngredient(ingredient);
+               StoredIngredient ingredient = (StoredIngredient) ingredientListView.getItemAtPosition(i);
+               IngredientStorage.getInstance().deleteIngredient(ingredient, true);
             });
             builder.setNegativeButton("No", (DialogInterface.OnClickListener) (dialog, which) -> dialog.cancel());
             AlertDialog alert = builder.create();
@@ -101,7 +100,7 @@ public class IngredientListFragment extends Fragment {
         });
 
         // Return the updated view.
-        ingredientListView.setAdapter(IngredientStorage.ingredientAdapter);
+        ingredientListView.setAdapter(IngredientStorage.getInstance().setupStorage(requireActivity().getBaseContext()));
         Context context = this.getContext();
         sortDropDown = v.findViewById(R.id.sortIngredientSpinner);
         ArrayAdapter<CharSequence> sortAdapter = ArrayAdapter.createFromResource(context,R.array.ingredientSortBy,R.layout.ingredient_spinner_selected);
@@ -113,7 +112,7 @@ public class IngredientListFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 boolean desc = sorting_switch.isChecked();
-                sortCategory(position, desc);
+                IngredientStorage.getInstance().sortByCategory(position, desc);
             }
 
             @Override
@@ -127,19 +126,19 @@ public class IngredientListFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 String type = sortDropDown.getSelectedItem().toString();
                 if (type.equals("Description")){
-                    sortCategory(0,isChecked);
+                    IngredientStorage.getInstance().sortByCategory(0,isChecked);
 
                 }
                 else if (type.equals("Date")){
-                    sortCategory(1,isChecked);
+                    IngredientStorage.getInstance().sortByCategory(1,isChecked);
 
                 }
                 else if (type.equals("Location")){
-                    sortCategory(2,isChecked);
+                    IngredientStorage.getInstance().sortByCategory(2,isChecked);
 
                 }
                 else if (type.equals("Category")){
-                    sortCategory(3,isChecked);
+                    IngredientStorage.getInstance().sortByCategory(3,isChecked);
                 }
             }
         });
@@ -147,50 +146,5 @@ public class IngredientListFragment extends Fragment {
 
         return v;
     }
-
-    void sortCategory(int type,boolean desc){
-        switch(type){
-            case 0:
-                if (desc) {
-                    IngredientStorage.ingredientAdapter.sort((o1, o2) -> o1.getDescription().compareTo(o2.getDescription())*-1);
-                }
-                else{
-                    IngredientStorage.ingredientAdapter.sort(Comparator.comparing(Ingredient::getDescription));
-                }
-                IngredientStorage.ingredientAdapter.notifyDataSetChanged();
-                break;
-
-            case 1:
-                if (desc){
-                    IngredientStorage.ingredientAdapter.sort((o1, o2) -> o1.getBestBefore().compareTo(o2.getBestBefore())*-1);
-
-                }
-                else{
-                    IngredientStorage.ingredientAdapter.sort(Comparator.comparing(StoredIngredient::getBestBefore));
-                }
-                IngredientStorage.ingredientAdapter.notifyDataSetChanged();
-                break;
-            case 2:
-                if (desc){
-                    IngredientStorage.ingredientAdapter.sort((o1, o2) -> o1.getLocation().compareTo(o2.getLocation())*-1);
-                }
-                else{
-                    IngredientStorage.ingredientAdapter.sort(Comparator.comparing(StoredIngredient::getLocation));
-
-                }
-                IngredientStorage.ingredientAdapter.notifyDataSetChanged();
-                break;
-            case 3:
-                if (desc){
-                    IngredientStorage.ingredientAdapter.sort((o1, o2) -> o1.getCategory().compareTo(o2.getCategory())*-1);
-                }
-                else{
-                    IngredientStorage.ingredientAdapter.sort(Comparator.comparing(Ingredient::getCategory));
-
-                }
-                IngredientStorage.ingredientAdapter.notifyDataSetChanged();
-                break;
-        }
-
-    }
+    
 }

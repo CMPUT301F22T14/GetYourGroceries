@@ -54,12 +54,11 @@ public class IngredientDB {
                         if (task.isSuccessful()) {
 
                             // Successful.
-                            IngredientStorage.ingredientAdapter.clear();
+                            IngredientStorage.getInstance().clearLocalStorage();
                             for (QueryDocumentSnapshot doc : task.getResult()) {
                                 StoredIngredient s = doc.toObject(StoredIngredient.class);
-                                IngredientStorage.ingredientAdapter.add(s);
+                                IngredientStorage.getInstance().addIngredient(s, false);
                             }
-                            IngredientStorage.ingredientAdapter.notifyDataSetChanged();
                         } else {
 
                             // Failed.
@@ -69,26 +68,25 @@ public class IngredientDB {
                 });
 
         // Create a listener for future changes.
-        ingredientCollection.addSnapshotListener(new EventListener<>() {
+        //ingredientCollection.addSnapshotListener(new EventListener<>() {
 
             /**
              * Listen for changes to the data set.
              * @param queryDocumentSnapshots Snapshot of the data.
              * @param error                  Possible errors.
              */
-            @Override
+        /*    @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
 
                 // Add updated ingredients to the storage.
-                IngredientStorage.ingredientAdapter.clear();
+                IngredientStorage.getInstance().clearLocalStorage();
                 assert queryDocumentSnapshots != null;
                 for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
                     StoredIngredient s = doc.toObject(StoredIngredient.class);
-                    IngredientStorage.ingredientAdapter.add(s);
+                    IngredientStorage.getInstance().addIngredient(s, false);
                 }
-                IngredientStorage.ingredientAdapter.notifyDataSetChanged();
             }
-        });
+        });*/
     }
 
     /**

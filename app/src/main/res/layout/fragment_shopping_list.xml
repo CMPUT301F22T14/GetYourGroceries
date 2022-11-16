@@ -1,30 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ShoppingListFragment">
+    android:orientation="vertical"
+    android:gravity="center"
+    >
 
-    <LinearLayout
-        android:id="@+id/linearLayoutShoppingList"
+    <TextView
+        android:id="@+id/shoppingListTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="16dp"
+        android:text="Shopping List"
+        android:textSize="48sp" />
+
+
+    <ListView
+        android:id="@+id/shoppingListView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="100dp"
-        android:orientation="vertical">
+        android:layout_height="630dp"
+        android:layout_margin="20dp"
+        android:divider="@android:color/transparent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingBottom="70sp"
+        android:showDividers="middle">
 
-        <TextView
-            android:id="@+id/shoppingListTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:layout_marginBottom="16dp"
-            android:text="Shopping List"
-            android:textSize="48sp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/text_margin"
-            android:text="@string/large_text" />
-    </LinearLayout>
-</androidx.core.widget.NestedScrollView>
+    </ListView>
+</LinearLayout>

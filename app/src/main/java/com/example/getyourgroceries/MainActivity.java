@@ -18,7 +18,7 @@ import com.example.getyourgroceries.fragments.IngredientListFragment;
 import com.example.getyourgroceries.fragments.RecipeListFragment;
 import com.example.getyourgroceries.HomeScreenFragment;
 import com.example.getyourgroceries.MealPlansFragment;
-import com.example.getyourgroceries.ShoppingListFragment;
+import com.example.getyourgroceries.fragments.ShoppingListFragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.Objects;
@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     HomeScreenFragment homeScreenFragment = new com.example.getyourgroceries.HomeScreenFragment();
     RecipeListFragment recipeListFragment = new RecipeListFragment();
     MealPlansFragment mealPlansFragment = new com.example.getyourgroceries.MealPlansFragment();
-    ShoppingListFragment shoppingListFragment = new com.example.getyourgroceries.ShoppingListFragment();
+    ShoppingListFragment shoppingListFragment = new com.example.getyourgroceries.fragments.ShoppingListFragment();
 
     /**
      * Create the app.

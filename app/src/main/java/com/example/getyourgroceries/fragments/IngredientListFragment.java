@@ -70,7 +70,6 @@ public class IngredientListFragment extends Fragment {
         });
 
         // Output all of the ingredients from Firebase.
-        //IngredientStorage.ingredientAdapter = new IngredientStorageAdapter(requireActivity().getBaseContext(), IngredientStorage.ingredientStorage);
         ingredientListView = v.findViewById(R.id.ingredientListView);
 
         // Listener to edit an ingredient.

@@ -1,5 +1,5 @@
 /* IngredientStorageAdapter class. */
-package com.example.getyourgroceries;
+package com.example.getyourgroceries.adapters;
 
 // Import statements.
 import android.content.Context;
@@ -10,6 +10,8 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.entity.StoredIngredient;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -48,10 +50,10 @@ public class IngredientStorageAdapter extends ArrayAdapter<StoredIngredient> {
         // Show the ingredient.
         StoredIngredient ingredient = ingredients.get(position);
         ((TextView)view.findViewById(R.id.ingredient_name)).setText(ingredient.getDescription());
-        ((TextView)view.findViewById(R.id.ingredient_qty)).setText("Quantity: "+ ingredient.getAmount());
-        ((TextView)view.findViewById(R.id.ingredient_bestbefore)).setText("BB: "+(new SimpleDateFormat("MM/dd/yyy")).format(ingredient.getBestBefore()));
-        ((TextView)view.findViewById(R.id.ingredient_location)).setText("Location: "+ingredient.getLocation());
-        ((TextView)view.findViewById(R.id.ingredient_category)).setText("Category: "+ ingredient.getCategory());
+        ((TextView)view.findViewById(R.id.ingredient_qty)).setText(String.valueOf(ingredient.getAmount()));
+        ((TextView)view.findViewById(R.id.ingredient_bestbefore)).setText((new SimpleDateFormat("MM/dd/yyy")).format(ingredient.getBestBefore()));
+        ((TextView)view.findViewById(R.id.ingredient_location)).setText(ingredient.getLocation());
+        ((TextView)view.findViewById(R.id.ingredient_category)).setText(ingredient.getCategory());
         ((TextView)view.findViewById(R.id.ingredient_unit)).setText("Unit Cost: $"+ df.format(ingredient.getUnit()));
         return view;
     }

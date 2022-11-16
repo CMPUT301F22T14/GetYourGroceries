@@ -5,7 +5,7 @@ package com.example.getyourgroceries.entity;
 import android.content.Context;
 import android.widget.ArrayAdapter;
 
-import com.example.getyourgroceries.IngredientStorageAdapter;
+import com.example.getyourgroceries.adapters.IngredientStorageAdapter;
 import com.example.getyourgroceries.control.IngredientDB;
 
 import java.util.ArrayList;

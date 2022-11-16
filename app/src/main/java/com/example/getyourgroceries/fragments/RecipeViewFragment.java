@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
@@ -57,8 +58,10 @@ public class RecipeViewFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_view_recipe, container, false);
-        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        setHasOptionsMenu(true);
+        ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
+        actionBar.setTitle("View Recipe");
+        //Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        //setHasOptionsMenu(true);
         containerView= container;
 
 
@@ -128,6 +131,16 @@ public class RecipeViewFragment extends Fragment {
         });
 
 
+    }
+
+    /**
+     * The onOptionsItemSelected method will go to the previous fragment when the back button is pressed.
+     * @param item The item selected.
+     * @return On success, true.
+     */
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        return requireActivity().getSupportFragmentManager().popBackStackImmediate();
     }
 
 }

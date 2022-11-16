@@ -8,6 +8,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
@@ -24,7 +25,7 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.example.getyourgroceries.IngredientStorageAdapter;
+import com.example.getyourgroceries.adapters.IngredientStorageAdapter;
 import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.adapters.RecipeIngredientAdapter;
 import com.example.getyourgroceries.control.RecipeDB;
@@ -89,8 +90,13 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
         ingredientAdapter = new RecipeIngredientAdapter(requireActivity().getBaseContext(), ingredientList);
         FragmentManager fmManager = getActivity().getSupportFragmentManager();
 
+        ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
+
         if (getArguments() != null) {
             editRecipe = (Recipe) getArguments().getSerializable("editRecipe");
+            actionBar.setTitle("Edit Recipe");
+        } else{
+            actionBar.setTitle("Add Recipe");
         }
 
         // Set up category spinner.

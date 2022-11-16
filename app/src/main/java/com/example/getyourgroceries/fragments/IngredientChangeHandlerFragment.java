@@ -17,6 +17,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
@@ -81,11 +82,17 @@ public class IngredientChangeHandlerFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
+        ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
+
+
         // Initialization.
         ConstraintLayout addIngredientLayout = requireActivity().findViewById(R.id.change_ingredient_layout);
         addIngredientLayout.setImportantForAutofill(View.IMPORTANT_FOR_AUTOFILL_NO);
         if (getArguments() != null){
            editIngredient = IngredientStorage.getInstance().getIngredient(getArguments().getInt("editIngredient"));
+            actionBar.setTitle("Edit Ingredient");
+        } else{
+            actionBar.setTitle("Add Ingredient");
         }
 
         // Set up calendar.

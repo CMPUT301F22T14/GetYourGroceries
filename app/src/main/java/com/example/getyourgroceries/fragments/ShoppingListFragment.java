@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,6 +31,8 @@ public class ShoppingListFragment extends Fragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_shopping_list, container, false);
+        ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
+        actionBar.setTitle("Shopping List");
         shoppingListView = view.findViewById(R.id.shoppingListView);
         ArrayList<Ingredient> shoppingItems = new ArrayList<>();
         ArrayAdapter<Ingredient> adapter = new ShoppingListAdapter(requireActivity().getBaseContext(), shoppingItems);

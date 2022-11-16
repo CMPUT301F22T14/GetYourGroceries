@@ -15,14 +15,15 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.Spinner;
-import com.example.getyourgroceries.IngredientStorageAdapter;
+import com.example.getyourgroceries.adapters.IngredientStorageAdapter;
+
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.example.getyourgroceries.IngredientStorageAdapter;
 import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.control.IngredientDB;
 import com.example.getyourgroceries.entity.Ingredient;
@@ -57,6 +58,10 @@ public class IngredientListFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        //set title
+        ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
+        actionBar.setTitle("Ingredient Storage");
+
         // Inflate the layout for this fragment.
         View v = inflater.inflate(R.layout.fragment_ingredient_list, container, false);
         Button addIngredientButton = v.findViewById(R.id.addIngredientButton);

@@ -60,8 +60,8 @@ public class RecipeViewFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_view_recipe, container, false);
         ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
         actionBar.setTitle("View Recipe");
-        //Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        //setHasOptionsMenu(true);
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        setHasOptionsMenu(true);
         containerView= container;
 
 

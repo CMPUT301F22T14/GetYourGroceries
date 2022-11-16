@@ -49,6 +49,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Objects;
 
 
 /**
@@ -83,7 +84,8 @@ public class RecipeListFragment extends Fragment {
         super.onCreateView(inflater, container, savedInstanceState);
         ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
         actionBar.setTitle("Recipe List");
-
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
+        setHasOptionsMenu(false);
         View v = inflater.inflate(R.layout.fragment_recipe_list, container, false);
 
         RecipeStorage.recipeAdapter = new RecipeAdapter(requireActivity().getBaseContext(), RecipeStorage.recipeStorage);

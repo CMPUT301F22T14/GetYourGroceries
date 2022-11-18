@@ -1,7 +1,6 @@
 /* IngredientDB Class. */
 package com.example.getyourgroceries.control;
 
-// Import statements.
 import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,8 +22,6 @@ import java.util.Locale;
  * Create an object to modify the data in Firebase related to ingredients.
  */
 public class IngredientDB {
-
-    // Attributes.
     public static final String TAG = "INGREDIENTDB";
     CollectionReference ingredientCollection;
     FirebaseFirestore db;
@@ -33,8 +30,6 @@ public class IngredientDB {
      * Initializes firebase instance and ingredient collection.
      */
     public IngredientDB() {
-
-        // Initialize.
         db = FirebaseFirestore.getInstance();
         ingredientCollection = db.collection("Ingredients");
         new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
@@ -66,27 +61,6 @@ public class IngredientDB {
                         }
                     }
                 });
-
-        // Create a listener for future changes.
-        //ingredientCollection.addSnapshotListener(new EventListener<>() {
-
-            /**
-             * Listen for changes to the data set.
-             * @param queryDocumentSnapshots Snapshot of the data.
-             * @param error                  Possible errors.
-             */
-        /*    @Override
-            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
-
-                // Add updated ingredients to the storage.
-                IngredientStorage.getInstance().clearLocalStorage();
-                assert queryDocumentSnapshots != null;
-                for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
-                    StoredIngredient s = doc.toObject(StoredIngredient.class);
-                    IngredientStorage.getInstance().addIngredient(s, false);
-                }
-            }
-        });*/
     }
 
     /**
@@ -94,11 +68,8 @@ public class IngredientDB {
      * @param ingredient Ingredient object to be added to the database.
      * @return Newly created document ID.
      * @NOTE Make sure to assign the ingredient the given returned ID after calling function.
-     * TODO: Add user account verification.
      */
     public String addIngredient(Ingredient ingredient) {
-
-        // Add the ingredient.
         final String[] id = new String[1];
         ingredientCollection
                 .add(ingredient)
@@ -117,11 +88,8 @@ public class IngredientDB {
     /**
      * Update a given ingredient in the database
      * @param ingredient Ingredient to update.
-     * TODO: Add user account verification.
      */
     public void updateIngredient(Ingredient ingredient) {
-
-        // Update the information.
         ingredientCollection.document(ingredient.getId())
                 .set(ingredient);
     }

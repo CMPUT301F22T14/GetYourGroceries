@@ -33,7 +33,6 @@ public class RecipeDB {
         recipeCollection
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<>() {
-
                     /**
                      * Execute the code when getting the ingredient collection is completed (or fails).
                      *
@@ -43,41 +42,18 @@ public class RecipeDB {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             // Successful.
-                            RecipeStorage.recipeAdapter.clear();
+                            RecipeStorage.getInstance().clearLocalStorage();
                             for (QueryDocumentSnapshot doc : task.getResult()) {
                                 Recipe recipe = doc.toObject(Recipe.class);
                                 recipe.setId(doc.getId());
-                                RecipeStorage.recipeAdapter.add(recipe);
+                                RecipeStorage.getInstance().addRecipe(recipe, false);
                             }
-                            RecipeStorage.recipeAdapter.notifyDataSetChanged();
                         } else {
                             // Failed.
-                            Log.d(TAG, "Error getting documents: ", task.getException());
+                            Log.d(TAG, "Error getting recipes: ", task.getException());
                         }
                     }
                 });
-
-        // Create a listener for future changes.
-        recipeCollection.addSnapshotListener(new EventListener<>() {
-
-            /**
-             * Listen for changes to the data set.
-             * @param queryDocumentSnapshots Snapshot of the data.
-             * @param error                  Possible errors.
-             */
-            @Override
-            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
-                // Add updated recipes to the storage.
-                RecipeStorage.recipeAdapter.clear();
-                assert queryDocumentSnapshots != null;
-                for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
-                    Recipe recipe = doc.toObject(Recipe.class);
-                    recipe.setId(doc.getId());
-                    RecipeStorage.recipeAdapter.add(recipe);
-                }
-                RecipeStorage.recipeAdapter.notifyDataSetChanged();
-            }
-        });
     }
 
     /**
@@ -85,7 +61,6 @@ public class RecipeDB {
      * @param recipe: Recipe to add.
      * @return Newly created document ID.
      * @NOTE Make sure to assign the recipe the given returned ID after calling function.
-     * TODO: Add user account verification.
      */
     public String addRecipe(Recipe recipe) {
 
@@ -103,7 +78,6 @@ public class RecipeDB {
         return id[0];
     }
 
-
     /**
      * Deletes a given recipe from the firebase database
      * @param recipe: recipe to delete.
@@ -115,12 +89,8 @@ public class RecipeDB {
     /**
      * Updates a given recipe in the database.
      * @param recipe The recipe to update.
-     * TODO: User account verification.
      */
     public void updateRecipe(Recipe recipe) {
-
-        // Update the recipe.
-        recipeCollection.document(recipe.getId())
-                .set(recipe);
+        recipeCollection.document(recipe.getId()).set(recipe);
     }
 }

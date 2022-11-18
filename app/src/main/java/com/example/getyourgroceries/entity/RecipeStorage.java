@@ -3,7 +3,6 @@ package com.example.getyourgroceries.entity;
 import android.content.Context;
 import android.widget.ArrayAdapter;
 
-import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.adapters.RecipeAdapter;
 import com.example.getyourgroceries.control.RecipeDB;
 

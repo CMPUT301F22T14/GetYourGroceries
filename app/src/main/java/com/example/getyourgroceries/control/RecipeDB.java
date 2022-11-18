@@ -33,7 +33,6 @@ public class RecipeDB {
         recipeCollection
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<>() {
-
                     /**
                      * Execute the code when getting the ingredient collection is completed (or fails).
                      *
@@ -51,7 +50,7 @@ public class RecipeDB {
                             }
                         } else {
                             // Failed.
-                            Log.d(TAG, "Error getting documents: ", task.getException());
+                            Log.d(TAG, "Error getting recipes: ", task.getException());
                         }
                     }
                 });
@@ -62,7 +61,6 @@ public class RecipeDB {
      * @param recipe: Recipe to add.
      * @return Newly created document ID.
      * @NOTE Make sure to assign the recipe the given returned ID after calling function.
-     * TODO: Add user account verification.
      */
     public String addRecipe(Recipe recipe) {
 
@@ -80,7 +78,6 @@ public class RecipeDB {
         return id[0];
     }
 
-
     /**
      * Deletes a given recipe from the firebase database
      * @param recipe: recipe to delete.
@@ -92,12 +89,8 @@ public class RecipeDB {
     /**
      * Updates a given recipe in the database.
      * @param recipe The recipe to update.
-     * TODO: User account verification.
      */
     public void updateRecipe(Recipe recipe) {
-
-        // Update the recipe.
-        recipeCollection.document(recipe.getId())
-                .set(recipe);
+        recipeCollection.document(recipe.getId()).set(recipe);
     }
 }

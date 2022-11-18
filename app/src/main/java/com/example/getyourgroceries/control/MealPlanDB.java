@@ -5,7 +5,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.example.getyourgroceries.entity.MealPlan;
-import com.example.getyourgroceries.entity.Recipe;
+import com.example.getyourgroceries.entity.MealPlanStorage;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
@@ -36,11 +36,11 @@ public class MealPlanDB {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             // Successful.
-//                            MealPlanStorage.getInstance().clearLocalStorage();
+                            MealPlanStorage.getInstance().clearLocalStorage();
                             for (QueryDocumentSnapshot doc : task.getResult()) {
                                 MealPlan plan = doc.toObject(MealPlan.class);
                                 plan.setId(doc.getId());
-//                                MealPlanStorage.getInstance().addPlan(plan, false);
+                                MealPlanStorage.getInstance().addMealPlan(plan, false);
                             }
                         } else {
                             // Failed.
@@ -82,7 +82,7 @@ public class MealPlanDB {
      * Updates a given meal plan in the database.
      * @param plan meal plan to update.
      */
-    public void updateMealPlan(Recipe plan) {
+    public void updateMealPlan(MealPlan plan) {
         mealPlanCollection.document(plan.getId()).set(plan);
     }
 }

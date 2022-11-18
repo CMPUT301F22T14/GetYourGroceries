@@ -43,41 +43,18 @@ public class RecipeDB {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             // Successful.
-                            RecipeStorage.recipeAdapter.clear();
+                            RecipeStorage.getInstance().clearLocalStorage();
                             for (QueryDocumentSnapshot doc : task.getResult()) {
                                 Recipe recipe = doc.toObject(Recipe.class);
                                 recipe.setId(doc.getId());
-                                RecipeStorage.recipeAdapter.add(recipe);
+                                RecipeStorage.getInstance().addRecipe(recipe, false);
                             }
-                            RecipeStorage.recipeAdapter.notifyDataSetChanged();
                         } else {
                             // Failed.
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
                     }
                 });
-
-        // Create a listener for future changes.
-        recipeCollection.addSnapshotListener(new EventListener<>() {
-
-            /**
-             * Listen for changes to the data set.
-             * @param queryDocumentSnapshots Snapshot of the data.
-             * @param error                  Possible errors.
-             */
-            @Override
-            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
-                // Add updated recipes to the storage.
-                RecipeStorage.recipeAdapter.clear();
-                assert queryDocumentSnapshots != null;
-                for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
-                    Recipe recipe = doc.toObject(Recipe.class);
-                    recipe.setId(doc.getId());
-                    RecipeStorage.recipeAdapter.add(recipe);
-                }
-                RecipeStorage.recipeAdapter.notifyDataSetChanged();
-            }
-        });
     }
 
     /**

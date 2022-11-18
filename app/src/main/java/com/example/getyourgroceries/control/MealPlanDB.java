@@ -85,5 +85,4 @@ public class MealPlanDB {
     public void updateMealPlan(Recipe plan) {
         mealPlanCollection.document(plan.getId()).set(plan);
     }
-
 }

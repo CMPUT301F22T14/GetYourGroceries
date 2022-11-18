@@ -14,8 +14,10 @@ import java.util.Comparator;
  * Create an object to represent a list of recipes.
  */
 public class RecipeStorage {
+    // Actual singleton instance
     private static final RecipeStorage instance = new RecipeStorage();
 
+    // private constructor to enforce singleton
     private RecipeStorage() {
         super();
     }
@@ -24,16 +26,30 @@ public class RecipeStorage {
     private ArrayAdapter<Recipe> recipeAdapter;
     private RecipeDB recipeDB;
 
+    /**
+     * retrieves the singleton instance
+     * @return the instance
+     */
     public static RecipeStorage getInstance() {
         return instance;
     }
 
+    /**
+     * Sets up storage adapter using the context
+     * @param context to connect to
+     * @return the connected array adapter
+     */
     public ArrayAdapter<Recipe> setupStorage(Context context) {
         recipeAdapter = new RecipeAdapter(context, recipeStorage);
         this.recipeDB = new RecipeDB();
         return recipeAdapter;
     }
 
+    /**
+     * Add recipe to recipe storage
+     * @param recipe to add
+     * @param toDB determines to add or not to the database
+     */
     public void addRecipe(Recipe recipe, boolean toDB) {
         recipeAdapter.add(recipe);
 
@@ -44,14 +60,28 @@ public class RecipeStorage {
         recipeAdapter.notifyDataSetChanged();
     }
 
+    /**
+     * Retrieves a recipe from the storage
+     * @param i index of recipe
+     * @return the recipe at the index
+     */
     public Recipe getRecipe(int i) {
         return recipeAdapter.getItem(i);
     }
 
+    /**
+     * Updates a recipe from the storage
+     * @param recipe to update
+     */
     public void updateRecipe(Recipe recipe) {
         recipeDB.updateRecipe(recipe);
     }
 
+    /**
+     * Deletes a recipe from storage
+     * @param recipe to delete
+     * @param toDB determines to delete or not from the database
+     */
     public void deleteRecipe(Recipe recipe, boolean toDB) {
         recipeAdapter.remove(recipe);
 
@@ -62,16 +92,28 @@ public class RecipeStorage {
         recipeAdapter.notifyDataSetChanged();
     }
 
+    /**
+     * Retrieves the list of recipes
+     * @return list
+     */
     public ArrayList<Recipe> getRecipeList() {
         return recipeStorage;
     }
 
+    /**
+     * Clear the local(non-database data) adapter information
+     */
     public void clearLocalStorage() {
         recipeAdapter.clear();
         recipeAdapter.notifyDataSetChanged();
     }
 
-    public void sortCategory(int type,boolean desc) {
+    /**
+     * Sorts the recipe list
+     * @param type which type to sort by
+     * @param desc descending or ascending
+     */
+    public void sortCategory(int type, boolean desc) {
         switch (type) {
             case 0:
                 if (desc) {

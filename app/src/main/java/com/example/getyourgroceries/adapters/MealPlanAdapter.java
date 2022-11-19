@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -36,12 +38,19 @@ public class MealPlanAdapter extends ArrayAdapter<MealPlan> {
      * @return The updated view.
      */
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+
+        //Create the view if it doesn't exist
         View view = convertView;
         if (view == null) {
-            view = LayoutInflater.from(context).inflate(R.layout.recipe_item, parent, false);
+            view = LayoutInflater.from(context).inflate(R.layout.meal_item, parent, false);
         }
 
-        // TODO: fill in actual meal plan view
+        // Add the meal
+        TextView mealPlanName = view.findViewById(R.id.mealPlan_name);
+        TextView mealPlanNext = view.findViewById(R.id.mealPlan_next);
+
+        mealPlanName.setText("Bulk Up");
+        mealPlanNext.setText("Next Meal: Apple Pie");
 
         return view;
     }

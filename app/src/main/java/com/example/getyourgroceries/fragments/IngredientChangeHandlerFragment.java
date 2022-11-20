@@ -3,6 +3,7 @@ package com.example.getyourgroceries.fragments;
 
 // Import statements.
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -11,7 +12,9 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -88,6 +91,19 @@ public class IngredientChangeHandlerFragment extends Fragment {
         // Initialization.
         ConstraintLayout addIngredientLayout = requireActivity().findViewById(R.id.change_ingredient_layout);
         addIngredientLayout.setImportantForAutofill(View.IMPORTANT_FOR_AUTOFILL_NO);
+
+        //Hide keyboard when you click outside textViews
+        addIngredientLayout.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean change) {
+                if (change) {
+                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
+            }
+        });
+
+        // set an ingredient to edit if argument exists
         if (getArguments() != null){
            editIngredient = IngredientStorage.getInstance().getIngredient(getArguments().getInt("editIngredient"));
             actionBar.setTitle("Edit Ingredient");
@@ -122,93 +138,36 @@ public class IngredientChangeHandlerFragment extends Fragment {
         };
 
         // Set up location spinner.
-        Spinner location = requireActivity().findViewById(R.id.change_ingredient_location);
+        AutoCompleteTextView location = requireActivity().findViewById(R.id.change_ingredient_location);
         ArrayList<String> locations = new ArrayList<>();
-        locations.add("Enter A Location");
         locations.add("Pantry");
         locations.add("Fridge");
         locations.add("Freezer");
-        ArrayAdapter<String> locationAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner, locations) {
-
-            /**
-             * The isEnabled method will disallow the first dropdown choice.
-             * @param position The selected choice.
-             * @return True if the position should be disallowed.
-             */
-            @Override
-            public boolean isEnabled(int position) {
-                return position != 0;
-            }
-
-            /**
-             * The getDropDownView will change the text colours of the choices appropriately.
-             * @param position The selected choice.
-             * @param convertView The old view to reuse.
-             * @param parent The parent view.
-             * @return The new view.
-             */
-            @Override
-            public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-                View view = super.getDropDownView(position, convertView, parent);
-                TextView textView = (TextView) view;
-                if (position == 0) {
-                    textView.setTextColor(Color.GRAY);
-                } else {
-                    textView.setTextColor(Color.WHITE);
-                }
-                return view;
-            }
-        };
+        ArrayAdapter<String> locationAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner, locations);
         location.setAdapter(locationAdapter);
+        //always show all options
+        location.setThreshold(200);
 
         // Set up the ingredient category spinner.
-        Spinner category = requireActivity().findViewById(R.id.change_ingredient_category);
+        AutoCompleteTextView category = requireActivity().findViewById(R.id.change_ingredient_category);
         ArrayList<String> categories = new ArrayList<>();
-        categories.add("Enter A Category");
         categories.add("Category 1");
         categories.add("Category 2");
         categories.add("Category 3");
-        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner, categories) {
 
-            /**
-             * The isEnabled method will disallow te first dropdown choice.
-             * @param position The selected choice.
-             * @return True if the position should be disallowed.
-             */
-            @Override
-            public boolean isEnabled(int position) {
-                return position != 0;
-            }
-
-            /**
-             * The getDropDownView will change the text colours of the choices appropriately.
-             * @param position The selected choice.
-             * @param convertView The old view to reuse.
-             * @param parent The parent view.
-             * @return The new view.
-             */
-            @Override
-            public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-                View view = super.getDropDownView(position, convertView, parent);
-                TextView textView = (TextView) view;
-                if (position == 0) {
-                    textView.setTextColor(Color.GRAY);
-                } else {
-                    textView.setTextColor(Color.WHITE);
-                }
-                return view;
-            }
-        };
+        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner, categories);
         category.setAdapter(categoryAdapter);
+        //always show all options
+        category.setThreshold(200);
 
-        //Populate fields if its an edit
+
+
         TextView descriptionText = requireActivity().findViewById(R.id.change_ingredient_description);
         TextView quantityText = requireActivity().findViewById(R.id.change_ingredient_quantity);
         TextView unitText = requireActivity().findViewById(R.id.change_ingredient_unit);
 
         // Format unit price.
         unitText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-
             /**
              * Format the unit price when focus changes.
              * @param view The containing view.
@@ -223,17 +182,17 @@ public class IngredientChangeHandlerFragment extends Fragment {
             }
         });
 
-        // Set the values to the previous values.
+        // Set the values to the previous values if in edit mode.
         if (editIngredient != null){
             descriptionText.setText(editIngredient.getDescription());
             quantityText.setText(String.valueOf(editIngredient.getAmount()));
             displayDate.setText((new SimpleDateFormat("MM/dd/yyy")).format(editIngredient.getBestBefore()));
-            location.setSelection(locationAdapter.getPosition(editIngredient.getLocation()));
-            category.setSelection(categoryAdapter.getPosition(editIngredient.getCategory()));
+            location.setText(editIngredient.getLocation());
+            category.setText((editIngredient.getCategory()));
             unitText.setText(df.format(editIngredient.getUnit()));
         }
 
-        // Get the text layouts.
+        // Get the text layouts for error messages.
         TextInputLayout tilDescription = requireActivity().findViewById(R.id.change_ingredient_description_til);
         TextInputLayout tilQuantity = requireActivity().findViewById(R.id.change_ingredient_quantity_til);
         TextInputLayout tilExpiry = requireActivity().findViewById(R.id.change_ingredient_expiry_til);
@@ -249,8 +208,8 @@ public class IngredientChangeHandlerFragment extends Fragment {
             String description = descriptionText.getText().toString();
             String quantity = quantityText.getText().toString();
             String expiry = displayDate.getText().toString();
-            String locationText = location.getSelectedItem().toString();
-            String categoryText = category.getSelectedItem().toString();
+            String locationText = location.getText().toString();
+            String categoryText = category.getText().toString();
             String unitCost = unitText.getText().toString();
 
             // Error checking.
@@ -273,19 +232,19 @@ public class IngredientChangeHandlerFragment extends Fragment {
             } else {
                 tilExpiry.setErrorEnabled(false);
             }
-            if (locationText.equals("Enter A Location")) {
+            if (locationText.equals("")) {
                 tilLocation.setError("Location cannot be empty!");
                 error = 1;
             } else {
                 tilLocation.setErrorEnabled(false);
             }
-            if (categoryText.equals("Enter A Category")) {
+            if (categoryText.equals("")) {
                 tilCategory.setError("Category cannot be empty!");
                 error = 1;
             } else {
                 tilCategory.setErrorEnabled(false);
             }
-            if (unitCost.equals("Enter Unit Cost")){
+            if (unitCost.equals("")){
                 tilUnit.setError("Cost cannot be empty!");
                 error = 1;
             } else {
@@ -325,9 +284,6 @@ public class IngredientChangeHandlerFragment extends Fragment {
             }
 
             // Add the ingredient to Firebase.
-            //IngredientDB db = new IngredientDB();
-            //assert ingredient != null;
-            //ingredient.setId(db.addIngredient(ingredient));
             IngredientStorage.getInstance().addIngredient(ingredient, true);
             requireActivity().getSupportFragmentManager().popBackStackImmediate();
         });

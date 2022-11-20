@@ -17,11 +17,6 @@
         android:textSize="20sp"
         app:icon="@drawable/ic_plus"/>
 
-        <!--
-        android:backgroundTint="@color/black"
-
-        android:textColor="#00FFD1"
-        app:cornerRadius="8dp"-->
 
 
     <LinearLayout
@@ -58,16 +53,7 @@
             android:theme="@style/Theme.Material3.DayNight"
             android:checked="false"
             android:text="Descending"/>
-        <!--<androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/sortingSwitchIngredient"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textOff="Asc"
-            android:textOn="Desc"
-            android:textSize="1sp"
-            android:thumb="@drawable/ingredient_sorting_switch_thumb"
-            app:showText="true"
-            app:track="@drawable/ingredient_sorting_switch_track" />-->
+
         <Space
             android:layout_width="0dp"
             android:layout_height="1dp"

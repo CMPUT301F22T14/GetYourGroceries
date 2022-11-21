@@ -19,16 +19,18 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />-->
+
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/container"
+        android:name="com.example.getyourgroceries.HomeScreenFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:name="com.example.getyourgroceries.HomeScreenFragment"
+        app:layout_constraintVertical_bias="0.0"
         tools:layout="@layout/fragment_home_screen" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -40,6 +42,15 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/bottom_nav_menu" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="184dp"
+        app:layout_constraintBottom_toBottomOf="@+id/container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/getyourgroceries_logo3b" />
     <!--<TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"

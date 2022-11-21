@@ -137,7 +137,7 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
             descriptionText.setText(editRecipe.getName());
             prepTimeText.setText(String.valueOf(editRecipe.getPrepTime()));
             servingsText.setText(String.valueOf(editRecipe.getNumOfServings()));
-            category.setSelection(categoryAdapter.getPosition(editRecipe.getRecipeCategory()));
+            category.setText(editRecipe.getRecipeCategory());
             commentsText.setText(editRecipe.getComment());
             ingredientList.addAll(editRecipe.getIngredientList());
         }

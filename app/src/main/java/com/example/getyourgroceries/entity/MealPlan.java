@@ -1,38 +1,35 @@
 package com.example.getyourgroceries.entity;
 
+import java.util.ArrayList;
+
 public class MealPlan {
     private String id;
-    private String name;
-    private String next;
+    private String mealPlanName;
+    private ArrayList<MealPlanDay> mealPlanDays;
 
-    public MealPlan(String name, String next,String id){
-        this.name = name;
-        this.next = next;
+    public MealPlan(String id, String mealPlanName){
         this.id = id;
+        this.mealPlanName = mealPlanName;
+        this.mealPlanDays = new ArrayList<>();
     }
-
     public String getId() {
         return id;
     }
-
     public void setId(String id) {
         this.id = id;
     }
-    public String getname() {
-        return name;
+    public String getName() {
+        return mealPlanName;
     }
-
-    public void setname(String name) {
-        this.name = name;
+    public void setName(String name) {
+        this.mealPlanName = name;
     }
-
-    public String getnext() {
-        return next;
+    public void addDay(MealPlanDay day){
+        if (!mealPlanDays.contains(day)){
+            mealPlanDays.add(day);
+        }
     }
-
-    public void setnext(String next) {
-        this.next = next;
+    public void deleteDay(MealPlanDay day){
+        mealPlanDays.remove(day);
     }
-
-
 }

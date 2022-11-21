@@ -1,0 +1,36 @@
+package com.example.getyourgroceries.entity;
+
+import java.util.ArrayList;
+
+public class MealPlanDay {
+    private String day;
+    private ArrayList<Recipe> recipeList;
+    private ArrayList<Ingredient> ingredientList;
+
+    /**
+     * Default constructor for MealPlanDays
+     */
+    public MealPlanDay(String day){
+        this.day = day;
+        this.recipeList = new ArrayList<>();
+        this.ingredientList = new ArrayList<>();
+    }
+
+    public void addRecipe(Recipe recipe){
+        if (!recipeList.contains(recipe)) {
+            recipeList.add(recipe);
+        }
+    }
+    public void deleteRecipe(Recipe recipe){
+        recipeList.remove(recipe);
+    }
+    public void addIngredient(Ingredient ingredient){
+        if (!ingredientList.contains(ingredient)){
+            ingredientList.add(ingredient);
+        }
+    }
+    public void deleteIngredient(Ingredient ingredient){
+        ingredientList.remove(ingredient);
+    }
+
+}

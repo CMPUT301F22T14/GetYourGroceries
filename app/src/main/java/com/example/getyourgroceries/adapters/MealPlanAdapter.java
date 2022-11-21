@@ -13,6 +13,8 @@ import androidx.annotation.Nullable;
 
 import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.entity.MealPlan;
+import com.example.getyourgroceries.entity.Recipe;
+
 import java.util.ArrayList;
 
 public class MealPlanAdapter extends ArrayAdapter<MealPlan> {
@@ -44,13 +46,12 @@ public class MealPlanAdapter extends ArrayAdapter<MealPlan> {
         if (view == null) {
             view = LayoutInflater.from(context).inflate(R.layout.meal_item, parent, false);
         }
-
-        // Add the meal
+        MealPlan mealPlan = plans.get(position);
         TextView mealPlanName = view.findViewById(R.id.mealPlan_name);
-        TextView mealPlanNext = view.findViewById(R.id.mealPlan_next);
+        TextView nextMeal = view.findViewById(R.id.mealPlan_next);
 
-        mealPlanName.setText("Bulk Up");
-        mealPlanNext.setText("Next Meal: Apple Pie");
+        mealPlanName.setText(mealPlan.getName());
+        nextMeal.setText("yes");
 
         return view;
     }

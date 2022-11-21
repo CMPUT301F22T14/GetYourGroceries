@@ -98,7 +98,6 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
         // Set up category spinner.
         AutoCompleteTextView category = view.findViewById(R.id.change_recipe_category);
         ArrayList<String> categories = new ArrayList<>();
-        categories.add("Enter A Category");
         categories.add("Baking");
         categories.add("Frying");
         categories.add("Microwaving");

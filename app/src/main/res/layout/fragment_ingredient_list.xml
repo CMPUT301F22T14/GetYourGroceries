@@ -4,34 +4,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:gravity="center"
-    >
+    android:orientation="vertical">
 
     <Button
         android:id="@+id/addIngredientButton"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:text="@string/change_ingredient"
-        style="@style/Widget.Material3.Button.Icon"
-        android:textSize="20sp"
-        app:icon="@drawable/ic_plus"/>
-
-
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="60dp"
+        android:backgroundTint="@color/primaryLightColor"
+        android:text="Add Ingredient"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="20sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+
         <Space
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
+
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sort by:    "
-            android:layout_gravity="center_vertical"/>
+            android:layout_gravity="center_vertical"
+            android:text="Sort by:    " />
 
         <Spinner
             android:id="@+id/sortIngredientSpinner"
@@ -40,27 +42,26 @@
             android:layout_gravity="center_vertical"
             android:dropDownVerticalOffset="27dp"
             android:popupBackground="@drawable/ingredient_spinner_dropdown"
-            android:spinnerMode="dropdown"
-            />
+            android:spinnerMode="dropdown" />
+
         <Space
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
+
         <com.google.android.material.materialswitch.MaterialSwitch
             android:id="@+id/sortingSwitchIngredient"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:theme="@style/Theme.Material3.DayNight"
             android:checked="false"
-            android:text="Descending"/>
+            android:text="Descending"
+            android:theme="@style/Theme.Material3.DayNight" />
 
         <Space
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_weight="1"/>
-
+            android:layout_weight="1" />
     </LinearLayout>
-
 
     <ListView
         android:id="@+id/ingredientListView"
@@ -71,8 +72,5 @@
         android:gravity="center"
         android:orientation="vertical"
         android:paddingBottom="70sp"
-        android:showDividers="middle">
-
-
-    </ListView>
+        android:showDividers="middle" />
 </LinearLayout>

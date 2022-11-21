@@ -40,6 +40,7 @@
             android:hint="Prep Time"
             app:endIconMode="clear_text"
             app:errorEnabled="true"
+            app:startIconDrawable="@drawable/time_icon"
             app:helperText="Enter Prep Time(min)">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -58,6 +59,7 @@
             android:layout_marginTop="5dp"
             android:hint="Servings"
             app:endIconMode="clear_text"
+            app:startIconDrawable="@drawable/quantity_icon"
             app:errorEnabled="true"
             app:helperText="Number of Servings">
 
@@ -78,6 +80,7 @@
             android:hint="Recipe Category"
             app:helperText="Enter Recipe Category"
             app:startIconDrawable="@drawable/category_icon"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             >
 
             <AutoCompleteTextView

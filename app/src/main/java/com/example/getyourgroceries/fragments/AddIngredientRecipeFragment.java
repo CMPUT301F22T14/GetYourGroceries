@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -27,7 +28,7 @@ public class AddIngredientRecipeFragment extends DialogFragment {
     private OnFragmentInteractionListener listener;
     private Ingredient ingredient;
     private EditText description;
-    private Spinner category;
+    private AutoCompleteTextView category;
     private EditText amount;
     private EditText unit;
     private int index;
@@ -57,14 +58,13 @@ public class AddIngredientRecipeFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_add_ingredient_recipe, null);
-        description = view.findViewById(R.id.add_recipe_description);
-        amount = view.findViewById(R.id.add_recipe_quantity);
-        unit = view.findViewById(R.id.add_recipe_unit);
-        category = view.findViewById(R.id.add_recipe_category);
+        description = view.findViewById(R.id.change_ingredient_description);
+        amount = view.findViewById(R.id.change_ingredient_quantity);
+        unit = view.findViewById(R.id.change_ingredient_unit);
+        category = view.findViewById(R.id.change_ingredient_category);
 
         // create category categories
         ArrayList<String> categories = new ArrayList<>();
-        categories.add("Enter A Category");
         categories.add("Baking");
         categories.add("Frying");
         categories.add("Microwaving");
@@ -111,15 +111,20 @@ public class AddIngredientRecipeFragment extends DialogFragment {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
+        if(ingredient != null) {
+            builder = builder.setTitle("Edit Ingredient");
+        } else {
+            builder = builder.setTitle("Add Ingredient");
+        }
+
         return builder
                 .setView(view)
-                .setTitle("Add Ingredient")
                 .setNegativeButton("Cancel", null)
                 .setPositiveButton("OK", (dialogInterface, i) -> {
                     String ingDescription = description.getText().toString();
                     int ingAmount = Integer.parseInt(amount.getText().toString());
                     double ingUnit = Double.parseDouble(unit.getText().toString());
-                    String ingCategory = category.getSelectedItem().toString();
+                    String ingCategory = category.getText().toString();
                     if(ingredient != null) {
                         listener.onItemPressed(new Ingredient(ingDescription, ingAmount, ingUnit, ingCategory), index);
                     } else {

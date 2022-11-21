@@ -3,7 +3,6 @@ package com.example.getyourgroceries.fragments;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,27 +10,25 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Spinner;
-import android.widget.TextView;
 
-import com.example.getyourgroceries.adapters.IngredientStorageAdapter;
 import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.adapters.RecipeIngredientAdapter;
 import com.example.getyourgroceries.control.RecipeDB;
 import com.example.getyourgroceries.entity.Ingredient;
-import com.example.getyourgroceries.entity.IngredientStorage;
 import com.example.getyourgroceries.entity.Recipe;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
@@ -84,8 +81,7 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
     @SuppressLint("SimpleDateFormat")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        // Initialization.
-        ConstraintLayout addIngredientLayout = requireActivity().findViewById(R.id.change_recipe_layout);
+        NestedScrollView addIngredientLayout = requireActivity().findViewById(R.id.change_recipe_layout);
         addIngredientLayout.setImportantForAutofill(View.IMPORTANT_FOR_AUTOFILL_NO);
         ingredientAdapter = new RecipeIngredientAdapter(requireActivity().getBaseContext(), ingredientList);
         FragmentManager fmManager = getActivity().getSupportFragmentManager();
@@ -100,50 +96,21 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
         }
 
         // Set up category spinner.
-        Spinner category = view.findViewById(R.id.change_recipe_category);
+        AutoCompleteTextView category = view.findViewById(R.id.change_recipe_category);
         ArrayList<String> categories = new ArrayList<>();
-        categories.add("Enter A Category");
         categories.add("Baking");
         categories.add("Frying");
         categories.add("Microwaving");
         categories.add("Cooking");
-        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner, categories) {
-            /**
-             * The isEnabled method will disallow the first dropdown choice.
-             * @param position The selected choice.
-             * @return True if the position should be disallowed.
-             */
-            @Override
-            public boolean isEnabled(int position) {
-                return position != 0;
-            }
-
-            /**
-             * The getDropDownView will change the text colours of the choices appropriately.
-             * @param position The selected choice.
-             * @param convertView The old view to reuse.
-             * @param parent The parent view.
-             * @return The new view.
-             */
-            @Override
-            public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-                View view = super.getDropDownView(position, convertView, parent);
-                TextView textView = (TextView) view;
-                if (position == 0) {
-                    textView.setTextColor(Color.GRAY);
-                } else {
-                    textView.setTextColor(Color.WHITE);
-                }
-                return view;
-            }
-        };
+        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner, categories);
         category.setAdapter(categoryAdapter);
+        category.setThreshold(200);
 
         //Populate fields if its an edit
-        TextView nameText = view.findViewById(R.id.change_recipe_name);
-        TextView prepTimeText = view.findViewById(R.id.change_recipe_prep_time);
-        TextView servingsText = view.findViewById(R.id.change_recipe_servings);
-        TextView commentsText = view.findViewById(R.id.change_recipe_comments);
+        TextInputEditText descriptionText = view.findViewById(R.id.change_recipe_description);
+        TextInputEditText prepTimeText = view.findViewById(R.id.change_recipe_prep_time);
+        TextInputEditText servingsText = view.findViewById(R.id.change_recipe_servings);
+        TextInputEditText commentsText = view.findViewById(R.id.change_recipe_comments);
         ListView ingredientListView = view.findViewById(R.id.add_ingredients_recipe);
         ingredientListView.setAdapter(ingredientAdapter);
 
@@ -167,36 +134,36 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
 
         // Set the values to the previous values.
         if (editRecipe != null) {
-            nameText.setText(editRecipe.getName());
+            descriptionText.setText(editRecipe.getName());
             prepTimeText.setText(String.valueOf(editRecipe.getPrepTime()));
             servingsText.setText(String.valueOf(editRecipe.getNumOfServings()));
-            category.setSelection(categoryAdapter.getPosition(editRecipe.getRecipeCategory()));
+            category.setText(editRecipe.getRecipeCategory());
             commentsText.setText(editRecipe.getComment());
             ingredientList.addAll(editRecipe.getIngredientList());
         }
 
         // Get the text layouts.
-        TextInputLayout tilName = view.findViewById(R.id.change_recipe_name_til);
+        TextInputLayout tilName = view.findViewById(R.id.change_recipe_description_til);
         TextInputLayout tilPrepTime = view.findViewById(R.id.change_recipe_prep_time_til);
         TextInputLayout tilServings = view.findViewById(R.id.change_recipe_servings_til);
         TextInputLayout tilCategory = view.findViewById(R.id.change_recipe_category_til);
 
-        Button addIngredientBtn = view.findViewById(R.id.add_ingredient_btn);
+        Button addIngredientBtn = view.findViewById(R.id.change_recipe_add_ingredient);
         addIngredientBtn.setOnClickListener(view12 -> new AddIngredientRecipeFragment().show(getActivity().getSupportFragmentManager(), "ADD_INGREDIENT_RECIPE"));
 
         // Add the recipe.
         Button confirmButton = view.findViewById(R.id.change_recipe_confirm);
         confirmButton.setOnClickListener(view1 -> {
             // Get the data.
-            String name = nameText.getText().toString();
+            String description = descriptionText.getText().toString();
             String prepTime = prepTimeText.getText().toString();
             String servings = servingsText.getText().toString();
-            String categoryText = category.getSelectedItem().toString();
+            String categoryText = category.getText().toString();
             String comments = commentsText.getText().toString();
 
             // Error checking.
             int error = 0;
-            if (name.equals("")) {
+            if (description.equals("")) {
                 tilName.setError("Name cannot be empty!");
                 error = 1;
             } else {
@@ -224,7 +191,7 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
                 return;
             }
 
-            Recipe newRecipe = new Recipe(name, Integer.parseInt(prepTime), Integer.parseInt(servings), categoryText, comments, "recipes/apple.jpg", ingredientList);
+            Recipe newRecipe = new Recipe(description, Integer.parseInt(prepTime), Integer.parseInt(servings), categoryText, comments, "recipes/apple.jpg", ingredientList);
 
             // If in edit mode, update the attributes.
             if (editRecipe != null) {

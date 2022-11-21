@@ -24,8 +24,6 @@ import java.util.ArrayList;
  * Create an object to handle showing recipes in a list.
  */
 public class RecipeAdapter extends ArrayAdapter<Recipe> {
-
-    // Attributes.
     private final ArrayList<Recipe> recipes;
     private final Context context;
     private StorageReference imageRef;
@@ -51,7 +49,6 @@ public class RecipeAdapter extends ArrayAdapter<Recipe> {
      * @return The updated view.
      */
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-
         // Create the view if it doesn't exist.
         View view = convertView;
         if (view == null) {
@@ -60,19 +57,20 @@ public class RecipeAdapter extends ArrayAdapter<Recipe> {
 
         // Add the recipe.
         Recipe recipe = recipes.get(position);
-        TextView recipeName = view.findViewById(R.id.mealPlan_name);
-        TextView recipePrepTime = view.findViewById(R.id.mealPlan_next);
+        TextView recipeName = view.findViewById(R.id.recipe_title);
+        TextView recipePrepTime = view.findViewById(R.id.recipe_prep_time);
         TextView recipeCategory = view.findViewById(R.id.recipe_category);
+        TextView recipeServings = view.findViewById(R.id.recipe_servings);
         ImageView recipePhoto = view.findViewById(R.id.recipe_photo);
         int prep_hours = recipe.getPrepTime() / 60;
         int prep_min = recipe.getPrepTime() % 60;
         String prepTimeText = "Prep Time: " + prep_hours + "h " + prep_min + "m";
         String categoryText = "Category: " + recipe.getRecipeCategory();
+        String servingsText = "Servings: " + recipe.getNumOfServings();
         recipeName.setText(recipe.getName());
         recipePrepTime.setText(prepTimeText);
         recipeCategory.setText(categoryText);
-
-
+        recipeServings.setText(servingsText);
 
         // get photo
         storage = FirebaseStorage.getInstance();

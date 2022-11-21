@@ -160,8 +160,6 @@ public class IngredientChangeHandlerFragment extends Fragment {
         //always show all options
         category.setThreshold(200);
 
-
-
         TextView descriptionText = requireActivity().findViewById(R.id.change_ingredient_description);
         TextView quantityText = requireActivity().findViewById(R.id.change_ingredient_quantity);
         TextView unitText = requireActivity().findViewById(R.id.change_ingredient_unit);

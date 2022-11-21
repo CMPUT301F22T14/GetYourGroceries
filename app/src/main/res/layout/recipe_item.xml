@@ -27,7 +27,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/recipe_name"
+            android:id="@+id/mealPlan_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Recipe Name"
@@ -44,7 +44,7 @@
             android:textSize="12sp" />
 
         <TextView
-            android:id="@+id/recipe_prep_time"
+            android:id="@+id/mealPlan_next"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Prep Time"

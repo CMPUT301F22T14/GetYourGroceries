@@ -111,9 +111,14 @@ public class AddIngredientRecipeFragment extends DialogFragment {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
+        if(ingredient != null) {
+            builder = builder.setTitle("Edit Ingredient");
+        } else {
+            builder = builder.setTitle("Add Ingredient");
+        }
+
         return builder
                 .setView(view)
-                .setTitle("Add Ingredient")
                 .setNegativeButton("Cancel", null)
                 .setPositiveButton("OK", (dialogInterface, i) -> {
                     String ingDescription = description.getText().toString();

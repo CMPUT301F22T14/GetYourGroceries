@@ -1,216 +1,187 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/change_recipe_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/change_recipe_layout">
+    <LinearLayout
+        android:id="@+id/linearLayoutRecipeList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="20dp"
+        android:paddingBottom="20dp"
+        android:orientation="vertical">
 
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/change_recipe_name_til"
-        android:layout_width="300dp"
-        android:layout_height="60dp"
-        android:layout_centerInParent="true"
-        android:textColorHint="@color/white"
-        app:boxStrokeWidth="0dp"
-        app:boxStrokeWidthFocused="0dp"
-        app:counterEnabled="true"
-        app:counterMaxLength="30"
-        app:hintTextColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/change_recipe_prep_time_til"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <EditText
-            android:id="@+id/change_recipe_name"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/change_recipe_description_til"
+            style="?attr/textInputFilledStyle"
             android:layout_width="300dp"
-            android:layout_height="60dp"
-            android:autofillHints=""
-            android:background="@drawable/edittext"
-            android:ems="10"
-            android:hint="Name:"
-            android:inputType="textPersonName"
-            android:maxLength="30"
-            android:minHeight="48dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            android:hint="Description"
+            app:endIconMode="clear_text"
+            app:errorEnabled="true"
+            app:helperText="Enter Description">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/change_recipe_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/change_recipe_prep_time_til"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            android:hint="Prep Time"
+            app:endIconMode="clear_text"
+            app:errorEnabled="true"
+            app:helperText="Enter Prep Time(min)">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/change_recipe_prep_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                app:endIconMode="clear_text" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/change_recipe_servings_til"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            android:hint="Servings"
+            app:endIconMode="clear_text"
+            app:errorEnabled="true"
+            app:helperText="Number of Servings">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/change_recipe_servings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                app:endIconMode="clear_text" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/change_recipe_category_til"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            android:hint="Recipe Category"
+            app:helperText="Enter Recipe Category"
+            app:startIconDrawable="@drawable/category_icon"
+            >
+
+            <AutoCompleteTextView
+                android:id="@+id/change_recipe_category"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/change_recipe_comments_til"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            android:hint="Comments"
+            app:endIconMode="clear_text"
+            app:errorEnabled="true"
+            app:helperText="Enter Comments">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/change_recipe_comments"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="95dp"
+                android:text="@string/change_recipe_photo_text"
+                android:textColor="@color/black"
+                android:textSize="25sp" />
+
+            <Button
+                android:id="@+id/change_recipe_add_photo"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Add Photo"
+                android:textColor="@color/primaryLightColor"
+                android:textSize="12sp"
+                app:icon="@drawable/ic_add_24dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="14dp"
+                android:text="Ingredients"
+                android:textColor="@color/black"
+                android:textSize="25sp" />
+
+            <Button
+                android:id="@+id/change_recipe_add_ingredient"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Add Ingredient"
+                android:textColor="@color/primaryLightColor"
+                android:textSize="11sp"
+                app:icon="@drawable/ic_add_24dp" />
+
+
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/add_ingredients_recipe"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp" />
+
+        <Button
+            android:id="@+id/change_recipe_confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center"
+            android:width="250dp"
+            android:layout_marginBottom="50dp"
+            android:backgroundTint="@color/primaryLightColor"
+            android:text="Confirm"
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:textColorHighlight="@color/white"
-            android:textColorHint="@android:color/darker_gray"
-            android:textSize="20sp" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/change_recipe_prep_time_til"
-        android:layout_width="300dp"
-        android:layout_height="60dp"
-        android:layout_centerInParent="true"
-        android:textColorHint="@color/white"
-        app:boxStrokeWidth="0dp"
-        app:boxStrokeWidthFocused="0dp"
-        app:hintTextColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/change_recipe_servings_til"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/change_recipe_name_til">
-
-        <EditText
-            android:id="@+id/change_recipe_prep_time"
-            android:layout_width="300dp"
-            android:layout_height="60dp"
-            android:autofillHints=""
-            android:background="@drawable/edittext"
-            android:ems="10"
-            android:hint="Preparation Prep Time (min):"
-            android:inputType="number"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textColorHint="@android:color/darker_gray"
-            android:textSize="20sp" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/change_recipe_servings_til"
-        android:layout_width="300dp"
-        android:layout_height="60dp"
-        android:layout_centerInParent="true"
-        android:textColorHint="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/change_recipe_category_til"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/change_recipe_prep_time_til"
-        app:boxStrokeWidth="0dp"
-        app:boxStrokeWidthFocused="0dp">
-
-        <EditText
-            android:id="@+id/change_recipe_servings"
-            android:layout_width="300dp"
-            android:layout_height="60dp"
-            android:autofillHints=""
-            android:background="@drawable/edittext"
-            android:ems="10"
-            android:hint="Number of Servings:"
-            android:inputType="number"
-            android:paddingStart="15dp"
-            android:paddingEnd="15dp"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/change_recipe_category_til"
-        android:layout_width="300dp"
-        android:layout_height="60dp"
-        android:layout_centerInParent="true"
-        android:textColorHint="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/change_recipe_comments_til"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/change_recipe_servings_til"
-        app:boxStrokeWidth="0dp"
-        app:boxStrokeWidthFocused="0dp">
-
-        <Spinner
-            android:id="@+id/change_recipe_category"
-            android:layout_width="300dp"
-            android:layout_height="60dp"
-            android:autofillHints=""
-            android:background="@drawable/edittext"
-            android:contentDescription="Enter a Category:"
-            android:ems="10"
-            android:popupBackground="@color/black"
-            android:textColor="@color/white"
-            android:textColorHint="@android:color/darker_gray" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/change_recipe_comments_til"
-        android:layout_width="300dp"
-        android:layout_height="60dp"
-        android:layout_centerInParent="true"
-        android:textColorHint="@color/white"
-        app:boxStrokeWidth="0dp"
-        app:boxStrokeWidthFocused="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/change_recipe_confirm"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/change_recipe_category_til">
-
-
-        <EditText
-            android:id="@+id/change_recipe_comments"
-            android:layout_width="300dp"
-            android:layout_height="60dp"
-            android:autofillHints=""
-            android:background="@drawable/edittext"
-            android:ems="10"
-            android:hint="Comments: "
-            android:inputType="textMultiLine"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textColorHint="@android:color/darker_gray"
-            android:textSize="20sp" />
-
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <ListView
-        android:id="@+id/add_ingredients_recipe"
-        android:layout_width="300dp"
-        android:layout_height="25dp"
-        android:layout_marginTop="30dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/change_recipe_comments_til" />
-
-    <Button
-        android:id="@+id/add_ingredient_btn"
-        android:layout_width="200dp"
-        android:layout_height="60dp"
-        android:layout_marginBottom="40dp"
-        android:backgroundTint="@color/black"
-        android:text="@string/add_ingredient"
-        android:textColor="@color/white"
-        app:cornerRadius="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/change_recipe_confirm"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/add_ingredients_recipe" />
-
-    <Button
-        android:id="@+id/change_recipe_confirm"
-        android:layout_width="200dp"
-        android:layout_height="60dp"
-        android:layout_marginBottom="40dp"
-        android:backgroundTint="@color/black"
-        android:text="@string/confirm"
-        android:textColor="@color/accent"
-        app:cornerRadius="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/add_ingredient_btn"
-        app:layout_constraintTop_toBottomOf="@id/add_ingredients_recipe"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="61dp"
-        android:layout_marginBottom="2dp"
-        android:text="@string/ingredients_header"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/add_ingredients_recipe"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/change_recipe_comments_til" />
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+            />
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

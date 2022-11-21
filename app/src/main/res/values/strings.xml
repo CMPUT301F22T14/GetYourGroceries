@@ -114,4 +114,5 @@
     <string name="enter_unit">Enter Unit Cost</string>
     <string name="add_ingredient">Add Ingredient</string>
     <string name="ingredients_header">Ingredients:</string>
+    <string name="change_recipe_photo_text">Photo</string>
 </resources>

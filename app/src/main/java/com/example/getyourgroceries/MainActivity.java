@@ -19,7 +19,7 @@ import android.widget.TextView;
 import com.example.getyourgroceries.fragments.IngredientListFragment;
 import com.example.getyourgroceries.fragments.RecipeListFragment;
 import com.example.getyourgroceries.HomeScreenFragment;
-import com.example.getyourgroceries.MealPlansFragment;
+import com.example.getyourgroceries.fragments.MealPlansFragment;
 import com.example.getyourgroceries.fragments.ShoppingListFragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     IngredientListFragment ingredientListFragment = new IngredientListFragment();
     HomeScreenFragment homeScreenFragment = new com.example.getyourgroceries.HomeScreenFragment();
     RecipeListFragment recipeListFragment = new RecipeListFragment();
-    MealPlansFragment mealPlansFragment = new com.example.getyourgroceries.MealPlansFragment();
+    MealPlansFragment mealPlansFragment = new com.example.getyourgroceries.fragments.MealPlansFragment();
     ShoppingListFragment shoppingListFragment = new com.example.getyourgroceries.fragments.ShoppingListFragment();
 
     /**

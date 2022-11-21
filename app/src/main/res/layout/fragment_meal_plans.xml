@@ -23,11 +23,11 @@
         android:layout_height="84dp">
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/add_meal_plan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Button"
+            android:text="Add Meal Plan"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.949"
             app:layout_constraintStart_toStartOf="parent"

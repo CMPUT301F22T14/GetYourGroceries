@@ -3,15 +3,15 @@ package com.example.getyourgroceries.entity;
 import java.util.ArrayList;
 
 public class MealPlanDay {
-    private String day;
+    private String title;
     private ArrayList<Recipe> recipeList;
     private ArrayList<Ingredient> ingredientList;
 
     /**
      * Default constructor for MealPlanDays
      */
-    public MealPlanDay(String day){
-        this.day = day;
+    public MealPlanDay(String title){
+        this.title = title;
         this.recipeList = new ArrayList<>();
         this.ingredientList = new ArrayList<>();
     }
@@ -21,6 +21,7 @@ public class MealPlanDay {
             recipeList.add(recipe);
         }
     }
+
     public void deleteRecipe(Recipe recipe){
         recipeList.remove(recipe);
     }
@@ -33,4 +34,20 @@ public class MealPlanDay {
         ingredientList.remove(ingredient);
     }
 
+    public ArrayList<Recipe> getRecipeList() {
+        return recipeList;
+    }
+
+    public ArrayList<Ingredient> getIngredientList() {
+        return ingredientList;
+    }
+
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 }

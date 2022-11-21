@@ -9,10 +9,10 @@
 
     <Button
         android:id="@+id/addIngredientButton"
-        android:layout_width="300dp"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="15dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="15dp"
         android:backgroundTint="@color/primaryLightColor"
         android:text="Add Ingredient"
         android:textAlignment="center"
@@ -66,11 +66,12 @@
     <ListView
         android:id="@+id/ingredientListView"
         android:layout_width="match_parent"
-        android:layout_height="630dp"
-        android:layout_margin="20dp"
+        android:layout_height="0dp"
         android:divider="@drawable/space_divider"
+        android:layout_marginHorizontal="10dp"
+        android:layout_weight="1"
         android:gravity="center"
         android:orientation="vertical"
-        android:paddingBottom="70sp"
+        android:layout_marginBottom="75dp"
         android:showDividers="middle" />
 </LinearLayout>

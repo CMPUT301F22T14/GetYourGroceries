@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 
@@ -13,6 +14,7 @@ import com.example.getyourgroceries.entity.Ingredient;
 import com.example.getyourgroceries.fragments.AddIngredientRecipeFragment;
 import com.example.getyourgroceries.fragments.RecipeListFragment;
 import android.view.Window;
+import android.widget.TextView;
 
 import com.example.getyourgroceries.fragments.IngredientListFragment;
 import com.example.getyourgroceries.fragments.RecipeListFragment;
@@ -51,6 +53,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(this);
         bottomNavigationView.setSelectedItemId(R.id.home_icon);
+
+
     }
 
     /**

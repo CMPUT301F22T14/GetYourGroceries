@@ -30,8 +30,6 @@ import java.util.ArrayList;
  * Create an object to handle showing recipes in a list.
  */
 public class RecipeAdapter extends ArrayAdapter<Recipe> {
-
-    // Attributes.
     private final ArrayList<Recipe> recipes;
     private final Context context;
     private StorageReference imageRef;
@@ -77,8 +75,6 @@ public class RecipeAdapter extends ArrayAdapter<Recipe> {
         recipeName.setText(recipe.getName());
         recipePrepTime.setText(prepTimeText);
         recipeCategory.setText(categoryText);
-
-
 
         // get photo
         storage = FirebaseStorage.getInstance();

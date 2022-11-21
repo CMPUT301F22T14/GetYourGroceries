@@ -19,6 +19,8 @@
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            app:counterEnabled="true"
+            app:counterMaxLength="30"
             android:layout_marginTop="5dp"
             android:hint="Description"
             app:endIconMode="clear_text"
@@ -29,6 +31,7 @@
                 android:id="@+id/change_recipe_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLength="30"
                 android:inputType="textPersonName" />
         </com.google.android.material.textfield.TextInputLayout>
 

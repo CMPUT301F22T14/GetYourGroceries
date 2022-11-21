@@ -115,4 +115,5 @@
     <string name="add_ingredient">Add Ingredient</string>
     <string name="ingredients_header">Ingredients:</string>
     <string name="change_recipe_photo_text">Photo</string>
+    <string name="accessibility_recipe_image">Image of the Recipe Product</string>
 </resources>

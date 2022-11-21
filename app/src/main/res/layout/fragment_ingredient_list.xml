@@ -10,13 +10,14 @@
 
     <Button
         android:id="@+id/addIngredientButton"
-        android:layout_width="177dp"
-        android:layout_height="52dp"
-        android:backgroundTint="@color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="@string/change_ingredient"
-        android:textColor="#00FFD1"
-        app:cornerRadius="8dp"
-        />
+        style="@style/Widget.Material3.Button.Icon"
+        android:textSize="20sp"
+        app:icon="@drawable/ic_plus"/>
+
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,18 +27,17 @@
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:layout_weight="1"/>
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sort by: "
+            android:text="Sort by:    "
             android:layout_gravity="center_vertical"/>
+
         <Spinner
             android:id="@+id/sortIngredientSpinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:background="@drawable/ingredient_spinner"
-            android:dropDownWidth="100dp"
             android:dropDownVerticalOffset="27dp"
             android:popupBackground="@drawable/ingredient_spinner_dropdown"
             android:spinnerMode="dropdown"
@@ -46,16 +46,14 @@
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:layout_weight="1"/>
-        <androidx.appcompat.widget.SwitchCompat
+        <com.google.android.material.materialswitch.MaterialSwitch
             android:id="@+id/sortingSwitchIngredient"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textOff="Asc"
-            android:textOn="Desc"
-            android:textSize="1sp"
-            android:thumb="@drawable/ingredient_sorting_switch_thumb"
-            app:showText="true"
-            app:track="@drawable/ingredient_sorting_switch_track" />
+            android:theme="@style/Theme.Material3.DayNight"
+            android:checked="false"
+            android:text="Descending"/>
+
         <Space
             android:layout_width="0dp"
             android:layout_height="1dp"

@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/change_recipe_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/change_recipe_layout">
+    android:layout_height="match_parent">
+
     <LinearLayout
         android:id="@+id/linearLayoutRecipeList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="15dp"
         android:layout_marginBottom="20dp"
-        android:paddingBottom="20dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingBottom="20dp">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/change_recipe_description_til"
@@ -40,8 +41,8 @@
             android:hint="Prep Time"
             app:endIconMode="clear_text"
             app:errorEnabled="true"
-            app:startIconDrawable="@drawable/time_icon"
-            app:helperText="Enter Prep Time(min)">
+            app:helperText="Enter Prep Time(min)"
+            app:startIconDrawable="@drawable/time_icon">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/change_recipe_prep_time"
@@ -59,9 +60,9 @@
             android:layout_marginTop="5dp"
             android:hint="Servings"
             app:endIconMode="clear_text"
-            app:startIconDrawable="@drawable/quantity_icon"
             app:errorEnabled="true"
-            app:helperText="Number of Servings">
+            app:helperText="Number of Servings"
+            app:startIconDrawable="@drawable/quantity_icon">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/change_recipe_servings"
@@ -73,21 +74,20 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/change_recipe_category_til"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="5dp"
             android:hint="Recipe Category"
             app:helperText="Enter Recipe Category"
-            app:startIconDrawable="@drawable/category_icon"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-            >
+            app:startIconDrawable="@drawable/category_icon">
 
             <AutoCompleteTextView
                 android:id="@+id/change_recipe_category"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName"/>
+                android:inputType="textPersonName" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -178,12 +178,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center"
-            android:width="250dp"
             android:layout_marginBottom="50dp"
+            android:width="250dp"
             android:backgroundTint="@color/primaryLightColor"
             android:text="Confirm"
             android:textAlignment="center"
-            android:textColor="@color/white"
-            />
+            android:textColor="@color/white" />
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

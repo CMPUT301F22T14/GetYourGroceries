@@ -63,7 +63,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"
                         style="?attr/materialCardViewElevatedStyle"
-                        app:cardBackgroundColor="?attr/colorPrimaryDark"
+                        app:cardBackgroundColor="@color/primaryLightColor"
                         app:cardCornerRadius="20dp">
 
                         <LinearLayout
@@ -101,7 +101,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"
                         style="?attr/materialCardViewElevatedStyle"
-                        app:cardBackgroundColor="?attr/colorPrimaryDark"
+                        app:cardBackgroundColor="@color/primaryLightColor"
                         app:cardCornerRadius="20dp">
 
                         <LinearLayout

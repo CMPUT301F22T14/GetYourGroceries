@@ -15,7 +15,6 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/change_recipe_description_til"
-            style="?attr/textInputFilledStyle"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -166,7 +165,7 @@
 
         <ListView
             android:id="@+id/add_ingredients_recipe"
-            android:layout_width="300dp"
+            android:layout_width="375dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp" />

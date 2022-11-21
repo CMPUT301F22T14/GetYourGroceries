@@ -3,7 +3,6 @@
 // Import statements.
 package com.example.getyourgroceries.adapters;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,18 +11,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
+
 import com.example.getyourgroceries.GlideApp;
 import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.entity.Recipe;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import java.io.File;
-import java.io.IOException;
+
 import java.util.ArrayList;
 
 /**
@@ -64,8 +58,8 @@ public class RecipeAdapter extends ArrayAdapter<Recipe> {
 
         // Add the recipe.
         Recipe recipe = recipes.get(position);
-        TextView recipeName = view.findViewById(R.id.recipe_name);
-        TextView recipePrepTime = view.findViewById(R.id.recipe_prep_time);
+        TextView recipeName = view.findViewById(R.id.mealPlan_name);
+        TextView recipePrepTime = view.findViewById(R.id.mealPlan_next);
         TextView recipeCategory = view.findViewById(R.id.recipe_category);
         ImageView recipePhoto = view.findViewById(R.id.recipe_photo);
         int prep_hours = recipe.getPrepTime() / 60;

@@ -1,12 +1,17 @@
 package com.example.getyourgroceries.adapters;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -61,7 +66,7 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> {
         addIngredient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                
             }
         });
 

@@ -27,7 +27,6 @@ import java.util.Objects;
  * Create an object to be the start point of the app.
  */
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
-
     // Attributes.
     BottomNavigationView bottomNavigationView;
     IngredientListFragment ingredientListFragment = new IngredientListFragment();

@@ -31,24 +31,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/home_logoimage" />
 
-    <Button
-        android:id="@+id/quickaddbutton"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/quickadd_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="132dp"
-        android:text="Quick Add"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:layout_marginBottom="16dp"
+        android:contentDescription="plus button"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Spinner
-        android:id="@+id/QuickAddSpinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="455dp" />
+        app:srcCompat="@drawable/ic_plus" />
 
 
 </androidx.constraintlayout.motion.widget.MotionLayout>

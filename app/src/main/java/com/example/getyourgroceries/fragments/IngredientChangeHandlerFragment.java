@@ -45,8 +45,6 @@ import java.util.concurrent.atomic.AtomicInteger;
  * AddIngredientFragment extends {@link Fragment}.
  */
 public class IngredientChangeHandlerFragment extends Fragment {
-
-    // Attributes.
     private DatePickerDialog.OnDateSetListener dateSetListener;
     private StoredIngredient editIngredient = null;
     private static final DecimalFormat df = new DecimalFormat("0.00");

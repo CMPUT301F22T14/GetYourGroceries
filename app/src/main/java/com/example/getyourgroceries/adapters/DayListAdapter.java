@@ -3,6 +3,7 @@ package com.example.getyourgroceries.adapters;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,14 +19,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.getyourgroceries.R;
+import com.example.getyourgroceries.entity.IngredientStorage;
 import com.example.getyourgroceries.entity.MealPlan;
 import com.example.getyourgroceries.entity.MealPlanDay;
+
 
 import java.util.ArrayList;
 
 public class DayListAdapter extends ArrayAdapter<MealPlanDay> {
     private final ArrayList<MealPlanDay> days;
     private final Context context;
+    ListView ingredientListView;
 
     /**
      * Class constructor.
@@ -66,7 +70,16 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> {
         addIngredient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+                LayoutInflater inflater=(LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View layout = inflater.inflate(R.layout.mealplan_add_ingredient,null);
+                ingredientListView = layout.findViewById(R.id.ingredient_list_meal);
+                ingredientListView.setAdapter(IngredientStorage.getInstance().getMealIngredientAdapter());
+                AlertDialog.Builder alertbox = new AlertDialog.Builder(v.getRootView().getContext());
+                alertbox.setView(layout);
+                alertbox.setNeutralButton("OK",new DialogInterface.OnClickListener() {public void onClick(DialogInterface arg0, int arg1) {
+                }});
+                alertbox.show();
+
             }
         });
 
@@ -74,6 +87,7 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> {
         addRecipe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
 
             }
         });

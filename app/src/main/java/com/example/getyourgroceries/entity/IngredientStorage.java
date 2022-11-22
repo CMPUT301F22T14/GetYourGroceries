@@ -7,6 +7,7 @@ import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 
 import com.example.getyourgroceries.adapters.IngredientStorageAdapter;
+import com.example.getyourgroceries.adapters.MealIngredientStorageAdapter;
 import com.example.getyourgroceries.control.IngredientDB;
 
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ public class IngredientStorage {
     // ArrayList and db connection
     private ArrayList<StoredIngredient> ingredientStorage = new ArrayList<>();
     private ArrayAdapter<StoredIngredient> ingredientAdapter;
+    private ArrayAdapter<StoredIngredient> mealIngredientAdapter;
     private IngredientDB ingredientDB;
 
     /**
@@ -46,9 +48,10 @@ public class IngredientStorage {
      */
     public void setupStorage(Context context){
         ingredientAdapter = new IngredientStorageAdapter(context, this.ingredientStorage);
+        mealIngredientAdapter = new MealIngredientStorageAdapter(context,this.ingredientStorage);
         this.ingredientDB = new IngredientDB();
-
     }
+
 
     /**
      * Gets the associated adapter
@@ -56,6 +59,9 @@ public class IngredientStorage {
      */
     public ArrayAdapter<StoredIngredient> getIngredientAdapter() {
         return ingredientAdapter;
+    }
+    public ArrayAdapter<StoredIngredient> getMealIngredientAdapter(){
+        return mealIngredientAdapter;
     }
 
     /**

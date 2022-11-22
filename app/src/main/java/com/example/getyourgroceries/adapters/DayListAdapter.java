@@ -3,7 +3,9 @@ package com.example.getyourgroceries.adapters;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.DialogInterface;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,11 +19,16 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 
+import com.example.getyourgroceries.MainActivity;
 import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.entity.IngredientStorage;
 import com.example.getyourgroceries.entity.MealPlan;
 import com.example.getyourgroceries.entity.MealPlanDay;
+import com.example.getyourgroceries.fragments.IngredientChangeHandlerFragment;
 
 
 import java.util.ArrayList;
@@ -30,16 +37,19 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> {
     private final ArrayList<MealPlanDay> days;
     private final Context context;
     ListView ingredientListView;
+    FragmentManager fm;
+
 
     /**
      * Class constructor.
      * @param context Context of the app.
      * @param days List of meal plans.
      */
-    public DayListAdapter(Context context, ArrayList<MealPlanDay> days) {
+    public DayListAdapter(Context context, ArrayList<MealPlanDay> days, FragmentManager fm) {
         super(context, 0, days);
         this.days = days;
         this.context = context;
+        this.fm = fm;
     }
 
     /**
@@ -74,12 +84,24 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> {
                 View layout = inflater.inflate(R.layout.mealplan_add_ingredient,null);
                 ingredientListView = layout.findViewById(R.id.ingredient_list_meal);
                 ingredientListView.setAdapter(IngredientStorage.getInstance().getMealIngredientAdapter());
+
                 AlertDialog.Builder alertbox = new AlertDialog.Builder(v.getRootView().getContext());
                 alertbox.setView(layout);
+                AlertDialog a = alertbox.create();
+
+                Button addIngredient = layout.findViewById(R.id.addMealPlanIngredient);
+                addIngredient.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        IngredientChangeHandlerFragment ingredientChangeHandlerFragment = new IngredientChangeHandlerFragment();
+                        fm.beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).replace(R.id.container, ingredientChangeHandlerFragment).addToBackStack(null).commit();
+                        a.dismiss();
+                    }
+                });
+
                 alertbox.setNeutralButton("OK",new DialogInterface.OnClickListener() {public void onClick(DialogInterface arg0, int arg1) {
                 }});
-                alertbox.show();
-
+                a.show();
             }
         });
 
@@ -94,4 +116,6 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> {
 
         return view;
     }
+
+
 }

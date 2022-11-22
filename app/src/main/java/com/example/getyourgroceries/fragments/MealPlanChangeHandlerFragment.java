@@ -94,7 +94,7 @@ public class MealPlanChangeHandlerFragment extends Fragment {
 
         ListView dayListView = view.findViewById(R.id.day_list);
         ArrayList<MealPlanDay> days = new ArrayList<>();
-        ArrayAdapter<MealPlanDay> daysAdapter = new DayListAdapter(requireActivity().getBaseContext(), days);
+        ArrayAdapter<MealPlanDay> daysAdapter = new DayListAdapter(requireActivity().getBaseContext(), days,requireActivity().getSupportFragmentManager());
         dayListView.setAdapter(daysAdapter);
         Button addDay = view.findViewById(R.id.add_day);
 

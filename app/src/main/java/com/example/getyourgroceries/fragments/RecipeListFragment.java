@@ -90,7 +90,8 @@ public class RecipeListFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_recipe_list, container, false);
 
         recipeList = v.findViewById(R.id.recipe_list);
-        recipeList.setAdapter(RecipeStorage.getInstance().setupStorage(requireActivity().getBaseContext()));
+
+        recipeList.setAdapter(RecipeStorage.getInstance().getRecipeAdapter());
 
         // Listener to view a recipe
         recipeList.setOnItemClickListener(new AdapterView.OnItemClickListener() {

@@ -106,7 +106,7 @@ public class AddIngredientRecipeFragment extends DialogFragment {
             description.setText(ingredient.getDescription());
             amount.setText(ingredient.getAmount().toString());
             unit.setText(ingredient.getUnit().toString());
-            category.setSelection(categories.indexOf(ingredient.getCategory()));
+            category.setText(ingredient.getCategory());
         }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());

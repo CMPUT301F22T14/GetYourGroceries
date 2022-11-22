@@ -2,17 +2,16 @@
 package com.example.getyourgroceries;
 
 // Import statements.
+
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 
-import com.example.getyourgroceries.entity.Ingredient;
-import com.example.getyourgroceries.fragments.AddIngredientRecipeFragment;
+import com.example.getyourgroceries.entity.IngredientStorage;
+import com.example.getyourgroceries.entity.MealPlanStorage;
+import com.example.getyourgroceries.entity.RecipeStorage;
 import com.example.getyourgroceries.fragments.RecipeListFragment;
-import android.view.Window;
 
 import com.example.getyourgroceries.fragments.IngredientListFragment;
 import com.example.getyourgroceries.fragments.RecipeListFragment;
@@ -42,8 +41,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //ActionBar actionBar = getSupportActionBar();
-        //actionBar.hide();
+        IngredientStorage.getInstance().setupStorage(getBaseContext());
+        RecipeStorage.getInstance().setupStorage(getBaseContext());
+        MealPlanStorage.getInstance().setupStorage(getBaseContext());
 
         setContentView(R.layout.activity_main);
 
@@ -59,7 +59,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
      */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
         // Call the appropriate method based on the user selection.
         switch (item.getItemId()) {
             case R.id.home_icon:

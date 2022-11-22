@@ -22,6 +22,8 @@ import android.widget.TextView;
 
 import com.example.getyourgroceries.fragments.IngredientChangeHandlerFragment;
 import com.example.getyourgroceries.fragments.IngredientListFragment;
+import com.example.getyourgroceries.fragments.MealPlanChangeHandlerFragment;
+import com.example.getyourgroceries.fragments.MealPlansFragment;
 import com.example.getyourgroceries.fragments.RecipeChangeHandlerFragment;
 import com.example.getyourgroceries.fragments.RecipeListFragment;
 
@@ -65,12 +67,6 @@ public class HomeScreenFragment extends Fragment {
         quickaddchoices.add("Meal Plan");
         Context context = this.getContext();
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-            }
-        },3000);
-
 
         // add the choices from the Arraylist to the Spinner
         quickaddSpinner.setAdapter(new ArrayAdapter<>(context, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, quickaddchoices));
@@ -97,6 +93,15 @@ public class HomeScreenFragment extends Fragment {
                     RecipeChangeHandlerFragment recipeChangeHandlerFragment = new RecipeChangeHandlerFragment();
                     requireActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).replace(container.getId(), recipeChangeHandlerFragment, "EDIT_RECIPE").addToBackStack("EDIT_RECIPE").commit();
                 }
+
+
+                if (Objects.equals(userChoice, "Meal Plan")) {
+                    //Redirect the user to the Add Meal Plan page
+                    quickaddSpinner.setSelection(0);
+                    new MealPlansFragment();
+                    MealPlanChangeHandlerFragment mealPlanChangeHandlerFragment = new MealPlanChangeHandlerFragment();
+                    requireActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).replace(container.getId(), mealPlanChangeHandlerFragment).addToBackStack(null).commit();
+                }
             }
 
             @Override
@@ -104,7 +109,6 @@ public class HomeScreenFragment extends Fragment {
 
             }
         });
-
 
 
         TextView description = v.findViewById(R.id.home_description);

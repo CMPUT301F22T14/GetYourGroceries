@@ -8,6 +8,8 @@ import android.os.Bundle;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,6 +64,13 @@ public class HomeScreenFragment extends Fragment {
         quickaddchoices.add("Recipe");
         quickaddchoices.add("Meal Plan");
         Context context = this.getContext();
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+            }
+        },3000);
+
 
         // add the choices from the Arraylist to the Spinner
         quickaddSpinner.setAdapter(new ArrayAdapter<>(context, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, quickaddchoices));

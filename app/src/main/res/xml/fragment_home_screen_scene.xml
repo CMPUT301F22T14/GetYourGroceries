@@ -6,7 +6,8 @@
     <Transition
         motion:constraintSetStart="@id/start"
         motion:duration="1000"
-        motion:constraintSetEnd="@id/end">
+        motion:constraintSetEnd="@id/end"
+        motion:autoTransition="animateToEnd">
        <KeyFrameSet>
        </KeyFrameSet>
     </Transition>
@@ -49,11 +50,44 @@
             motion:layout_constraintHorizontal_bias="0.498"
             android:scaleY="1" />
         <Constraint
-            android:layout_height="76dp"
-            motion:layout_editor_absoluteX="181dp"
-            android:layout_width="439dp"
+            android:layout_height="56dp"
+            android:layout_width="221dp"
             android:id="@+id/QuickAddSpinner"
-            motion:layout_constraintBottom_toTopOf="@+id/quickaddbutton" />
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintTop_toBottomOf="@+id/home_description"
+            motion:layout_constraintVertical_bias="0.406"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_editor_absoluteX="98dp"
+            motion:layout_editor_absoluteY="462dp" />
+        <Constraint
+            android:layout_height="wrap_content"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="wrap_content"
+            android:id="@+id/home_description"
+            motion:layout_constraintHorizontal_bias="0.498"
+            motion:layout_constraintTop_toBottomOf="@+id/imageView3"
+            android:layout_marginTop="44dp" />
+        <Constraint
+            android:layout_height="186dp"
+            motion:layout_constraintStart_toStartOf="parent"
+            android:layout_width="221dp"
+            android:id="@+id/imageView3"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="40dp"
+            motion:layout_constraintHorizontal_bias="0.515" />
+        <Constraint
+            android:layout_height="31dp"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintHorizontal_bias="0.356"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="153dp"
+            android:id="@+id/textView3"
+            motion:layout_constraintBottom_toTopOf="@+id/QuickAddSpinner"
+            motion:layout_constraintTop_toBottomOf="@+id/home_description"
+            motion:layout_constraintVertical_bias="1.0" />
     </ConstraintSet>
 
     <ConstraintSet android:id="@+id/end">
@@ -105,5 +139,32 @@
             motion:layout_constraintStart_toStartOf="parent"
             motion:layout_editor_absoluteY="439dp"
             android:scaleY="1" />
+        <Constraint
+            android:layout_height="307dp"
+            motion:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="40dp"
+            motion:layout_constraintTop_toTopOf="parent"
+            android:layout_width="265dp"
+            android:id="@+id/imageView3"
+            motion:layout_constraintEnd_toEndOf="parent" />
+        <Constraint
+            android:layout_height="wrap_content"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintBottom_toTopOf="@+id/quickaddbutton"
+            motion:layout_constraintHorizontal_bias="0.498"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="wrap_content"
+            motion:layout_constraintTop_toBottomOf="@+id/imageView3"
+            android:id="@+id/home_description"
+            android:layout_marginTop="56dp" />
+        <Constraint
+            android:layout_height="54dp"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="219dp"
+            motion:layout_constraintTop_toBottomOf="@+id/home_description"
+            android:id="@+id/QuickAddSpinner"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintVertical_bias="0.246" />
     </ConstraintSet>
 </MotionScene>

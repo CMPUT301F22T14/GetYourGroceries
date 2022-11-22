@@ -21,31 +21,31 @@
         android:id="@+id/titleTextField"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
-        android:layout_marginStart="125dp"
-        android:layout_marginTop="180dp"
+        android:layout_marginTop="160dp"
+        android:layout_marginEnd="0dp"
         android:background="@drawable/layout_recipe_view_title"
         android:gravity="center"
-        android:minWidth="212dp"
+        android:minWidth="260dp"
         android:paddingStart="50dp"
         android:paddingEnd="50dp"
-        android:text="Test View Recipe"
         android:textColor="@color/white"
         android:textSize="25sp"
+        android:text="Example Recipe"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/prepTimeTextField"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_marginTop="60dp"
-        android:text="TextView"
+        android:layout_marginTop="63dp"
+        android:layout_marginStart="20dp"
         android:gravity="center"
-        android:textSize="25sp"
+        android:text="1h 15min"
+        android:textStyle="bold"
         android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="25sp"
+        app:layout_constraintStart_toEndOf="@id/clock_image"
         app:layout_constraintTop_toBottomOf="@+id/image" />
 
     <TextView
@@ -53,60 +53,118 @@
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_marginTop="32dp"
-        android:text="Category:"
+        android:layout_marginStart="20dp"
         android:gravity="center"
-        android:textSize="25sp"
+        android:text="Category: Cooking"
+        android:textStyle="bold"
         android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="25sp"
+        app:layout_constraintStart_toEndOf="@+id/category_image"
         app:layout_constraintTop_toBottomOf="@+id/prepTimeTextField" />
 
     <TextView
-        android:id="@+id/commentsTextField"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
+        android:id="@+id/servingsTextField"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
         android:layout_marginTop="32dp"
-        android:autofillHints=""
-        android:ems="10"
-        android:inputType="textMultiLine"
-        android:textAlignment="center"
+        android:layout_marginStart="20dp"
+        android:gravity="center"
+        android:text="Servings: 4"
+        android:textStyle="bold"
         android:textColor="@color/black"
         android:textSize="25sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/servings_image"
         app:layout_constraintTop_toBottomOf="@+id/categoryTextField" />
+
+
 
     <TextView
         android:id="@+id/ingredientTextField"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="148dp"
+        android:layout_marginTop="25dp"
         android:text="Ingredients"
-        android:textSize="25sp"
         android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="30sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/servingsTextField" />
+
+    <ListView
+        android:id="@+id/ingredientListView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:divider="@drawable/space_divider"
+        android:layout_marginHorizontal="10dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_marginBottom="75dp"
+        android:showDividers="middle"
+        app:layout_constraintTop_toBottomOf="@id/ingredientTextField"/>
+
+    <TextView
+        android:id="@+id/commentsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_marginStart="40dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textSize="25sp"
+        android:ems="10"
+        android:text="Comments:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ingredientListView"/>
+
+    <TextView
+        android:id="@+id/commentsTextField"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        android:layout_marginStart="40dp"
+        android:maxWidth="50dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:inputType="textMultiLine"
+        android:textAlignment="textStart"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:text="Bake in low heat for 30 min then 45 min in medium heat"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/commentsTitle" />
 
     <ImageView
         android:id="@+id/clock_image"
-        android:layout_width="70dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="50dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="57dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/image"
         app:srcCompat="@drawable/time_icon" />
 
     <ImageView
         android:id="@+id/category_image"
-        android:layout_width="70dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="120dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="130dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/image"
         app:srcCompat="@drawable/recipe_category_icon" />
+
+    <ImageView
+        android:id="@+id/servings_image"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="201dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/image"
+        app:srcCompat="@drawable/quantity_icon"
+        app:tint="#000000" />
 
     <ImageButton
         android:id="@+id/edit_recipe_btn"
@@ -118,6 +176,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/edit_icon" />
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

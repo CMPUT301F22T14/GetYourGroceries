@@ -112,8 +112,6 @@ public class HomeScreenFragment extends Fragment {
 
 
         TextView description = v.findViewById(R.id.home_description);
-        ImageView homelogo = v.findViewById(R.id.home_logoimage);
-        Button quickaddbutton = v.findViewById(R.id.quickaddbutton);
 
         description.setText("Plan your meals with ease and efficiency!");
         return v;

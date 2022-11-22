@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.view.ViewCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -131,6 +132,8 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
             alert.show();
             return true;
         });
+
+        ViewCompat.setNestedScrollingEnabled(ingredientListView, true);
 
         // Set the values to the previous values.
         if (editRecipe != null) {

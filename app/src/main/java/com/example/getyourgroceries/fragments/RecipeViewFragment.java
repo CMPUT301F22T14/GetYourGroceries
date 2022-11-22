@@ -21,10 +21,14 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 
 import com.example.getyourgroceries.GlideApp;
 import com.example.getyourgroceries.R;
+import com.example.getyourgroceries.adapters.RecipeIngredientAdapter;
+import com.example.getyourgroceries.control.RecipeDB;
+import com.example.getyourgroceries.entity.Ingredient;
 import com.example.getyourgroceries.entity.IngredientStorage;
 import com.example.getyourgroceries.entity.Recipe;
 import com.example.getyourgroceries.entity.RecipeStorage;
@@ -52,6 +56,7 @@ public class RecipeViewFragment extends Fragment {
     ViewGroup containerView;
     StorageReference imageRef;
     ListView ingredientListView;
+    private RecipeIngredientAdapter ingredientAdapter;
 
     public RecipeViewFragment() {
         super();
@@ -84,12 +89,18 @@ public class RecipeViewFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
         // Initialization.
-        ConstraintLayout viewIngredientLayout = requireActivity().findViewById(R.id.view_recipe_layout);
+        NestedScrollView viewIngredientLayout = requireActivity().findViewById(R.id.view_recipe_layout);
         viewIngredientLayout.setImportantForAutofill(View.IMPORTANT_FOR_AUTOFILL_NO);
+
+
+        ActionBar actionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
 
         if (getArguments() != null) {
             viewRecipe = RecipeStorage.getInstance().getRecipe(getArguments().getInt("viewRecipe"));
+            actionBar.setTitle(viewRecipe.getName());
         }
+
+
 
         //Populate fields if its a view
         ImageView image = requireActivity().findViewById(R.id.image);
@@ -98,6 +109,7 @@ public class RecipeViewFragment extends Fragment {
         TextView category = requireActivity().findViewById(R.id.categoryTextField);
         TextView servings = requireActivity().findViewById(R.id.servingsTextField);
         TextView commentsText = requireActivity().findViewById(R.id.commentsTextField);
+
 
         // Output all of the ingredients from Firebase.
         ingredientListView = requireActivity().findViewById(R.id.ingredientListView);
@@ -108,12 +120,18 @@ public class RecipeViewFragment extends Fragment {
             int prep_min = viewRecipe.getPrepTime() % 60;
             String prepTimeText = prep_hours + "h " + prep_min + "m";
             prepTime.setText(prepTimeText);
-            category.setText(viewRecipe.getRecipeCategory());
-            commentsText.setText(viewRecipe.getComment());
-            servings.setText(String.valueOf(viewRecipe.getNumOfServings()));
 
+            String catStr = "Category: " + viewRecipe.getRecipeCategory();
+            category.setText(catStr);
 
-            ingredientListView.setAdapter(IngredientStorage.getInstance().setupStorage(requireActivity().getBaseContext()));
+            String servingsStr = "Servings: " + String.valueOf(viewRecipe.getNumOfServings());
+            servings.setText(servingsStr);
+
+            String commentsStr = "Comments:\n" + viewRecipe.getComment();
+            commentsText.setText(commentsStr);
+
+            ingredientAdapter = new RecipeIngredientAdapter(requireActivity().getBaseContext(), viewRecipe.getIngredientList());
+            ingredientListView.setAdapter(ingredientAdapter);
 
             // get photo
             storage = FirebaseStorage.getInstance();

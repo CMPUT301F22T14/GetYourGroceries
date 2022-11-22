@@ -38,9 +38,16 @@ public class RecipeStorage {
      * @param context to connect to
      * @return the connected array adapter
      */
-    public ArrayAdapter<Recipe> setupStorage(Context context) {
+    public void setupStorage(Context context) {
         recipeAdapter = new RecipeAdapter(context, recipeStorage);
         this.recipeDB = new RecipeDB();
+    }
+
+    /**
+     * Gets the associated adapter
+     * @return the recipe adapter
+     */
+    public ArrayAdapter<Recipe> getRecipeAdapter() {
         return recipeAdapter;
     }
 
@@ -55,7 +62,6 @@ public class RecipeStorage {
         if(toDB) {
             recipeDB.addRecipe(recipe);
         }
-
         recipeAdapter.notifyDataSetChanged();
     }
 
@@ -103,8 +109,10 @@ public class RecipeStorage {
      * Clear the local(non-database data) adapter information
      */
     public void clearLocalStorage() {
+
         recipeAdapter.clear();
         recipeAdapter.notifyDataSetChanged();
+
     }
 
     /**

@@ -5,12 +5,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.entity.MealPlan;
+import com.example.getyourgroceries.entity.Recipe;
+
 import java.util.ArrayList;
 
 public class MealPlanAdapter extends ArrayAdapter<MealPlan> {
@@ -36,12 +40,18 @@ public class MealPlanAdapter extends ArrayAdapter<MealPlan> {
      * @return The updated view.
      */
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+
+        //Create the view if it doesn't exist
         View view = convertView;
         if (view == null) {
-            view = LayoutInflater.from(context).inflate(R.layout.recipe_item, parent, false);
+            view = LayoutInflater.from(context).inflate(R.layout.meal_item, parent, false);
         }
+        MealPlan mealPlan = plans.get(position);
+        TextView mealPlanName = view.findViewById(R.id.mealPlan_name);
+        TextView nextMeal = view.findViewById(R.id.mealPlan_next);
 
-        // TODO: fill in actual meal plan view
+        mealPlanName.setText(mealPlan.getName());
+        nextMeal.setText("yes");
 
         return view;
     }

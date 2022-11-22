@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".RecipeListFragment">
 
     <LinearLayout
@@ -13,75 +13,66 @@
         android:layout_marginTop="15dp"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/recipeListTitle"
-                android:layout_marginRight= "20dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:layout_marginBottom="16dp"
-                android:text="Recipe List"
-                android:textSize="48sp"
-                />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <androidx.appcompat.widget.SwitchCompat
-                    android:id="@+id/sortingSwitchRecipe"
-                    android:layout_width="69dp"
-                    android:layout_height="41dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="64dp"
-                    android:textOff="Asc"
-                    android:textOn="Desc"
-                    android:textSize="1sp"
-                    android:thumb="@drawable/ingredient_sorting_switch_thumb"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:showText="true"
-                    app:track="@drawable/ingredient_sorting_switch_track" />
-
-                <Spinner
-                    android:id="@+id/sort_recipe_spinner"
-                    android:layout_width="133dp"
-                    android:layout_height="28dp"
-                    android:layout_marginBottom="24dp"
-                    android:background="@drawable/ingredient_spinner"
-                    android:dropDownWidth="100dp"
-                    android:dropDownVerticalOffset="27dp"
-                    android:popupBackground="@drawable/ingredient_spinner_dropdown"
-                    android:spinnerMode="dropdown"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </LinearLayout>
-
         <Button
             android:id="@+id/addRecipeButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="15dp"
-            android:layout_marginBottom="15dp"
-            android:backgroundTint="@color/black"
+            android:backgroundTint="@color/primaryLightColor"
             android:text="Add Recipe"
-            android:textColor="#00FFD1" />
+            android:textSize="20sp"
+            android:textAlignment="center"
+            android:textColor="@color/white" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"/>
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sort by:    "
+                android:layout_gravity="center_vertical"/>
+
+            <Spinner
+                android:id="@+id/sort_recipe_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:dropDownVerticalOffset="27dp"
+                android:popupBackground="@drawable/ingredient_spinner_dropdown"
+                android:spinnerMode="dropdown"
+                />
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"/>
+            <com.google.android.material.materialswitch.MaterialSwitch
+                android:id="@+id/sorting_switch_recipe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:theme="@style/Theme.Material3.DayNight"
+                android:checked="false"
+                android:text="Descending"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"/>
+
+        </LinearLayout>
 
         <ListView
             android:id="@+id/recipe_list"
             android:layout_width="match_parent"
-            android:layout_height="500dp"
-            android:layout_weight="1">
-
-        </ListView>
-
+            android:divider="@drawable/space_divider"
+            android:showDividers="middle"
+            android:layout_height="0dp"
+            android:layout_marginBottom="75dp"
+            android:layout_weight="1" />
     </LinearLayout>
-</androidx.core.widget.NestedScrollView>
+</LinearLayout>

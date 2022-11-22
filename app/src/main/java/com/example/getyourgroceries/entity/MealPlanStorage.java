@@ -30,9 +30,16 @@ public class MealPlanStorage {
      * @param context to bind to
      * @return newly bound adapter
      */
-    public ArrayAdapter<MealPlan> setupStorage(Context context) {
+    public void setupStorage(Context context) {
         mealPlanAdapter = new MealPlanAdapter(context, mealPlanStorage);
         mealPlanDB = new MealPlanDB();
+    }
+
+    /**
+     * Gets the associated adapter
+     * @return meal plan adapter
+     */
+    public ArrayAdapter<MealPlan> getMealPlanAdapter() {
         return mealPlanAdapter;
     }
 

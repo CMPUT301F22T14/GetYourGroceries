@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/change_ingredient_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:focusableInTouchMode="true">
 
 
     <com.google.android.material.textfield.TextInputLayout
@@ -17,25 +19,18 @@
         app:layout_constraintTop_toTopOf="parent"
         app:counterEnabled="true"
         app:counterMaxLength="30"
-        android:textColorHint="@color/white"
-        app:hintTextColor="@color/white"
-        app:boxStrokeWidth="0dp"
-        app:boxStrokeWidthFocused="0dp">
+        android:hint="@string/change_ingredient_description"
+        >
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/change_ingredient_description"
             android:layout_width="300dp"
             android:layout_height="60dp"
             android:autofillHints=""
-            android:background="@drawable/edittext"
             android:ems="10"
-            android:hint="@string/change_ingredient_description"
             android:inputType="textPersonName"
             android:minHeight="48dp"
             android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textColorHighlight="@color/white"
-            android:textColorHint="@android:color/darker_gray"
             android:textSize="20sp"
             android:maxLength="30"/>
 
@@ -50,23 +45,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/change_ingredient_description_til"
-        android:textColorHint="@color/white"
-        app:hintTextColor="@color/white"
-        app:boxStrokeWidth="0dp"
-        app:boxStrokeWidthFocused="0dp">
+        android:hint="@string/enter_the_quantity"
+        app:startIconDrawable="@drawable/quantity_icon"
+        >
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/change_ingredient_quantity"
             android:layout_width="300dp"
             android:layout_height="60dp"
             android:autofillHints=""
-            android:background="@drawable/edittext"
             android:ems="10"
-            android:hint="@string/enter_the_quantity"
             android:inputType="number"
             android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textColorHint="@android:color/darker_gray"
             android:textSize="20sp" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -80,18 +70,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/change_ingredient_quantity_til"
-        android:textColorHint="@color/white">
+        android:hint="@string/enter_the_best_before_date"
+        app:startIconDrawable="@drawable/calendar_icon">
 
-        <TextView
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/change_ingredient_expiry"
             android:layout_width="300dp"
             android:layout_height="60dp"
             android:autofillHints=""
-            android:background="@drawable/edittext"
+            android:focusable="false"
             android:ems="10"
-            android:hint="@string/enter_the_best_before_date"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"
             android:paddingStart="15dp"
             android:paddingEnd="15dp"/>
 
@@ -106,19 +94,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/change_ingredient_expiry_til"
-        android:textColorHint="@color/white">
+        android:hint="@string/enter_a_location"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        app:startIconDrawable="@drawable/location_icon"
+        >
 
-        <Spinner
+        <AutoCompleteTextView
             android:id="@+id/change_ingredient_location"
             android:layout_width="300dp"
             android:layout_height="60dp"
-            android:autofillHints=""
-            android:background="@drawable/edittext"
-            android:contentDescription="@string/enter_a_location"
-            android:ems="10"
-            android:popupBackground="@color/black"
-            android:textColor="@color/white"
-            android:textColorHint="@android:color/darker_gray" />
+            android:inputType="textPersonName"
+            />
+
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -131,19 +118,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/change_ingredient_location_til"
-        android:textColorHint="@color/white">
+        android:hint="@string/enter_the_ingredient_category"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        app:startIconDrawable="@drawable/category_icon"
+        >
 
-        <Spinner
+        <AutoCompleteTextView
             android:id="@+id/change_ingredient_category"
             android:layout_width="300dp"
             android:layout_height="60dp"
-            android:autofillHints=""
-            android:background="@drawable/edittext"
-            android:contentDescription="@string/enter_the_ingredient_category"
-            android:ems="10"
-            android:popupBackground="@color/black"
-            android:textColor="@color/white"
-            android:textColorHint="@android:color/darker_gray" />
+            android:inputType="textPersonName"
+            />
+            
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -156,23 +142,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/change_ingredient_category_til"
-        android:textColorHint="@color/white"
-        app:boxStrokeWidth="0dp"
-        app:boxStrokeWidthFocused="0dp">
+        android:hint="@string/enter_unit"
+        app:startIconDrawable="@drawable/dollar_sign">
 
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/change_ingredient_unit"
             android:layout_width="300dp"
             android:layout_height="60dp"
             android:autofillHints=""
-            android:background="@drawable/edittext"
             android:ems="10"
-            android:hint="@string/enter_unit"
             android:inputType="numberDecimal"
             android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textColorHint="@android:color/darker_gray"
             android:textSize="20sp" />
 
 
@@ -180,13 +161,12 @@
 
     <Button
         android:id="@+id/change_ingredient_confirm"
-        android:layout_width="200dp"
+        android:layout_width="250dp"
         android:layout_height="60dp"
         android:layout_marginBottom="60dp"
-        android:backgroundTint="@color/black"
+        android:backgroundTint="@color/primaryLightColor"
         android:text="@string/confirm"
-        android:textColor="@color/accent"
-        app:cornerRadius="8dp"
+        style="@style/Widget.Material3.Button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

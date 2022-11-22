@@ -3,6 +3,7 @@ package com.example.getyourgroceries.entity;
 
 // Import statements.
 import android.content.Context;
+import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 
 import com.example.getyourgroceries.adapters.IngredientStorageAdapter;
@@ -43,12 +44,19 @@ public class IngredientStorage {
      * @param context
      * @return newly created ArrayAdapter object
      */
-    public ArrayAdapter<StoredIngredient> setupStorage(Context context){
+    public void setupStorage(Context context){
         ingredientAdapter = new IngredientStorageAdapter(context, this.ingredientStorage);
         this.ingredientDB = new IngredientDB();
-        return ingredientAdapter;
+
     }
 
+    /**
+     * Gets the associated adapter
+     * @return the ingredient adapter
+     */
+    public ArrayAdapter<StoredIngredient> getIngredientAdapter() {
+        return ingredientAdapter;
+    }
 
     /**
      * Add ingredient to storage

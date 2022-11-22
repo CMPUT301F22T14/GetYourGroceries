@@ -26,6 +26,7 @@ import com.example.getyourgroceries.entity.RecipeStorage;
 import com.example.getyourgroceries.entity.IngredientStorage;
 import com.example.getyourgroceries.entity.StoredIngredient;
 
+import com.google.android.material.materialswitch.MaterialSwitch;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -64,7 +65,7 @@ public class RecipeListFragment extends Fragment {
     ListView recipeList;
     Button addRecipeButton;
     Spinner sortDropDown;
-    SwitchCompat sorting_switch;
+    MaterialSwitch sorting_switch;
 
     /**
      * Empty constructor.
@@ -89,7 +90,8 @@ public class RecipeListFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_recipe_list, container, false);
 
         recipeList = v.findViewById(R.id.recipe_list);
-        recipeList.setAdapter(RecipeStorage.getInstance().setupStorage(requireActivity().getBaseContext()));
+
+        recipeList.setAdapter(RecipeStorage.getInstance().getRecipeAdapter());
 
         // Listener to view a recipe
         recipeList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -119,7 +121,7 @@ public class RecipeListFragment extends Fragment {
             alert.show();
             return true;
         });
-        sorting_switch = v.findViewById(R.id.sortingSwitchRecipe);
+        sorting_switch = v.findViewById(R.id.sorting_switch_recipe);
 
         // Listener to go to add recipe fragment
         addRecipeButton = v.findViewById(R.id.addRecipeButton);

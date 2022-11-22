@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/change_ingredient_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:focusableInTouchMode="true">
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/change_mealplan_title_til"
+        android:layout_width="300dp"
+        android:layout_height="85dp"
+        android:layout_centerInParent="true"
+        app:layout_constraintBottom_toTopOf="@+id/day_list"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:counterEnabled="true"
+        app:counterMaxLength="30"
+        android:hint="Title"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/change_mealplan_title"
+            android:layout_width="300dp"
+            android:layout_height="60dp"
+            android:autofillHints=""
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:minHeight="48dp"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:maxLength="30"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/day_list"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/change_mealplan_title_til"
+        app:layout_constraintBottom_toTopOf="@id/add_day"
+        />
+
+    <Button
+        android:id="@+id/add_day"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Day"
+        style="@style/Widget.Material3.Button.Icon"
+        android:textSize="20sp"
+        app:icon="@drawable/ic_plus"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/day_list"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -74,23 +74,23 @@ public class HomeScreenFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String userChoice = quickaddchoices.get(position);
-                Toast.makeText(context, userChoice, Toast.LENGTH_SHORT).show();
-                //Toast.makeText(HomeScreenFragment.this, userChoice, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context, userChoice, Toast.LENGTH_SHORT).show();
 
                 if (userChoice == "Ingredient"){
                     //Redirect the user to the Add Ingredient page
+                    quickaddSpinner.setSelection(0);
                     new IngredientListFragment();
                     IngredientChangeHandlerFragment ingredientChangeHandlerFragment = new IngredientChangeHandlerFragment();
                     requireActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).replace(container.getId(), ingredientChangeHandlerFragment).addToBackStack(null).commit();
                 }
 
-                if (userChoice == "Recipe"){
+                if (userChoice == "Recipe") {
                     //Redirect the user to the Add Recipe page
+                    quickaddSpinner.setSelection(0);
                     new RecipeListFragment();
                     RecipeChangeHandlerFragment recipeChangeHandlerFragment = new RecipeChangeHandlerFragment();
                     requireActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).replace(container.getId(), recipeChangeHandlerFragment).addToBackStack(null).commit();
                     //requireActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).replace(container.getId(), recipeChangeHandlerFragment, "EDIT_RECIPE").addToBackStack("EDIT_RECIPE").commit();
-
                 }
 
             }

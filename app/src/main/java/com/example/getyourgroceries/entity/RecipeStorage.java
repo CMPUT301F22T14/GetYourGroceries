@@ -103,8 +103,10 @@ public class RecipeStorage {
      * Clear the local(non-database data) adapter information
      */
     public void clearLocalStorage() {
+
         recipeAdapter.clear();
         recipeAdapter.notifyDataSetChanged();
+
     }
 
     /**

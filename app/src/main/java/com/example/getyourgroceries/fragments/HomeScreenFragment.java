@@ -19,6 +19,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.getyourgroceries.fragments.IngredientChangeHandlerFragment;
+import com.example.getyourgroceries.fragments.IngredientListFragment;
+import com.example.getyourgroceries.fragments.RecipeChangeHandlerFragment;
+import com.example.getyourgroceries.fragments.RecipeListFragment;
+import com.example.getyourgroceries.fragments.RecipeViewFragment;
+
 import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,26 +54,45 @@ public class HomeScreenFragment extends Fragment {
         ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
         actionBar.setTitle("Get Your Groceries");
         // Inflate the layout for this fragment.
-        //return inflater.inflate(R.layout.fragment_home_screen, container, false);
         View v = inflater.inflate(R.layout.fragment_home_screen, container, false);
 
         Spinner quickaddSpinner = v.findViewById(R.id.QuickAddSpinner);
         quickaddchoices = new ArrayList<>();
 
+        // add the choices to the Arraylist
         quickaddchoices.add("SELECT");
         quickaddchoices.add("Ingredient");
         quickaddchoices.add("Recipe");
         quickaddchoices.add("Meal Plan");
         Context context = this.getContext();
 
+        // add the choices from the Arraylist to the Spinner
         quickaddSpinner.setAdapter(new ArrayAdapter<>(context, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, quickaddchoices));
 
+        //redirect user to correct quick add page, based on their choice from the spinner
         quickaddSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String userChoice = quickaddchoices.get(position);
                 Toast.makeText(context, userChoice, Toast.LENGTH_SHORT).show();
                 //Toast.makeText(HomeScreenFragment.this, userChoice, Toast.LENGTH_SHORT).show();
+
+                if (userChoice == "Ingredient"){
+                    //Redirect the user to the Add Ingredient page
+                    new IngredientListFragment();
+                    IngredientChangeHandlerFragment ingredientChangeHandlerFragment = new IngredientChangeHandlerFragment();
+                    requireActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).replace(container.getId(), ingredientChangeHandlerFragment).addToBackStack(null).commit();
+                }
+
+                if (userChoice == "Recipe"){
+                    //Redirect the user to the Add Recipe page
+                    new RecipeListFragment();
+                    RecipeChangeHandlerFragment recipeChangeHandlerFragment = new RecipeChangeHandlerFragment();
+                    requireActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).replace(container.getId(), recipeChangeHandlerFragment).addToBackStack(null).commit();
+                    //requireActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).replace(container.getId(), recipeChangeHandlerFragment, "EDIT_RECIPE").addToBackStack("EDIT_RECIPE").commit();
+
+                }
+
             }
 
             @Override

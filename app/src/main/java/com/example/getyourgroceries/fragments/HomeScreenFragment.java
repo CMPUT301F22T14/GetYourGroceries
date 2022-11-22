@@ -17,23 +17,20 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.getyourgroceries.fragments.IngredientChangeHandlerFragment;
 import com.example.getyourgroceries.fragments.IngredientListFragment;
 import com.example.getyourgroceries.fragments.RecipeChangeHandlerFragment;
 import com.example.getyourgroceries.fragments.RecipeListFragment;
-import com.example.getyourgroceries.fragments.RecipeViewFragment;
 
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Create an object to represent the home screen.
  */
 public class HomeScreenFragment extends Fragment {
-
     List<String> quickaddchoices;
 
     /**
@@ -76,7 +73,7 @@ public class HomeScreenFragment extends Fragment {
                 String userChoice = quickaddchoices.get(position);
                 //Toast.makeText(context, userChoice, Toast.LENGTH_SHORT).show();
 
-                if (userChoice == "Ingredient"){
+                if (Objects.equals(userChoice, "Ingredient")){
                     //Redirect the user to the Add Ingredient page
                     quickaddSpinner.setSelection(0);
                     new IngredientListFragment();
@@ -84,15 +81,13 @@ public class HomeScreenFragment extends Fragment {
                     requireActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).replace(container.getId(), ingredientChangeHandlerFragment).addToBackStack(null).commit();
                 }
 
-                if (userChoice == "Recipe") {
+                if (Objects.equals(userChoice, "Recipe")) {
                     //Redirect the user to the Add Recipe page
                     quickaddSpinner.setSelection(0);
                     new RecipeListFragment();
                     RecipeChangeHandlerFragment recipeChangeHandlerFragment = new RecipeChangeHandlerFragment();
-                    requireActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).replace(container.getId(), recipeChangeHandlerFragment).addToBackStack(null).commit();
-                    //requireActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).replace(container.getId(), recipeChangeHandlerFragment, "EDIT_RECIPE").addToBackStack("EDIT_RECIPE").commit();
+                    requireActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).replace(container.getId(), recipeChangeHandlerFragment, "EDIT_RECIPE").addToBackStack("EDIT_RECIPE").commit();
                 }
-
             }
 
             @Override

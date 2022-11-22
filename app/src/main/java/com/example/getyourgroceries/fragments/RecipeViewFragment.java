@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -24,6 +25,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.getyourgroceries.GlideApp;
 import com.example.getyourgroceries.R;
+import com.example.getyourgroceries.entity.IngredientStorage;
 import com.example.getyourgroceries.entity.Recipe;
 import com.example.getyourgroceries.entity.RecipeStorage;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -49,6 +51,7 @@ public class RecipeViewFragment extends Fragment {
     ImageButton editButton;
     ViewGroup containerView;
     StorageReference imageRef;
+    ListView ingredientListView;
 
     public RecipeViewFragment() {
         super();
@@ -93,9 +96,11 @@ public class RecipeViewFragment extends Fragment {
         TextView title = requireActivity().findViewById(R.id.titleTextField);
         TextView prepTime = requireActivity().findViewById(R.id.prepTimeTextField);
         TextView category = requireActivity().findViewById(R.id.categoryTextField);
+        TextView servings = requireActivity().findViewById(R.id.servingsTextField);
         TextView commentsText = requireActivity().findViewById(R.id.commentsTextField);
 
-
+        // Output all of the ingredients from Firebase.
+        ingredientListView = requireActivity().findViewById(R.id.ingredientListView);
         // Set the values to the previous values.
         if (viewRecipe != null){
             title.setText(viewRecipe.getName());
@@ -104,8 +109,11 @@ public class RecipeViewFragment extends Fragment {
             String prepTimeText = prep_hours + "h " + prep_min + "m";
             prepTime.setText(prepTimeText);
             category.setText(viewRecipe.getRecipeCategory());
-            commentsText.setText("Comments:\n" + viewRecipe.getComment());
-            //servingsText.setText(String.valueOf(editRecipe.getNumOfServings()));
+            commentsText.setText(viewRecipe.getComment());
+            servings.setText(String.valueOf(viewRecipe.getNumOfServings()));
+
+
+            ingredientListView.setAdapter(IngredientStorage.getInstance().setupStorage(requireActivity().getBaseContext()));
 
             // get photo
             storage = FirebaseStorage.getInstance();

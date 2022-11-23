@@ -5,6 +5,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,7 +54,6 @@ public class RecipeViewFragment extends Fragment {
     private static final String TAG = "RecipeViewFrag";
     private Recipe viewRecipe;
     FirebaseStorage storage;
-    ImageButton editButton;
     ViewGroup containerView;
     StorageReference imageRef;
     ListView ingredientListView;
@@ -72,8 +73,6 @@ public class RecipeViewFragment extends Fragment {
         Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         setHasOptionsMenu(true);
         containerView= container;
-
-
 
         return view;
     }
@@ -104,7 +103,6 @@ public class RecipeViewFragment extends Fragment {
 
         //Populate fields if its a view
         ImageView image = requireActivity().findViewById(R.id.image);
-        TextView title = requireActivity().findViewById(R.id.titleTextField);
         TextView prepTime = requireActivity().findViewById(R.id.prepTimeTextField);
         TextView category = requireActivity().findViewById(R.id.categoryTextField);
         TextView servings = requireActivity().findViewById(R.id.servingsTextField);
@@ -115,7 +113,6 @@ public class RecipeViewFragment extends Fragment {
         ingredientListView = requireActivity().findViewById(R.id.ingredientListView);
         // Set the values to the previous values.
         if (viewRecipe != null){
-            title.setText(viewRecipe.getName());
             int prep_hours = viewRecipe.getPrepTime() / 60;
             int prep_min = viewRecipe.getPrepTime() % 60;
             String prepTimeText = prep_hours + "h " + prep_min + "m";
@@ -124,7 +121,7 @@ public class RecipeViewFragment extends Fragment {
             String catStr = "Category: " + viewRecipe.getRecipeCategory();
             category.setText(catStr);
 
-            String servingsStr = "Servings: " + String.valueOf(viewRecipe.getNumOfServings());
+            String servingsStr = "Servings: " + viewRecipe.getNumOfServings();
             servings.setText(servingsStr);
 
             commentsText.setText(viewRecipe.getComment());
@@ -144,19 +141,11 @@ public class RecipeViewFragment extends Fragment {
                 image.setImageResource(R.drawable.placeholder);
             }
         }
+    }
 
-        editButton = view.findViewById(R.id.edit_recipe_btn);
-
-        editButton.setOnClickListener(v1 -> {
-            Bundle bundle = new Bundle();
-            //Recipe editRecipe = viewRecipe;
-            bundle.putInt("editRecipe", getArguments().getInt("viewRecipe"));
-            RecipeChangeHandlerFragment recipeChangeHandlerFragment = new RecipeChangeHandlerFragment();
-            recipeChangeHandlerFragment.setArguments(bundle);
-            requireActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).replace(containerView.getId(), recipeChangeHandlerFragment, "EDIT_RECIPE").addToBackStack("EDIT_RECIPE").commit();
-        });
-
-
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.view_recipe_menu, menu);
     }
 
     /**
@@ -166,7 +155,18 @@ public class RecipeViewFragment extends Fragment {
      */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        return requireActivity().getSupportFragmentManager().popBackStackImmediate();
+        if (item.getItemId() == R.id.editRecipeButton) {
+            Bundle bundle = new Bundle();
+            Recipe editRecipe = viewRecipe;
+            bundle.putInt("editRecipe", getArguments().getInt("viewRecipe"));
+            RecipeChangeHandlerFragment recipeChangeHandlerFragment = new RecipeChangeHandlerFragment();
+            recipeChangeHandlerFragment.setArguments(bundle);
+            requireActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).replace(containerView.getId(), recipeChangeHandlerFragment, "EDIT_RECIPE").addToBackStack("EDIT_RECIPE").commit();
+        } else {
+            return requireActivity().getSupportFragmentManager().popBackStackImmediate();
+        }
+
+        return true;
     }
 
 }

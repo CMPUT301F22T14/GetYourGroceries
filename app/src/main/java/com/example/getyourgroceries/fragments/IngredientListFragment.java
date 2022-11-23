@@ -106,7 +106,6 @@ public class IngredientListFragment extends Fragment {
         // Return the updated view.
         ingredientListView.setAdapter(IngredientStorage.getInstance().getIngredientAdapter());
         Context context = this.getContext();
-        System.out.println("HAHAHAHAHAH"+context.toString());
         sortDropDown = v.findViewById(R.id.sortIngredientSpinner);
         ArrayAdapter<CharSequence> sortAdapter = ArrayAdapter.createFromResource(context,R.array.ingredientSortBy,R.layout.ingredient_spinner_selected);
         sortAdapter.setDropDownViewResource(R.layout.ingredient_spinner_dropdown);

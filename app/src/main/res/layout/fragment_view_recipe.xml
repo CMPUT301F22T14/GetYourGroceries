@@ -12,43 +12,26 @@
 
         <ImageView
             android:id="@+id/image"
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:scaleType="fitXY"
+            android:layout_width="fill_parent"
+            android:layout_height="280dp"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/recipe_icon" />
 
-
-        <TextView
-            android:id="@+id/titleTextField"
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:layout_marginTop="160dp"
-            android:layout_marginEnd="0dp"
-            android:background="@drawable/layout_recipe_view_title"
-            android:gravity="center"
-            android:minWidth="260dp"
-            android:paddingStart="50dp"
-            android:paddingEnd="50dp"
-            android:textColor="@color/white"
-            android:textSize="25sp"
-            android:text="Example Recipe"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/prepTimeTextField"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:layout_marginTop="63dp"
+            android:layout_marginTop="40dp"
             android:layout_marginStart="20dp"
             android:gravity="center"
             android:text="1h 15min"
             android:textStyle="bold"
             android:textColor="@color/black"
-            android:textSize="25sp"
+            android:textSize="20sp"
             app:layout_constraintStart_toEndOf="@id/clock_image"
             app:layout_constraintTop_toBottomOf="@+id/image" />
 
@@ -56,13 +39,13 @@
             android:id="@+id/categoryTextField"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="17dp"
             android:layout_marginStart="20dp"
             android:gravity="center"
             android:text="Category: Cooking"
             android:textStyle="bold"
             android:textColor="@color/black"
-            android:textSize="25sp"
+            android:textSize="20sp"
             app:layout_constraintStart_toEndOf="@+id/category_image"
             app:layout_constraintTop_toBottomOf="@+id/prepTimeTextField" />
 
@@ -70,13 +53,13 @@
             android:id="@+id/servingsTextField"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="17dp"
             android:layout_marginStart="20dp"
             android:gravity="center"
             android:text="Servings: 4"
             android:textStyle="bold"
             android:textColor="@color/black"
-            android:textSize="25sp"
+            android:textSize="20sp"
             app:layout_constraintStart_toEndOf="@id/servings_image"
             app:layout_constraintTop_toBottomOf="@+id/categoryTextField" />
 
@@ -141,34 +124,36 @@
 
         <ImageView
             android:id="@+id/clock_image"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginStart="30dp"
-            android:layout_marginTop="57dp"
+            android:layout_marginTop="46dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/image"
             app:srcCompat="@drawable/time_icon" />
 
         <ImageView
             android:id="@+id/category_image"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginStart="30dp"
-            android:layout_marginTop="130dp"
+            android:layout_marginTop="102dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/image"
             app:srcCompat="@drawable/recipe_category_icon" />
 
         <ImageView
             android:id="@+id/servings_image"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginStart="30dp"
-            android:layout_marginTop="201dp"
+            android:layout_marginTop="159dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/image"
             app:srcCompat="@drawable/quantity_icon"
             app:tint="#000000" />
+
+        <!--
 
         <ImageButton
             android:id="@+id/edit_recipe_btn"
@@ -180,6 +165,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/edit_icon" />
+
+        !-->
 
 
 

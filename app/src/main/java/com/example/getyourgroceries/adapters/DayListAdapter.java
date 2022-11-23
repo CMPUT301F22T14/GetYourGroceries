@@ -113,26 +113,9 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> {
                                 replace(R.id.container, ingredientChangeHandlerFragment,"Test").addToBackStack(null).commit();
 
 
-//                        while(MealPlanStorage.getInstance().getRecentIngredient() == null){
-//                        }
-//                        day.addIngredient(MealPlanStorage.getInstance().getRecentIngredient());
-//                        MealPlanStorage.getInstance().setRecentIngredient(null);
-
-
-                        //day.addIngredient(); Somehow get the ingredient you just added
-
-
                     }
                 });
-//                while(MealPlanStorage.getInstance().getRecentIngredient() == null){
-//                }
-//                    day.addIngredient(MealPlanStorage.getInstance().getRecentIngredient());
-//                    MealPlanStorage.getInstance().setRecentIngredient(null);
 
-//                while(fm.findFragmentByTag("Test") != null){
-//                }
-//                day.addIngredient(MealPlanStorage.getInstance().getRecentIngredient());
-                //Onclick for adding ingredient to day
                 ingredientListView.setOnItemClickListener((adapterView, view, i, l) -> {
                     Ingredient ingredient = (Ingredient) ingredientListView.getItemAtPosition(i);
                     day.addIngredient(ingredient);

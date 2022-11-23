@@ -100,6 +100,7 @@ public class MealPlanChangeHandlerFragment extends Fragment {
 
         MealPlanDay fakeDay = new MealPlanDay("test1");
 //        fakeDay.addIngredient(new Ingredient("Apple", 12, 0.99, "Fruit"));
+//        fakeDay.addIngredient(new Ingredient("Banana", 12, 0.99, "Fruit"));
 //        fakeDay.addRecipe(new Recipe("Apple Pie", 60, 1, "Baking", "Let Cool", "/images/apple-pie"));
         daysAdapter.add(fakeDay);
         MealPlanDay fakeDay2 = new MealPlanDay("test1");

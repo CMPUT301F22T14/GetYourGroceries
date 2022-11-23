@@ -126,6 +126,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp"
             android:layout_marginStart="40dp"
+            android:layout_marginBottom="100dp"
             android:maxWidth="50dp"
             android:autofillHints=""
             android:ems="10"
@@ -135,7 +136,8 @@
             android:textSize="20sp"
             android:text="Bake in low heat for 30 min then 45 min in medium heat"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/commentsTitle" />
+            app:layout_constraintTop_toBottomOf="@+id/commentsTitle"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
         <ImageView
             android:id="@+id/clock_image"

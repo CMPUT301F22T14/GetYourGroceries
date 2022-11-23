@@ -126,8 +126,7 @@ public class RecipeViewFragment extends Fragment {
             String servingsStr = "Servings: " + String.valueOf(viewRecipe.getNumOfServings());
             servings.setText(servingsStr);
 
-            String commentsStr = "Comments:\n" + viewRecipe.getComment();
-            commentsText.setText(commentsStr);
+            commentsText.setText(viewRecipe.getComment());
 
             ingredientAdapter = new RecipeIngredientAdapter(requireActivity().getBaseContext(), viewRecipe.getIngredientList());
             ingredientListView.setAdapter(ingredientAdapter);

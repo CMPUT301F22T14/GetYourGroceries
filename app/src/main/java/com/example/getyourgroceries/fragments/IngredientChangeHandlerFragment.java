@@ -28,6 +28,7 @@ import androidx.fragment.app.Fragment;
 import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.control.IngredientDB;
 import com.example.getyourgroceries.entity.IngredientStorage;
+import com.example.getyourgroceries.entity.MealPlanStorage;
 import com.example.getyourgroceries.entity.StoredIngredient;
 import com.google.android.material.textfield.TextInputLayout;
 import java.text.DecimalFormat;
@@ -45,8 +46,6 @@ import java.util.concurrent.atomic.AtomicInteger;
  * AddIngredientFragment extends {@link Fragment}.
  */
 public class IngredientChangeHandlerFragment extends Fragment {
-
-    // Attributes.
     private DatePickerDialog.OnDateSetListener dateSetListener;
     private StoredIngredient editIngredient = null;
     private static final DecimalFormat df = new DecimalFormat("0.00");
@@ -283,6 +282,7 @@ public class IngredientChangeHandlerFragment extends Fragment {
 
             // Add the ingredient to Firebase.
             IngredientStorage.getInstance().addIngredient(ingredient, true);
+            MealPlanStorage.getInstance().setRecentIngredient(ingredient);
             requireActivity().getSupportFragmentManager().popBackStackImmediate();
         });
     }

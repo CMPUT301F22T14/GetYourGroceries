@@ -174,8 +174,8 @@
             android:id="@+id/add_ingredients_recipe"
             android:layout_width="375dp"
             android:layout_height="0dp"
-            android:layout_gravity="center_horizontal"
             android:layout_weight="1"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp" />
 
         <Button

@@ -26,8 +26,8 @@ import java.util.ArrayList;
 public class RecipeAdapter extends ArrayAdapter<Recipe> {
     private final ArrayList<Recipe> recipes;
     private final Context context;
-    private StorageReference imageRef;
-    FirebaseStorage storage;
+    //private StorageReference imageRef;
+    private FirebaseStorage storage;
     private static final String TAG = "RecipeList";
 
     /**
@@ -39,6 +39,7 @@ public class RecipeAdapter extends ArrayAdapter<Recipe> {
         super(context, 0, recipes);
         this.recipes = recipes;
         this.context = context;
+        storage = FirebaseStorage.getInstance();
     }
 
     /**
@@ -73,9 +74,9 @@ public class RecipeAdapter extends ArrayAdapter<Recipe> {
         recipeServings.setText(servingsText);
 
         // get photo
-        storage = FirebaseStorage.getInstance();
+
         try {
-            imageRef = storage.getReference().child(recipe.getPhoto());
+            StorageReference imageRef = storage.getReference().child(recipe.getPhoto());
 
             GlideApp.with(view)
                     .load(imageRef)

@@ -24,7 +24,7 @@ public class DayRecipeListAdapter extends ArrayAdapter<Recipe> {
     private final ArrayList<Recipe> recipes;
     private StorageReference imageRef;
     private final Context context;
-    FirebaseStorage storage;
+    private FirebaseStorage storage;
 
     /**
      * Class constructor.
@@ -35,6 +35,7 @@ public class DayRecipeListAdapter extends ArrayAdapter<Recipe> {
         super(context, 0, recipes);
         this.recipes = recipes;
         this.context = context;
+        storage = FirebaseStorage.getInstance();
     }
 
     /**
@@ -73,6 +74,17 @@ public class DayRecipeListAdapter extends ArrayAdapter<Recipe> {
         storage = FirebaseStorage.getInstance();
         try {
             imageRef = storage.getReference().child(recipe.getPhoto());
+
+            GlideApp.with(view)
+                    .load(imageRef)
+                    .override(300, 300)
+                    .into(recipePhoto);
+        } catch (IllegalArgumentException e) {
+            recipePhoto.setImageResource(R.drawable.placeholder);
+        }
+
+        try {
+            StorageReference imageRef = storage.getReference().child(recipe.getPhoto());
 
             GlideApp.with(view)
                     .load(imageRef)

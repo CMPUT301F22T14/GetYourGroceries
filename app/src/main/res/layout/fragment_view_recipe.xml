@@ -103,7 +103,8 @@
             android:layout_marginTop="25dp"
             app:layout_constraintTop_toBottomOf="@id/ingredientTextField"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/commentsTitle"/>
 
         <TextView
             android:id="@+id/commentsTitle"

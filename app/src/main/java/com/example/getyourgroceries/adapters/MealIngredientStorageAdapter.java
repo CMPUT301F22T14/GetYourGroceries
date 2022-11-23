@@ -1,18 +1,18 @@
-/* IngredientStorageAdapter class. */
 package com.example.getyourgroceries.adapters;
 
-// Import statements.
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.entity.StoredIngredient;
+
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -20,11 +20,11 @@ import java.util.ArrayList;
 /**
  * Create an object to represent the list of ingredients.
  */
-public class IngredientStorageAdapter extends ArrayAdapter<StoredIngredient> {
+public class MealIngredientStorageAdapter extends ArrayAdapter<StoredIngredient> {
     private final ArrayList<StoredIngredient> ingredients;
     private final Context context;
     private static final DecimalFormat df = new DecimalFormat("0.00");
-    public IngredientStorageAdapter(Context context, ArrayList<StoredIngredient> ingredients){
+    public MealIngredientStorageAdapter(Context context, ArrayList<StoredIngredient> ingredients){
         super(context,0, ingredients);
         this.ingredients = ingredients;
         this.context = context;
@@ -46,17 +46,14 @@ public class IngredientStorageAdapter extends ArrayAdapter<StoredIngredient> {
 
 
         if(view == null){
-            view = LayoutInflater.from(context).inflate(R.layout.ingredient_item, parent,false);
+            view = LayoutInflater.from(context).inflate(R.layout.ingredient_item_meal, parent,false);
         }
-
         // Show the ingredient.
         StoredIngredient ingredient = ingredients.get(position);
         ((TextView)view.findViewById(R.id.ingredient_name)).setText(ingredient.getDescription());
         ((TextView)view.findViewById(R.id.ingredient_qty)).setText(String.valueOf(ingredient.getAmount()));
         ((TextView)view.findViewById(R.id.ingredient_bestbefore)).setText((new SimpleDateFormat("MM/dd/yyy")).format(ingredient.getBestBefore()));
-        ((TextView)view.findViewById(R.id.ingredient_location)).setText(ingredient.getLocation());
-        ((TextView)view.findViewById(R.id.ingredient_category)).setText(ingredient.getCategory());
-        ((TextView)view.findViewById(R.id.ingredient_unit)).setText("Unit Cost: $"+ df.format(ingredient.getUnit()));
+
         //return the view
         return view;
     }

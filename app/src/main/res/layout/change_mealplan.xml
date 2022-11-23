@@ -40,6 +40,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/day_list"
+        android:divider="@drawable/space_divider"
+        android:layout_marginHorizontal="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/change_mealplan_title_til"

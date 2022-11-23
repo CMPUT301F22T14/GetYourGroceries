@@ -39,7 +39,7 @@ public class MealPlansFragment extends Fragment {
         ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
         actionBar.setTitle("Meal Plan List");
 
-        MealPlan x = new MealPlan("123","Bulksss Up");
+        MealPlan x = new MealPlan("123","Bulksssss Up");
         MealPlanDay y= new MealPlanDay("1");
         x.addDay(y);
         

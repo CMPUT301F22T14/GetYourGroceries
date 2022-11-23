@@ -3,24 +3,30 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:theme="@style/Theme.Material3.DayNight">
+    android:theme="@style/Theme.Material3.DayNight"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_margin="6dp">
 
         <TextView
             android:id="@+id/day_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Title"
-            android:textAppearance="?attr/textAppearanceTitleLarge"/>
+            android:textAppearance="?attr/textAppearanceTitleLarge"
+            android:textSize="25sp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Recipes"/>
+            android:text="Recipes"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            android:textSize="15sp"
+            />
         <ListView
             android:id="@+id/day_recipe_list"
             android:layout_width="match_parent"
@@ -30,7 +36,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ingredients"/>
+            android:text="Ingredients"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            android:textSize="15sp"/>
         <ListView
             android:id="@+id/day_ingredient_list"
             android:layout_width="match_parent"
@@ -47,16 +55,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/change_ingredient"
-                style="@style/Widget.Material3.Button.Icon"
+                style="?attr/materialButtonOutlinedStyle"
                 android:textSize="20sp"
+                android:textColor="@color/primaryLightColor"
                 app:icon="@drawable/ic_plus"/>
             <Button
                 android:id="@+id/add_recipe_day"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Add Recipe"
-                style="@style/Widget.Material3.Button.Icon"
+                style="?attr/materialButtonOutlinedStyle"
                 android:textSize="20sp"
+                android:textColor="@color/primaryLightColor"
                 app:icon="@drawable/ic_plus"/>
         </LinearLayout>
     </LinearLayout>

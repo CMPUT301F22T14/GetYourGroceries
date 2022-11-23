@@ -37,7 +37,7 @@ public class MealPlansFragment extends Fragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        MealPlan x = new MealPlan("123","Bulksss Up");
+        MealPlan x = new MealPlan("123","Bulksssss Up");
         MealPlanDay y= new MealPlanDay("1");
         x.addDay(y);
         

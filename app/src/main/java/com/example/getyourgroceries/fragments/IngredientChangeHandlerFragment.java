@@ -155,8 +155,10 @@ public class IngredientChangeHandlerFragment extends Fragment {
         };
 
         // Set up location spinner.
+        Map<String, String> ids = new HashMap<>();
         ArrayList<String> locations = new ArrayList<>();
         locations.add("+ Save New Location");
+        locations.add("- Delete Saved Location");
         CollectionReference locationCollection = FirebaseFirestore.getInstance().collection("Locations");
         locationCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -164,6 +166,7 @@ public class IngredientChangeHandlerFragment extends Fragment {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         locations.add(Objects.requireNonNull(document.getData().get("Location")).toString());
+                        ids.put(Objects.requireNonNull(document.getData().get("Location")).toString(), document.getId());
                     }
                 }
             }
@@ -189,6 +192,28 @@ public class IngredientChangeHandlerFragment extends Fragment {
                         Map<String, Object> insertLocation = new HashMap<>();
                         insertLocation.put("Location", newLocation);
                         locationCollection.document().set(insertLocation);
+                        dialog.dismiss();
+                    })
+                    .setNegativeButton("Cancel", (DialogInterface.OnClickListener) (dialog, which) -> {
+                        dialog.cancel();
+                    })
+                    .create()
+                    .show();
+            } else if (locations.get(i).equals("- Delete Saved Location")) {
+                location.setText("");
+                final EditText deleteLocationInput = new EditText(getContext());
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder
+                    .setTitle("Delete Location")
+                    .setMessage("Delete an existing location:")
+                    .setCancelable(true)
+                    .setView(deleteLocationInput)
+                    .setPositiveButton("OK", (DialogInterface.OnClickListener) (dialog, which) -> {
+                        String deleteLocation = deleteLocationInput.getText().toString();
+                        String id = ids.get(deleteLocation);
+                        if (id != null) {
+                            locationCollection.document(id).delete();
+                        }
                         dialog.dismiss();
                     })
                     .setNegativeButton("Cancel", (DialogInterface.OnClickListener) (dialog, which) -> {

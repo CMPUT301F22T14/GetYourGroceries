@@ -102,8 +102,8 @@ public class RecipeListFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Bundle bundle = new Bundle();
-                Recipe viewRecipe = (Recipe) recipeList.getItemAtPosition(position);
-                bundle.putSerializable("viewRecipe", viewRecipe);
+                //Recipe viewRecipe = (Recipe) recipeList.getItemAtPosition(position);
+                bundle.putInt("viewRecipe", position);
                 RecipeViewFragment RecipeViewFragment = new RecipeViewFragment();
                 RecipeViewFragment.setArguments(bundle);
                 requireActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).replace(container.getId(), RecipeViewFragment).addToBackStack(null).commit();

@@ -29,6 +29,7 @@ import com.example.getyourgroceries.adapters.RecipeIngredientAdapter;
 import com.example.getyourgroceries.control.RecipeDB;
 import com.example.getyourgroceries.entity.Ingredient;
 import com.example.getyourgroceries.entity.Recipe;
+import com.example.getyourgroceries.entity.RecipeStorage;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -41,17 +42,15 @@ import java.util.Objects;
  * create an instance of this fragment.
  */
 public class RecipeChangeHandlerFragment extends Fragment implements AddIngredientRecipeFragment.OnFragmentInteractionListener {
-    private final ArrayList<Ingredient> ingredientList;
+    private ArrayList<Ingredient> ingredientList;
     private RecipeIngredientAdapter ingredientAdapter;
     private Recipe editRecipe;
-    RecipeDB db;
 
     /**
      * Fragment constructor to initialize its database class
      */
     public RecipeChangeHandlerFragment() {
         super();
-        db = new RecipeDB();
         ingredientList = new ArrayList<>();
     }
 
@@ -84,17 +83,19 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         NestedScrollView addIngredientLayout = requireActivity().findViewById(R.id.change_recipe_layout);
         addIngredientLayout.setImportantForAutofill(View.IMPORTANT_FOR_AUTOFILL_NO);
-        ingredientAdapter = new RecipeIngredientAdapter(requireActivity().getBaseContext(), ingredientList);
+
         FragmentManager fmManager = getActivity().getSupportFragmentManager();
 
         ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
 
         if (getArguments() != null) {
-            editRecipe = (Recipe) getArguments().getSerializable("editRecipe");
+            editRecipe = RecipeStorage.getInstance().getRecipe(getArguments().getInt("editRecipe"));
             actionBar.setTitle("Edit Recipe");
+            ingredientList = editRecipe.getIngredientList();
         } else{
             actionBar.setTitle("Add Recipe");
         }
+        ingredientAdapter = new RecipeIngredientAdapter(requireActivity().getBaseContext(), ingredientList);
 
         // Set up category spinner.
         AutoCompleteTextView category = view.findViewById(R.id.change_recipe_category);
@@ -142,7 +143,6 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
             servingsText.setText(String.valueOf(editRecipe.getNumOfServings()));
             category.setText(editRecipe.getRecipeCategory());
             commentsText.setText(editRecipe.getComment());
-            ingredientList.addAll(editRecipe.getIngredientList());
         }
 
         // Get the text layouts.
@@ -194,14 +194,18 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
                 return;
             }
 
-            Recipe newRecipe = new Recipe(description, Integer.parseInt(prepTime), Integer.parseInt(servings), categoryText, comments, "recipes/apple.jpg", ingredientList);
-
             // If in edit mode, update the attributes.
             if (editRecipe != null) {
-                newRecipe.setId(editRecipe.getId());
-                db.updateRecipe(newRecipe);
+                editRecipe.setName(description);
+                editRecipe.setPrepTime(Integer.parseInt(prepTime));
+                editRecipe.setNumOfServings(Integer.parseInt(servings));
+                editRecipe.setRecipeCategory(categoryText);
+                editRecipe.setComment(comments);
+                editRecipe.setPhoto("recipes/apple.jpg");
+                RecipeStorage.getInstance().updateRecipe(editRecipe);
             } else {
-                db.addRecipe(newRecipe);
+                Recipe newRecipe = new Recipe(description, Integer.parseInt(prepTime), Integer.parseInt(servings), categoryText, comments, "recipes/apple.jpg", ingredientList);
+                RecipeStorage.getInstance().addRecipe(newRecipe, true);
             }
             fmManager.popBackStack();
             fmManager.popBackStack();

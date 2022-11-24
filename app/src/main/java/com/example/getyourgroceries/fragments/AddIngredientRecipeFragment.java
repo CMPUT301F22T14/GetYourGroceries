@@ -43,7 +43,7 @@ public class AddIngredientRecipeFragment extends DialogFragment {
         this.index = index;
     }
 
-    AddIngredientRecipeFragment() {}
+    public AddIngredientRecipeFragment() {}
 
     @Override
     public void onAttach(@NonNull Context context) {

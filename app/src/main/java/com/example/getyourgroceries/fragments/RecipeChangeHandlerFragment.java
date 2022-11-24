@@ -1,20 +1,33 @@
 package com.example.getyourgroceries.fragments;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,8 +35,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 
+import com.example.getyourgroceries.GlideApp;
 import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.adapters.RecipeIngredientAdapter;
 import com.example.getyourgroceries.control.RecipeDB;
@@ -31,6 +46,8 @@ import com.example.getyourgroceries.entity.Ingredient;
 import com.example.getyourgroceries.entity.Recipe;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -45,6 +62,11 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
     private RecipeIngredientAdapter ingredientAdapter;
     private Recipe editRecipe;
     RecipeDB db;
+    FirebaseStorage storage;
+    StorageReference imageRef;
+    private static final int ALL_PERMISSIONS_RESULT = 107;
+    Bitmap myBitmap;
+    ImageView image;
 
     /**
      * Fragment constructor to initialize its database class
@@ -112,8 +134,11 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
         TextInputEditText prepTimeText = view.findViewById(R.id.change_recipe_prep_time);
         TextInputEditText servingsText = view.findViewById(R.id.change_recipe_servings);
         TextInputEditText commentsText = view.findViewById(R.id.change_recipe_comments);
+        image = view.findViewById(R.id.recipeImage);
         ListView ingredientListView = view.findViewById(R.id.add_ingredients_recipe);
         ingredientListView.setAdapter(ingredientAdapter);
+
+        Button addRecipePhotoButton = view.findViewById(R.id.change_recipe_add_photo);
 
         ingredientListView.setOnItemClickListener((adapterView, view12, i, l) -> new AddIngredientRecipeFragment(ingredientList.get(i), i).show(getActivity().getSupportFragmentManager(), "EDIT_INGREDIENT_RECIPE"));
 
@@ -143,6 +168,20 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
             category.setText(editRecipe.getRecipeCategory());
             commentsText.setText(editRecipe.getComment());
             ingredientList.addAll(editRecipe.getIngredientList());
+
+            addRecipePhotoButton.setText("Change Photo");
+
+            // get photo
+            storage = FirebaseStorage.getInstance();
+            try {
+                imageRef = storage.getReference().child(editRecipe.getPhoto());
+
+                GlideApp.with(view)
+                        .load(imageRef)
+                        .into(image);
+            } catch (IllegalArgumentException e) {
+                image.setImageResource(R.drawable.placeholder);
+            }
         }
 
         // Get the text layouts.
@@ -153,6 +192,21 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
 
         Button addIngredientBtn = view.findViewById(R.id.change_recipe_add_ingredient);
         addIngredientBtn.setOnClickListener(view12 -> new AddIngredientRecipeFragment().show(getActivity().getSupportFragmentManager(), "ADD_INGREDIENT_RECIPE"));
+
+        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{
+                    Manifest.permission.CAMERA
+            }, 100);
+        }
+
+        addRecipePhotoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(intent, 100);
+            }
+        });
+
 
         // Add the recipe.
         Button confirmButton = view.findViewById(R.id.change_recipe_confirm);
@@ -208,6 +262,16 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
         });
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 100) {
+            myBitmap = (Bitmap) data.getExtras().get("data");
+            image.setImageBitmap(myBitmap);
+        }
+    }
+
     /**
      * The onOptionsItemSelected method will go to the previous fragment when the back button is pressed.
      *
@@ -228,7 +292,7 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
     public void onOkPressed(Ingredient newIngredient) {
         if (!ingredientList.contains(newIngredient)) {
             ingredientList.add(newIngredient);
-            ingredientAdapter.notifyDataSetChanged();
+            ingredientAdapter.notifyDataSetChanged() ;
         }
     }
 
@@ -242,4 +306,5 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
         ingredientList.set(index, newIngredient);
         ingredientAdapter.notifyDataSetChanged();
     }
+
 }

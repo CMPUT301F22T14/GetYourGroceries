@@ -75,8 +75,6 @@ public class IngredientSortingUITest {
             View v2 = ingredients.getChildAt(i+1);
             String s2 = ((TextView) v2.findViewById(R.id.ingredient_name)).getText().toString();
             assertTrue((s.compareTo(s2))<=0);
-
-
         }
 
     }
@@ -100,10 +98,7 @@ public class IngredientSortingUITest {
             View v2 = ingredients.getChildAt(i+1);
             String s2 = ((TextView) v2.findViewById(R.id.ingredient_name)).getText().toString();
             assertTrue((s.compareTo(s2))>=0);
-
-
         }
-
     }
 
     @Test
@@ -129,9 +124,7 @@ public class IngredientSortingUITest {
             catch (ParseException e){
                 e.printStackTrace();
             }
-
         }
-
     }
 
     @Test
@@ -156,9 +149,7 @@ public class IngredientSortingUITest {
             catch (ParseException e){
                 e.printStackTrace();
             }
-
         }
-
     }
 
 
@@ -176,10 +167,7 @@ public class IngredientSortingUITest {
             View v2 = ingredients.getChildAt(i+1);
             String s2 = ((TextView) v2.findViewById(R.id.ingredient_location)).getText().toString();
             assertTrue((s.compareTo(s2))<=0);
-
-
         }
-
     }
 
     @Test
@@ -198,10 +186,7 @@ public class IngredientSortingUITest {
             View v2 = ingredients.getChildAt(i+1);
             String s2 = ((TextView) v2.findViewById(R.id.ingredient_location)).getText().toString();
             assertTrue((s.compareTo(s2))>=0);
-
-
         }
-
     }
 
 
@@ -218,10 +203,7 @@ public class IngredientSortingUITest {
             View v2 = ingredients.getChildAt(i+1);
             String s2 = ((TextView) v2.findViewById(R.id.ingredient_category)).getText().toString();
             assertTrue((s.compareTo(s2))<=0);
-
-
         }
-
     }
 
     @Test
@@ -239,10 +221,7 @@ public class IngredientSortingUITest {
             View v2 = ingredients.getChildAt(i+1);
             String s2 = ((TextView) v2.findViewById(R.id.ingredient_category)).getText().toString();
             assertTrue((s.compareTo(s2))>=0);
-
-
         }
-
     }
 
     @After

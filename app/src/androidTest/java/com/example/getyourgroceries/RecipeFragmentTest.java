@@ -67,7 +67,7 @@ public class RecipeFragmentTest {
         Spinner dropDown = (Spinner)solo.getView(R.id.sort_recipe_spinner);
         solo.clickOnView(dropDown);
         solo.clickOnText("Name");
-        SwitchCompat switch_sorting = (SwitchCompat)solo.getView(R.id.sortingSwitchRecipe);
+        SwitchCompat switch_sorting = (SwitchCompat)solo.getView(R.id.sorting_switch_recipe);
         solo.clickOnView(switch_sorting);
         solo.clickOnView(switch_sorting);
         solo.sleep(100);
@@ -82,7 +82,7 @@ public class RecipeFragmentTest {
         Spinner dropDown = (Spinner)solo.getView(R.id.sort_recipe_spinner);
         solo.clickOnView(dropDown);
         solo.clickOnText("Name");
-        SwitchCompat switch_sorting = (SwitchCompat)solo.getView(R.id.sortingSwitchRecipe);
+        SwitchCompat switch_sorting = (SwitchCompat)solo.getView(R.id.sorting_switch_recipe);
         solo.clickOnView(switch_sorting);
         solo.sleep(100);
         //Need to assert that the first item is the correct sorted item
@@ -98,7 +98,7 @@ public class RecipeFragmentTest {
         Spinner dropDown = (Spinner)solo.getView(R.id.sort_recipe_spinner);
         solo.clickOnView(dropDown);
         solo.pressMenuItem(3);
-        SwitchCompat switch_sorting = (SwitchCompat)solo.getView(R.id.sortingSwitchRecipe);
+        SwitchCompat switch_sorting = (SwitchCompat)solo.getView(R.id.sorting_switch_recipe);
         solo.clickOnView(switch_sorting);
         solo.clickOnView(switch_sorting);
         solo.sleep(100);
@@ -113,7 +113,7 @@ public class RecipeFragmentTest {
         Spinner dropDown = (Spinner)solo.getView(R.id.sort_recipe_spinner);
         solo.clickOnView(dropDown);
         solo.pressMenuItem(3);
-        SwitchCompat switch_sorting = (SwitchCompat)solo.getView(R.id.sortingSwitchRecipe);
+        SwitchCompat switch_sorting = (SwitchCompat)solo.getView(R.id.sorting_switch_recipe);
         solo.clickOnView(switch_sorting);
         solo.sleep(100);
         //Need to assert that the first item is the correct sorted item
@@ -128,7 +128,7 @@ public class RecipeFragmentTest {
         Spinner dropDown = (Spinner)solo.getView(R.id.sort_recipe_spinner);
         solo.clickOnView(dropDown);
         solo.pressMenuItem(6);
-        SwitchCompat switch_sorting = (SwitchCompat)solo.getView(R.id.sortingSwitchRecipe);
+        SwitchCompat switch_sorting = (SwitchCompat)solo.getView(R.id.sorting_switch_recipe);
         solo.clickOnView(switch_sorting);
         solo.clickOnView(switch_sorting);
         solo.sleep(100);
@@ -143,7 +143,7 @@ public class RecipeFragmentTest {
         Spinner dropDown = (Spinner)solo.getView(R.id.sort_recipe_spinner);
         solo.clickOnView(dropDown);
         solo.pressMenuItem(6);
-        SwitchCompat switch_sorting = (SwitchCompat)solo.getView(R.id.sortingSwitchRecipe);
+        SwitchCompat switch_sorting = (SwitchCompat)solo.getView(R.id.sorting_switch_recipe);
         solo.clickOnView(switch_sorting);
         solo.sleep(100);
         //Need to assert that the first item is the correct sorted item
@@ -162,7 +162,7 @@ public class RecipeFragmentTest {
         solo.pressSpinnerItem(0,4);
         assertTrue(solo.waitForText("Category", 1, 2000));
         solo.sleep(5000);
-        SwitchCompat switch_sorting = (SwitchCompat)solo.getView(R.id.sortingSwitchRecipe);
+        SwitchCompat switch_sorting = (SwitchCompat)solo.getView(R.id.sorting_switch_recipe);
         solo.clickOnView(switch_sorting);
         solo.clickOnView(switch_sorting);
         //Need to assert that the first item is the correct sorted item
@@ -178,7 +178,7 @@ public class RecipeFragmentTest {
         solo.pressSpinnerItem(0,4);
         assertTrue(solo.waitForText("Category", 1, 2000));
         solo.sleep(5000);
-        SwitchCompat switch_sorting = (SwitchCompat)solo.getView(R.id.sortingSwitchRecipe);
+        SwitchCompat switch_sorting = (SwitchCompat)solo.getView(R.id.sorting_switch_recipe);
         solo.clickOnView(switch_sorting);
         //Need to assert that the first item is the correct sorted item
     }
@@ -206,7 +206,7 @@ public class RecipeFragmentTest {
         ListView recipes = (ListView) solo.getView(R.id.recipe_list);
         int size = recipes.getAdapter().getCount();
         solo.clickOnButton("Add Recipe");
-        solo.enterText((EditText) solo.getView(R.id.change_recipe_name), "Test");
+        solo.enterText((EditText) solo.getView(R.id.change_recipe_description), "Test");
         assertTrue(solo.waitForText("Test", 1, 2000));
         solo.enterText((EditText) solo.getView(R.id.change_recipe_prep_time), "20");
         assertTrue(solo.waitForText("20", 1, 2000));
@@ -233,7 +233,7 @@ public class RecipeFragmentTest {
             if (Objects.equals(recipe.getName(), "Test")) {
                 solo.clickInList(i);
                 solo.clickOnImageButton(0);
-                solo.enterText((EditText) solo.getView(R.id.change_recipe_name), "Test");
+                solo.enterText((EditText) solo.getView(R.id.change_recipe_description), "Test");
                 assertTrue(solo.waitForText("Test", 1, 2000));
                 solo.enterText((EditText) solo.getView(R.id.change_recipe_prep_time), "20");
                 assertTrue(solo.waitForText("20", 1, 2000));

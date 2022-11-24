@@ -150,9 +150,10 @@ public class IngredientChangeHandlerFragment extends Fragment {
         // Set up the ingredient category spinner.
         AutoCompleteTextView category = requireActivity().findViewById(R.id.change_ingredient_category);
         ArrayList<String> categories = new ArrayList<>();
-        categories.add("Category 1");
-        categories.add("Category 2");
-        categories.add("Category 3");
+        categories.add("Fruit");
+        categories.add("Vegetable");
+        categories.add("Meat");
+        categories.add("Carbs");
 
         ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner, categories);
         category.setAdapter(categoryAdapter);

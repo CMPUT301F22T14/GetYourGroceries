@@ -18,7 +18,6 @@ import java.util.Comparator;
  * Using singleton pattern to ensure class has only one instance
  */
 public class IngredientStorage {
-
     // Single instance of class
     private static final IngredientStorage instance = new IngredientStorage();
 
@@ -35,7 +34,7 @@ public class IngredientStorage {
 
     /**
      * Static method to get singleton instance of Ingredient Storage
-     * @return
+     * @return the singleton instance
      */
     public static IngredientStorage getInstance() {
         return instance;
@@ -51,7 +50,6 @@ public class IngredientStorage {
         mealIngredientAdapter = new MealIngredientStorageAdapter(context,this.ingredientStorage);
         this.ingredientDB = new IngredientDB();
     }
-
 
     /**
      * Gets the associated adapter
@@ -70,9 +68,10 @@ public class IngredientStorage {
      * @param toDB boolean to push changes to DB or not
      */
     public void addIngredient(StoredIngredient storedIngredient, boolean toDB){
-        ingredientAdapter.add(storedIngredient);
         if (toDB)
-            ingredientDB.addIngredient(storedIngredient);
+            storedIngredient.setId(ingredientDB.addIngredient(storedIngredient));
+        ingredientAdapter.add(storedIngredient);
+
         ingredientAdapter.notifyDataSetChanged();
     }
 

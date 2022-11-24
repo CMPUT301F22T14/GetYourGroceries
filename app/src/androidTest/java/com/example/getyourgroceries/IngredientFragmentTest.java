@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import android.app.Activity;
-import android.util.Log;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -12,17 +12,19 @@ import android.widget.TextView;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
+import com.example.getyourgroceries.entity.IngredientStorage;
 import com.example.getyourgroceries.entity.StoredIngredient;
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.robotium.solo.Solo;
 
-import junit.framework.TestSuite;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 import java.util.Objects;
 
 /**
@@ -30,6 +32,8 @@ import java.util.Objects;
  */
 public class IngredientFragmentTest {
     private Solo solo;
+    private StoredIngredient editTestIngredient;
+    private StoredIngredient deleteTestIngredient;
 
     @Rule
     public ActivityTestRule<MainActivity> rule = new ActivityTestRule<>(MainActivity.class, true, true);
@@ -37,6 +41,10 @@ public class IngredientFragmentTest {
     @Before
     public void setUp() throws Exception {
         solo = new Solo(InstrumentationRegistry.getInstrumentation(), rule.getActivity());
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
+        String expiry = "01/02/2022";
+        editTestIngredient = new StoredIngredient("EditTest", 1, 0.99, "Fruit", formatter.parse(expiry), "Fridge");
+        deleteTestIngredient = new StoredIngredient("DeleteTest", 1, 0.99, "Fruit", formatter.parse(expiry), "Fridge");
     }
 
     @Test
@@ -60,19 +68,18 @@ public class IngredientFragmentTest {
      * Tests adding an ingredient
      */
     @Test
-    public void testAddIngredient() {
+    public void testAddIngredient() throws InterruptedException {
         solo.assertCurrentActivity("Wrong Activity!", MainActivity.class);
         BottomNavigationItemView navItem = (BottomNavigationItemView) solo.getView(R.id.ingredients_icon);
         solo.clickOnView(navItem.getChildAt(1));
 
-        ListView ingredientList = (ListView) solo.getView(R.id.ingredientListView);
-        int size = ingredientList.getAdapter().getCount();
+        int size = IngredientStorage.getInstance().getIngredientAdapter().getCount();
 
         // click on add ingredient
         solo.clickOnButton(0);
 
-        solo.enterText((EditText) solo.getView(R.id.change_ingredient_description), "Test");
-        assertTrue(solo.waitForText("Test", 1, 2000));
+        solo.enterText((EditText) solo.getView(R.id.change_ingredient_description), "AddTest");
+        assertTrue(solo.waitForText("AddTest", 1, 2000));
 
         solo.enterText((EditText) solo.getView(R.id.change_ingredient_quantity), "5");
         assertTrue(solo.waitForText("5", 1, 2000));
@@ -81,11 +88,19 @@ public class IngredientFragmentTest {
         solo.clickOnView(calendar);
         solo.clickOnButton("OK");
 
-        solo.pressSpinnerItem(0,1);
-        assertTrue(solo.waitForText("Pantry", 1, 2000));
+        // Click location
+        AutoCompleteTextView locationView = (AutoCompleteTextView) solo.getView(R.id.change_ingredient_location);
+        solo.enterText(locationView, "Fri");
+        solo.clickOnView(locationView);
+        solo.waitForText("Fridge");
+        solo.clickOnText("Fridge");
 
-        solo.pressSpinnerItem(1,1);
-        assertTrue(solo.waitForText("Category 1", 1, 2000));
+        // Click Category
+        AutoCompleteTextView categoryView = (AutoCompleteTextView) solo.getView(R.id.change_ingredient_category);
+        solo.enterText(categoryView, "Veg");
+        solo.clickOnView(categoryView);
+        solo.waitForText("Vegetable");
+        solo.clickOnText("Vegetable");
 
         solo.enterText((EditText) solo.getView(R.id.change_ingredient_unit), "0.99");
         assertTrue(solo.waitForText("0.99", 1, 2000));
@@ -94,29 +109,42 @@ public class IngredientFragmentTest {
         solo.clickOnButton(0);
         assertTrue(solo.waitForText("Ingredients"));
 
-        ListView ingredientListEnd = (ListView) solo.getView(R.id.ingredientListView);
-        assertEquals(ingredientListEnd.getAdapter().getCount(), size+1);
+        Thread.sleep(100);
+        assertEquals(IngredientStorage.getInstance().getIngredientAdapter().getCount(), size+1);
+
+        for(int i = 0; i < size; i++) {
+            StoredIngredient tv = IngredientStorage.getInstance().getIngredientAdapter().getItem(i);
+            if(Objects.equals(tv.getDescription(), "AddTest")) {
+                solo.clickLongInList(i, 0);
+                solo.clickOnButton("Yes");
+                break;
+            }
+        }
     }
 
     /**
      * Tests editing an ingredient
      */
     @Test
-    public void testEditIngredient() {
+    public void testEditIngredient() throws InterruptedException {
         solo.assertCurrentActivity("Wrong Activity!", MainActivity.class);
         BottomNavigationItemView navItem = (BottomNavigationItemView) solo.getView(R.id.ingredients_icon);
         solo.clickOnView(navItem.getChildAt(1));
+
+        // setup test
+        IngredientStorage.getInstance().addIngredient(editTestIngredient,true);
 
         ListView ingredientList = (ListView) solo.getView(R.id.ingredientListView);
         int size = ingredientList.getAdapter().getCount();
         for(int i = 0; i < size; i++) {
             StoredIngredient tv = (StoredIngredient) ingredientList.getAdapter().getItem(i);
-            if(Objects.equals(tv.getDescription(), "Test")) {
+            if(Objects.equals(tv.getDescription(), "EditTest")) {
                 solo.clickInList(i, 0);
 
-                solo.clearEditText((EditText) solo.getView(R.id.change_ingredient_description));
-                solo.enterText((EditText) solo.getView(R.id.change_ingredient_description), "Test2");
-                assertTrue(solo.waitForText("Test2", 1, 2000));
+                EditText description = (EditText) solo.getView(R.id.change_ingredient_description);
+                solo.clearEditText(description);
+                solo.enterText(description, "EditTestUpdated");
+                assertTrue(solo.waitForText("EditTestUpdated", 1, 2000));
 
                 solo.enterText((EditText) solo.getView(R.id.change_ingredient_quantity), "6");
                 assertTrue(solo.waitForText("6", 1, 2000));
@@ -125,19 +153,41 @@ public class IngredientFragmentTest {
                 solo.clickOnView(calendar);
                 solo.clickOnButton("OK");
 
-                solo.pressSpinnerItem(0,2);
-                assertTrue(solo.waitForText("Freezer", 1, 2000));
+                // Click location
+                AutoCompleteTextView locationView = (AutoCompleteTextView) solo.getView(R.id.change_ingredient_location);
+                solo.clearEditText(locationView);
+                solo.enterText(locationView, "Pan");
+                solo.clickOnView(locationView);
+                solo.waitForText("Pantry");
+                solo.clickOnText("Pantry");
 
-                solo.pressSpinnerItem(1,2);
-                assertTrue(solo.waitForText("Category 3", 1, 2000));
+                // Click Category
+                AutoCompleteTextView categoryView = (AutoCompleteTextView) solo.getView(R.id.change_ingredient_category);
+                solo.clearEditText(categoryView);
+                solo.enterText(categoryView, "Veg");
+                solo.clickOnView(categoryView);
+                solo.waitForText("Vegetable");
+                solo.clickOnText("Vegetable");
 
-                solo.clearEditText((EditText) solo.getView(R.id.change_ingredient_unit));
-                solo.enterText((EditText) solo.getView(R.id.change_ingredient_unit), "1.99");
+                EditText unitView = (EditText) solo.getView(R.id.change_ingredient_unit);
+                solo.clearEditText(unitView);
+                solo.enterText(unitView, "1.99");
                 assertTrue(solo.waitForText("1.99", 1, 2000));
 
                 // click on confirm button
-                solo.clickOnButton(0);
+                solo.clickOnView(solo.getView(R.id.change_ingredient_confirm));
                 assertTrue(solo.waitForText("Ingredients"));
+            }
+        }
+
+        Thread.sleep(100);
+
+        for(int i = 0; i < size; i++) {
+            StoredIngredient tv = IngredientStorage.getInstance().getIngredientAdapter().getItem(i);
+            if(Objects.equals(tv.getDescription(), "EditTestUpdated")) {
+                solo.clickLongInList(i, 0);
+                solo.clickOnButton("Yes");
+                break;
             }
         }
     }
@@ -146,21 +196,25 @@ public class IngredientFragmentTest {
      * Tests deleting an ingredient
      */
     @Test
-    public void testDeleteIngredient() {
+    public void testDeleteIngredient() throws InterruptedException {
         solo.assertCurrentActivity("Wrong Activity!", MainActivity.class);
         BottomNavigationItemView navItem = (BottomNavigationItemView) solo.getView(R.id.ingredients_icon);
         solo.clickOnView(navItem.getChildAt(1));
 
-        ListView ingredientList = (ListView) solo.getView(R.id.ingredientListView);
-        int size = ingredientList.getAdapter().getCount();
+        IngredientStorage.getInstance().addIngredient(deleteTestIngredient, true);
+
+        int size = IngredientStorage.getInstance().getIngredientAdapter().getCount();
         for(int i = 0; i < size; i++) {
-            StoredIngredient tv = (StoredIngredient) ingredientList.getAdapter().getItem(i);
-            if(Objects.equals(tv.getDescription(), "Test") || Objects.equals(tv.getDescription(), "Test2")) {
+            StoredIngredient tv = IngredientStorage.getInstance().getIngredientAdapter().getItem(i);
+            if(Objects.equals(tv.getDescription(), "DeleteTest")) {
                 solo.clickLongInList(i, 0);
                 solo.clickOnButton("Yes");
                 break;
             }
         }
+
+        Thread.sleep(100); // need sleep for else the adapter doesn't properly update
+        assertEquals(IngredientStorage.getInstance().getIngredientAdapter().getCount(), size-1);
     }
 
     @After

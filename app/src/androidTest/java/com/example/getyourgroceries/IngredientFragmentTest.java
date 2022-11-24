@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import android.app.Activity;
+import android.util.Log;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -109,12 +110,13 @@ public class IngredientFragmentTest {
         solo.clickOnButton(0);
         assertTrue(solo.waitForText("Ingredients"));
 
-        Thread.sleep(100);
+        Thread.sleep(200);
         assertEquals(IngredientStorage.getInstance().getIngredientAdapter().getCount(), size+1);
 
-        for(int i = 0; i < size; i++) {
+        for(int i = 0; i < size+1; i++) {
             StoredIngredient tv = IngredientStorage.getInstance().getIngredientAdapter().getItem(i);
             if(Objects.equals(tv.getDescription(), "AddTest")) {
+                Log.d("TEST ADD ING", "HERE");
                 solo.clickLongInList(i, 0);
                 solo.clickOnButton("Yes");
                 break;
@@ -180,7 +182,7 @@ public class IngredientFragmentTest {
             }
         }
 
-        Thread.sleep(100);
+        Thread.sleep(200);
 
         for(int i = 0; i < size; i++) {
             StoredIngredient tv = IngredientStorage.getInstance().getIngredientAdapter().getItem(i);
@@ -213,7 +215,7 @@ public class IngredientFragmentTest {
             }
         }
 
-        Thread.sleep(100); // need sleep for else the adapter doesn't properly update
+        Thread.sleep(200); // need sleep for else the adapter doesn't properly update
         assertEquals(IngredientStorage.getInstance().getIngredientAdapter().getCount(), size-1);
     }
 

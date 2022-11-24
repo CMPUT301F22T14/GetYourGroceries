@@ -25,6 +25,7 @@ import androidx.fragment.app.Fragment;
 import com.example.getyourgroceries.GlideApp;
 import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.entity.Recipe;
+import com.example.getyourgroceries.entity.RecipeStorage;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputLayout;
@@ -84,7 +85,7 @@ public class RecipeViewFragment extends Fragment {
         viewIngredientLayout.setImportantForAutofill(View.IMPORTANT_FOR_AUTOFILL_NO);
 
         if (getArguments() != null) {
-            viewRecipe = (Recipe) getArguments().getSerializable("viewRecipe");
+            viewRecipe = RecipeStorage.getInstance().getRecipe(getArguments().getInt("viewRecipe"));
         }
 
         //Populate fields if its a view
@@ -123,8 +124,8 @@ public class RecipeViewFragment extends Fragment {
 
         editButton.setOnClickListener(v1 -> {
             Bundle bundle = new Bundle();
-            Recipe editRecipe = viewRecipe;
-            bundle.putSerializable("editRecipe", editRecipe);
+            //Recipe editRecipe = viewRecipe;
+            bundle.putInt("editRecipe", getArguments().getInt("viewRecipe"));
             RecipeChangeHandlerFragment recipeChangeHandlerFragment = new RecipeChangeHandlerFragment();
             recipeChangeHandlerFragment.setArguments(bundle);
             requireActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).replace(containerView.getId(), recipeChangeHandlerFragment, "EDIT_RECIPE").addToBackStack("EDIT_RECIPE").commit();

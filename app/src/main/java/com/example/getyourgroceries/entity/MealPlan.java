@@ -32,4 +32,7 @@ public class MealPlan {
     public void deleteDay(MealPlanDay day){
         mealPlanDays.remove(day);
     }
+    public ArrayList<MealPlanDay> getMealPlanDays() {
+        return mealPlanDays;
+    }
 }

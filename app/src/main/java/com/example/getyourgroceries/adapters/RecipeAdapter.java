@@ -13,12 +13,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.getyourgroceries.GlideApp;
 import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.entity.Recipe;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.security.Signature;
 import java.util.ArrayList;
 
 /**
@@ -57,6 +59,8 @@ public class RecipeAdapter extends ArrayAdapter<Recipe> {
             view = LayoutInflater.from(context).inflate(R.layout.recipe_item, parent, false);
         }
 
+        storage = FirebaseStorage.getInstance();
+
         // Add the recipe.
         Recipe recipe = recipes.get(position);
         TextView recipeName = view.findViewById(R.id.recipe_title);
@@ -83,6 +87,7 @@ public class RecipeAdapter extends ArrayAdapter<Recipe> {
             GlideApp.with(view)
                     .load(imageRef)
                     .override(300, 300)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .into(recipePhoto);
         } catch (IllegalArgumentException e) {
             recipePhoto.setImageResource(R.drawable.placeholder);

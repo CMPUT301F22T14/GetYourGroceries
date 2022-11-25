@@ -45,6 +45,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.getyourgroceries.GlideApp;
 import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.adapters.RecipeIngredientAdapter;
@@ -257,6 +258,7 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
 
                 GlideApp.with(view)
                         .load(imageRef)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .into(image);
             } catch (IllegalArgumentException e) {
                 image.setImageResource(R.drawable.placeholder);

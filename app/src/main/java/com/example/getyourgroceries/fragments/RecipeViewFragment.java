@@ -26,6 +26,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.getyourgroceries.GlideApp;
 import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.adapters.RecipeIngredientAdapter;
@@ -136,6 +137,7 @@ public class RecipeViewFragment extends Fragment {
 
                 GlideApp.with(view)
                         .load(imageRef)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .into(image);
             } catch (IllegalArgumentException e) {
                 image.setImageResource(R.drawable.placeholder);

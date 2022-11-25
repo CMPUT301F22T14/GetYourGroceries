@@ -21,6 +21,8 @@ import com.example.getyourgroceries.fragments.MealPlansFragment;
 import com.example.getyourgroceries.fragments.ShoppingListFragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.io.File;
 import java.util.Objects;
 
 /**
@@ -51,6 +53,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(this);
         bottomNavigationView.setSelectedItemId(R.id.home_icon);
+
+
+        for (File f: getBaseContext().getCacheDir().listFiles()) {
+            f.delete();
+        }
     }
 
     /**

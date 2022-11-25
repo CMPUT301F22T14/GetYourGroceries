@@ -55,7 +55,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class MealPlanChangeHandlerFragment extends Fragment {
 
     // Attributes.
-
+    private View view;
 
     /**
      * The AddIngredientFragment constructor.
@@ -74,22 +74,15 @@ public class MealPlanChangeHandlerFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        if (view != null){
+            return view;
+        }
 
         // Create the view.
-        View v = inflater.inflate(R.layout.change_mealplan, container, false);
+        view = inflater.inflate(R.layout.change_mealplan, container, false);
         Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         setHasOptionsMenu(true);
-        return v;
-    }
 
-    /**
-     * The onViewCreated method will be called once the view has been created.
-     * @param view The created view.
-     * @param savedInstanceState The saved state.
-     */
-    @SuppressLint("SimpleDateFormat")
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         ListView dayListView = view.findViewById(R.id.day_list);
         ArrayList<MealPlanDay> days = new ArrayList<>();
         ArrayAdapter<MealPlanDay> daysAdapter = new DayListAdapter(requireActivity().getBaseContext(), days,requireActivity().getSupportFragmentManager());
@@ -103,7 +96,7 @@ public class MealPlanChangeHandlerFragment extends Fragment {
 
                 // Set up the input
                 final EditText input = new EditText(getContext());
-            // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+                // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
                 //input.setInputType(InputType.NA | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                 builder.setView(input);
 
@@ -126,12 +119,15 @@ public class MealPlanChangeHandlerFragment extends Fragment {
             }
         });
 
-
-
-
+        return view;
     }
 
 
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
 
     /**
      * The onOptionsItemSelected method will go to the previous fragment when the back button is pressed.

@@ -81,7 +81,6 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
     private ArrayList<Ingredient> ingredientList;
     private RecipeIngredientAdapter ingredientAdapter;
     private Recipe editRecipe;
-    RecipeDB db;
     FirebaseStorage storage;
     StorageReference imageRef;
     StorageReference newImageRef;
@@ -350,7 +349,7 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
                 RecipeStorage.getInstance().addRecipe(newRecipe, true);
             }
             fmManager.popBackStack();
-            fmManager.popBackStack();
+            //fmManager.popBackStack();
         });
     }
 

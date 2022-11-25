@@ -26,8 +26,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.ViewCompat;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentOnAttachListener;
 
 import com.example.getyourgroceries.MainActivity;
 import com.example.getyourgroceries.R;
@@ -100,7 +102,6 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements AddIngr
         addRecipe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "onClick: got to fragment");
                 LayoutInflater inflater=(LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 View layout = inflater.inflate(R.layout.mealplan_add_recipe,null);
                 ListView recipeListView = layout.findViewById(R.id.recipe_list_meal);
@@ -118,6 +119,7 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements AddIngr
                     public void onClick(View v) {
                         RecipeChangeHandlerFragment recipeChangeHandlerFragment = new RecipeChangeHandlerFragment();
                         //a.dismiss();
+                        a.hide();
                         fm.beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).
                                 replace(R.id.container, recipeChangeHandlerFragment,"Test").addToBackStack(null).commit();
 
@@ -132,7 +134,7 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements AddIngr
 
                     final EditText input = new EditText(view.getRootView().getContext());
                     input.setInputType(InputType.TYPE_CLASS_NUMBER);
-
+                    scaleAlertBox.setView(input);
                     scaleAlertBox.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -160,6 +162,9 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements AddIngr
         return view;
     }
 
+    public void showAddRecipeDialog(){
+
+    }
     /**
      * Executes when the user hits "ok" on the add ingredient dialog
      *

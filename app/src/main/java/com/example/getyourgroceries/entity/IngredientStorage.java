@@ -3,15 +3,13 @@ package com.example.getyourgroceries.entity;
 
 // Import statements.
 import android.content.Context;
-import android.widget.Adapter;
 import android.widget.ArrayAdapter;
-
 import com.example.getyourgroceries.adapters.IngredientStorageAdapter;
 import com.example.getyourgroceries.adapters.MealIngredientStorageAdapter;
 import com.example.getyourgroceries.control.IngredientDB;
-
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Objects;
 
 /**
  * Create an object to represent a list of ingredients.
@@ -27,7 +25,7 @@ public class IngredientStorage {
     }
 
     // ArrayList and db connection
-    private ArrayList<StoredIngredient> ingredientStorage = new ArrayList<>();
+    private final ArrayList<StoredIngredient> ingredientStorage = new ArrayList<>();
     private ArrayAdapter<StoredIngredient> ingredientAdapter;
     private ArrayAdapter<StoredIngredient> mealIngredientAdapter;
     private IngredientDB ingredientDB;
@@ -42,8 +40,7 @@ public class IngredientStorage {
 
     /**
      * Setup storage adapter using provided context
-     * @param context
-     * @return newly created ArrayAdapter object
+     * @param context the context
      */
     public void setupStorage(Context context){
         ingredientAdapter = new IngredientStorageAdapter(context, this.ingredientStorage);
@@ -79,7 +76,7 @@ public class IngredientStorage {
     /**
      * Retrieve a specific ingredient from the storage by index
      * @param i index of ingredient in array
-     * @return
+     * @return the requested ingredient
      */
     public StoredIngredient getIngredient(int i){
         return ingredientAdapter.getItem(i);
@@ -169,5 +166,19 @@ public class IngredientStorage {
                 break;
         }
 
+    }
+
+    /**
+     * Check if an ingredient exists in the storage.
+     * @param ingredientName The ingredient to check for.
+     * @return true/false depending on the existence of the ingredient in storage.
+     */
+    public boolean ingredientExists(String ingredientName) {
+        for (int i = 0; i < ingredientStorage.size(); i++) {
+            if (Objects.equals(ingredientStorage.get(i).getDescription(), ingredientName)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

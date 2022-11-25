@@ -2,6 +2,7 @@
 package com.example.getyourgroceries.fragments;
 
 // Import statements.
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -45,6 +46,7 @@ import com.example.getyourgroceries.entity.RecipeStorage;
 import androidx.fragment.app.Fragment;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import com.example.getyourgroceries.entity.Recipe;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -70,12 +72,14 @@ public class RecipeListFragment extends Fragment {
     /**
      * Empty constructor.
      */
-    public RecipeListFragment(){}
+    public RecipeListFragment() {
+    }
 
     /**
      * Create the view.
-     * @param inflater Object to connect an XML file.
-     * @param container The parent view.
+     *
+     * @param inflater           Object to connect an XML file.
+     * @param container          The parent view.
      * @param savedInstanceState The saved state.
      * @return The created view.
      */
@@ -83,7 +87,7 @@ public class RecipeListFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         actionBar.setTitle("Recipe List");
         Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
         setHasOptionsMenu(false);
@@ -98,8 +102,8 @@ public class RecipeListFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Bundle bundle = new Bundle();
-                Recipe viewRecipe = (Recipe) recipeList.getItemAtPosition(position);
-                bundle.putSerializable("viewRecipe", viewRecipe);
+                //Recipe viewRecipe = (Recipe) recipeList.getItemAtPosition(position);
+                bundle.putInt("viewRecipe", position);
                 RecipeViewFragment RecipeViewFragment = new RecipeViewFragment();
                 RecipeViewFragment.setArguments(bundle);
                 requireActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).replace(container.getId(), RecipeViewFragment).addToBackStack(null).commit();
@@ -107,7 +111,7 @@ public class RecipeListFragment extends Fragment {
         });
 
         // Listener to delete a recipe.
-        recipeList.setOnItemLongClickListener((adapterView, view, i, l)-> {
+        recipeList.setOnItemLongClickListener((adapterView, view, i, l) -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
             builder.setMessage("Would you like to delete this recipe?");
             builder.setTitle("Delete Recipe");
@@ -132,7 +136,7 @@ public class RecipeListFragment extends Fragment {
 
         Context context = this.getContext();
         sortDropDown = v.findViewById(R.id.sort_recipe_spinner);
-        ArrayAdapter<CharSequence> sortAdapter = ArrayAdapter.createFromResource(context,R.array.recipeSortBy,R.layout.ingredient_spinner_selected);
+        ArrayAdapter<CharSequence> sortAdapter = ArrayAdapter.createFromResource(context, R.array.recipeSortBy, R.layout.ingredient_spinner_selected);
         sortAdapter.setDropDownViewResource(R.layout.ingredient_spinner_dropdown);
         sortDropDown.setAdapter(sortAdapter);
 
@@ -146,7 +150,7 @@ public class RecipeListFragment extends Fragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                RecipeStorage.getInstance().sortCategory(0,false);
+                RecipeStorage.getInstance().sortCategory(0, false);
             }
         });
 
@@ -154,21 +158,16 @@ public class RecipeListFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 String type = sortDropDown.getSelectedItem().toString();
-                System.out.println("THIS IS HAPPENING"+ " " + type);
-                if (type.equals("Name")){
-                    RecipeStorage.getInstance().sortCategory(0,isChecked);
+                if (type.equals("Name")) {
+                    RecipeStorage.getInstance().sortCategory(0, isChecked);
+                } else if (type.equals("Prep Time")) {
+                    RecipeStorage.getInstance().sortCategory(1, isChecked);
 
-                }
-                else if (type.equals("Prep Time")){
-                    RecipeStorage.getInstance().sortCategory(1,isChecked);
+                } else if (type.equals("Serving Count")) {
+                    RecipeStorage.getInstance().sortCategory(2, isChecked);
 
-                }
-                else if (type.equals("Serving Count")){
-                    RecipeStorage.getInstance().sortCategory(2,isChecked);
-
-                }
-                else if (type.equals("Category")){
-                    RecipeStorage.getInstance().sortCategory(3,isChecked);
+                } else if (type.equals("Category")) {
+                    RecipeStorage.getInstance().sortCategory(3, isChecked);
                 }
             }
         });

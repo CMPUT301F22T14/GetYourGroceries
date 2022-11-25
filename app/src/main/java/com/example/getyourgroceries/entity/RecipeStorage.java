@@ -2,10 +2,8 @@ package com.example.getyourgroceries.entity;
 
 import android.content.Context;
 import android.widget.ArrayAdapter;
-
 import com.example.getyourgroceries.adapters.RecipeAdapter;
 import com.example.getyourgroceries.control.RecipeDB;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -13,6 +11,7 @@ import java.util.Comparator;
  * Create an object to represent a list of recipes.
  */
 public class RecipeStorage {
+
     // Actual singleton instance
     private static final RecipeStorage instance = new RecipeStorage();
 
@@ -20,7 +19,6 @@ public class RecipeStorage {
     private RecipeStorage() {
         super();
     }
-
     private ArrayList<Recipe> recipeStorage = new ArrayList<>();
     private ArrayAdapter<Recipe> recipeAdapter;
     private RecipeDB recipeDB;

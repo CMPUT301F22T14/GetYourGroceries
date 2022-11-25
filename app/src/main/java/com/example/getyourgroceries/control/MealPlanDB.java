@@ -13,6 +13,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+/**
+ * Create an object to modify the Firebase database for recipes.
+ */
 public class MealPlanDB {
     public static final String TAG = "MEALPLANDB";
     CollectionReference mealPlanCollection;

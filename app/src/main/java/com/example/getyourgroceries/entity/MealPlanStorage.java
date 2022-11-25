@@ -2,13 +2,15 @@ package com.example.getyourgroceries.entity;
 
 import android.content.Context;
 import android.widget.ArrayAdapter;
-
 import com.example.getyourgroceries.adapters.MealPlanAdapter;
 import com.example.getyourgroceries.control.MealPlanDB;
-
 import java.util.ArrayList;
 
+/**
+ * Create an object to store meal plans.
+ */
 public class MealPlanStorage {
+
     // Actual singleton instance
     private static final MealPlanStorage instance = new MealPlanStorage();
 
@@ -21,6 +23,10 @@ public class MealPlanStorage {
     private ArrayAdapter<MealPlan> mealPlanAdapter;
     private MealPlanDB mealPlanDB;
 
+    /**
+     * Get the instance of the MealPlanStorage class.
+     * @return A reference to the instance.
+     */
     public static MealPlanStorage getInstance() {
         return instance;
     }

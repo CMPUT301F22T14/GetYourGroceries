@@ -2,60 +2,33 @@
 package com.example.getyourgroceries.fragments;
 
 // Import statements.
-
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.text.InputType;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
-
 import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.adapters.DayListAdapter;
-import com.example.getyourgroceries.entity.Ingredient;
-import com.example.getyourgroceries.entity.IngredientStorage;
 import com.example.getyourgroceries.entity.MealPlanDay;
-import com.example.getyourgroceries.entity.Recipe;
-import com.example.getyourgroceries.entity.StoredIngredient;
-import com.google.android.material.textfield.TextInputLayout;
-
-import java.text.DecimalFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Locale;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * The AddIngredientFragment is the class for the add ingredient screen.
  * AddIngredientFragment extends {@link Fragment}.
  */
 public class MealPlanChangeHandlerFragment extends Fragment {
-
-    // Attributes.
-
 
     /**
      * The AddIngredientFragment constructor.
@@ -103,7 +76,8 @@ public class MealPlanChangeHandlerFragment extends Fragment {
 
                 // Set up the input
                 final EditText input = new EditText(getContext());
-            // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+
+                // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
                 //input.setInputType(InputType.NA | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                 builder.setView(input);
 
@@ -120,18 +94,10 @@ public class MealPlanChangeHandlerFragment extends Fragment {
                         dialog.cancel();
                     }
                 });
-
                 builder.show();
-
             }
         });
-
-
-
-
     }
-
-
 
     /**
      * The onOptionsItemSelected method will go to the previous fragment when the back button is pressed.

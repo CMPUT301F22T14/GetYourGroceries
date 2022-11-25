@@ -16,6 +16,9 @@ import com.example.getyourgroceries.entity.Ingredient;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
+/**
+ * Create an object to display recipe ingredients.
+ */
 public class RecipeIngredientAdapter extends ArrayAdapter<Ingredient> {
     private final ArrayList<Ingredient> ingredients;
     private final Context context;

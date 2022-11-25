@@ -27,6 +27,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * Create an object to add ingredients to recipes.
+ * AddIngredientRecipeFragment extends {@link DialogFragment}.
+ */
 public class AddIngredientRecipeFragment extends DialogFragment {
     private OnFragmentInteractionListener listener;
     private Ingredient ingredient;
@@ -38,25 +42,40 @@ public class AddIngredientRecipeFragment extends DialogFragment {
     private DayListAdapter dayListAdapter;
     private DayIngredientListAdapter dayIngredientListAdapter;
 
+    /**
+     * Allow callbacks for types.
+     */
     public interface OnFragmentInteractionListener {
         void onOkPressed(Ingredient newIngredient);
         void onItemPressed(Ingredient newIngredient, int index);
         void onMealOkPressed(Ingredient newIngredient,DayIngredientListAdapter dayIngredientListAdapter);
     }
 
+    /**
+     * Constructor for the AddIngredientRecipeFragment class.
+     * @param ingredient The ingredient being added.
+     * @param index The position of the ingredient.
+     */
     AddIngredientRecipeFragment(Ingredient ingredient, int index) {
         this.ingredient = ingredient;
         this.index = index;
     }
+    public AddIngredientRecipeFragment(){}
 
-    public AddIngredientRecipeFragment(){
-    }
-
+    /**
+     * Constructor for the AddIngredientRecipeFragment class.
+     * @param dayListAdapter The adapter for the list of days.
+     * @param dayIngredientListAdapter The adapter for the list of ingredients.
+     */
     public AddIngredientRecipeFragment(DayListAdapter dayListAdapter, DayIngredientListAdapter dayIngredientListAdapter) {
         this.dayListAdapter = dayListAdapter;
         this.dayIngredientListAdapter = dayIngredientListAdapter;
     }
-    
+
+    /**
+     * Call when a fragment gets attached to its context.
+     * @param context The context of the fragment.
+     */
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -69,6 +88,11 @@ public class AddIngredientRecipeFragment extends DialogFragment {
         }
     }
 
+    /**
+     * Allow users to add ingredients to recipes.
+     * @param savedInstanceState The saved state of the fragment.
+     * @return A dialog that allows ingredient addition.
+     */
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {

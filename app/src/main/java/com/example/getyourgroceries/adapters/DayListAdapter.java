@@ -100,6 +100,7 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements AddIngr
         addRecipe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d(TAG, "onClick: got to fragment");
                 LayoutInflater inflater=(LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 View layout = inflater.inflate(R.layout.mealplan_add_recipe,null);
                 ListView recipeListView = layout.findViewById(R.id.recipe_list_meal);
@@ -152,11 +153,6 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements AddIngr
 
 
                 });
-
-            }
-        });addRecipe.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
             }
         });

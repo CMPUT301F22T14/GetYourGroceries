@@ -23,8 +23,7 @@ public class HomeScreenFragment extends Fragment {
     /**
      * Empty constructor.
      */
-    public HomeScreenFragment() {
-    }
+    public HomeScreenFragment() {}
 
     /**
      * Create the view.
@@ -38,6 +37,7 @@ public class HomeScreenFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         actionBar.setTitle("Get Your Groceries");
+
         // Inflate the layout for this fragment.
         View v = inflater.inflate(R.layout.fragment_home_screen, container, false);
 

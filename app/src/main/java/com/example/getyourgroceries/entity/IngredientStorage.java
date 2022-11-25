@@ -1,9 +1,7 @@
 /* IngredientStorage class. */
 package com.example.getyourgroceries.entity;
 
-// Import statements.
 import android.content.Context;
-import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 
 import com.example.getyourgroceries.adapters.IngredientStorageAdapter;
@@ -22,7 +20,7 @@ public class IngredientStorage {
     private static final IngredientStorage instance = new IngredientStorage();
 
     // Constructor is private to prevent new storages being made
-    private IngredientStorage(){
+    private IngredientStorage() {
         super();
     }
 
@@ -34,6 +32,7 @@ public class IngredientStorage {
 
     /**
      * Static method to get singleton instance of Ingredient Storage
+     *
      * @return the singleton instance
      */
     public static IngredientStorage getInstance() {
@@ -42,32 +41,35 @@ public class IngredientStorage {
 
     /**
      * Setup storage adapter using provided context
-     * @param context
-     * @return newly created ArrayAdapter object
+     *
+     * @param context of the array adapter to initialize
      */
-    public void setupStorage(Context context){
+    public void setupStorage(Context context) {
         ingredientAdapter = new IngredientStorageAdapter(context, this.ingredientStorage);
-        mealIngredientAdapter = new MealIngredientStorageAdapter(context,this.ingredientStorage);
+        mealIngredientAdapter = new MealIngredientStorageAdapter(context, this.ingredientStorage);
         this.ingredientDB = new IngredientDB();
     }
 
     /**
      * Gets the associated adapter
+     *
      * @return the ingredient adapter
      */
     public ArrayAdapter<StoredIngredient> getIngredientAdapter() {
         return ingredientAdapter;
     }
-    public ArrayAdapter<StoredIngredient> getMealIngredientAdapter(){
+
+    public ArrayAdapter<StoredIngredient> getMealIngredientAdapter() {
         return mealIngredientAdapter;
     }
 
     /**
      * Add ingredient to storage
+     *
      * @param storedIngredient new ingredient to add
-     * @param toDB boolean to push changes to DB or not
+     * @param toDB             boolean to push changes to DB or not
      */
-    public void addIngredient(StoredIngredient storedIngredient, boolean toDB){
+    public void addIngredient(StoredIngredient storedIngredient, boolean toDB) {
         if (toDB) {
             storedIngredient.setId(ingredientDB.addIngredient(storedIngredient));
         }
@@ -78,27 +80,30 @@ public class IngredientStorage {
 
     /**
      * Retrieve a specific ingredient from the storage by index
+     *
      * @param i index of ingredient in array
-     * @return
+     * @return the ingredient object
      */
-    public StoredIngredient getIngredient(int i){
+    public StoredIngredient getIngredient(int i) {
         return ingredientAdapter.getItem(i);
     }
 
     /**
      * Update an ingredient in the database
+     *
      * @param storedIngredient ingredient to update
      */
-    public void updateIngredient(StoredIngredient storedIngredient){
+    public void updateIngredient(StoredIngredient storedIngredient) {
         ingredientDB.updateIngredient(storedIngredient);
     }
 
     /**
      * Delete an ingredient from local and database storage (if requested)
+     *
      * @param storedIngredient ingredient to delete
-     * @param toDB boolean to determine if deletion is database-side
+     * @param toDB             boolean to determine if deletion is database-side
      */
-    public void deleteIngredient(StoredIngredient storedIngredient, boolean toDB){
+    public void deleteIngredient(StoredIngredient storedIngredient, boolean toDB) {
         ingredientAdapter.remove(storedIngredient);
         if (toDB)
             ingredientDB.deleteIngredient(storedIngredient);
@@ -107,7 +112,8 @@ public class IngredientStorage {
 
     /**
      * Fetch arraylist containing ingredient objects
-     * @return ArrayList<StoredIngredient>
+     *
+     * @return ArrayList<StoredIngredient> the list of ingredients
      */
     public ArrayList<StoredIngredient> getIngredientList() {
         return ingredientStorage;
@@ -116,58 +122,54 @@ public class IngredientStorage {
     /**
      * Clear storage of local ingredient storage
      */
-    public void clearLocalStorage(){
+    public void clearLocalStorage() {
         ingredientAdapter.clear();
         ingredientAdapter.notifyDataSetChanged();
     }
 
     /**
      * Sort Ingredient Storage by specific category
+     *
      * @param type attribute to sort by
      * @param desc boolean to determine if descending
      */
-    public void sortByCategory(int type,boolean desc){
-        switch(type){
+    public void sortByCategory(int type, boolean desc) {
+        switch (type) {
             case 0:
                 if (desc) {
-                    this.ingredientAdapter.sort((o1, o2) -> o1.getDescription().compareTo(o2.getDescription())*-1);
-                }
-                else{
+                    this.ingredientAdapter.sort((o1, o2) -> o1.getDescription().compareTo(o2.getDescription()) * -1);
+                } else {
                     this.ingredientAdapter.sort(Comparator.comparing(Ingredient::getDescription));
                 }
                 this.ingredientAdapter.notifyDataSetChanged();
                 break;
 
             case 1:
-                if (desc){
-                    this.ingredientAdapter.sort((o1, o2) -> o1.getBestBefore().compareTo(o2.getBestBefore())*-1);
+                if (desc) {
+                    this.ingredientAdapter.sort((o1, o2) -> o1.getBestBefore().compareTo(o2.getBestBefore()) * -1);
 
-                }
-                else{
+                } else {
                     this.ingredientAdapter.sort(Comparator.comparing(StoredIngredient::getBestBefore));
                 }
                 this.ingredientAdapter.notifyDataSetChanged();
                 break;
             case 2:
-                if (desc){
-                    this.ingredientAdapter.sort((o1, o2) -> o1.getLocation().compareTo(o2.getLocation())*-1);
-                }
-                else{
+                if (desc) {
+                    this.ingredientAdapter.sort((o1, o2) -> o1.getLocation().compareTo(o2.getLocation()) * -1);
+                } else {
                     this.ingredientAdapter.sort(Comparator.comparing(StoredIngredient::getLocation));
 
                 }
                 this.ingredientAdapter.notifyDataSetChanged();
                 break;
             case 3:
-                if (desc){
-                    this.ingredientAdapter.sort((o1, o2) -> o1.getCategory().compareTo(o2.getCategory())*-1);
-                }
-                else{
+                if (desc) {
+                    this.ingredientAdapter.sort((o1, o2) -> o1.getCategory().compareTo(o2.getCategory()) * -1);
+                } else {
                     this.ingredientAdapter.sort(Comparator.comparing(Ingredient::getCategory));
                 }
                 this.ingredientAdapter.notifyDataSetChanged();
                 break;
         }
-
     }
 }

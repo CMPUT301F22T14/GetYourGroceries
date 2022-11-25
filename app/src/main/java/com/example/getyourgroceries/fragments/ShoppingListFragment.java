@@ -19,7 +19,6 @@ import androidx.annotation.Nullable;
 import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.adapters.ShoppingListAdapter;
 import com.example.getyourgroceries.entity.Ingredient;
-import com.example.getyourgroceries.entity.RecipeStorage;
 import com.google.android.material.materialswitch.MaterialSwitch;
 
 import java.util.ArrayList;
@@ -29,8 +28,7 @@ public class ShoppingListFragment extends Fragment {
     Spinner sortDropDown;
     MaterialSwitch sorting_switch;
 
-    public ShoppingListFragment() {
-    }
+    public ShoppingListFragment() {}
 
     @Nullable
     @Override
@@ -64,15 +62,12 @@ public class ShoppingListFragment extends Fragment {
             }
         });
 
-        sorting_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                String type = sortDropDown.getSelectedItem().toString();
-                if (type.equals("Description")) {
-                    // TODO: sort based on description
-                } else if (type.equals("Category")) {
-                    // TODO: sort based on category
-                }
+        sorting_switch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            String type = sortDropDown.getSelectedItem().toString();
+            if (type.equals("Description")) {
+                // TODO: sort based on description
+            } else if (type.equals("Category")) {
+                // TODO: sort based on category
             }
         });
 

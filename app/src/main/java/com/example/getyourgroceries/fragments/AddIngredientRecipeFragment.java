@@ -38,7 +38,13 @@ public class AddIngredientRecipeFragment extends DialogFragment {
 
     public interface OnFragmentInteractionListener {
         void onOkPressed(Ingredient newIngredient);
+
         void onItemPressed(Ingredient newIngredient, int index);
+<<<<<<< Updated upstream
+=======
+
+        void onMealOkPressed(Ingredient newIngredient, DayIngredientListAdapter dayIngredientListAdapter);
+>>>>>>> Stashed changes
     }
 
     AddIngredientRecipeFragment(Ingredient ingredient, int index) {
@@ -46,15 +52,35 @@ public class AddIngredientRecipeFragment extends DialogFragment {
         this.index = index;
     }
 
+<<<<<<< Updated upstream
     AddIngredientRecipeFragment() {}
 
+=======
+    public AddIngredientRecipeFragment() {
+    }
+
+    public AddIngredientRecipeFragment(DayListAdapter dayListAdapter, DayIngredientListAdapter dayIngredientListAdapter) {
+        this.dayListAdapter = dayListAdapter;
+        this.dayIngredientListAdapter = dayIngredientListAdapter;
+    }
+
+>>>>>>> Stashed changes
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         MainActivity act = (MainActivity) context;
+<<<<<<< Updated upstream
 
         RecipeChangeHandlerFragment frag = (RecipeChangeHandlerFragment) act.getSupportFragmentManager().findFragmentByTag("EDIT_RECIPE");
         listener = (OnFragmentInteractionListener)frag;
+=======
+        if (dayListAdapter != null) {
+            listener = (OnFragmentInteractionListener) dayListAdapter;
+        } else {
+            OnFragmentInteractionListener frag = (OnFragmentInteractionListener) act.getSupportFragmentManager().findFragmentByTag("EDIT_RECIPE");
+            listener = (OnFragmentInteractionListener) frag;
+        }
+>>>>>>> Stashed changes
     }
 
     @NonNull
@@ -105,7 +131,7 @@ public class AddIngredientRecipeFragment extends DialogFragment {
         };
         category.setAdapter(categoryAdapter);
 
-        if(ingredient != null) {
+        if (ingredient != null) {
             description.setText(ingredient.getDescription());
             amount.setText(ingredient.getAmount().toString());
             unit.setText(ingredient.getUnit().toString());
@@ -114,7 +140,7 @@ public class AddIngredientRecipeFragment extends DialogFragment {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
-        if(ingredient != null) {
+        if (ingredient != null) {
             builder = builder.setTitle("Edit Ingredient");
         } else {
             builder = builder.setTitle("Add Ingredient");
@@ -126,10 +152,12 @@ public class AddIngredientRecipeFragment extends DialogFragment {
                 quantityTIL = view.findViewById(R.id.change_ingredient_quantity_til),
                 categoryTIL = view.findViewById(R.id.change_ingredient_category_til),
                 unitTIL = view.findViewById(R.id.change_ingredient_unit_til);
+
         final AlertDialog dialog = builder
-            .setView(view)
-            .setNegativeButton("Cancel", null)
-            .setPositiveButton("OK", null).create();
+                .setView(view)
+                .setNegativeButton("Cancel", null)
+                .setPositiveButton("OK", null).create();
+
         dialog.setOnShowListener(dialogInterface -> {
             Button button = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
             button.setOnClickListener(view1 -> {
@@ -169,6 +197,11 @@ public class AddIngredientRecipeFragment extends DialogFragment {
                     Double ingUnit2 = Double.parseDouble(ingUnit);
                     if (ingredient != null) {
                         listener.onItemPressed(new Ingredient(ingDescription, ingAmount2, ingUnit2, ingCategory), index);
+<<<<<<< Updated upstream
+=======
+                    } else if (dayIngredientListAdapter != null) {
+                        listener.onMealOkPressed(new Ingredient(ingDescription, ingAmount2, ingUnit2, ingCategory), dayIngredientListAdapter);
+>>>>>>> Stashed changes
                     } else {
                         listener.onOkPressed(new Ingredient(ingDescription, ingAmount2, ingUnit2, ingCategory));
                     }

@@ -2,7 +2,6 @@
 package com.example.getyourgroceries.fragments;
 
 import android.content.Context;
-// Import statements.
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -15,7 +14,6 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.Spinner;
-import com.example.getyourgroceries.adapters.IngredientStorageAdapter;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,12 +23,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.getyourgroceries.R;
-import com.example.getyourgroceries.control.IngredientDB;
-import com.example.getyourgroceries.entity.Ingredient;
 import com.example.getyourgroceries.entity.IngredientStorage;
 import com.example.getyourgroceries.entity.StoredIngredient;
 
-import java.util.Comparator;
 import java.util.Objects;
 
 /**
@@ -40,18 +35,19 @@ import java.util.Objects;
 public class IngredientListFragment extends Fragment {
     Spinner sortDropDown;
     SwitchCompat sorting_switch;
-    // Attributes.
     ListView ingredientListView;
 
     /**
      * Empty constructor.
      */
-    public IngredientListFragment(){}
+    public IngredientListFragment() {
+    }
 
     /**
      * Create the view.
-     * @param inflater Inflater to set an XML file.
-     * @param container Containing view.
+     *
+     * @param inflater           Inflater to set an XML file.
+     * @param container          Containing view.
      * @param savedInstanceState The saved state.
      * @return The created view.
      */
@@ -59,7 +55,7 @@ public class IngredientListFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         //set title
-        ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         actionBar.setTitle("Ingredient Storage");
 
         // Inflate the layout for this fragment.
@@ -94,8 +90,8 @@ public class IngredientListFragment extends Fragment {
             builder.setTitle("Delete Ingredient");
             builder.setCancelable(true);
             builder.setPositiveButton("Yes", (DialogInterface.OnClickListener) (dialog, which) -> {
-               StoredIngredient ingredient = (StoredIngredient) ingredientListView.getItemAtPosition(i);
-               IngredientStorage.getInstance().deleteIngredient(ingredient, true);
+                StoredIngredient ingredient = (StoredIngredient) ingredientListView.getItemAtPosition(i);
+                IngredientStorage.getInstance().deleteIngredient(ingredient, true);
             });
             builder.setNegativeButton("No", (DialogInterface.OnClickListener) (dialog, which) -> dialog.cancel());
             AlertDialog alert = builder.create();
@@ -107,11 +103,11 @@ public class IngredientListFragment extends Fragment {
         ingredientListView.setAdapter(IngredientStorage.getInstance().getIngredientAdapter());
         Context context = this.getContext();
         sortDropDown = v.findViewById(R.id.sortIngredientSpinner);
-        ArrayAdapter<CharSequence> sortAdapter = ArrayAdapter.createFromResource(context,R.array.ingredientSortBy,R.layout.ingredient_spinner_selected);
+        ArrayAdapter<CharSequence> sortAdapter = ArrayAdapter.createFromResource(context, R.array.ingredientSortBy, R.layout.ingredient_spinner_selected);
         sortAdapter.setDropDownViewResource(R.layout.ingredient_spinner_dropdown);
         sortDropDown.setAdapter(sortAdapter);
 
-        //Sorting
+        // Sorting
         sortDropDown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -121,7 +117,8 @@ public class IngredientListFragment extends Fragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
+                // Sort by first category in ascending order by default
+                IngredientStorage.getInstance().sortByCategory(0, false);
             }
         });
 
@@ -129,26 +126,24 @@ public class IngredientListFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 String type = sortDropDown.getSelectedItem().toString();
-                if (type.equals("Description")){
-                    IngredientStorage.getInstance().sortByCategory(0,isChecked);
-
-                }
-                else if (type.equals("Date")){
-                    IngredientStorage.getInstance().sortByCategory(1,isChecked);
-
-                }
-                else if (type.equals("Location")){
-                    IngredientStorage.getInstance().sortByCategory(2,isChecked);
-
-                }
-                else if (type.equals("Category")){
-                    IngredientStorage.getInstance().sortByCategory(3,isChecked);
+                switch (type) {
+                    case "Description":
+                        IngredientStorage.getInstance().sortByCategory(0, isChecked);
+                        break;
+                    case "Date":
+                        IngredientStorage.getInstance().sortByCategory(1, isChecked);
+                        break;
+                    case "Location":
+                        IngredientStorage.getInstance().sortByCategory(2, isChecked);
+                        break;
+                    case "Category":
+                        IngredientStorage.getInstance().sortByCategory(3, isChecked);
+                        break;
                 }
             }
         });
 
-
         return v;
     }
-    
+
 }

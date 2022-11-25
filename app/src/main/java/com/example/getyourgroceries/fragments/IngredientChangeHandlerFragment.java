@@ -30,7 +30,6 @@ import androidx.fragment.app.Fragment;
 
 import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.entity.IngredientStorage;
-import com.example.getyourgroceries.entity.MealPlanStorage;
 import com.example.getyourgroceries.entity.StoredIngredient;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.CollectionReference;
@@ -75,7 +74,6 @@ public class IngredientChangeHandlerFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         // Create the view.
         View v = inflater.inflate(R.layout.change_ingredient, container, false);
         Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
@@ -92,9 +90,7 @@ public class IngredientChangeHandlerFragment extends Fragment {
     @SuppressLint("SimpleDateFormat")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-
 
         // Initialization.
         ConstraintLayout addIngredientLayout = requireActivity().findViewById(R.id.change_ingredient_layout);
@@ -121,6 +117,7 @@ public class IngredientChangeHandlerFragment extends Fragment {
         if (getArguments() != null) {
             cal.setTime(editIngredient.getBestBefore());
         }
+
         AtomicInteger yearSet = new AtomicInteger(cal.get(Calendar.YEAR));
         AtomicInteger monthSet = new AtomicInteger(cal.get(Calendar.MONTH));
         AtomicInteger daySet = new AtomicInteger(cal.get(Calendar.DAY_OF_MONTH));
@@ -156,6 +153,7 @@ public class IngredientChangeHandlerFragment extends Fragment {
                 }
             }
         });
+
         AutoCompleteTextView location = requireActivity().findViewById(R.id.change_ingredient_location);
         ArrayAdapter<String> locationAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner, locations);
         location.setAdapter(locationAdapter);

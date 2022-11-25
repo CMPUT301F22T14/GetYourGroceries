@@ -27,6 +27,7 @@ public class RecipeStorage {
 
     /**
      * retrieves the singleton instance
+     *
      * @return the instance
      */
     public static RecipeStorage getInstance() {
@@ -35,6 +36,7 @@ public class RecipeStorage {
 
     /**
      * Sets up storage adapter using the context
+     *
      * @param context to connect to
      * @return the connected array adapter
      */
@@ -45,6 +47,7 @@ public class RecipeStorage {
 
     /**
      * Gets the associated adapter
+     *
      * @return the recipe adapter
      */
     public ArrayAdapter<Recipe> getRecipeAdapter() {
@@ -53,11 +56,12 @@ public class RecipeStorage {
 
     /**
      * Add recipe to recipe storage
+     *
      * @param recipe to add
-     * @param toDB determines to add or not to the database
+     * @param toDB   determines to add or not to the database
      */
     public void addRecipe(Recipe recipe, boolean toDB) {
-        if(toDB) {
+        if (toDB) {
             recipe.setId(recipeDB.addRecipe(recipe));
         }
         recipeAdapter.add(recipe);
@@ -67,6 +71,7 @@ public class RecipeStorage {
 
     /**
      * Retrieves a recipe from the storage
+     *
      * @param i index of recipe
      * @return the recipe at the index
      */
@@ -76,6 +81,7 @@ public class RecipeStorage {
 
     /**
      * Updates a recipe from the storage
+     *
      * @param recipe to update
      */
     public void updateRecipe(Recipe recipe) {
@@ -84,13 +90,14 @@ public class RecipeStorage {
 
     /**
      * Deletes a recipe from storage
+     *
      * @param recipe to delete
-     * @param toDB determines to delete or not from the database
+     * @param toDB   determines to delete or not from the database
      */
     public void deleteRecipe(Recipe recipe, boolean toDB) {
         recipeAdapter.remove(recipe);
 
-        if(toDB) {
+        if (toDB) {
             recipeDB.deleteRecipe(recipe);
         }
 
@@ -99,6 +106,7 @@ public class RecipeStorage {
 
     /**
      * Retrieves the list of recipes
+     *
      * @return list
      */
     public ArrayList<Recipe> getRecipeList() {
@@ -115,6 +123,7 @@ public class RecipeStorage {
 
     /**
      * Sorts the recipe list
+     *
      * @param type which type to sort by
      * @param desc descending or ascending
      */

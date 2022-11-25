@@ -3,19 +3,35 @@ package com.example.getyourgroceries.fragments;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+<<<<<<< Updated upstream
+=======
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+>>>>>>> Stashed changes
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+<<<<<<< Updated upstream
 import androidx.constraintlayout.widget.ConstraintLayout;
+=======
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+>>>>>>> Stashed changes
 import androidx.core.view.ViewCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.util.Log;
+<<<<<<< Updated upstream
+=======
+import android.provider.MediaStore;
+>>>>>>> Stashed changes
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,7 +44,6 @@ import android.widget.ListView;
 
 import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.adapters.RecipeIngredientAdapter;
-import com.example.getyourgroceries.control.RecipeDB;
 import com.example.getyourgroceries.entity.Ingredient;
 import com.example.getyourgroceries.entity.Recipe;
 import com.example.getyourgroceries.entity.RecipeStorage;
@@ -52,13 +67,27 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
     private ArrayList<Ingredient> ingredientList;
     private RecipeIngredientAdapter ingredientAdapter;
     private Recipe editRecipe;
+<<<<<<< Updated upstream
+=======
+    FirebaseStorage storage;
+    StorageReference imageRef;
+    StorageReference newImageRef;
+    private static final String TAG = "RecipeChangeHandlerFrag";
+    Bitmap myBitmap;
+    ImageView image;
+    boolean gotImage = false;
+    Dialog photoDialog;
+>>>>>>> Stashed changes
 
     /**
      * Fragment constructor to initialize its database class
      */
     public RecipeChangeHandlerFragment() {
         super();
+<<<<<<< Updated upstream
         ingredientList = new ArrayList<>();
+=======
+>>>>>>> Stashed changes
     }
 
     /**
@@ -70,8 +99,7 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
      * @return view to display
      */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_recipe_change_handler, container, false);
         Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
@@ -93,13 +121,13 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
 
         FragmentManager fmManager = getActivity().getSupportFragmentManager();
 
-        ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
 
         if (getArguments() != null) {
             editRecipe = RecipeStorage.getInstance().getRecipe(getArguments().getInt("editRecipe"));
             actionBar.setTitle("Edit Recipe");
             ingredientList = editRecipe.getIngredientList();
-        } else{
+        } else {
             actionBar.setTitle("Add Recipe");
         }
         ingredientAdapter = new RecipeIngredientAdapter(requireActivity().getBaseContext(), ingredientList);
@@ -300,12 +328,27 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
 
     /**
      * Executes when the user hits "ok" on the edit ingredient dialog
+     *
      * @param newIngredient updated ingredient info
-     * @param index position in ingredient list
+     * @param index         position in ingredient list
      */
     @Override
     public void onItemPressed(Ingredient newIngredient, int index) {
         ingredientList.set(index, newIngredient);
         ingredientAdapter.notifyDataSetChanged();
     }
+<<<<<<< Updated upstream
+=======
+
+    /**
+     * For adding an ingredient to a meal plan
+     *
+     * @param newIngredient            updated ingredient info
+     * @param dayIngredientListAdapter adapter to pass back
+     */
+    @Override
+    public void onMealOkPressed(Ingredient newIngredient, DayIngredientListAdapter dayIngredientListAdapter) {
+        // DO NOT IMPLEMENT, FOR MEAL PLANS
+    }
+>>>>>>> Stashed changes
 }

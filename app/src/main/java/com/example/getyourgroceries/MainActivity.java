@@ -1,10 +1,9 @@
 /* MainActivity class. */
 package com.example.getyourgroceries;
 
-// Import statements.
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -37,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     /**
      * Create the app.
+     *
      * @param savedInstanceState The saved state.
      */
     @Override
@@ -51,10 +51,19 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(this);
         bottomNavigationView.setSelectedItemId(R.id.home_icon);
+<<<<<<< Updated upstream
+=======
+
+
+        for (File f : getBaseContext().getCacheDir().listFiles()) {
+            f.delete();
+        }
+>>>>>>> Stashed changes
     }
 
     /**
      * Create the appropriate fragment.
+     *
      * @param item The navigation bar.
      * @return True on success.
      */

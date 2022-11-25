@@ -23,6 +23,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.getyourgroceries.MainActivity;
 import com.example.getyourgroceries.R;
+import com.example.getyourgroceries.adapters.DayIngredientListAdapter;
 import com.example.getyourgroceries.adapters.DayListAdapter;
 import com.example.getyourgroceries.entity.Ingredient;
 import com.google.android.material.textfield.TextInputLayout;
@@ -38,27 +39,25 @@ public class AddIngredientRecipeFragment extends DialogFragment {
     private EditText unit;
     private int index;
     private DayListAdapter dayListAdapter;
-    private int position;
+    private DayIngredientListAdapter dayIngredientListAdapter;
 
     public interface OnFragmentInteractionListener {
         void onOkPressed(Ingredient newIngredient);
         void onItemPressed(Ingredient newIngredient, int index);
-        void onMealOkPressed(Ingredient newIngredient,int position);
+        void onMealOkPressed(Ingredient newIngredient,DayIngredientListAdapter dayIngredientListAdapter);
     }
 
     AddIngredientRecipeFragment(Ingredient ingredient, int index) {
         this.ingredient = ingredient;
         this.index = index;
-        this.position = -1;
     }
 
-    public AddIngredientRecipeFragment() {
-        this.position = -1;
+    public AddIngredientRecipeFragment(){
     }
 
-    public AddIngredientRecipeFragment(DayListAdapter dayListAdapter,int position) {
+    public AddIngredientRecipeFragment(DayListAdapter dayListAdapter, DayIngredientListAdapter dayIngredientListAdapter) {
         this.dayListAdapter = dayListAdapter;
-        this.position = position;
+        this.dayIngredientListAdapter = dayIngredientListAdapter;
     }
     
     @Override
@@ -137,7 +136,6 @@ public class AddIngredientRecipeFragment extends DialogFragment {
             builder = builder.setTitle("Add Ingredient");
         }
 
-<<<<<<< Updated upstream
         /* Let the user add an ingredient. */
         TextInputLayout
                 descriptionTIL = view.findViewById(R.id.change_ingredient_description_til),
@@ -187,26 +185,12 @@ public class AddIngredientRecipeFragment extends DialogFragment {
                     Double ingUnit2 = Double.parseDouble(ingUnit);
                     if (ingredient != null) {
                         listener.onItemPressed(new Ingredient(ingDescription, ingAmount2, ingUnit2, ingCategory), index);
-                    } else {
-                        listener.onOkPressed(new Ingredient(ingDescription, ingAmount2, ingUnit2, ingCategory));
-=======
-        return builder
-                .setView(view)
-                .setNegativeButton("Cancel", null)
-                .setPositiveButton("OK", (dialogInterface, i) -> {
-                    String ingDescription = description.getText().toString();
-                    int ingAmount = Integer.parseInt(amount.getText().toString());
-                    double ingUnit = Double.parseDouble(unit.getText().toString());
-                    String ingCategory = category.getText().toString();
-                    if(ingredient != null) {
-                        listener.onItemPressed(new Ingredient(ingDescription, ingAmount, ingUnit, ingCategory), index);
                     }
-                    else if (position != -1){
-                        listener.onMealOkPressed(new Ingredient(ingDescription, ingAmount, ingUnit, ingCategory),position);
+                    else if (dayIngredientListAdapter != null){
+                        listener.onMealOkPressed(new Ingredient(ingDescription, ingAmount2, ingUnit2, ingCategory),dayIngredientListAdapter);
                     }
                     else {
-                        listener.onOkPressed(new Ingredient(ingDescription, ingAmount, ingUnit, ingCategory));
->>>>>>> Stashed changes
+                        listener.onOkPressed(new Ingredient(ingDescription, ingAmount2, ingUnit2, ingCategory));
                     }
                     dialog.dismiss();
                 }

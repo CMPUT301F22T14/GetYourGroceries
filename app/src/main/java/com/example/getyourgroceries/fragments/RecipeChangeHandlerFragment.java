@@ -27,6 +27,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.example.getyourgroceries.R;
+import com.example.getyourgroceries.adapters.DayIngredientListAdapter;
 import com.example.getyourgroceries.adapters.RecipeIngredientAdapter;
 import com.example.getyourgroceries.control.RecipeDB;
 import com.example.getyourgroceries.entity.Ingredient;
@@ -314,6 +315,6 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
      * @param index position in ingredient list
      */
     @Override
-    public void onMealOkPressed(Ingredient newIngredient, int position) { // FOR MEAL PLANS
+    public void onMealOkPressed(Ingredient newIngredient, DayIngredientListAdapter dayIngredientListAdapter) { // FOR MEAL PLANS
     }
 }

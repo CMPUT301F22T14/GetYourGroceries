@@ -46,7 +46,7 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements AddIngr
     FragmentManager fm;
     MealPlanDay day;
     ListView dayIngredientListView;
-    DayIngredientListAdapter dayIngredientListAdapter;
+//    DayIngredientListAdapter dayIngredientListAdapter;
 
     /**
      * Class constructor.
@@ -77,7 +77,7 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements AddIngr
         day = days.get(position);
         TextView dayName = view.findViewById(R.id.day_title);
         dayIngredientListView = view.findViewById(R.id.day_ingredient_list);
-        dayIngredientListAdapter = new DayIngredientListAdapter(context, day.getIngredientList());
+        DayIngredientListAdapter dayIngredientListAdapter = new DayIngredientListAdapter(context, day.getIngredientList());
         dayIngredientListView.setAdapter(dayIngredientListAdapter);
         ListView recipeListview = view.findViewById(R.id.day_recipe_list);
         recipeListview.setAdapter(new DayRecipeListAdapter(context, day.getRecipeList()));
@@ -85,11 +85,8 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements AddIngr
         ViewCompat.setNestedScrollingEnabled(recipeListview, true);
 
         dayName.setText(day.getTitle());
-
-
-
         Button addIngredient = view.findViewById(R.id.add_ingredient_day);
-        addIngredient.setOnClickListener(view12 -> new AddIngredientRecipeFragment(this,position).show(fm, "ADD_INGREDIENT_RECIPE"));
+        addIngredient.setOnClickListener(view12 -> new AddIngredientRecipeFragment(this,dayIngredientListAdapter).show(fm, "ADD_INGREDIENT_RECIPE"));
 
         Button addRecipe = view.findViewById(R.id.add_recipe_day);
         addRecipe.setOnClickListener(new View.OnClickListener() {
@@ -110,11 +107,7 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements AddIngr
     @Override
     public void onOkPressed(Ingredient newIngredient) {
         day.addIngredient(newIngredient);
-        dayIngredientListAdapter.notifyDataSetChanged();
-//        if (!ingredientList.contains(newIngredient)) {
-//            ingredientList.add(newIngredient);
-//            ingredientAdapter.notifyDataSetChanged();
-//        }
+//        dayIngredientListAdapter.notifyDataSetChanged();
     }
 
     /**
@@ -128,14 +121,11 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements AddIngr
 //        ingredientAdapter.notifyDataSetChanged();
     }
     @Override
-    public void onMealOkPressed(Ingredient newIngredient,int position) {
-        days.get(position).addIngredient(newIngredient);
-//        day.addIngredient(newIngredient);
+    public void onMealOkPressed(Ingredient newIngredient,DayIngredientListAdapter dayIngredientListAdapter) {
+        dayIngredientListAdapter.add(newIngredient);
+//        days.get(position).addIngredient(newIngredient);
         dayIngredientListAdapter.notifyDataSetChanged();
-//        if (!ingredientList.contains(newIngredient)) {
-//            ingredientList.add(newIngredient);
-//            ingredientAdapter.notifyDataSetChanged();
-//        }
+
     }
 
 

@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.InputType;
+import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -34,9 +36,12 @@ import com.example.getyourgroceries.entity.IngredientStorage;
 import com.example.getyourgroceries.entity.MealPlan;
 import com.example.getyourgroceries.entity.MealPlanDay;
 import com.example.getyourgroceries.entity.MealPlanStorage;
+import com.example.getyourgroceries.entity.Recipe;
+import com.example.getyourgroceries.entity.RecipeStorage;
 import com.example.getyourgroceries.fragments.AddIngredientRecipeFragment;
 import com.example.getyourgroceries.fragments.IngredientChangeHandlerFragment;
 import com.example.getyourgroceries.interfaces.OnFragmentInteractionListener;
+import com.example.getyourgroceries.fragments.RecipeChangeHandlerFragment;
 
 
 import java.util.ArrayList;
@@ -47,6 +52,8 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements OnFragm
     FragmentManager fm;
     ListView dayIngredientListView;
     MealPlanDay day;
+    private static final String TAG = "DayListAdapter";
+//    DayIngredientListAdapter dayIngredientListAdapter;
 
     /**
      * Class constructor.
@@ -130,7 +137,65 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements OnFragm
         });
 
         Button addRecipe = view.findViewById(R.id.add_recipe_day);
+        //Log.d(TAG, "onClick: got to fragment");
         addRecipe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LayoutInflater inflater=(LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View layout = inflater.inflate(R.layout.mealplan_add_recipe,null);
+                ListView recipeListView = layout.findViewById(R.id.recipe_list_meal);
+                recipeListView.setAdapter(RecipeStorage.getInstance().getRecipeAdapter());
+
+                AlertDialog.Builder alertbox = new AlertDialog.Builder(v.getRootView().getContext());
+                alertbox.setView(layout);
+                AlertDialog a = alertbox.create();
+                a.show();
+                Log.d(TAG, "onClick: got to fragment");
+                //Not sure how to get it to reappear after adding ingredient
+                Button addRecipe = layout.findViewById(R.id.addMealPlanRecipe);
+                addRecipe.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        RecipeChangeHandlerFragment recipeChangeHandlerFragment = new RecipeChangeHandlerFragment();
+                        //a.dismiss();
+                        fm.beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).
+                                replace(R.id.container, recipeChangeHandlerFragment,"Test").addToBackStack(null).commit();
+
+
+                    }
+                });
+
+                recipeListView.setOnItemClickListener((adapterView, view, i, l) -> {
+                    AlertDialog.Builder scaleAlertBox = new AlertDialog.Builder(view.getRootView().getContext());
+                    Recipe recipe = (Recipe) recipeListView.getItemAtPosition(i);
+                    scaleAlertBox.setTitle("Input desired scale");
+
+                    final EditText input = new EditText(view.getRootView().getContext());
+                    input.setInputType(InputType.TYPE_CLASS_NUMBER);
+
+                    scaleAlertBox.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            day.addRecipe(recipe);
+                            notifyDataSetChanged();
+                            a.dismiss();
+                        }
+                    });
+
+                    scaleAlertBox.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+                    scaleAlertBox.show();
+                    //day.addIngredient(ingredient);
+
+
+                });
+
+            }
+        });addRecipe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 

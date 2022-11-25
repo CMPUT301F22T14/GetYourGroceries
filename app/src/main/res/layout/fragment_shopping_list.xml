@@ -7,15 +7,48 @@
     android:orientation="vertical"
     android:gravity="center"
     >
-
-    <TextView
-        android:id="@+id/shoppingListTitle"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="16dp"
-        android:text="Shopping List"
-        android:textSize="48sp" />
+        android:layout_marginTop="100dp"
+        android:orientation="horizontal">
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"/>
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sort by:    "
+            android:layout_gravity="center_vertical"/>
+
+        <Spinner
+            android:id="@+id/sort_shoppinglist_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:dropDownVerticalOffset="27dp"
+            android:popupBackground="@drawable/ingredient_spinner_dropdown"
+            android:spinnerMode="dropdown"
+            />
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"/>
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/sorting_switch_shoppinglist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:theme="@style/Theme.Material3.DayNight"
+            android:checked="false"
+            android:text="Descending"/>
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
 
 
     <ListView

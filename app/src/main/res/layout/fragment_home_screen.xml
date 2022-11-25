@@ -8,8 +8,6 @@
     app:layoutDescription="@xml/fragment_home_screen_scene"
     tools:context=".HomeScreenFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-
     <TextView
         android:id="@+id/home_description"
         android:layout_width="wrap_content"
@@ -21,13 +19,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/home_logoimage" />
 
-    <Spinner
-        android:id="@+id/QuickAddSpinner"
-        android:layout_width="match_parent"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/quickadd_button"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:layout_marginBottom="16dp"
+        android:contentDescription="plus button"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="551dp" />
+        app:layout_constraintTop_toBottomOf="@+id/home_description"
+        app:srcCompat="@drawable/ic_plus" />
 
     <ImageView
         android:id="@+id/imageView3"
@@ -38,17 +42,4 @@
         android:src="@drawable/whitebackgroundlogo3c"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Quick Add:"
-        android:textSize="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
 </androidx.constraintlayout.motion.widget.MotionLayout>

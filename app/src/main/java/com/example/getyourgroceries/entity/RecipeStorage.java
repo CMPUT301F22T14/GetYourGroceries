@@ -57,11 +57,11 @@ public class RecipeStorage {
      * @param toDB determines to add or not to the database
      */
     public void addRecipe(Recipe recipe, boolean toDB) {
+        if(toDB) {
+            recipe.setId(recipeDB.addRecipe(recipe));
+        }
         recipeAdapter.add(recipe);
 
-        if(toDB) {
-            recipeDB.addRecipe(recipe);
-        }
         recipeAdapter.notifyDataSetChanged();
     }
 
@@ -109,10 +109,8 @@ public class RecipeStorage {
      * Clear the local(non-database data) adapter information
      */
     public void clearLocalStorage() {
-
         recipeAdapter.clear();
         recipeAdapter.notifyDataSetChanged();
-
     }
 
     /**

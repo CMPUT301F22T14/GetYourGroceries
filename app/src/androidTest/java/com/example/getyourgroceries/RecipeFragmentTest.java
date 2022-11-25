@@ -387,8 +387,10 @@ public class RecipeFragmentTest {
         }
 
         // Confirm we are on the correct page
-        TextView viewTitle = (TextView) solo.getView(R.id.titleTextField);
-        assertEquals(viewTitle.getText().toString(), "View Test");
+        assertTrue(solo.waitForText("View Test", 1, 2000));
+        assertTrue(solo.waitForText("2", 1, 2000));
+        assertTrue(solo.waitForText("Servings: 1", 1, 2000));
+        assertTrue(solo.waitForText("Category: Baking", 1, 2000));
     }
 
     /**

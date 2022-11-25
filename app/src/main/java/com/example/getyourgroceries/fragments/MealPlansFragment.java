@@ -53,10 +53,12 @@ public class MealPlansFragment extends Fragment {
         mealPlanAdapter = new MealPlanAdapter(getActivity(),mealPlanDataList);
         mealPlanList.setAdapter(mealPlanAdapter);
         Button addMeal = v.findViewById(R.id.add_meal_plan);
-        addMeal.setOnClickListener(v1 -> {
-            MealPlanChangeHandlerFragment mealPlanChangeHandlerFragment = new MealPlanChangeHandlerFragment();
-            assert container != null;
-            requireActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).replace(container.getId(), mealPlanChangeHandlerFragment).addToBackStack(null).commit();
+        addMeal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MealPlanChangeHandlerFragment mealPlanChangeHandlerFragment = new MealPlanChangeHandlerFragment();
+                requireActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).replace(container.getId(), mealPlanChangeHandlerFragment, "MEAL_PLAN_EDIT").addToBackStack(null).commit();
+            }
         });
         return v;
     }

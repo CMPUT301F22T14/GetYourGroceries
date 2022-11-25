@@ -28,10 +28,12 @@ import java.util.Objects;
  * The AddIngredientFragment is the class for the add ingredient screen.
  * AddIngredientFragment extends {@link Fragment}.
  */
-public class MealPlanChangeHandlerFragment extends Fragment {
+public class MealPlanChangeHandlerFragment extends Fragment implements RecipeChangeHandlerFragment.OnMealPlanFragmentInteractionListener{
 
     // Attributes.
     private View view;
+    ArrayList<MealPlanDay> days;
+    ArrayAdapter<MealPlanDay> daysAdapter;
 
     /**
      * The AddIngredientFragment constructor.
@@ -60,8 +62,8 @@ public class MealPlanChangeHandlerFragment extends Fragment {
         setHasOptionsMenu(true);
 
         ListView dayListView = view.findViewById(R.id.day_list);
-        ArrayList<MealPlanDay> days = new ArrayList<>();
-        ArrayAdapter<MealPlanDay> daysAdapter = new DayListAdapter(requireActivity().getBaseContext(), days,requireActivity().getSupportFragmentManager());
+        days = new ArrayList<>();
+        daysAdapter = new DayListAdapter(requireActivity().getBaseContext(), days,requireActivity().getSupportFragmentManager());
         dayListView.setAdapter(daysAdapter);
         Button addDay = view.findViewById(R.id.add_day);
         addDay.setOnClickListener(new View.OnClickListener() {
@@ -94,6 +96,12 @@ public class MealPlanChangeHandlerFragment extends Fragment {
         });
 
         return view;
+    }
+
+    public void onSubmitPressed(Recipe recipe, int dayPosition){
+        days.get(dayPosition).addRecipe(recipe);
+
+
     }
 
 

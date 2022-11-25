@@ -117,11 +117,15 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements AddIngr
                 addRecipe.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("dayEdit", position);
+
                         RecipeChangeHandlerFragment recipeChangeHandlerFragment = new RecipeChangeHandlerFragment();
+                        recipeChangeHandlerFragment.setArguments(bundle);
                         //a.dismiss();
                         a.hide();
                         fm.beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).
-                                replace(R.id.container, recipeChangeHandlerFragment,"Test").addToBackStack(null).commit();
+                                replace(R.id.container, recipeChangeHandlerFragment,"EDIT_RECIPE").addToBackStack(null).commit();
 
 
                     }
@@ -162,9 +166,7 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements AddIngr
         return view;
     }
 
-    public void showAddRecipeDialog(){
 
-    }
     /**
      * Executes when the user hits "ok" on the add ingredient dialog
      *

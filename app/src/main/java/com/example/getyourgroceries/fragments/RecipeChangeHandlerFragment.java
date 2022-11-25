@@ -92,6 +92,9 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
 
     Dialog photoDialog;
 
+    public interface OnMealPlanFragmentInteractionListener {
+        void onSubmitPressed(Recipe newRecipe, int dayPosition);
+    }
     /**
      * Fragment constructor to initialize its database class
      */
@@ -134,7 +137,7 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
 
         ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
 
-        if (getArguments() != null) {
+        if (getArguments().containsKey("editRecipe")) {
             editRecipe = RecipeStorage.getInstance().getRecipe(getArguments().getInt("editRecipe"));
             actionBar.setTitle("Edit Recipe");
             ingredientList = editRecipe.getIngredientList();
@@ -347,6 +350,13 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
             } else {
                 Recipe newRecipe = new Recipe(description, Integer.parseInt(prepTime), Integer.parseInt(servings), categoryText, comments, new_photo, ingredientList);
                 RecipeStorage.getInstance().addRecipe(newRecipe, true);
+
+                //if it was called from mealPlan page, call the function to add it to actual mealplan
+                if (getArguments().containsKey("dayEdit")){
+                    OnMealPlanFragmentInteractionListener frag = (OnMealPlanFragmentInteractionListener) fmManager.findFragmentByTag("MEAL_PLAN_EDIT");
+                    frag.onSubmitPressed(newRecipe, getArguments().getInt("dayEdit"));
+                }
+
             }
             fmManager.popBackStack();
             //fmManager.popBackStack();
@@ -467,7 +477,7 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
     /**
      * Executes when the user hits "ok" on the edit ingredient dialog
      * @param newIngredient updated ingredient info
-     * @param index position in ingredient list
+     * @param dayIngredientListAdapter position in ingredient list
      */
     @Override
     public void onMealOkPressed(Ingredient newIngredient, DayIngredientListAdapter dayIngredientListAdapter) { // FOR MEAL PLANS

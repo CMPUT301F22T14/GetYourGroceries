@@ -267,8 +267,6 @@ public class IngredientChangeHandlerFragment extends Fragment {
                     e.printStackTrace();
                 }
                 IngredientStorage.getInstance().updateIngredient(editIngredient);
-                //IngredientDB db = new IngredientDB();
-                //db.updateIngredient(editIngredient);
                 requireActivity().getSupportFragmentManager().popBackStackImmediate();
                 return;
             }

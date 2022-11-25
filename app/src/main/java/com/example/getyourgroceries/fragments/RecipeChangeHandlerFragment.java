@@ -15,6 +15,7 @@ import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,6 +30,7 @@ import com.example.getyourgroceries.adapters.RecipeIngredientAdapter;
 import com.example.getyourgroceries.control.RecipeDB;
 import com.example.getyourgroceries.entity.Ingredient;
 import com.example.getyourgroceries.entity.Recipe;
+import com.example.getyourgroceries.entity.RecipeStorage;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -44,14 +46,11 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
     private final ArrayList<Ingredient> ingredientList;
     private RecipeIngredientAdapter ingredientAdapter;
     private Recipe editRecipe;
-    RecipeDB db;
-
     /**
      * Fragment constructor to initialize its database class
      */
     public RecipeChangeHandlerFragment() {
         super();
-        db = new RecipeDB();
         ingredientList = new ArrayList<>();
     }
 
@@ -194,14 +193,18 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
                 return;
             }
 
-            Recipe newRecipe = new Recipe(description, Integer.parseInt(prepTime), Integer.parseInt(servings), categoryText, comments, "recipes/apple.jpg", ingredientList);
-
             // If in edit mode, update the attributes.
             if (editRecipe != null) {
-                newRecipe.setId(editRecipe.getId());
-                db.updateRecipe(newRecipe);
+                editRecipe.setName(description);
+                editRecipe.setPrepTime(Integer.parseInt(prepTime));
+                editRecipe.setNumOfServings(Integer.parseInt(servings));
+                editRecipe.setRecipeCategory(categoryText);
+                editRecipe.setComment(comments);
+                editRecipe.setPhoto("recipes/apple.jpg");
+                RecipeStorage.getInstance().updateRecipe(editRecipe);
             } else {
-                db.addRecipe(newRecipe);
+                Recipe newRecipe = new Recipe(description, Integer.parseInt(prepTime), Integer.parseInt(servings), categoryText, comments, "recipes/apple.jpg", ingredientList);
+                RecipeStorage.getInstance().addRecipe(newRecipe, true);
             }
             fmManager.popBackStack();
             fmManager.popBackStack();

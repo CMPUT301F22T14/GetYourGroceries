@@ -68,8 +68,9 @@ public class IngredientStorage {
      * @param toDB boolean to push changes to DB or not
      */
     public void addIngredient(StoredIngredient storedIngredient, boolean toDB){
-        if (toDB)
+        if (toDB) {
             storedIngredient.setId(ingredientDB.addIngredient(storedIngredient));
+        }
         ingredientAdapter.add(storedIngredient);
 
         ingredientAdapter.notifyDataSetChanged();

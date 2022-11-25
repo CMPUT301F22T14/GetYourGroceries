@@ -49,7 +49,7 @@ public class IngredientFragmentTest {
     }
 
     @Test
-    public void start() throws Exception {
+    public void start() {
         Activity activity = rule.getActivity();
     }
 
@@ -220,7 +220,7 @@ public class IngredientFragmentTest {
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         solo.finishOpenedActivities();
     }
 }

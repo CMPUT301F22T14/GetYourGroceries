@@ -63,7 +63,7 @@ public class IngredientSortingUITest {
     }
 
     @Test
-    public void start() throws Exception {
+    public void start() {
         Activity activity = rule.getActivity();
     }
 

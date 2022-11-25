@@ -326,7 +326,7 @@ public class RecipeChangeHandlerFragment extends Fragment implements OnFragmentI
                 RecipeStorage.getInstance().addRecipe(newRecipe, true);
             }
             fmManager.popBackStack();
-            fmManager.popBackStack();
+            //fmManager.popBackStack();
         });
     }
 

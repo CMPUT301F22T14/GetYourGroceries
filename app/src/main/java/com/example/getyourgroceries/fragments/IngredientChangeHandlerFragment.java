@@ -4,18 +4,24 @@ package com.example.getyourgroceries.fragments;
 // Import statements.
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.InputType;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -30,14 +36,29 @@ import com.example.getyourgroceries.control.IngredientDB;
 import com.example.getyourgroceries.entity.IngredientStorage;
 import com.example.getyourgroceries.entity.MealPlanStorage;
 import com.example.getyourgroceries.entity.StoredIngredient;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import org.checkerframework.checker.units.qual.A;
+
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -92,13 +113,10 @@ public class IngredientChangeHandlerFragment extends Fragment {
         addIngredientLayout.setImportantForAutofill(View.IMPORTANT_FOR_AUTOFILL_NO);
 
         //Hide keyboard when you click outside textViews
-        addIngredientLayout.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean change) {
-                if (change) {
-                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                }
+        addIngredientLayout.setOnFocusChangeListener((v, change) -> {
+            if (change) {
+                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
             }
         });
 
@@ -137,27 +155,137 @@ public class IngredientChangeHandlerFragment extends Fragment {
         };
 
         // Set up location spinner.
-        AutoCompleteTextView location = requireActivity().findViewById(R.id.change_ingredient_location);
+        Map<String, String> locationIDs = new HashMap<>();
         ArrayList<String> locations = new ArrayList<>();
-        locations.add("Pantry");
-        locations.add("Fridge");
-        locations.add("Freezer");
+        locations.add("+ Save New Location");
+        locations.add("- Delete Saved Location");
+        CollectionReference locationCollection = FirebaseFirestore.getInstance().collection("Locations");
+        locationCollection.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    locations.add(Objects.requireNonNull(document.getData().get("Location")).toString());
+                    locationIDs.put(Objects.requireNonNull(document.getData().get("Location")).toString(), document.getId());
+                }
+            }
+        });
+        AutoCompleteTextView location = requireActivity().findViewById(R.id.change_ingredient_location);
         ArrayAdapter<String> locationAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner, locations);
         location.setAdapter(locationAdapter);
         //always show all options
         location.setThreshold(200);
+        location.setOnItemClickListener((adapterView, view12, i, l) -> {
+            if (locations.get(i).equals("+ Save New Location")) {
+                location.setText("");
+                final EditText newLocationInput = new EditText(getContext());
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder
+                    .setTitle("Add Location")
+                    .setMessage("Enter a new location:")
+                    .setCancelable(true)
+                    .setView(newLocationInput)
+                    .setPositiveButton("OK", (DialogInterface.OnClickListener) (dialog, which) -> {
+                        String newLocation = newLocationInput.getText().toString();
+                        location.setText(newLocation);
+                        Map<String, Object> insertLocation = new HashMap<>();
+                        insertLocation.put("Location", newLocation);
+                        locationCollection.document().set(insertLocation);
+                        dialog.dismiss();
+                    })
+                    .setNegativeButton("Cancel", (DialogInterface.OnClickListener) (dialog, which) -> {
+                        dialog.cancel();
+                    })
+                    .create()
+                    .show();
+            } else if (locations.get(i).equals("- Delete Saved Location")) {
+                location.setText("");
+                final EditText deleteLocationInput = new EditText(getContext());
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder
+                    .setTitle("Delete Location")
+                    .setMessage("Delete an existing location:")
+                    .setCancelable(true)
+                    .setView(deleteLocationInput)
+                    .setPositiveButton("OK", (DialogInterface.OnClickListener) (dialog, which) -> {
+                        String deleteLocation = deleteLocationInput.getText().toString();
+                        String id = locationIDs.get(deleteLocation);
+                        if (id != null) {
+                            locationCollection.document(id).delete();
+                        }
+                        dialog.dismiss();
+                    })
+                    .setNegativeButton("Cancel", (DialogInterface.OnClickListener) (dialog, which) -> {
+                        dialog.cancel();
+                    })
+                    .create()
+                    .show();
+            }
+        });
 
         // Set up the ingredient category spinner.
-        AutoCompleteTextView category = requireActivity().findViewById(R.id.change_ingredient_category);
+        Map<String, String> categoryIDs = new HashMap<>();
         ArrayList<String> categories = new ArrayList<>();
-        categories.add("Category 1");
-        categories.add("Category 2");
-        categories.add("Category 3");
-
+        categories.add("+ Save New Category");
+        categories.add("- Delete Saved Category");
+        CollectionReference categoryCollection = FirebaseFirestore.getInstance().collection("IngredientCategory");
+        categoryCollection.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    categories.add(Objects.requireNonNull(document.getData().get("Category")).toString());
+                    categoryIDs.put(Objects.requireNonNull(document.getData().get("Category")).toString(), document.getId());
+                }
+            }
+        });
+        AutoCompleteTextView category = requireActivity().findViewById(R.id.change_ingredient_category);
         ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner, categories);
         category.setAdapter(categoryAdapter);
-        //always show all options
         category.setThreshold(200);
+        category.setOnItemClickListener(((adapterView, view1, i, l) -> {
+            if (Objects.equals(categories.get(i), "+ Save New Category")) {
+                category.setText("");
+                final EditText newCategoryInput = new EditText(getContext());
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder
+                    .setTitle("Add Category")
+                    .setMessage("Enter a new category:")
+                    .setCancelable(true)
+                    .setView(newCategoryInput)
+                    .setPositiveButton("OK", (DialogInterface.OnClickListener) (dialog, which) -> {
+                        String newCategory = newCategoryInput.getText().toString();
+                        category.setText(newCategory);
+                        Map<String, Object> insertCategory = new HashMap<>();
+                        insertCategory.put("Category", newCategory);
+                        categoryCollection.document().set(insertCategory);
+                        dialog.dismiss();
+                    })
+                    .setNegativeButton("Cancel", (DialogInterface.OnClickListener) (dialog, which) -> {
+                        dialog.cancel();
+                    })
+                    .create()
+                    .show();
+            } else if (categories.get(i).equals("- Delete Saved Category")) {
+                category.setText("");
+                final EditText deleteCategoryInput = new EditText(getContext());
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder
+                    .setTitle("Delete Category")
+                    .setMessage("Delete an existing category:")
+                    .setCancelable(true)
+                    .setView(deleteCategoryInput)
+                    .setPositiveButton("OK", (DialogInterface.OnClickListener) (dialog, which) -> {
+                        String deleteCategory = deleteCategoryInput.getText().toString();
+                        String id = categoryIDs.get(deleteCategory);
+                        if (id != null) {
+                            categoryCollection.document(id).delete();
+                        }
+                        dialog.dismiss();
+                    })
+                    .setNegativeButton("Cancel", (DialogInterface.OnClickListener) (dialog, which) -> {
+                        dialog.cancel();
+                    })
+                    .create()
+                    .show();
+            }
+        }));
 
         TextView descriptionText = requireActivity().findViewById(R.id.change_ingredient_description);
         TextView quantityText = requireActivity().findViewById(R.id.change_ingredient_quantity);

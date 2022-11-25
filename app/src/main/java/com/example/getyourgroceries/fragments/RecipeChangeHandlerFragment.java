@@ -41,6 +41,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import com.example.getyourgroceries.GlideApp;
@@ -57,10 +58,14 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
-import java.util.Locale;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -142,15 +147,70 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
         ingredientAdapter = new RecipeIngredientAdapter(requireActivity().getBaseContext(), ingredientList);
 
         // Set up category spinner.
-        AutoCompleteTextView category = view.findViewById(R.id.change_recipe_category);
+        Map<String, String> categoryIDs = new HashMap<>();
         ArrayList<String> categories = new ArrayList<>();
-        categories.add("Baking");
-        categories.add("Frying");
-        categories.add("Microwaving");
-        categories.add("Cooking");
+        categories.add("+ Save New Category");
+        categories.add("- Delete Saved Category");
+        CollectionReference categoryCollection = FirebaseFirestore.getInstance().collection("RecipeCategory");
+        categoryCollection.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    categories.add(Objects.requireNonNull(document.getData().get("Category")).toString());
+                    categoryIDs.put(Objects.requireNonNull(document.getData().get("Category")).toString(), document.getId());
+                }
+            }
+        });
+        AutoCompleteTextView category = requireActivity().findViewById(R.id.change_recipe_category);
         ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner, categories);
         category.setAdapter(categoryAdapter);
         category.setThreshold(200);
+        category.setOnItemClickListener(((adapterView, view1, i, l) -> {
+            if (Objects.equals(categories.get(i), "+ Save New Category")) {
+                category.setText("");
+                final EditText newCategoryInput = new EditText(getContext());
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder
+                        .setTitle("Add Category")
+                        .setMessage("Enter a new category:")
+                        .setCancelable(true)
+                        .setView(newCategoryInput)
+                        .setPositiveButton("OK", (DialogInterface.OnClickListener) (dialog, which) -> {
+                            String newCategory = newCategoryInput.getText().toString();
+                            category.setText(newCategory);
+                            Map<String, Object> insertCategory = new HashMap<>();
+                            insertCategory.put("Category", newCategory);
+                            categoryCollection.document().set(insertCategory);
+                            dialog.dismiss();
+                        })
+                        .setNegativeButton("Cancel", (DialogInterface.OnClickListener) (dialog, which) -> {
+                            dialog.cancel();
+                        })
+                        .create()
+                        .show();
+            } else if (categories.get(i).equals("- Delete Saved Category")) {
+                category.setText("");
+                final EditText deleteCategoryInput = new EditText(getContext());
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder
+                        .setTitle("Delete Category")
+                        .setMessage("Delete an existing category:")
+                        .setCancelable(true)
+                        .setView(deleteCategoryInput)
+                        .setPositiveButton("OK", (DialogInterface.OnClickListener) (dialog, which) -> {
+                            String deleteCategory = deleteCategoryInput.getText().toString();
+                            String id = categoryIDs.get(deleteCategory);
+                            if (id != null) {
+                                categoryCollection.document(id).delete();
+                            }
+                            dialog.dismiss();
+                        })
+                        .setNegativeButton("Cancel", (DialogInterface.OnClickListener) (dialog, which) -> {
+                            dialog.cancel();
+                        })
+                        .create()
+                        .show();
+            }
+        }));
 
         //Populate fields if its an edit
         TextInputEditText descriptionText = view.findViewById(R.id.change_recipe_description);

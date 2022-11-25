@@ -5,6 +5,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -20,10 +23,16 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.getyourgroceries.GlideApp;
 import com.example.getyourgroceries.R;
+import com.example.getyourgroceries.adapters.RecipeIngredientAdapter;
+import com.example.getyourgroceries.control.RecipeDB;
+import com.example.getyourgroceries.entity.Ingredient;
+import com.example.getyourgroceries.entity.IngredientStorage;
 import com.example.getyourgroceries.entity.Recipe;
 import com.example.getyourgroceries.entity.RecipeStorage;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -46,9 +55,10 @@ public class RecipeViewFragment extends Fragment {
     private static final String TAG = "RecipeViewFrag";
     private Recipe viewRecipe;
     FirebaseStorage storage;
-    ImageButton editButton;
     ViewGroup containerView;
     StorageReference imageRef;
+    ListView ingredientListView;
+    private RecipeIngredientAdapter ingredientAdapter;
 
     public RecipeViewFragment() {
         super();
@@ -65,8 +75,6 @@ public class RecipeViewFragment extends Fragment {
         setHasOptionsMenu(true);
         containerView= container;
 
-
-
         return view;
     }
 
@@ -81,31 +89,46 @@ public class RecipeViewFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
         // Initialization.
-        ConstraintLayout viewIngredientLayout = requireActivity().findViewById(R.id.view_recipe_layout);
+        NestedScrollView viewIngredientLayout = requireActivity().findViewById(R.id.view_recipe_layout);
         viewIngredientLayout.setImportantForAutofill(View.IMPORTANT_FOR_AUTOFILL_NO);
+
+
+        ActionBar actionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
 
         if (getArguments() != null) {
             viewRecipe = RecipeStorage.getInstance().getRecipe(getArguments().getInt("viewRecipe"));
+            actionBar.setTitle(viewRecipe.getName());
         }
+
+
 
         //Populate fields if its a view
         ImageView image = requireActivity().findViewById(R.id.image);
-        TextView title = requireActivity().findViewById(R.id.titleTextField);
         TextView prepTime = requireActivity().findViewById(R.id.prepTimeTextField);
         TextView category = requireActivity().findViewById(R.id.categoryTextField);
+        TextView servings = requireActivity().findViewById(R.id.servingsTextField);
         TextView commentsText = requireActivity().findViewById(R.id.commentsTextField);
 
 
+        // Output all of the ingredients from Firebase.
+        ingredientListView = requireActivity().findViewById(R.id.ingredientListView);
         // Set the values to the previous values.
         if (viewRecipe != null){
-            title.setText(viewRecipe.getName());
             int prep_hours = viewRecipe.getPrepTime() / 60;
             int prep_min = viewRecipe.getPrepTime() % 60;
             String prepTimeText = prep_hours + "h " + prep_min + "m";
             prepTime.setText(prepTimeText);
-            category.setText(viewRecipe.getRecipeCategory());
-            commentsText.setText("Comments:\n" + viewRecipe.getComment());
-            //servingsText.setText(String.valueOf(editRecipe.getNumOfServings()));
+
+            String catStr = "Category: " + viewRecipe.getRecipeCategory();
+            category.setText(catStr);
+
+            String servingsStr = "Servings: " + viewRecipe.getNumOfServings();
+            servings.setText(servingsStr);
+
+            commentsText.setText(viewRecipe.getComment());
+
+            ingredientAdapter = new RecipeIngredientAdapter(requireActivity().getBaseContext(), viewRecipe.getIngredientList());
+            ingredientListView.setAdapter(ingredientAdapter);
 
             // get photo
             storage = FirebaseStorage.getInstance();
@@ -114,24 +137,17 @@ public class RecipeViewFragment extends Fragment {
 
                 GlideApp.with(view)
                         .load(imageRef)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .into(image);
             } catch (IllegalArgumentException e) {
                 image.setImageResource(R.drawable.placeholder);
             }
         }
+    }
 
-        editButton = view.findViewById(R.id.edit_recipe_btn);
-
-        editButton.setOnClickListener(v1 -> {
-            Bundle bundle = new Bundle();
-            //Recipe editRecipe = viewRecipe;
-            bundle.putInt("editRecipe", getArguments().getInt("viewRecipe"));
-            RecipeChangeHandlerFragment recipeChangeHandlerFragment = new RecipeChangeHandlerFragment();
-            recipeChangeHandlerFragment.setArguments(bundle);
-            requireActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).replace(containerView.getId(), recipeChangeHandlerFragment, "EDIT_RECIPE").addToBackStack("EDIT_RECIPE").commit();
-        });
-
-
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.view_recipe_menu, menu);
     }
 
     /**
@@ -141,7 +157,18 @@ public class RecipeViewFragment extends Fragment {
      */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        return requireActivity().getSupportFragmentManager().popBackStackImmediate();
+        if (item.getItemId() == R.id.editRecipeButton) {
+            Bundle bundle = new Bundle();
+            Recipe editRecipe = viewRecipe;
+            bundle.putInt("editRecipe", getArguments().getInt("viewRecipe"));
+            RecipeChangeHandlerFragment recipeChangeHandlerFragment = new RecipeChangeHandlerFragment();
+            recipeChangeHandlerFragment.setArguments(bundle);
+            requireActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).replace(containerView.getId(), recipeChangeHandlerFragment, "EDIT_RECIPE").addToBackStack("EDIT_RECIPE").commit();
+        } else {
+            return requireActivity().getSupportFragmentManager().popBackStackImmediate();
+        }
+
+        return true;
     }
 
 }

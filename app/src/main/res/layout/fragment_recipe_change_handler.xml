@@ -140,6 +140,15 @@
                 app:icon="@drawable/ic_add_24dp" />
         </LinearLayout>
 
+        <ImageView
+            android:id="@+id/recipeImage"
+            android:layout_width="fill_parent"
+            android:layout_marginHorizontal="55dp"
+            android:layout_height="100dp"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/recipe_icon" />
+
         <LinearLayout
             android:layout_width="300dp"
             android:layout_height="wrap_content"
@@ -173,9 +182,9 @@
         <ListView
             android:id="@+id/add_ingredients_recipe"
             android:layout_width="375dp"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
             android:layout_marginTop="10dp" />
 
         <Button

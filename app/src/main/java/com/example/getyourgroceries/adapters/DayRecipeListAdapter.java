@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.getyourgroceries.GlideApp;
 import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.entity.MealPlanDay;
@@ -89,6 +90,7 @@ public class DayRecipeListAdapter extends ArrayAdapter<Recipe> {
             GlideApp.with(view)
                     .load(imageRef)
                     .override(300, 300)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .into(recipePhoto);
         } catch (IllegalArgumentException e) {
             recipePhoto.setImageResource(R.drawable.placeholder);

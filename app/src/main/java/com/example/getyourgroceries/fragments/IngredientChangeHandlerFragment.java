@@ -155,7 +155,9 @@ public class IngredientChangeHandlerFragment extends Fragment {
         });
         AutoCompleteTextView location = requireActivity().findViewById(R.id.change_ingredient_location);
         ArrayAdapter<String> locationAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner, locations);
-        location.setText(editIngredient.getLocation());
+        if (editIngredient != null) {
+            location.setText(editIngredient.getLocation());
+        }
         location.setAdapter(locationAdapter);
         //always show all options
         location.setThreshold(200);
@@ -219,7 +221,9 @@ public class IngredientChangeHandlerFragment extends Fragment {
         });
         AutoCompleteTextView category = requireActivity().findViewById(R.id.change_ingredient_category);
         ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner, categories);
-        category.setText((editIngredient.getCategory()));
+        if (editIngredient != null) {
+            category.setText((editIngredient.getCategory()));
+        }
         category.setAdapter(categoryAdapter);
         category.setThreshold(200);
         category.setOnItemClickListener(((adapterView, view1, i, l) -> {

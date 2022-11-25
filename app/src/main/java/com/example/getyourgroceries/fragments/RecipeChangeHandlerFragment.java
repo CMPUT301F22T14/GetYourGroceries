@@ -83,7 +83,7 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
     FirebaseStorage storage;
     StorageReference imageRef;
     StorageReference newImageRef;
-    private static final String TAG = "RecipeChangeFrag";
+    private static final String TAG = "RecipeChangeHandlerFrag";
     private static final int ALL_PERMISSIONS_RESULT = 107;
     Bitmap myBitmap;
     ImageView image;

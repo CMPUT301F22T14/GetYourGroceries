@@ -40,6 +40,7 @@ import com.example.getyourgroceries.entity.MealPlanDay;
 import com.example.getyourgroceries.entity.MealPlanStorage;
 import com.example.getyourgroceries.entity.Recipe;
 import com.example.getyourgroceries.entity.RecipeStorage;
+import com.example.getyourgroceries.entity.ScaledRecipe;
 import com.example.getyourgroceries.fragments.AddIngredientRecipeFragment;
 import com.example.getyourgroceries.fragments.IngredientChangeHandlerFragment;
 import com.example.getyourgroceries.fragments.RecipeChangeHandlerFragment;
@@ -113,19 +114,19 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements AddIngr
                 a.show();
                 Log.d(TAG, "onClick: got to fragment");
                 //Not sure how to get it to reappear after adding ingredient
-                Button addRecipe = layout.findViewById(R.id.addMealPlanRecipe);
-                addRecipe.setOnClickListener(new View.OnClickListener() {
+                Button addDayRecipe = layout.findViewById(R.id.addMealPlanRecipe);
+                addDayRecipe.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Bundle bundle = new Bundle();
-                        bundle.putInt("dayEdit", position);
+                        bundle.putInt("dayAdd", position);
 
                         RecipeChangeHandlerFragment recipeChangeHandlerFragment = new RecipeChangeHandlerFragment();
                         recipeChangeHandlerFragment.setArguments(bundle);
                         //a.dismiss();
                         a.hide();
                         fm.beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).
-                                replace(R.id.container, recipeChangeHandlerFragment,"EDIT_RECIPE").addToBackStack(null).commit();
+                                replace(R.id.container, recipeChangeHandlerFragment,"ADD_RECIPE").addToBackStack(null).commit();
 
 
                     }
@@ -134,7 +135,7 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements AddIngr
                 recipeListView.setOnItemClickListener((adapterView, view, i, l) -> {
                     AlertDialog.Builder scaleAlertBox = new AlertDialog.Builder(view.getRootView().getContext());
                     Recipe recipe = (Recipe) recipeListView.getItemAtPosition(i);
-                    scaleAlertBox.setTitle("Input desired scale");
+                    scaleAlertBox.setTitle("Input desired scale (default 1)");
 
                     final EditText input = new EditText(view.getRootView().getContext());
                     input.setInputType(InputType.TYPE_CLASS_NUMBER);
@@ -142,7 +143,15 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements AddIngr
                     scaleAlertBox.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            day.addRecipe(recipe);
+                            int scale;
+                            try {
+                                scale = Integer.parseInt(String.valueOf(input.getText()));
+                            } catch (NumberFormatException e) {
+                                scale = 1;
+                            }
+
+                            day.addRecipe(new ScaledRecipe(recipe, scale));
+
                             notifyDataSetChanged();
                             a.dismiss();
                         }

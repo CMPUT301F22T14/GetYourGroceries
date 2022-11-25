@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class MealPlanDay {
     private String title;
-    private ArrayList<Recipe> recipeList;
+    private ArrayList<ScaledRecipe> recipeList;
     private ArrayList<Ingredient> ingredientList;
 
     /**
@@ -20,15 +20,16 @@ public class MealPlanDay {
 
     }
 
-    public void addRecipe(Recipe recipe){
+    public void addRecipe(ScaledRecipe recipe){
         if (!recipeList.contains(recipe)) {
             recipeList.add(recipe);
         }
     }
 
-    public void deleteRecipe(Recipe recipe){
+    public void deleteRecipe(ScaledRecipe recipe){
         recipeList.remove(recipe);
     }
+
     public void addIngredient(Ingredient ingredient){
         if (!ingredientList.contains(ingredient)){
             ingredientList.add(ingredient);
@@ -38,7 +39,7 @@ public class MealPlanDay {
         ingredientList.remove(ingredient);
     }
 
-    public ArrayList<Recipe> getRecipeList() {
+    public ArrayList<ScaledRecipe> getRecipeList() {
         return recipeList;
     }
 

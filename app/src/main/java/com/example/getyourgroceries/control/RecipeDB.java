@@ -71,6 +71,8 @@ public class RecipeDB {
                     recipe.setId(id[0]);
                     recipeCollection.document(id[0]).update("id", id[0]);
                     Log.d(TAG, "Added Recipe to db");
+                    recipe.setId(id[0]);
+                    recipeCollection.document(id[0]).update("id", id[0]);
                 })
                 .addOnFailureListener(e -> Log.w(TAG, "Error adding recipe", e));
 

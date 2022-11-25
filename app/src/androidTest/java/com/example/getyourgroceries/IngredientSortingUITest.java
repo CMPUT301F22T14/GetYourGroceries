@@ -46,6 +46,8 @@ public class IngredientSortingUITest {
     public void setUp() throws Exception {
         solo = new Solo(InstrumentationRegistry.getInstrumentation(), rule.getActivity());
 
+        IngredientStorage.getInstance().clearLocalStorage();
+
         solo.assertCurrentActivity("Wrong Activity!", MainActivity.class);
         BottomNavigationItemView navItem = (BottomNavigationItemView) solo.getView(R.id.ingredients_icon);
         solo.clickOnView(navItem.getChildAt(1));
@@ -69,6 +71,8 @@ public class IngredientSortingUITest {
 
     /**
      * Tests to see if descriptions ascend after sort
+     * User Stories:
+     * - US 01.06.01
      */
     @Test
     public void testDescriptionSortAsc() {
@@ -76,10 +80,13 @@ public class IngredientSortingUITest {
         solo.clickOnText("Description");
         solo.scrollToTop();
 
+        ListView ingredients = (ListView) solo.getView(R.id.ingredientListView);
+        int size = ingredients.getAdapter().getCount();
+
         //loop through list view elements and make sure they are ascending
-        for (int i = 0; i < IngredientStorage.getInstance().getIngredientAdapter().getCount() - 1; i++) {
-            StoredIngredient ing1 = IngredientStorage.getInstance().getIngredientAdapter().getItem(i);
-            StoredIngredient ing2 = IngredientStorage.getInstance().getIngredientAdapter().getItem(i + 1);
+        for (int i = 0; i < size - 1; i++) {
+            StoredIngredient ing1 = (StoredIngredient) ingredients.getAdapter().getItem(i);
+            StoredIngredient ing2 = (StoredIngredient) ingredients.getAdapter().getItem(i + 1);
             String s = ing1.getDescription();
             String s2 = ing2.getDescription();
             assertTrue((s.compareTo(s2)) <= 0);
@@ -88,6 +95,8 @@ public class IngredientSortingUITest {
 
     /**
      * Tests to see if descriptions descend after sort
+     * User Stories:
+     * - US 01.06.01
      */
     @Test
     public void testDescriptionSortDsc() {
@@ -95,11 +104,13 @@ public class IngredientSortingUITest {
         solo.clickOnText("Description");
         solo.clickOnView(solo.getView(R.id.sortIngredientSpinner));
 
+        ListView ingredients = (ListView) solo.getView(R.id.ingredientListView);
+        int size = ingredients.getAdapter().getCount();
 
         // loop through listview to assert order
-        for (int i = 0; i < IngredientStorage.getInstance().getIngredientAdapter().getCount() - 1; i++) {
-            StoredIngredient ing1 = IngredientStorage.getInstance().getIngredientAdapter().getItem(i);
-            StoredIngredient ing2 = IngredientStorage.getInstance().getIngredientAdapter().getItem(i + 1);
+        for (int i = 0; i < size - 1; i++) {
+            StoredIngredient ing1 = (StoredIngredient) ingredients.getAdapter().getItem(i);
+            StoredIngredient ing2 = (StoredIngredient) ingredients.getAdapter().getItem(i + 1);
             String s = ing1.getDescription();
             String s2 = ing2.getDescription();
             assertTrue((s.compareTo(s2)) >= 0);
@@ -116,10 +127,13 @@ public class IngredientSortingUITest {
         solo.clickOnView(solo.getView(R.id.sortingSwitchIngredient));
         solo.scrollToTop();
 
+        ListView ingredients = (ListView) solo.getView(R.id.ingredientListView);
+        int size = ingredients.getAdapter().getCount();
+
         //loop through listview to assert date order
-        for (int i = 0; i < IngredientStorage.getInstance().getIngredientAdapter().getCount() - 1; i++) {
-            StoredIngredient ing1 = IngredientStorage.getInstance().getIngredientAdapter().getItem(i);
-            StoredIngredient ing2 = IngredientStorage.getInstance().getIngredientAdapter().getItem(i + 1);
+        for (int i = 0; i < size - 1; i++) {
+            StoredIngredient ing1 = (StoredIngredient) ingredients.getAdapter().getItem(i);
+            StoredIngredient ing2 = (StoredIngredient) ingredients.getAdapter().getItem(i + 1);
             Date d1 = ing1.getBestBefore();
             Date d2 = ing2.getBestBefore();
             assertTrue(d1.after(d2));
@@ -128,16 +142,21 @@ public class IngredientSortingUITest {
 
     /**
      * Test to see if dates ascend after sort
+     * User Stories:
+     * - US 01.06.01
      */
     @Test
     public void testDateSortAsc() {
         solo.clickOnView(solo.getView(R.id.sortIngredientSpinner));
         solo.clickOnText("Date");
 
+        ListView ingredients = (ListView) solo.getView(R.id.ingredientListView);
+        int size = ingredients.getAdapter().getCount();
+
         // loop through listview to assert date order
-        for (int i = 0; i < IngredientStorage.getInstance().getIngredientAdapter().getCount() - 1; i++) {
-            StoredIngredient ing1 = IngredientStorage.getInstance().getIngredientAdapter().getItem(i);
-            StoredIngredient ing2 = IngredientStorage.getInstance().getIngredientAdapter().getItem(i + 1);
+        for (int i = 0; i < size - 1; i++) {
+            StoredIngredient ing1 = (StoredIngredient) ingredients.getAdapter().getItem(i);
+            StoredIngredient ing2 = (StoredIngredient) ingredients.getAdapter().getItem(i + 1);
             Date d1 = ing1.getBestBefore();
             Date d2 = ing2.getBestBefore();
             assertTrue(d1.before(d2));
@@ -153,10 +172,13 @@ public class IngredientSortingUITest {
         solo.clickOnText("Location");
         solo.scrollToTop();
 
+        ListView ingredients = (ListView) solo.getView(R.id.ingredientListView);
+        int size = ingredients.getAdapter().getCount();
+
         //loop through listview to assert location order
-        for (int i = 0; i < IngredientStorage.getInstance().getIngredientAdapter().getCount() - 1; i++) {
-            StoredIngredient ing1 = IngredientStorage.getInstance().getIngredientAdapter().getItem(i);
-            StoredIngredient ing2 = IngredientStorage.getInstance().getIngredientAdapter().getItem(i + 1);
+        for (int i = 0; i < size - 1; i++) {
+            StoredIngredient ing1 = (StoredIngredient) ingredients.getAdapter().getItem(i);
+            StoredIngredient ing2 = (StoredIngredient) ingredients.getAdapter().getItem(i + 1);
             String l1 = ing1.getLocation();
             String l2 = ing2.getLocation();
             assertTrue((l1.compareTo(l2)) <= 0);
@@ -165,6 +187,8 @@ public class IngredientSortingUITest {
 
     /**
      * Test to see if dates location after sort
+     * User Stories:
+     * - US 01.06.01
      */
     @Test
     public void testLocationSortDsc() {
@@ -173,10 +197,13 @@ public class IngredientSortingUITest {
         solo.clickOnView(solo.getView(R.id.sortingSwitchIngredient));
         solo.scrollToTop();
 
+        ListView ingredients = (ListView) solo.getView(R.id.ingredientListView);
+        int size = ingredients.getAdapter().getCount();
+
         // loop through listview to assert location order
-        for (int i = 0; i < IngredientStorage.getInstance().getIngredientAdapter().getCount() - 1; i++) {
-            StoredIngredient ing1 = IngredientStorage.getInstance().getIngredientAdapter().getItem(i);
-            StoredIngredient ing2 = IngredientStorage.getInstance().getIngredientAdapter().getItem(i + 1);
+        for (int i = 0; i < size - 1; i++) {
+            StoredIngredient ing1 = (StoredIngredient) ingredients.getAdapter().getItem(i);
+            StoredIngredient ing2 = (StoredIngredient) ingredients.getAdapter().getItem(i + 1);
             String l1 = ing1.getLocation();
             String l2 = ing2.getLocation();
 
@@ -193,9 +220,12 @@ public class IngredientSortingUITest {
         solo.clickOnText("Category");
         solo.scrollToTop();
 
-        for (int i = 0; i < IngredientStorage.getInstance().getIngredientAdapter().getCount() - 1; i++) {
-            StoredIngredient ing1 = IngredientStorage.getInstance().getIngredientAdapter().getItem(i);
-            StoredIngredient ing2 = IngredientStorage.getInstance().getIngredientAdapter().getItem(i + 1);
+        ListView ingredients = (ListView) solo.getView(R.id.ingredientListView);
+        int size = ingredients.getAdapter().getCount();
+
+        for (int i = 0; i < size - 1; i++) {
+            StoredIngredient ing1 = (StoredIngredient) ingredients.getAdapter().getItem(i);
+            StoredIngredient ing2 = (StoredIngredient) ingredients.getAdapter().getItem(i + 1);
             String c1 = ing1.getCategory();
             String c2 = ing2.getCategory();
             assertTrue((c1.compareTo(c2)) <= 0);
@@ -204,6 +234,8 @@ public class IngredientSortingUITest {
 
     /**
      * Test to see if category descend after sort
+     * User Stories:
+     * - US 01.06.01
      */
     @Test
     public void testCategorySortDsc() {
@@ -212,9 +244,12 @@ public class IngredientSortingUITest {
         solo.clickOnView(solo.getView(R.id.sortingSwitchIngredient));
         solo.scrollToTop();
 
-        for (int i = 0; i < IngredientStorage.getInstance().getIngredientAdapter().getCount() - 1; i++) {
-            StoredIngredient ing1 = IngredientStorage.getInstance().getIngredientAdapter().getItem(i);
-            StoredIngredient ing2 = IngredientStorage.getInstance().getIngredientAdapter().getItem(i + 1);
+        ListView ingredients = (ListView) solo.getView(R.id.ingredientListView);
+        int size = ingredients.getAdapter().getCount();
+
+        for (int i = 0; i < size - 1; i++) {
+            StoredIngredient ing1 = (StoredIngredient) ingredients.getAdapter().getItem(i);
+            StoredIngredient ing2 = (StoredIngredient) ingredients.getAdapter().getItem(i + 1);
             String c1 = ing1.getCategory();
             String c2 = ing2.getCategory();
             assertTrue((c1.compareTo(c2)) >= 0);

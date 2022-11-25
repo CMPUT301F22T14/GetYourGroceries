@@ -23,6 +23,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import com.example.getyourgroceries.R;
@@ -33,8 +34,13 @@ import com.example.getyourgroceries.entity.Recipe;
 import com.example.getyourgroceries.entity.RecipeStorage;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -43,9 +49,10 @@ import java.util.Objects;
  * create an instance of this fragment.
  */
 public class RecipeChangeHandlerFragment extends Fragment implements AddIngredientRecipeFragment.OnFragmentInteractionListener {
-    private final ArrayList<Ingredient> ingredientList;
+    private ArrayList<Ingredient> ingredientList;
     private RecipeIngredientAdapter ingredientAdapter;
     private Recipe editRecipe;
+
     /**
      * Fragment constructor to initialize its database class
      */
@@ -83,28 +90,85 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         NestedScrollView addIngredientLayout = requireActivity().findViewById(R.id.change_recipe_layout);
         addIngredientLayout.setImportantForAutofill(View.IMPORTANT_FOR_AUTOFILL_NO);
-        ingredientAdapter = new RecipeIngredientAdapter(requireActivity().getBaseContext(), ingredientList);
+
         FragmentManager fmManager = getActivity().getSupportFragmentManager();
 
         ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
 
         if (getArguments() != null) {
-            editRecipe = (Recipe) getArguments().getSerializable("editRecipe");
+            editRecipe = RecipeStorage.getInstance().getRecipe(getArguments().getInt("editRecipe"));
             actionBar.setTitle("Edit Recipe");
+            ingredientList = editRecipe.getIngredientList();
         } else{
             actionBar.setTitle("Add Recipe");
         }
+        ingredientAdapter = new RecipeIngredientAdapter(requireActivity().getBaseContext(), ingredientList);
 
         // Set up category spinner.
-        AutoCompleteTextView category = view.findViewById(R.id.change_recipe_category);
+        Map<String, String> categoryIDs = new HashMap<>();
         ArrayList<String> categories = new ArrayList<>();
-        categories.add("Baking");
-        categories.add("Frying");
-        categories.add("Microwaving");
-        categories.add("Cooking");
+        categories.add("+ Save New Category");
+        categories.add("- Delete Saved Category");
+        CollectionReference categoryCollection = FirebaseFirestore.getInstance().collection("RecipeCategory");
+        categoryCollection.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    categories.add(Objects.requireNonNull(document.getData().get("Category")).toString());
+                    categoryIDs.put(Objects.requireNonNull(document.getData().get("Category")).toString(), document.getId());
+                }
+            }
+        });
+        AutoCompleteTextView category = requireActivity().findViewById(R.id.change_recipe_category);
         ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner, categories);
         category.setAdapter(categoryAdapter);
         category.setThreshold(200);
+        category.setOnItemClickListener(((adapterView, view1, i, l) -> {
+            if (Objects.equals(categories.get(i), "+ Save New Category")) {
+                category.setText("");
+                final EditText newCategoryInput = new EditText(getContext());
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder
+                        .setTitle("Add Category")
+                        .setMessage("Enter a new category:")
+                        .setCancelable(true)
+                        .setView(newCategoryInput)
+                        .setPositiveButton("OK", (DialogInterface.OnClickListener) (dialog, which) -> {
+                            String newCategory = newCategoryInput.getText().toString();
+                            category.setText(newCategory);
+                            Map<String, Object> insertCategory = new HashMap<>();
+                            insertCategory.put("Category", newCategory);
+                            categoryCollection.document().set(insertCategory);
+                            dialog.dismiss();
+                        })
+                        .setNegativeButton("Cancel", (DialogInterface.OnClickListener) (dialog, which) -> {
+                            dialog.cancel();
+                        })
+                        .create()
+                        .show();
+            } else if (categories.get(i).equals("- Delete Saved Category")) {
+                category.setText("");
+                final EditText deleteCategoryInput = new EditText(getContext());
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder
+                        .setTitle("Delete Category")
+                        .setMessage("Delete an existing category:")
+                        .setCancelable(true)
+                        .setView(deleteCategoryInput)
+                        .setPositiveButton("OK", (DialogInterface.OnClickListener) (dialog, which) -> {
+                            String deleteCategory = deleteCategoryInput.getText().toString();
+                            String id = categoryIDs.get(deleteCategory);
+                            if (id != null) {
+                                categoryCollection.document(id).delete();
+                            }
+                            dialog.dismiss();
+                        })
+                        .setNegativeButton("Cancel", (DialogInterface.OnClickListener) (dialog, which) -> {
+                            dialog.cancel();
+                        })
+                        .create()
+                        .show();
+            }
+        }));
 
         //Populate fields if its an edit
         TextInputEditText descriptionText = view.findViewById(R.id.change_recipe_description);
@@ -141,7 +205,6 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
             servingsText.setText(String.valueOf(editRecipe.getNumOfServings()));
             category.setText(editRecipe.getRecipeCategory());
             commentsText.setText(editRecipe.getComment());
-            ingredientList.addAll(editRecipe.getIngredientList());
         }
 
         // Get the text layouts.

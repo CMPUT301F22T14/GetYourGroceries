@@ -54,6 +54,7 @@ public class RecipeFragmentTest {
     @Before
     public void setUp() {
         solo = new Solo(InstrumentationRegistry.getInstrumentation(), rule.getActivity());
+        RecipeStorage.getInstance().clearLocalStorage();
         // setup for view
         viewRecipeTest = new Recipe("View Test", 2, 1, "Baking", "No comments", "recipes/apple.jpg");
 
@@ -380,7 +381,7 @@ public class RecipeFragmentTest {
         for (int i = 0; i < size; i++) {
             Recipe recipe = (Recipe) recipes.getAdapter().getItem(i);
             if (Objects.equals(recipe.getName(), "View Test")) {
-                solo.clickInList(i);
+                solo.clickInList(i+1, 0);
                 break;
             }
         }
@@ -419,16 +420,13 @@ public class RecipeFragmentTest {
         // Click category
         AutoCompleteTextView categoryView = (AutoCompleteTextView) solo.getView(R.id.change_recipe_category);
         solo.clearEditText(categoryView);
-        solo.enterText(categoryView, "Bak");
+        solo.enterText(categoryView, "Lu");
         solo.clickOnView(categoryView);
-        solo.waitForText("Baking");
-        solo.clickOnText("Baking");
+        solo.waitForText("Lunch");
+        solo.clickOnText("Lunch");
 
         solo.enterText((EditText) solo.getView(R.id.change_recipe_comments), "This is a test.");
         assertTrue(solo.waitForText("This is a test.", 1, 2000));
-
-        // TODO: implement adding a photo
-        // solo.clickOnView(solo.getView(R.id.change_recipe_add_photo));
 
         // Add ingredient to recipe
         solo.clickOnView(solo.getView(R.id.change_recipe_add_ingredient));
@@ -436,10 +434,11 @@ public class RecipeFragmentTest {
         solo.enterText((EditText) solo.getView(R.id.change_ingredient_quantity), "2");
         AutoCompleteTextView ingredientCategoryView = (AutoCompleteTextView) solo.getView(R.id.change_ingredient_category);
         solo.clearEditText(ingredientCategoryView);
-        solo.enterText(ingredientCategoryView, "Fry");
+        solo.enterText(ingredientCategoryView, "Fr");
         solo.clickOnView(ingredientCategoryView);
         solo.waitForText("Frying");
         solo.clickOnText("Frying");
+
         solo.enterText((EditText) solo.getView(R.id.change_ingredient_unit), "1.99");
         solo.clickOnButton("OK");
 
@@ -475,6 +474,7 @@ public class RecipeFragmentTest {
      */
     @Test
     public void testEditRecipe() {
+        RecipeStorage.getInstance().clearLocalStorage();
         RecipeStorage.getInstance().addRecipe(editRecipeTest, true);
 
         solo.assertCurrentActivity("Wrong Activity!", MainActivity.class);
@@ -507,22 +507,18 @@ public class RecipeFragmentTest {
                 solo.enterText(servings, "3");
                 assertTrue(solo.waitForText("3", 1, 2000));
 
-                // Click category
-                AutoCompleteTextView categoryView = (AutoCompleteTextView) solo.getView(R.id.change_recipe_category);
-                solo.clearEditText(categoryView);
-                solo.enterText(categoryView, "Coo");
-                solo.clickOnView(categoryView);
-                solo.waitForText("Cooking");
-                solo.clickOnText("Cooking");
-
                 EditText comments = (EditText) solo.getView(R.id.change_recipe_comments);
                 solo.clearEditText(comments);
-                solo.enterText(comments, "This is a test.");
-                assertTrue(solo.waitForText("This is a test.", 1, 2000));
+                solo.enterText(comments, "Updated comment");
+                assertTrue(solo.waitForText("Updated comment", 1, 2000));
 
                 // Scroll to bottom
                 NestedScrollView scrollView = (NestedScrollView) solo.getView(R.id.change_recipe_layout);
                 scrollView.post(() -> {
+                    scrollView.arrowScroll(ScrollView.FOCUS_DOWN);
+                    scrollView.arrowScroll(ScrollView.FOCUS_DOWN);
+                    scrollView.arrowScroll(ScrollView.FOCUS_DOWN);
+                    scrollView.arrowScroll(ScrollView.FOCUS_DOWN);
                     scrollView.arrowScroll(ScrollView.FOCUS_DOWN);
                     scrollView.arrowScroll(ScrollView.FOCUS_DOWN);
                     scrollView.arrowScroll(ScrollView.FOCUS_DOWN);
@@ -552,7 +548,7 @@ public class RecipeFragmentTest {
         for (int i = 0; i < size; i++) {
             Recipe tv = (Recipe) recipesList.getAdapter().getItem(i);
             if (Objects.equals(tv.getName(), "Edit Recipe Test Updated")) {
-                solo.clickLongInList(i, 0);
+                solo.clickLongInList(i+1, 0);
                 solo.clickOnButton("Yes");
                 break;
             }

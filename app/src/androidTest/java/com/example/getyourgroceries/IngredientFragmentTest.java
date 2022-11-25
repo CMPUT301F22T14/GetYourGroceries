@@ -42,6 +42,9 @@ public class IngredientFragmentTest {
     @Before
     public void setUp() throws Exception {
         solo = new Solo(InstrumentationRegistry.getInstrumentation(), rule.getActivity());
+
+        IngredientStorage.getInstance().clearLocalStorage();
+
         SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
         String expiry = "01/02/2022";
         editTestIngredient = new StoredIngredient("EditTest", 1, 0.99, "Fruit", formatter.parse(expiry), "Fridge");
@@ -55,6 +58,9 @@ public class IngredientFragmentTest {
 
     /**
      * Tests the bottom navigation click to get to the ingredients fragment
+     * User Stories:
+     * - US 01.02.01
+     * - US 01.05.01
      */
     @Test
     public void testGoToIngredients() {
@@ -67,6 +73,8 @@ public class IngredientFragmentTest {
 
     /**
      * Tests adding an ingredient
+     * User Stories:
+     * - US 01.01.01
      */
     @Test
     public void testAddIngredient() throws InterruptedException {
@@ -74,7 +82,8 @@ public class IngredientFragmentTest {
         BottomNavigationItemView navItem = (BottomNavigationItemView) solo.getView(R.id.ingredients_icon);
         solo.clickOnView(navItem.getChildAt(1));
 
-        int size = IngredientStorage.getInstance().getIngredientAdapter().getCount();
+        ListView ingredients = (ListView) solo.getView(R.id.ingredientListView);
+        int size = ingredients.getAdapter().getCount();
 
         // click on add ingredient
         solo.clickOnButton(0);
@@ -91,17 +100,17 @@ public class IngredientFragmentTest {
 
         // Click location
         AutoCompleteTextView locationView = (AutoCompleteTextView) solo.getView(R.id.change_ingredient_location);
-        solo.enterText(locationView, "Fri");
+        solo.enterText(locationView, "Pan");
         solo.clickOnView(locationView);
-        solo.waitForText("Fridge");
-        solo.clickOnText("Fridge");
+        solo.waitForText("Pantry");
+        solo.clickOnText("Pantry");
 
         // Click Category
         AutoCompleteTextView categoryView = (AutoCompleteTextView) solo.getView(R.id.change_ingredient_category);
         solo.enterText(categoryView, "Veg");
         solo.clickOnView(categoryView);
-        solo.waitForText("Vegetable");
-        solo.clickOnText("Vegetable");
+        solo.waitForText("Vegetables");
+        solo.clickOnText("Vegetables");
 
         solo.enterText((EditText) solo.getView(R.id.change_ingredient_unit), "0.99");
         assertTrue(solo.waitForText("0.99", 1, 2000));
@@ -111,12 +120,11 @@ public class IngredientFragmentTest {
         assertTrue(solo.waitForText("Ingredients"));
 
         Thread.sleep(200);
-        assertEquals(IngredientStorage.getInstance().getIngredientAdapter().getCount(), size+1);
+        assertEquals(ingredients.getAdapter().getCount(), size+1);
 
         for(int i = 0; i < size+1; i++) {
-            StoredIngredient tv = IngredientStorage.getInstance().getIngredientAdapter().getItem(i);
+            StoredIngredient tv = (StoredIngredient) ingredients.getAdapter().getItem(i);
             if(Objects.equals(tv.getDescription(), "AddTest")) {
-                Log.d("TEST ADD ING", "HERE");
                 solo.clickLongInList(i, 0);
                 solo.clickOnButton("Yes");
                 break;
@@ -126,20 +134,22 @@ public class IngredientFragmentTest {
 
     /**
      * Tests editing an ingredient
+     * User Stories:
+     * - US 01.03.01
      */
     @Test
     public void testEditIngredient() throws InterruptedException {
+        IngredientStorage.getInstance().addIngredient(editTestIngredient, true);
         solo.assertCurrentActivity("Wrong Activity!", MainActivity.class);
         BottomNavigationItemView navItem = (BottomNavigationItemView) solo.getView(R.id.ingredients_icon);
         solo.clickOnView(navItem.getChildAt(1));
 
         // setup test
-        IngredientStorage.getInstance().addIngredient(editTestIngredient,true);
+        ListView ingredients = (ListView) solo.getView(R.id.ingredientListView);
+        int size = ingredients.getAdapter().getCount();
 
-        ListView ingredientList = (ListView) solo.getView(R.id.ingredientListView);
-        int size = ingredientList.getAdapter().getCount();
         for(int i = 0; i < size; i++) {
-            StoredIngredient tv = (StoredIngredient) ingredientList.getAdapter().getItem(i);
+            StoredIngredient tv = (StoredIngredient) ingredients.getAdapter().getItem(i);
             if(Objects.equals(tv.getDescription(), "EditTest")) {
                 solo.clickInList(i, 0);
 
@@ -155,22 +165,6 @@ public class IngredientFragmentTest {
                 solo.clickOnView(calendar);
                 solo.clickOnButton("OK");
 
-                // Click location
-                AutoCompleteTextView locationView = (AutoCompleteTextView) solo.getView(R.id.change_ingredient_location);
-                solo.clearEditText(locationView);
-                solo.enterText(locationView, "Pan");
-                solo.clickOnView(locationView);
-                solo.waitForText("Pantry");
-                solo.clickOnText("Pantry");
-
-                // Click Category
-                AutoCompleteTextView categoryView = (AutoCompleteTextView) solo.getView(R.id.change_ingredient_category);
-                solo.clearEditText(categoryView);
-                solo.enterText(categoryView, "Veg");
-                solo.clickOnView(categoryView);
-                solo.waitForText("Vegetable");
-                solo.clickOnText("Vegetable");
-
                 EditText unitView = (EditText) solo.getView(R.id.change_ingredient_unit);
                 solo.clearEditText(unitView);
                 solo.enterText(unitView, "1.99");
@@ -185,7 +179,7 @@ public class IngredientFragmentTest {
         Thread.sleep(200);
 
         for(int i = 0; i < size; i++) {
-            StoredIngredient tv = IngredientStorage.getInstance().getIngredientAdapter().getItem(i);
+            StoredIngredient tv = (StoredIngredient) ingredients.getAdapter().getItem(i);
             if(Objects.equals(tv.getDescription(), "EditTestUpdated")) {
                 solo.clickLongInList(i, 0);
                 solo.clickOnButton("Yes");
@@ -196,18 +190,21 @@ public class IngredientFragmentTest {
 
     /**
      * Tests deleting an ingredient
+     * User Stories:
+     * - US 01.04.01
      */
     @Test
     public void testDeleteIngredient() throws InterruptedException {
+        IngredientStorage.getInstance().addIngredient(deleteTestIngredient, true);
         solo.assertCurrentActivity("Wrong Activity!", MainActivity.class);
         BottomNavigationItemView navItem = (BottomNavigationItemView) solo.getView(R.id.ingredients_icon);
         solo.clickOnView(navItem.getChildAt(1));
 
-        IngredientStorage.getInstance().addIngredient(deleteTestIngredient, true);
+        ListView ingredients = (ListView) solo.getView(R.id.ingredientListView);
+        int size = ingredients.getAdapter().getCount();
 
-        int size = IngredientStorage.getInstance().getIngredientAdapter().getCount();
         for(int i = 0; i < size; i++) {
-            StoredIngredient tv = IngredientStorage.getInstance().getIngredientAdapter().getItem(i);
+            StoredIngredient tv = (StoredIngredient) ingredients.getAdapter().getItem(i);
             if(Objects.equals(tv.getDescription(), "DeleteTest")) {
                 solo.clickLongInList(i, 0);
                 solo.clickOnButton("Yes");
@@ -216,7 +213,7 @@ public class IngredientFragmentTest {
         }
 
         Thread.sleep(200); // need sleep for else the adapter doesn't properly update
-        assertEquals(IngredientStorage.getInstance().getIngredientAdapter().getCount(), size-1);
+        assertEquals(ingredients.getAdapter().getCount(), size-1);
     }
 
     @After

@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import com.example.getyourgroceries.entity.Ingredient;
 import com.example.getyourgroceries.entity.MealPlanDay;
 import com.example.getyourgroceries.entity.Recipe;
+import com.example.getyourgroceries.entity.ScaledRecipe;
 
 import org.junit.Test;
 
@@ -28,8 +29,9 @@ public class MealPlanDayTest {
     @Test
     public void addRecipeTest() {
         mealPlanDay = mockMealPlanDay();
-        mealPlanDay.addRecipe(new Recipe("Pasta", 25, 2, "Cooking", "I love pasta!", ""));
-        assertEquals("Pasta", mealPlanDay.getRecipeList().get(0).getName());
+        Recipe recipe = new Recipe("Pasta", 25, 2, "Cooking", "I love pasta!", "");
+        mealPlanDay.addRecipe(new ScaledRecipe(recipe, 5));
+        assertEquals("Pasta", mealPlanDay.getRecipeList().get(0).getRecipe().getName());
     }
 
     /**
@@ -39,8 +41,9 @@ public class MealPlanDayTest {
     public void deleteRecipeTest() {
         mealPlanDay = mockMealPlanDay();
         Recipe recipe = new Recipe("Pasta", 20, 2, "Cooking", "I love pasta!", "");
-        mealPlanDay.addRecipe(recipe);
-        mealPlanDay.deleteRecipe(recipe);
+        ScaledRecipe scaledRecipe = new ScaledRecipe(recipe, 2);
+        mealPlanDay.addRecipe(scaledRecipe);
+        mealPlanDay.deleteRecipe(scaledRecipe);
         assertEquals(mealPlanDay.getRecipeList().size(), 0);
     }
 
@@ -73,9 +76,10 @@ public class MealPlanDayTest {
     public void getRecipeListTest() {
         mealPlanDay = mockMealPlanDay();
         Recipe recipe = new Recipe("Pasta", 20, 2, "Cooking", "I love pasta!", "");
-        mealPlanDay.addRecipe(recipe);
-        ArrayList<Recipe> recipeList = new ArrayList<>();
-        recipeList.add(recipe);
+        ScaledRecipe scaledRecipe = new ScaledRecipe(recipe, 10);
+        mealPlanDay.addRecipe(scaledRecipe);
+        ArrayList<ScaledRecipe> recipeList = new ArrayList<>();
+        recipeList.add(scaledRecipe);
         assertEquals(recipeList, mealPlanDay.getRecipeList());
     }
 

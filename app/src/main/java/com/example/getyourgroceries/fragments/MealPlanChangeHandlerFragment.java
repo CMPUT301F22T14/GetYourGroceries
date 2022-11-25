@@ -21,6 +21,14 @@ import androidx.fragment.app.Fragment;
 import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.adapters.DayListAdapter;
 import com.example.getyourgroceries.entity.MealPlanDay;
+import com.example.getyourgroceries.entity.Recipe;
+import com.example.getyourgroceries.entity.ScaledRecipe;
+import com.example.getyourgroceries.entity.StoredIngredient;
+import com.google.android.material.textfield.TextInputLayout;
+
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -99,7 +107,37 @@ public class MealPlanChangeHandlerFragment extends Fragment implements RecipeCha
     }
 
     public void onSubmitPressed(Recipe recipe, int dayPosition){
-        days.get(dayPosition).addRecipe(recipe);
+
+        AlertDialog.Builder scaleAlertBox = new AlertDialog.Builder(view.getRootView().getContext());
+        scaleAlertBox.setTitle("Input desired scale (default 1)");
+
+        final EditText input = new EditText(view.getRootView().getContext());
+        input.setInputType(InputType.TYPE_CLASS_NUMBER);
+        scaleAlertBox.setView(input);
+        scaleAlertBox.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                int scale;
+                try {
+                    scale = Integer.parseInt(String.valueOf(input.getText()));
+                } catch (NumberFormatException e) {
+                    scale = 1;
+                }
+
+                days.get(dayPosition).addRecipe(new ScaledRecipe(recipe, scale));
+                daysAdapter.notifyDataSetChanged();
+            }
+        });
+
+        scaleAlertBox.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        scaleAlertBox.show();
 
 
     }

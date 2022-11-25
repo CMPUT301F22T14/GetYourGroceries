@@ -3,6 +3,7 @@
 // Import statements.
 package com.example.getyourgroceries.adapters;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,6 +77,7 @@ public class RecipeAdapter extends ArrayAdapter<Recipe> {
         // get photo
 
         try {
+            Log.d(TAG, "getView: " + recipe.getPhoto());
             StorageReference imageRef = storage.getReference().child(recipe.getPhoto());
 
             GlideApp.with(view)

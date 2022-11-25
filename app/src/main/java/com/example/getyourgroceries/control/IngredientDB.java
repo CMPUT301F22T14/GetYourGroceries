@@ -2,8 +2,10 @@
 package com.example.getyourgroceries.control;
 
 import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import com.example.getyourgroceries.entity.Ingredient;
 import com.example.getyourgroceries.entity.IngredientStorage;
 import com.example.getyourgroceries.entity.StoredIngredient;
@@ -15,6 +17,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
@@ -64,7 +67,8 @@ public class IngredientDB {
     }
 
     /**
-     *  Adds a given ingredient to the firebase database.
+     * Adds a given ingredient to the firebase database.
+     *
      * @param ingredient Ingredient object to be added to the database.
      * @return Newly created document ID.
      * @NOTE Make sure to assign the ingredient the given returned ID after calling function.
@@ -87,15 +91,19 @@ public class IngredientDB {
 
     /**
      * Update a given ingredient in the database
+     *
      * @param ingredient Ingredient to update.
      */
     public void updateIngredient(Ingredient ingredient) {
-        ingredientCollection.document(ingredient.getId())
-                .set(ingredient);
+        if (ingredient.getId() != null) {
+            ingredientCollection.document(ingredient.getId())
+                    .set(ingredient);
+        }
     }
 
     /**
      * Delete an ingredient from the database.
+     *
      * @param ingredient The ingredient to delete.
      */
     public void deleteIngredient(Ingredient ingredient) {

@@ -25,8 +25,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
-
-import com.example.getyourgroceries.GlideApp;
+import com.bumptech.glide.Glide;
 import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.adapters.RecipeIngredientAdapter;
 import com.example.getyourgroceries.control.RecipeDB;
@@ -133,7 +132,7 @@ public class RecipeViewFragment extends Fragment {
             try {
                 imageRef = storage.getReference().child(viewRecipe.getPhoto());
 
-                GlideApp.with(view)
+                Glide.with(view)
                         .load(imageRef)
                         .into(image);
             } catch (IllegalArgumentException e) {

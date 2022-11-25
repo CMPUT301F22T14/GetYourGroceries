@@ -1,5 +1,5 @@
 /* HomeScreenFragment class. */
-package com.example.getyourgroceries;
+package com.example.getyourgroceries.fragments;
 
 // Import statements.
 import android.content.Context;
@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.fragments.IngredientChangeHandlerFragment;
 import com.example.getyourgroceries.fragments.IngredientListFragment;
 import com.example.getyourgroceries.fragments.MealPlanChangeHandlerFragment;

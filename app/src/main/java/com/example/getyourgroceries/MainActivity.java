@@ -15,7 +15,7 @@ import com.example.getyourgroceries.fragments.RecipeListFragment;
 
 import com.example.getyourgroceries.fragments.IngredientListFragment;
 import com.example.getyourgroceries.fragments.RecipeListFragment;
-import com.example.getyourgroceries.HomeScreenFragment;
+import com.example.getyourgroceries.fragments.HomeScreenFragment;
 import com.example.getyourgroceries.fragments.MealPlansFragment;
 import com.example.getyourgroceries.fragments.ShoppingListFragment;
 
@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     // Attributes.
     BottomNavigationView bottomNavigationView;
     IngredientListFragment ingredientListFragment = new IngredientListFragment();
-    HomeScreenFragment homeScreenFragment = new com.example.getyourgroceries.HomeScreenFragment();
+    HomeScreenFragment homeScreenFragment = new com.example.getyourgroceries.fragments.HomeScreenFragment();
     RecipeListFragment recipeListFragment = new RecipeListFragment();
     MealPlansFragment mealPlansFragment = new com.example.getyourgroceries.fragments.MealPlansFragment();
     ShoppingListFragment shoppingListFragment = new com.example.getyourgroceries.fragments.ShoppingListFragment();

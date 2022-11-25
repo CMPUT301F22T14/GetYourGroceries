@@ -43,7 +43,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 
-import com.example.getyourgroceries.GlideApp;
+import com.bumptech.glide.Glide;
 import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.adapters.RecipeIngredientAdapter;
 import com.example.getyourgroceries.control.RecipeDB;
@@ -192,7 +192,7 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
             try {
                 imageRef = storage.getReference().child(editRecipe.getPhoto());
 
-                GlideApp.with(view)
+                Glide.with(view)
                         .load(imageRef)
                         .into(image);
             } catch (IllegalArgumentException e) {

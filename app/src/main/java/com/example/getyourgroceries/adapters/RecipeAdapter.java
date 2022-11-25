@@ -13,7 +13,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.example.getyourgroceries.GlideApp;
+import com.bumptech.glide.Glide;
+import com.example.getyourgroceries.MyAppGlideModule;
 import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.entity.Recipe;
 import com.google.firebase.storage.FirebaseStorage;
@@ -80,7 +81,7 @@ public class RecipeAdapter extends ArrayAdapter<Recipe> {
             Log.d(TAG, "getView: " + recipe.getPhoto());
             StorageReference imageRef = storage.getReference().child(recipe.getPhoto());
 
-            GlideApp.with(view)
+            Glide.with(view)
                     .load(imageRef)
                     .override(300, 300)
                     .into(recipePhoto);

@@ -11,7 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.example.getyourgroceries.GlideApp;
+import com.bumptech.glide.Glide;
 import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.entity.MealPlanDay;
 import com.example.getyourgroceries.entity.Recipe;
@@ -75,7 +75,7 @@ public class DayRecipeListAdapter extends ArrayAdapter<Recipe> {
         try {
             imageRef = storage.getReference().child(recipe.getPhoto());
 
-            GlideApp.with(view)
+            Glide.with(view)
                     .load(imageRef)
                     .override(300, 300)
                     .into(recipePhoto);
@@ -86,7 +86,7 @@ public class DayRecipeListAdapter extends ArrayAdapter<Recipe> {
         try {
             StorageReference imageRef = storage.getReference().child(recipe.getPhoto());
 
-            GlideApp.with(view)
+            Glide.with(view)
                     .load(imageRef)
                     .override(300, 300)
                     .into(recipePhoto);

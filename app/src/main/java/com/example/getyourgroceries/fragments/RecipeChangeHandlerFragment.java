@@ -98,7 +98,7 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
      */
     public RecipeChangeHandlerFragment() {
         super();
-        ingredientList = new ArrayList<>();
+
     }
 
     /**
@@ -141,6 +141,7 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
             ingredientList = editRecipe.getIngredientList();
         } else{
             actionBar.setTitle("Add Recipe");
+            ingredientList = new ArrayList<>();
         }
         ingredientAdapter = new RecipeIngredientAdapter(requireActivity().getBaseContext(), ingredientList);
 
@@ -248,8 +249,6 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
             servingsText.setText(String.valueOf(editRecipe.getNumOfServings()));
             category.setText(editRecipe.getRecipeCategory());
             commentsText.setText(editRecipe.getComment());
-            ingredientList.addAll(editRecipe.getIngredientList());
-
             addRecipePhotoButton.setText("Change Photo");
 
             // get photo

@@ -308,4 +308,12 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
         ingredientList.set(index, newIngredient);
         ingredientAdapter.notifyDataSetChanged();
     }
+    /**
+     * Executes when the user hits "ok" on the edit ingredient dialog
+     * @param newIngredient updated ingredient info
+     * @param index position in ingredient list
+     */
+    @Override
+    public void onMealOkPressed(Ingredient newIngredient, int position) { // FOR MEAL PLANS
+    }
 }

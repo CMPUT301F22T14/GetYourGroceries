@@ -43,7 +43,7 @@ public class MealPlansFragment extends Fragment {
         MealPlan x = new MealPlan("123","Bulksssss Up");
         MealPlanDay y= new MealPlanDay("1");
         x.addDay(y);
-//        MealPlanStorage.getInstance().addMealPlan(x,true);
+        MealPlanStorage.getInstance().addMealPlan(x,true);
         
         mealPlanDataList= new ArrayList<MealPlan>();
         mealPlanDataList.add(x);

@@ -20,7 +20,6 @@ public class MealPlanStorage {
     private ArrayList<MealPlan> mealPlanStorage = new ArrayList<>();
     private ArrayAdapter<MealPlan> mealPlanAdapter;
     private MealPlanDB mealPlanDB;
-    private StoredIngredient recentIngredient;
 
     public static MealPlanStorage getInstance() {
         return instance;
@@ -34,14 +33,6 @@ public class MealPlanStorage {
     public void setupStorage(Context context) {
         mealPlanAdapter = new MealPlanAdapter(context, mealPlanStorage);
         mealPlanDB = new MealPlanDB();
-    }
-
-    public void setRecentIngredient(StoredIngredient ingredient){
-        this.recentIngredient = ingredient;
-    }
-
-    public StoredIngredient getRecentIngredient() {
-        return recentIngredient;
     }
 
     /**

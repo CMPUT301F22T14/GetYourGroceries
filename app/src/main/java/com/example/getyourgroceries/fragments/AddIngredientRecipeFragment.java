@@ -19,9 +19,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 
 import com.example.getyourgroceries.MainActivity;
 import com.example.getyourgroceries.R;
+import com.example.getyourgroceries.adapters.DayListAdapter;
 import com.example.getyourgroceries.entity.Ingredient;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -35,26 +37,41 @@ public class AddIngredientRecipeFragment extends DialogFragment {
     private EditText amount;
     private EditText unit;
     private int index;
+    private DayListAdapter dayListAdapter;
+    private int position;
 
     public interface OnFragmentInteractionListener {
         void onOkPressed(Ingredient newIngredient);
         void onItemPressed(Ingredient newIngredient, int index);
+        void onMealOkPressed(Ingredient newIngredient,int position);
     }
 
     AddIngredientRecipeFragment(Ingredient ingredient, int index) {
         this.ingredient = ingredient;
         this.index = index;
+        this.position = -1;
     }
 
-    public AddIngredientRecipeFragment() {}
+    public AddIngredientRecipeFragment() {
+        this.position = -1;
+    }
 
+    public AddIngredientRecipeFragment(DayListAdapter dayListAdapter,int position) {
+        this.dayListAdapter = dayListAdapter;
+        this.position = position;
+    }
+    
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         MainActivity act = (MainActivity) context;
-
-        RecipeChangeHandlerFragment frag = (RecipeChangeHandlerFragment) act.getSupportFragmentManager().findFragmentByTag("EDIT_RECIPE");
-        listener = (OnFragmentInteractionListener)frag;
+        if (dayListAdapter != null){
+            listener = (OnFragmentInteractionListener)dayListAdapter;
+        }
+        else{
+            OnFragmentInteractionListener frag = (OnFragmentInteractionListener) act.getSupportFragmentManager().findFragmentByTag("EDIT_RECIPE");
+            listener = (OnFragmentInteractionListener)frag;
+        }
     }
 
     @NonNull
@@ -120,6 +137,7 @@ public class AddIngredientRecipeFragment extends DialogFragment {
             builder = builder.setTitle("Add Ingredient");
         }
 
+<<<<<<< Updated upstream
         /* Let the user add an ingredient. */
         TextInputLayout
                 descriptionTIL = view.findViewById(R.id.change_ingredient_description_til),
@@ -171,6 +189,24 @@ public class AddIngredientRecipeFragment extends DialogFragment {
                         listener.onItemPressed(new Ingredient(ingDescription, ingAmount2, ingUnit2, ingCategory), index);
                     } else {
                         listener.onOkPressed(new Ingredient(ingDescription, ingAmount2, ingUnit2, ingCategory));
+=======
+        return builder
+                .setView(view)
+                .setNegativeButton("Cancel", null)
+                .setPositiveButton("OK", (dialogInterface, i) -> {
+                    String ingDescription = description.getText().toString();
+                    int ingAmount = Integer.parseInt(amount.getText().toString());
+                    double ingUnit = Double.parseDouble(unit.getText().toString());
+                    String ingCategory = category.getText().toString();
+                    if(ingredient != null) {
+                        listener.onItemPressed(new Ingredient(ingDescription, ingAmount, ingUnit, ingCategory), index);
+                    }
+                    else if (position != -1){
+                        listener.onMealOkPressed(new Ingredient(ingDescription, ingAmount, ingUnit, ingCategory),position);
+                    }
+                    else {
+                        listener.onOkPressed(new Ingredient(ingDescription, ingAmount, ingUnit, ingCategory));
+>>>>>>> Stashed changes
                     }
                     dialog.dismiss();
                 }

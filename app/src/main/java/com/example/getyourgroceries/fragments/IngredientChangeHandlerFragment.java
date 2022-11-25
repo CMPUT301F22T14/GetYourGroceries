@@ -395,7 +395,6 @@ public class IngredientChangeHandlerFragment extends Fragment {
 
             // Add the ingredient to Firebase.
             IngredientStorage.getInstance().addIngredient(ingredient, true);
-            MealPlanStorage.getInstance().setRecentIngredient(ingredient);
             requireActivity().getSupportFragmentManager().popBackStackImmediate();
         });
     }

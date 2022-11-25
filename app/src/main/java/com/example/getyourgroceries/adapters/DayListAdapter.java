@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -38,12 +39,14 @@ import com.example.getyourgroceries.fragments.IngredientChangeHandlerFragment;
 
 import java.util.ArrayList;
 
-public class DayListAdapter extends ArrayAdapter<MealPlanDay> {
+public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements AddIngredientRecipeFragment.OnFragmentInteractionListener {
     private final ArrayList<MealPlanDay> days;
     private final Context context;
     ListView ingredientListView;
     FragmentManager fm;
-
+    MealPlanDay day;
+    ListView dayIngredientListView;
+    DayIngredientListAdapter dayIngredientListAdapter;
 
     /**
      * Class constructor.
@@ -71,10 +74,11 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> {
         if (view == null) {
             view = LayoutInflater.from(context).inflate(R.layout.day_view, parent, false);
         }
-        MealPlanDay day = days.get(position);
+        day = days.get(position);
         TextView dayName = view.findViewById(R.id.day_title);
-        ListView dayIngredientListView = view.findViewById(R.id.day_ingredient_list);
-        dayIngredientListView.setAdapter(new DayIngredientListAdapter(context, day.getIngredientList()));
+        dayIngredientListView = view.findViewById(R.id.day_ingredient_list);
+        dayIngredientListAdapter = new DayIngredientListAdapter(context, day.getIngredientList());
+        dayIngredientListView.setAdapter(dayIngredientListAdapter);
         ListView recipeListview = view.findViewById(R.id.day_recipe_list);
         recipeListview.setAdapter(new DayRecipeListAdapter(context, day.getRecipeList()));
         ViewCompat.setNestedScrollingEnabled(dayIngredientListView, true);
@@ -82,83 +86,10 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> {
 
         dayName.setText(day.getTitle());
 
-//        if (MealPlanStorage.getInstance().getRecentIngredient() != null){
-//            day.addIngredient(MealPlanStorage.getInstance().getRecentIngredient());
-//            MealPlanStorage.getInstance().setRecentIngredient(null);
-//        }
+
 
         Button addIngredient = view.findViewById(R.id.add_ingredient_day);
-        addIngredient.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-//                LayoutInflater inflater=(LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//                View layout = inflater.inflate(R.layout.fragment_add_ingredient_recipe,null);
-//                AlertDialog.Builder alertbox = new AlertDialog.Builder(v.getRootView().getContext());
-//                alertbox.setView(layout);
-//                AlertDialog a = alertbox.create();
-//                a.show();
-
-//                ListView ingredientListView = layout.findViewById(R.id.ingredient_list_meal);
-//                ingredientListView.setAdapter(IngredientStorage.getInstance().getMealIngredientAdapter());
-
-
-            }
-        });
-//        addIngredient.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                LayoutInflater inflater=(LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//                View layout = inflater.inflate(R.layout.mealplan_add_ingredient,null);
-//                ingredientListView = layout.findViewById(R.id.ingredient_list_meal);
-//                ingredientListView.setAdapter(IngredientStorage.getInstance().getMealIngredientAdapter());
-//                AlertDialog.Builder alertbox = new AlertDialog.Builder(v.getRootView().getContext());
-//                alertbox.setView(layout);
-//                AlertDialog a = alertbox.create();
-//                a.show();
-//                Button addIngredient = layout.findViewById(R.id.addMealPlanIngredient);
-//                addIngredient.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        AlertDialog.Builder alertbox2 = new AlertDialog.Builder(v.getRootView().getContext());
-//                        LayoutInflater inflater=(LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//                        View layout = inflater.inflate(R.layout.fragment_add_ingredient_recipe,null);
-//                        alertbox2.setPositiveButton("yes", new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                System.out.println("This was called\n");
-//                            }
-//                        });
-//                        alertbox2.setView(layout);
-//
-//
-//                    }
-//                });
-//
-//                addIngredient.setOnClickListener(view12 -> new AddIngredientRecipeFragment().show(fm, "ADD_INGREDIENT_RECIPE"));
-//
-////                addIngredient.setOnClickListener(new View.OnClickListener() {
-////                    @Override
-////                    public void onClick(View v) {
-////                        IngredientChangeHandlerFragment ingredientChangeHandlerFragment = new IngredientChangeHandlerFragment();
-////                        a.dismiss();
-////                        fm.beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).
-////                                replace(R.id.container, ingredientChangeHandlerFragment,"Test").addToBackStack(null).commit();
-////
-////                    }
-////                });
-//
-//                ingredientListView.setOnItemClickListener((adapterView, view, i, l) -> {
-//                    Ingredient ingredient = (Ingredient) ingredientListView.getItemAtPosition(i);
-//                    day.addIngredient(ingredient);
-//                    notifyDataSetChanged();
-//                    a.dismiss();
-//                });
-//
-//            }
-//        });
-
+        addIngredient.setOnClickListener(view12 -> new AddIngredientRecipeFragment(this,position).show(fm, "ADD_INGREDIENT_RECIPE"));
 
         Button addRecipe = view.findViewById(R.id.add_recipe_day);
         addRecipe.setOnClickListener(new View.OnClickListener() {
@@ -169,6 +100,42 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> {
         });
 
         return view;
+    }
+
+    /**
+     * Executes when the user hits "ok" on the add ingredient dialog
+     *
+     * @param newIngredient item to add to recipe
+     */
+    @Override
+    public void onOkPressed(Ingredient newIngredient) {
+        day.addIngredient(newIngredient);
+        dayIngredientListAdapter.notifyDataSetChanged();
+//        if (!ingredientList.contains(newIngredient)) {
+//            ingredientList.add(newIngredient);
+//            ingredientAdapter.notifyDataSetChanged();
+//        }
+    }
+
+    /**
+     * Executes when the user hits "ok" on the edit ingredient dialog
+     * @param newIngredient updated ingredient info
+     * @param index position in ingredient list
+     */
+    @Override
+    public void onItemPressed(Ingredient newIngredient, int index) {
+//        ingredientList.set(index, newIngredient);
+//        ingredientAdapter.notifyDataSetChanged();
+    }
+    @Override
+    public void onMealOkPressed(Ingredient newIngredient,int position) {
+        days.get(position).addIngredient(newIngredient);
+//        day.addIngredient(newIngredient);
+        dayIngredientListAdapter.notifyDataSetChanged();
+//        if (!ingredientList.contains(newIngredient)) {
+//            ingredientList.add(newIngredient);
+//            ingredientAdapter.notifyDataSetChanged();
+//        }
     }
 
 

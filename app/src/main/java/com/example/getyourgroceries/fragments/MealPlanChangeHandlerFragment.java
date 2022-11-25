@@ -90,25 +90,11 @@ public class MealPlanChangeHandlerFragment extends Fragment {
     @SuppressLint("SimpleDateFormat")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-
-
         ListView dayListView = view.findViewById(R.id.day_list);
         ArrayList<MealPlanDay> days = new ArrayList<>();
         ArrayAdapter<MealPlanDay> daysAdapter = new DayListAdapter(requireActivity().getBaseContext(), days,requireActivity().getSupportFragmentManager());
         dayListView.setAdapter(daysAdapter);
         Button addDay = view.findViewById(R.id.add_day);
-
-        MealPlanDay fakeDay = new MealPlanDay("test1");
-//        fakeDay.addIngredient(new Ingredient("Apple", 12, 0.99, "Fruit"));
-//        fakeDay.addIngredient(new Ingredient("Banana", 12, 0.99, "Fruit"));
-//        fakeDay.addRecipe(new Recipe("Apple Pie", 60, 1, "Baking", "Let Cool", "/images/apple-pie"));
-        daysAdapter.add(fakeDay);
-        MealPlanDay fakeDay2 = new MealPlanDay("test1");
-//        fakeDay.addIngredient(new Ingredient("Apple", 12, 0.99, "Fruit"));
-//        fakeDay.addRecipe(new Recipe("Apple Pie", 60, 1, "Baking", "Let Cool", "/images/apple-pie"));
-        daysAdapter.add(fakeDay2);
-
-
         addDay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -64,7 +64,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/change_ingredient_expiry_til"
         android:layout_width="300dp"
-        android:layout_height="75dp"
+        android:layout_height="85dp"
         android:layout_centerInParent="true"
         app:layout_constraintBottom_toTopOf="@+id/change_ingredient_location_til"
         app:layout_constraintEnd_toEndOf="parent"
@@ -88,7 +88,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/change_ingredient_location_til"
         android:layout_width="300dp"
-        android:layout_height="75dp"
+        android:layout_height="85dp"
         android:layout_centerInParent="true"
         app:layout_constraintBottom_toTopOf="@+id/change_ingredient_category_til"
         app:layout_constraintEnd_toEndOf="parent"
@@ -112,7 +112,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/change_ingredient_category_til"
         android:layout_width="300dp"
-        android:layout_height="75dp"
+        android:layout_height="85dp"
         android:layout_centerInParent="true"
         app:layout_constraintBottom_toTopOf="@+id/change_ingredient_unit_til"
         app:layout_constraintEnd_toEndOf="parent"
@@ -136,7 +136,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/change_ingredient_unit_til"
         android:layout_width="300dp"
-        android:layout_height="75dp"
+        android:layout_height="85dp"
         android:layout_centerInParent="true"
         app:layout_constraintBottom_toTopOf="@+id/change_ingredient_confirm"
         app:layout_constraintEnd_toEndOf="parent"

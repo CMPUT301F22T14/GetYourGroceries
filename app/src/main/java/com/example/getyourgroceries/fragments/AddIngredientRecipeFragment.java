@@ -3,32 +3,29 @@ package com.example.getyourgroceries.fragments;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
-
 import com.example.getyourgroceries.MainActivity;
 import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.adapters.DayIngredientListAdapter;
 import com.example.getyourgroceries.adapters.DayListAdapter;
 import com.example.getyourgroceries.entity.Ingredient;
 import com.google.android.material.textfield.TextInputLayout;
-
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 public class AddIngredientRecipeFragment extends DialogFragment {
     private OnFragmentInteractionListener listener;
@@ -65,11 +62,10 @@ public class AddIngredientRecipeFragment extends DialogFragment {
         super.onAttach(context);
         MainActivity act = (MainActivity) context;
         if (dayListAdapter != null){
-            listener = (OnFragmentInteractionListener)dayListAdapter;
+            listener = dayListAdapter;
         }
         else{
-            OnFragmentInteractionListener frag = (OnFragmentInteractionListener) act.getSupportFragmentManager().findFragmentByTag("EDIT_RECIPE");
-            listener = (OnFragmentInteractionListener)frag;
+            listener = (OnFragmentInteractionListener) act.getSupportFragmentManager().findFragmentByTag("EDIT_RECIPE");
         }
     }
 
@@ -83,49 +79,73 @@ public class AddIngredientRecipeFragment extends DialogFragment {
         category = view.findViewById(R.id.change_ingredient_category);
 
         // create category categories
+        Map<String, String> categoryIDs = new HashMap<>();
         ArrayList<String> categories = new ArrayList<>();
-        categories.add("Baking");
-        categories.add("Frying");
-        categories.add("Microwaving");
-        categories.add("Cooking");
-        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner, categories) {
-
-            /**
-             * The isEnabled method will disallow the first dropdown choice.
-             * @param position The selected choice.
-             * @return True if the position should be disallowed.
-             */
-            @Override
-            public boolean isEnabled(int position) {
-                return position != 0;
-            }
-
-            /**
-             * The getDropDownView will change the text colours of the choices appropriately.
-             * @param position The selected choice.
-             * @param convertView The old view to reuse.
-             * @param parent The parent view.
-             * @return The new view.
-             */
-            @Override
-            public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-                View view = super.getDropDownView(position, convertView, parent);
-                TextView textView = (TextView) view;
-                if (position == 0) {
-                    textView.setTextColor(Color.GRAY);
-                } else {
-                    textView.setTextColor(Color.WHITE);
+        categories.add("+ Save New Category");
+        categories.add("- Delete Saved Category");
+        CollectionReference categoryCollection = FirebaseFirestore.getInstance().collection("IngredientCategory");
+        categoryCollection.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    categories.add(Objects.requireNonNull(document.getData().get("Category")).toString());
+                    categoryIDs.put(Objects.requireNonNull(document.getData().get("Category")).toString(), document.getId());
                 }
-                return view;
             }
-        };
+        });
+        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner, categories);
+        if (ingredient != null) {
+            category.setText(ingredient.getCategory());
+        }
         category.setAdapter(categoryAdapter);
+        category.setThreshold(200);
+        category.setOnItemClickListener(((adapterView, view1, i, l) -> {
+            if (Objects.equals(categories.get(i), "+ Save New Category")) {
+                category.setText("");
+                final EditText newCategoryInput = new EditText(getContext());
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder
+                        .setTitle("Add Category")
+                        .setMessage("Enter a new category:")
+                        .setCancelable(true)
+                        .setView(newCategoryInput)
+                        .setPositiveButton("OK", (dialog, which) -> {
+                            String newCategory = newCategoryInput.getText().toString();
+                            category.setText(newCategory);
+                            Map<String, Object> insertCategory = new HashMap<>();
+                            insertCategory.put("Category", newCategory);
+                            categoryCollection.document().set(insertCategory);
+                            dialog.dismiss();
+                        })
+                        .setNegativeButton("Cancel", (dialog, which) -> dialog.cancel())
+                        .create()
+                        .show();
+            } else if (categories.get(i).equals("- Delete Saved Category")) {
+                category.setText("");
+                final EditText deleteCategoryInput = new EditText(getContext());
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder
+                        .setTitle("Delete Category")
+                        .setMessage("Delete an existing category:")
+                        .setCancelable(true)
+                        .setView(deleteCategoryInput)
+                        .setPositiveButton("OK", (dialog, which) -> {
+                            String deleteCategory = deleteCategoryInput.getText().toString();
+                            String id = categoryIDs.get(deleteCategory);
+                            if (id != null) {
+                                categoryCollection.document(id).delete();
+                            }
+                            dialog.dismiss();
+                        })
+                        .setNegativeButton("Cancel", (dialog, which) -> dialog.cancel())
+                        .create()
+                        .show();
+            }
+        }));
 
         if(ingredient != null) {
             description.setText(ingredient.getDescription());
             amount.setText(ingredient.getAmount().toString());
             unit.setText(ingredient.getUnit().toString());
-            category.setText(ingredient.getCategory());
         }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -147,7 +167,7 @@ public class AddIngredientRecipeFragment extends DialogFragment {
             .setNegativeButton("Cancel", null)
             .setPositiveButton("OK", null).create();
         dialog.setOnShowListener(dialogInterface -> {
-            Button button = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
+            Button button = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
             button.setOnClickListener(view1 -> {
                 String ingDescription = description.getText().toString();
                 String ingAmount = amount.getText().toString();

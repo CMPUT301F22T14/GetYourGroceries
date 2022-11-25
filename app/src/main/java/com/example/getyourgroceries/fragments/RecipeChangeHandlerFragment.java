@@ -5,38 +5,17 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.core.view.ViewCompat;
-import androidx.core.widget.NestedScrollView;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-
-import android.util.Log;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -44,18 +23,24 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
-
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.ViewCompat;
+import androidx.core.widget.NestedScrollView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.getyourgroceries.GlideApp;
 import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.adapters.DayIngredientListAdapter;
 import com.example.getyourgroceries.adapters.RecipeIngredientAdapter;
-import com.example.getyourgroceries.control.RecipeDB;
 import com.example.getyourgroceries.entity.Ingredient;
 import com.example.getyourgroceries.entity.Recipe;
 import com.example.getyourgroceries.entity.RecipeStorage;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.CollectionReference;
@@ -64,12 +49,10 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Locale;
 import java.util.Objects;
 
 /**
@@ -81,12 +64,10 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
     private ArrayList<Ingredient> ingredientList;
     private RecipeIngredientAdapter ingredientAdapter;
     private Recipe editRecipe;
-    RecipeDB db;
     FirebaseStorage storage;
     StorageReference imageRef;
     StorageReference newImageRef;
     private static final String TAG = "RecipeChangeHandlerFrag";
-    private static final int ALL_PERMISSIONS_RESULT = 107;
     Bitmap myBitmap;
     ImageView image;
     boolean gotImage = false;
@@ -125,21 +106,23 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
      * @param view               The created view.
      * @param savedInstanceState The saved state.
      */
-    @SuppressLint("SimpleDateFormat")
+    @SuppressLint({"SimpleDateFormat", "SetTextI18n"})
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         NestedScrollView addIngredientLayout = requireActivity().findViewById(R.id.change_recipe_layout);
         addIngredientLayout.setImportantForAutofill(View.IMPORTANT_FOR_AUTOFILL_NO);
 
-        FragmentManager fmManager = getActivity().getSupportFragmentManager();
+        FragmentManager fmManager = requireActivity().getSupportFragmentManager();
 
-        ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
+        ActionBar actionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
 
         if (getArguments() != null) {
             editRecipe = RecipeStorage.getInstance().getRecipe(getArguments().getInt("editRecipe"));
+            assert actionBar != null;
             actionBar.setTitle("Edit Recipe");
             ingredientList = editRecipe.getIngredientList();
         } else{
+            assert actionBar != null;
             actionBar.setTitle("Add Recipe");
             ingredientList = new ArrayList<>();
         }
@@ -161,6 +144,9 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
         });
         AutoCompleteTextView category = requireActivity().findViewById(R.id.change_recipe_category);
         ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner, categories);
+        if (editRecipe != null) {
+            category.setText(editRecipe.getRecipeCategory());
+        }
         category.setAdapter(categoryAdapter);
         category.setThreshold(200);
         category.setOnItemClickListener(((adapterView, view1, i, l) -> {
@@ -173,7 +159,7 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
                         .setMessage("Enter a new category:")
                         .setCancelable(true)
                         .setView(newCategoryInput)
-                        .setPositiveButton("OK", (DialogInterface.OnClickListener) (dialog, which) -> {
+                        .setPositiveButton("OK", (dialog, which) -> {
                             String newCategory = newCategoryInput.getText().toString();
                             category.setText(newCategory);
                             Map<String, Object> insertCategory = new HashMap<>();
@@ -181,9 +167,7 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
                             categoryCollection.document().set(insertCategory);
                             dialog.dismiss();
                         })
-                        .setNegativeButton("Cancel", (DialogInterface.OnClickListener) (dialog, which) -> {
-                            dialog.cancel();
-                        })
+                        .setNegativeButton("Cancel", (dialog, which) -> dialog.cancel())
                         .create()
                         .show();
             } else if (categories.get(i).equals("- Delete Saved Category")) {
@@ -195,7 +179,7 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
                         .setMessage("Delete an existing category:")
                         .setCancelable(true)
                         .setView(deleteCategoryInput)
-                        .setPositiveButton("OK", (DialogInterface.OnClickListener) (dialog, which) -> {
+                        .setPositiveButton("OK", (dialog, which) -> {
                             String deleteCategory = deleteCategoryInput.getText().toString();
                             String id = categoryIDs.get(deleteCategory);
                             if (id != null) {
@@ -203,9 +187,7 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
                             }
                             dialog.dismiss();
                         })
-                        .setNegativeButton("Cancel", (DialogInterface.OnClickListener) (dialog, which) -> {
-                            dialog.cancel();
-                        })
+                        .setNegativeButton("Cancel", (dialog, which) -> dialog.cancel())
                         .create()
                         .show();
             }
@@ -222,19 +204,19 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
 
         Button addRecipePhotoButton = view.findViewById(R.id.change_recipe_add_photo);
 
-        ingredientListView.setOnItemClickListener((adapterView, view12, i, l) -> new AddIngredientRecipeFragment(ingredientList.get(i), i).show(getActivity().getSupportFragmentManager(), "EDIT_INGREDIENT_RECIPE"));
+        ingredientListView.setOnItemClickListener((adapterView, view12, i, l) -> new AddIngredientRecipeFragment(ingredientList.get(i), i).show(requireActivity().getSupportFragmentManager(), "EDIT_INGREDIENT_RECIPE"));
 
         ingredientListView.setOnItemLongClickListener((adapterView, view2, i, l) -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
             builder.setMessage("Would you like to delete this ingredient?");
             builder.setTitle("Delete Ingredient");
             builder.setCancelable(true);
-            builder.setPositiveButton("Yes", (DialogInterface.OnClickListener) (dialog, which) -> {
+            builder.setPositiveButton("Yes", (dialog, which) -> {
                 Ingredient recipe = (Ingredient) ingredientListView.getItemAtPosition(i);
                 ingredientList.remove(recipe);
                 ingredientAdapter.notifyDataSetChanged();
             });
-            builder.setNegativeButton("No", (DialogInterface.OnClickListener) (dialog, which) -> dialog.cancel());
+            builder.setNegativeButton("No", (dialog, which) -> dialog.cancel());
             AlertDialog alert = builder.create();
             alert.show();
             return true;
@@ -247,7 +229,6 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
             descriptionText.setText(editRecipe.getName());
             prepTimeText.setText(String.valueOf(editRecipe.getPrepTime()));
             servingsText.setText(String.valueOf(editRecipe.getNumOfServings()));
-            category.setText(editRecipe.getRecipeCategory());
             commentsText.setText(editRecipe.getComment());
             addRecipePhotoButton.setText("Change Photo");
 
@@ -272,29 +253,24 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
         TextInputLayout tilCategory = view.findViewById(R.id.change_recipe_category_til);
 
         Button addIngredientBtn = view.findViewById(R.id.change_recipe_add_ingredient);
-        addIngredientBtn.setOnClickListener(view12 -> new AddIngredientRecipeFragment().show(getActivity().getSupportFragmentManager(), "ADD_INGREDIENT_RECIPE"));
+        addIngredientBtn.setOnClickListener(view12 -> new AddIngredientRecipeFragment().show(requireActivity().getSupportFragmentManager(), "ADD_INGREDIENT_RECIPE"));
 
-        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(requireActivity(), new String[]{
                     Manifest.permission.CAMERA
             }, 100);
         }
-        addRecipePhotoButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PhotoPickerDialog();
-            }
-        });
+        addRecipePhotoButton.setOnClickListener(v -> PhotoPickerDialog());
 
         // Add the recipe.
         Button confirmButton = view.findViewById(R.id.change_recipe_confirm);
         confirmButton.setOnClickListener(view1 -> {
             // Get the data.
-            String description = descriptionText.getText().toString();
-            String prepTime = prepTimeText.getText().toString();
-            String servings = servingsText.getText().toString();
+            String description = Objects.requireNonNull(descriptionText.getText()).toString();
+            String prepTime = Objects.requireNonNull(prepTimeText.getText()).toString();
+            String servings = Objects.requireNonNull(servingsText.getText()).toString();
             String categoryText = category.getText().toString();
-            String comments = commentsText.getText().toString();
+            String comments = Objects.requireNonNull(commentsText.getText()).toString();
 
             // Error checking.
             int error = 0;
@@ -367,17 +343,7 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
         newImageRef = storage.getReference().child(imageRefStr.toLowerCase());
 
         UploadTask uploadTask = newImageRef.putBytes(data);
-        uploadTask.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                Log.d(TAG, "onFailure: upload failed");
-            }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Log.d(TAG, "onSuccess: file uploaded successfully");
-            }
-        });
+        uploadTask.addOnFailureListener(exception -> Log.d(TAG, "onFailure: upload failed")).addOnSuccessListener(taskSnapshot -> Log.d(TAG, "onSuccess: file uploaded successfully"));
 
         return imageRefStr.toLowerCase();
     }
@@ -396,20 +362,14 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
         camera.setEnabled(true);
         gallery.setEnabled(true);
 
-        camera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intent, 100);
-            }
+        camera.setOnClickListener(v -> {
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            startActivityForResult(intent, 100);
         });
 
-        gallery.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(intent, 3);
-            }
+        gallery.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            startActivityForResult(intent, 3);
         });
 
         gotImage = true;
@@ -422,11 +382,11 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
 
         if (requestCode == 100 || requestCode == 3) {
             if (resultCode == Activity.RESULT_OK) {
+                assert data != null;
                 myBitmap = (Bitmap) data.getExtras().get("data");
                 image.setImageBitmap(myBitmap);
-            } else if (resultCode == Activity.RESULT_CANCELED) {
-                // do nothing
-            }
+            }  // do nothing
+
         }
     }
 
@@ -467,7 +427,7 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
     /**
      * Executes when the user hits "ok" on the edit ingredient dialog
      * @param newIngredient updated ingredient info
-     * @param index position in ingredient list
+     * @param dayIngredientListAdapter Adapter
      */
     @Override
     public void onMealOkPressed(Ingredient newIngredient, DayIngredientListAdapter dayIngredientListAdapter) { // FOR MEAL PLANS

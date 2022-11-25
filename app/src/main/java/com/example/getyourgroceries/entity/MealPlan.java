@@ -7,6 +7,8 @@ public class MealPlan {
     private String mealPlanName;
     private ArrayList<MealPlanDay> mealPlanDays;
 
+    public MealPlan() {}
+
     public MealPlan(String id, String mealPlanName){
         this.id = id;
         this.mealPlanName = mealPlanName;
@@ -35,5 +37,8 @@ public class MealPlan {
     }
     public void deleteDay(MealPlanDay day){
         mealPlanDays.remove(day);
+    }
+    public ArrayList<MealPlanDay> getMealPlanDays() {
+        return mealPlanDays;
     }
 }

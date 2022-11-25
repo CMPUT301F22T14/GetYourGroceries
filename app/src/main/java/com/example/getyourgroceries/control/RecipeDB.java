@@ -63,14 +63,16 @@ public class RecipeDB {
      * @NOTE Make sure to assign the recipe the given returned ID after calling function.
      */
     public String addRecipe(Recipe recipe) {
-
-        // Add the recipe.
         final String[] id = new String[1];
         recipeCollection
                 .add(recipe)
                 .addOnSuccessListener(documentReference -> {
                     id[0] = documentReference.getId();
+                    recipe.setId(id[0]);
+                    recipeCollection.document(id[0]).update("id", id[0]);
                     Log.d(TAG, "Added Recipe to db");
+                    recipe.setId(id[0]);
+                    recipeCollection.document(id[0]).update("id", id[0]);
                 })
                 .addOnFailureListener(e -> Log.w(TAG, "Error adding recipe", e));
 

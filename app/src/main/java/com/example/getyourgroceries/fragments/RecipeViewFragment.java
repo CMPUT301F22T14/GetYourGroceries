@@ -32,6 +32,7 @@ import com.example.getyourgroceries.control.RecipeDB;
 import com.example.getyourgroceries.entity.Ingredient;
 import com.example.getyourgroceries.entity.IngredientStorage;
 import com.example.getyourgroceries.entity.Recipe;
+import com.example.getyourgroceries.entity.RecipeStorage;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputLayout;
@@ -93,7 +94,7 @@ public class RecipeViewFragment extends Fragment {
         ActionBar actionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
 
         if (getArguments() != null) {
-            viewRecipe = (Recipe) getArguments().getSerializable("viewRecipe");
+            viewRecipe = RecipeStorage.getInstance().getRecipe(getArguments().getInt("viewRecipe"));
             actionBar.setTitle(viewRecipe.getName());
         }
 
@@ -144,6 +145,16 @@ public class RecipeViewFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.view_recipe_menu, menu);
+        editButton = view.findViewById(R.id.edit_recipe_btn);
+
+        editButton.setOnClickListener(v1 -> {
+            Bundle bundle = new Bundle();
+            //Recipe editRecipe = viewRecipe;
+            bundle.putInt("editRecipe", getArguments().getInt("viewRecipe"));
+            RecipeChangeHandlerFragment recipeChangeHandlerFragment = new RecipeChangeHandlerFragment();
+            recipeChangeHandlerFragment.setArguments(bundle);
+            requireActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).replace(containerView.getId(), recipeChangeHandlerFragment, "EDIT_RECIPE").addToBackStack("EDIT_RECIPE").commit();
+        });
     }
 
     /**

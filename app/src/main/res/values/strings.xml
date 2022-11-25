@@ -90,7 +90,6 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="action_settings">Settings</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="change_ingredient_description">Enter A Description</string>
     <string name="enter_the_quantity">Enter The Quantity</string>
@@ -109,6 +108,10 @@
         <item>Name</item>
         <item>Prep Time</item>
         <item>Serving Count</item>
+        <item>Category Type</item>
+    </string-array>
+    <string-array name="shoppingListSortBy">
+        <item>Description</item>
         <item>Category</item>
     </string-array>
     <string name="enter_unit">Enter Unit Cost</string>

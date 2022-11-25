@@ -15,9 +15,6 @@ public class MealPlan {
         this.mealPlanDays = new ArrayList<>();
     }
 
-    public MealPlan() {
-
-    }
     public String getId() {
         return id;
     }

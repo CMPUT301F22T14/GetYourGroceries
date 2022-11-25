@@ -83,6 +83,7 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
     FirebaseStorage storage;
     StorageReference imageRef;
     StorageReference newImageRef;
+    private static final String TAG = "RecipeChangeFrag";
     private static final int ALL_PERMISSIONS_RESULT = 107;
     Bitmap myBitmap;
     ImageView image;
@@ -329,7 +330,6 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
                 new_photo = uploadPhoto(description);
             }
 
-            Recipe newRecipe = new Recipe(description, Integer.parseInt(prepTime), Integer.parseInt(servings), categoryText, comments, new_photo, ingredientList);
 
             // If in edit mode, update the attributes.
             if (editRecipe != null) {
@@ -338,10 +338,12 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
                 editRecipe.setNumOfServings(Integer.parseInt(servings));
                 editRecipe.setRecipeCategory(categoryText);
                 editRecipe.setComment(comments);
-                editRecipe.setPhoto("recipes/apple.jpg");
+                if (gotImage) {
+                    editRecipe.setPhoto(new_photo);
+                }
                 RecipeStorage.getInstance().updateRecipe(editRecipe);
             } else {
-                Recipe newRecipe = new Recipe(description, Integer.parseInt(prepTime), Integer.parseInt(servings), categoryText, comments, "recipes/apple.jpg", ingredientList);
+                Recipe newRecipe = new Recipe(description, Integer.parseInt(prepTime), Integer.parseInt(servings), categoryText, comments, new_photo, ingredientList);
                 RecipeStorage.getInstance().addRecipe(newRecipe, true);
             }
             fmManager.popBackStack();

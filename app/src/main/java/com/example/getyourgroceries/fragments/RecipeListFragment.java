@@ -162,11 +162,9 @@ public class RecipeListFragment extends Fragment {
                     RecipeStorage.getInstance().sortCategory(0, isChecked);
                 } else if (type.equals("Prep Time")) {
                     RecipeStorage.getInstance().sortCategory(1, isChecked);
-
                 } else if (type.equals("Serving Count")) {
                     RecipeStorage.getInstance().sortCategory(2, isChecked);
-
-                } else if (type.equals("Category")) {
+                } else if (type.equals("Category Type")) {
                     RecipeStorage.getInstance().sortCategory(3, isChecked);
                 }
             }

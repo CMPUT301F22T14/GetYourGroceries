@@ -2,28 +2,25 @@
 package com.example.getyourgroceries.fragments;
 
 // Import statements.
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.text.InputType;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -32,30 +29,19 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import com.example.getyourgroceries.R;
-import com.example.getyourgroceries.control.IngredientDB;
 import com.example.getyourgroceries.entity.IngredientStorage;
 import com.example.getyourgroceries.entity.MealPlanStorage;
 import com.example.getyourgroceries.entity.StoredIngredient;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-
-import org.checkerframework.checker.units.qual.A;
 
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -80,8 +66,9 @@ public class IngredientChangeHandlerFragment extends Fragment {
 
     /**
      * The onCreateView method will be called when this fragment becomes active.
-     * @param inflater Allows the new view to be created.
-     * @param container The container of the view.
+     *
+     * @param inflater           Allows the new view to be created.
+     * @param container          The container of the view.
      * @param savedInstanceState The saved state.
      * @return A view that will be shown on the screen.
      */
@@ -98,14 +85,15 @@ public class IngredientChangeHandlerFragment extends Fragment {
 
     /**
      * The onViewCreated method will be called once the view has been created.
-     * @param view The created view.
+     *
+     * @param view               The created view.
      * @param savedInstanceState The saved state.
      */
     @SuppressLint("SimpleDateFormat")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-        ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
 
 
         // Initialization.
@@ -121,10 +109,10 @@ public class IngredientChangeHandlerFragment extends Fragment {
         });
 
         // set an ingredient to edit if argument exists
-        if (getArguments() != null){
-           editIngredient = IngredientStorage.getInstance().getIngredient(getArguments().getInt("editIngredient"));
+        if (getArguments() != null) {
+            editIngredient = IngredientStorage.getInstance().getIngredient(getArguments().getInt("editIngredient"));
             actionBar.setTitle("Edit Ingredient");
-        } else{
+        } else {
             actionBar.setTitle("Add Ingredient");
         }
 
@@ -150,7 +138,7 @@ public class IngredientChangeHandlerFragment extends Fragment {
             yearSet.set(year);
             monthSet.set(month);
             daySet.set(day);
-            String date = (month+1) + "/" + day + "/" + year;
+            String date = (month + 1) + "/" + day + "/" + year;
             displayDate.setText(date);
         };
 
@@ -179,45 +167,45 @@ public class IngredientChangeHandlerFragment extends Fragment {
                 final EditText newLocationInput = new EditText(getContext());
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder
-                    .setTitle("Add Location")
-                    .setMessage("Enter a new location:")
-                    .setCancelable(true)
-                    .setView(newLocationInput)
-                    .setPositiveButton("OK", (DialogInterface.OnClickListener) (dialog, which) -> {
-                        String newLocation = newLocationInput.getText().toString();
-                        location.setText(newLocation);
-                        Map<String, Object> insertLocation = new HashMap<>();
-                        insertLocation.put("Location", newLocation);
-                        locationCollection.document().set(insertLocation);
-                        dialog.dismiss();
-                    })
-                    .setNegativeButton("Cancel", (DialogInterface.OnClickListener) (dialog, which) -> {
-                        dialog.cancel();
-                    })
-                    .create()
-                    .show();
+                        .setTitle("Add Location")
+                        .setMessage("Enter a new location:")
+                        .setCancelable(true)
+                        .setView(newLocationInput)
+                        .setPositiveButton("OK", (DialogInterface.OnClickListener) (dialog, which) -> {
+                            String newLocation = newLocationInput.getText().toString();
+                            location.setText(newLocation);
+                            Map<String, Object> insertLocation = new HashMap<>();
+                            insertLocation.put("Location", newLocation);
+                            locationCollection.document().set(insertLocation);
+                            dialog.dismiss();
+                        })
+                        .setNegativeButton("Cancel", (DialogInterface.OnClickListener) (dialog, which) -> {
+                            dialog.cancel();
+                        })
+                        .create()
+                        .show();
             } else if (locations.get(i).equals("- Delete Saved Location")) {
                 location.setText("");
                 final EditText deleteLocationInput = new EditText(getContext());
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder
-                    .setTitle("Delete Location")
-                    .setMessage("Delete an existing location:")
-                    .setCancelable(true)
-                    .setView(deleteLocationInput)
-                    .setPositiveButton("OK", (DialogInterface.OnClickListener) (dialog, which) -> {
-                        String deleteLocation = deleteLocationInput.getText().toString();
-                        String id = locationIDs.get(deleteLocation);
-                        if (id != null) {
-                            locationCollection.document(id).delete();
-                        }
-                        dialog.dismiss();
-                    })
-                    .setNegativeButton("Cancel", (DialogInterface.OnClickListener) (dialog, which) -> {
-                        dialog.cancel();
-                    })
-                    .create()
-                    .show();
+                        .setTitle("Delete Location")
+                        .setMessage("Delete an existing location:")
+                        .setCancelable(true)
+                        .setView(deleteLocationInput)
+                        .setPositiveButton("OK", (DialogInterface.OnClickListener) (dialog, which) -> {
+                            String deleteLocation = deleteLocationInput.getText().toString();
+                            String id = locationIDs.get(deleteLocation);
+                            if (id != null) {
+                                locationCollection.document(id).delete();
+                            }
+                            dialog.dismiss();
+                        })
+                        .setNegativeButton("Cancel", (DialogInterface.OnClickListener) (dialog, which) -> {
+                            dialog.cancel();
+                        })
+                        .create()
+                        .show();
             }
         });
 
@@ -245,45 +233,45 @@ public class IngredientChangeHandlerFragment extends Fragment {
                 final EditText newCategoryInput = new EditText(getContext());
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder
-                    .setTitle("Add Category")
-                    .setMessage("Enter a new category:")
-                    .setCancelable(true)
-                    .setView(newCategoryInput)
-                    .setPositiveButton("OK", (DialogInterface.OnClickListener) (dialog, which) -> {
-                        String newCategory = newCategoryInput.getText().toString();
-                        category.setText(newCategory);
-                        Map<String, Object> insertCategory = new HashMap<>();
-                        insertCategory.put("Category", newCategory);
-                        categoryCollection.document().set(insertCategory);
-                        dialog.dismiss();
-                    })
-                    .setNegativeButton("Cancel", (DialogInterface.OnClickListener) (dialog, which) -> {
-                        dialog.cancel();
-                    })
-                    .create()
-                    .show();
+                        .setTitle("Add Category")
+                        .setMessage("Enter a new category:")
+                        .setCancelable(true)
+                        .setView(newCategoryInput)
+                        .setPositiveButton("OK", (DialogInterface.OnClickListener) (dialog, which) -> {
+                            String newCategory = newCategoryInput.getText().toString();
+                            category.setText(newCategory);
+                            Map<String, Object> insertCategory = new HashMap<>();
+                            insertCategory.put("Category", newCategory);
+                            categoryCollection.document().set(insertCategory);
+                            dialog.dismiss();
+                        })
+                        .setNegativeButton("Cancel", (DialogInterface.OnClickListener) (dialog, which) -> {
+                            dialog.cancel();
+                        })
+                        .create()
+                        .show();
             } else if (categories.get(i).equals("- Delete Saved Category")) {
                 category.setText("");
                 final EditText deleteCategoryInput = new EditText(getContext());
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder
-                    .setTitle("Delete Category")
-                    .setMessage("Delete an existing category:")
-                    .setCancelable(true)
-                    .setView(deleteCategoryInput)
-                    .setPositiveButton("OK", (DialogInterface.OnClickListener) (dialog, which) -> {
-                        String deleteCategory = deleteCategoryInput.getText().toString();
-                        String id = categoryIDs.get(deleteCategory);
-                        if (id != null) {
-                            categoryCollection.document(id).delete();
-                        }
-                        dialog.dismiss();
-                    })
-                    .setNegativeButton("Cancel", (DialogInterface.OnClickListener) (dialog, which) -> {
-                        dialog.cancel();
-                    })
-                    .create()
-                    .show();
+                        .setTitle("Delete Category")
+                        .setMessage("Delete an existing category:")
+                        .setCancelable(true)
+                        .setView(deleteCategoryInput)
+                        .setPositiveButton("OK", (DialogInterface.OnClickListener) (dialog, which) -> {
+                            String deleteCategory = deleteCategoryInput.getText().toString();
+                            String id = categoryIDs.get(deleteCategory);
+                            if (id != null) {
+                                categoryCollection.document(id).delete();
+                            }
+                            dialog.dismiss();
+                        })
+                        .setNegativeButton("Cancel", (DialogInterface.OnClickListener) (dialog, which) -> {
+                            dialog.cancel();
+                        })
+                        .create()
+                        .show();
             }
         }));
 
@@ -308,7 +296,7 @@ public class IngredientChangeHandlerFragment extends Fragment {
         });
 
         // Set the values to the previous values if in edit mode.
-        if (editIngredient != null){
+        if (editIngredient != null) {
             descriptionText.setText(editIngredient.getDescription());
             quantityText.setText(String.valueOf(editIngredient.getAmount()));
             displayDate.setText((new SimpleDateFormat("MM/dd/yyy")).format(editIngredient.getBestBefore()));
@@ -327,7 +315,7 @@ public class IngredientChangeHandlerFragment extends Fragment {
 
         // Add the ingredient.
         Button confirmButton = requireActivity().findViewById(R.id.change_ingredient_confirm);
-        confirmButton.setOnClickListener(view1 ->{
+        confirmButton.setOnClickListener(view1 -> {
 
             // Get the data.
             String description = descriptionText.getText().toString();
@@ -369,7 +357,7 @@ public class IngredientChangeHandlerFragment extends Fragment {
             } else {
                 tilCategory.setErrorEnabled(false);
             }
-            if (unitCost.equals("")){
+            if (unitCost.equals("")) {
                 tilUnit.setError("Cost cannot be empty!");
                 error = 1;
             } else {
@@ -381,21 +369,18 @@ public class IngredientChangeHandlerFragment extends Fragment {
             SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
 
             // If in edit mode, update the attributes.
-            if (editIngredient != null){
+            if (editIngredient != null) {
                 editIngredient.setDescription(description);
                 editIngredient.setAmount(Integer.parseInt(quantity));
                 editIngredient.setCategory(categoryText);
                 editIngredient.setLocation(locationText);
                 editIngredient.setUnit(Double.parseDouble(unitCost));
-                try{
+                try {
                     editIngredient.setBestBefore(formatter.parse(expiry));
-                }
-                catch (ParseException e){
+                } catch (ParseException e) {
                     e.printStackTrace();
                 }
                 IngredientStorage.getInstance().updateIngredient(editIngredient);
-                //IngredientDB db = new IngredientDB();
-                //db.updateIngredient(editIngredient);
                 requireActivity().getSupportFragmentManager().popBackStackImmediate();
                 return;
             }
@@ -417,6 +402,7 @@ public class IngredientChangeHandlerFragment extends Fragment {
 
     /**
      * The onOptionsItemSelected method will go to the previous fragment when the back button is pressed.
+     *
      * @param item The item selected.
      * @return On success, true.
      */

@@ -7,18 +7,12 @@
                 <shape android:shape="rectangle">
                     <solid android:color="#54585e"/>
                     <padding android:right="12dp"
-                        android:left="12dp"/>
+                        android:left="12dp"
+                        android:bottom="8dp"
+                        android:top="8dp"/>
                     <corners android:radius="8dp"/>
                 </shape>
-
             </item>
-
-
-
-
         </layer-list>
-
     </item>
-
-
 </selector>

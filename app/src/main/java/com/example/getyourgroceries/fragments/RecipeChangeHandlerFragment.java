@@ -4,10 +4,12 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -28,13 +30,16 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 
@@ -44,12 +49,17 @@ import com.example.getyourgroceries.adapters.RecipeIngredientAdapter;
 import com.example.getyourgroceries.control.RecipeDB;
 import com.example.getyourgroceries.entity.Ingredient;
 import com.example.getyourgroceries.entity.Recipe;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Objects;
 
 /**
@@ -58,15 +68,21 @@ import java.util.Objects;
  * create an instance of this fragment.
  */
 public class RecipeChangeHandlerFragment extends Fragment implements AddIngredientRecipeFragment.OnFragmentInteractionListener {
+    private static final String TAG = "RecipeChangeHandlerFrag";
+    
     private final ArrayList<Ingredient> ingredientList;
     private RecipeIngredientAdapter ingredientAdapter;
     private Recipe editRecipe;
     RecipeDB db;
     FirebaseStorage storage;
     StorageReference imageRef;
+    StorageReference newImageRef;
     private static final int ALL_PERMISSIONS_RESULT = 107;
     Bitmap myBitmap;
     ImageView image;
+    boolean gotImage = false;
+
+    Dialog photoDialog;
 
     /**
      * Fragment constructor to initialize its database class
@@ -198,15 +214,12 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
                     Manifest.permission.CAMERA
             }, 100);
         }
-
         addRecipePhotoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intent, 100);
+                PhotoPickerDialog();
             }
         });
-
 
         // Add the recipe.
         Button confirmButton = view.findViewById(R.id.change_recipe_confirm);
@@ -248,7 +261,13 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
                 return;
             }
 
-            Recipe newRecipe = new Recipe(description, Integer.parseInt(prepTime), Integer.parseInt(servings), categoryText, comments, "recipes/apple.jpg", ingredientList);
+            // add photo to firebase
+            String new_photo = "";
+            if (gotImage) {
+                new_photo = uploadPhoto(description);
+            }
+
+            Recipe newRecipe = new Recipe(description, Integer.parseInt(prepTime), Integer.parseInt(servings), categoryText, comments, new_photo, ingredientList);
 
             // If in edit mode, update the attributes.
             if (editRecipe != null) {
@@ -262,13 +281,80 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
         });
     }
 
+    private String uploadPhoto(String description) {
+        image.setDrawingCacheEnabled(true);
+        image.buildDrawingCache();
+        Bitmap bitmap = ((BitmapDrawable) image.getDrawable()).getBitmap();
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
+
+        String imageRefStr = "recipes/" + description.replaceAll("[^a-zA-Z]+", "") + ".jpg";
+        newImageRef = storage.getReference().child(imageRefStr.toLowerCase());
+
+        UploadTask uploadTask = newImageRef.putBytes(data);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                Log.d(TAG, "onFailure: upload failed");
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Log.d(TAG, "onSuccess: file uploaded successfully");
+            }
+        });
+
+        return imageRefStr.toLowerCase();
+    }
+
+    public void PhotoPickerDialog() {
+
+        storage = FirebaseStorage.getInstance();
+
+        photoDialog = new Dialog(getContext());
+        photoDialog.setContentView(R.layout.recipe_image_dialog);
+        photoDialog.setTitle("Choose Image");
+
+        ImageButton camera = photoDialog.findViewById(R.id.cameraButton);
+        ImageButton gallery = photoDialog.findViewById(R.id.galleryButton);
+
+        camera.setEnabled(true);
+        gallery.setEnabled(true);
+
+        camera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(intent, 100);
+            }
+        });
+
+        gallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, 3);
+            }
+        });
+
+        gotImage = true;
+        photoDialog.show();
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == 100) {
-            myBitmap = (Bitmap) data.getExtras().get("data");
-            image.setImageBitmap(myBitmap);
+        if (requestCode == 100 || requestCode == 3) {
+            if (resultCode == Activity.RESULT_OK) {
+                myBitmap = (Bitmap) data.getExtras().get("data");
+                image.setImageBitmap(myBitmap);
+            } else if (resultCode == Activity.RESULT_CANCELED) {
+                // do nothing
+            }
         }
     }
 

@@ -2,7 +2,6 @@
 package com.example.getyourgroceries.fragments;
 
 // Import statements.
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -87,9 +86,7 @@ public class IngredientChangeHandlerFragment extends Fragment {
     @SuppressLint("SimpleDateFormat")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-
         ActionBar actionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
-
 
         // Initialization.
         ConstraintLayout addIngredientLayout = requireActivity().findViewById(R.id.change_ingredient_layout);
@@ -159,7 +156,6 @@ public class IngredientChangeHandlerFragment extends Fragment {
             location.setText(editIngredient.getLocation());
         }
         location.setAdapter(locationAdapter);
-        //always show all options
         location.setThreshold(200);
         location.setOnItemClickListener((adapterView, view12, i, l) -> {
             if (locations.get(i).equals("+ Save New Location")) {
@@ -269,7 +265,6 @@ public class IngredientChangeHandlerFragment extends Fragment {
                     .show();
             }
         }));
-
         TextView descriptionText = requireActivity().findViewById(R.id.change_ingredient_description);
         TextView quantityText = requireActivity().findViewById(R.id.change_ingredient_quantity);
         TextView unitText = requireActivity().findViewById(R.id.change_ingredient_unit);
@@ -296,10 +291,6 @@ public class IngredientChangeHandlerFragment extends Fragment {
             quantityText.setText(String.valueOf(editIngredient.getAmount()));
             displayDate.setText((new SimpleDateFormat("MM/dd/yyy")).format(editIngredient.getBestBefore()));
             unitText.setText(df.format(editIngredient.getUnit()));
-
-            /* Breaks the dynamic dropdown.
-            location.setText(editIngredient.getLocation());
-            category.setText((editIngredient.getCategory())); */
         }
 
         // Get the text layouts for error messages.

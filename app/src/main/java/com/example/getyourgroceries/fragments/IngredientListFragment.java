@@ -1,8 +1,8 @@
 /* IngredientListFragment class. */
 package com.example.getyourgroceries.fragments;
 
-import android.content.Context;
 // Import statements.
+import android.content.Context;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -12,25 +12,17 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.Spinner;
-import com.example.getyourgroceries.adapters.IngredientStorageAdapter;
-
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import com.example.getyourgroceries.R;
-import com.example.getyourgroceries.control.IngredientDB;
-import com.example.getyourgroceries.entity.Ingredient;
 import com.example.getyourgroceries.entity.IngredientStorage;
 import com.example.getyourgroceries.entity.StoredIngredient;
-
-import java.util.Comparator;
 import java.util.Objects;
 
 /**
@@ -40,7 +32,6 @@ import java.util.Objects;
 public class IngredientListFragment extends Fragment {
     Spinner sortDropDown;
     SwitchCompat sorting_switch;
-    // Attributes.
     ListView ingredientListView;
 
     /**
@@ -58,6 +49,7 @@ public class IngredientListFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         //set title
         ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
         actionBar.setTitle("Ingredient Storage");
@@ -125,30 +117,23 @@ public class IngredientListFragment extends Fragment {
             }
         });
 
-        sorting_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                String type = sortDropDown.getSelectedItem().toString();
-                if (type.equals("Description")){
-                    IngredientStorage.getInstance().sortByCategory(0,isChecked);
-
-                }
-                else if (type.equals("Date")){
-                    IngredientStorage.getInstance().sortByCategory(1,isChecked);
-
-                }
-                else if (type.equals("Location")){
-                    IngredientStorage.getInstance().sortByCategory(2,isChecked);
-
-                }
-                else if (type.equals("Category")){
-                    IngredientStorage.getInstance().sortByCategory(3,isChecked);
-                }
+        sorting_switch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            String type = sortDropDown.getSelectedItem().toString();
+            switch (type) {
+                case "Description":
+                    IngredientStorage.getInstance().sortByCategory(0, isChecked);
+                    break;
+                case "Date":
+                    IngredientStorage.getInstance().sortByCategory(1, isChecked);
+                    break;
+                case "Location":
+                    IngredientStorage.getInstance().sortByCategory(2, isChecked);
+                    break;
+                case "Category":
+                    IngredientStorage.getInstance().sortByCategory(3, isChecked);
+                    break;
             }
         });
-
-
         return v;
     }
-    
 }

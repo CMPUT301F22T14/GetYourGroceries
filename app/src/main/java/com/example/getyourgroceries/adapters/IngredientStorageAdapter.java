@@ -44,7 +44,6 @@ public class IngredientStorageAdapter extends ArrayAdapter<StoredIngredient> {
         // Create the view if it doesn't exist.
         View view = convertView;
 
-
         if(view == null){
             view = LayoutInflater.from(context).inflate(R.layout.ingredient_item, parent,false);
         }
@@ -57,7 +56,6 @@ public class IngredientStorageAdapter extends ArrayAdapter<StoredIngredient> {
         ((TextView)view.findViewById(R.id.ingredient_location)).setText(ingredient.getLocation());
         ((TextView)view.findViewById(R.id.ingredient_category)).setText(ingredient.getCategory());
         ((TextView)view.findViewById(R.id.ingredient_unit)).setText("Unit Cost: $"+ df.format(ingredient.getUnit()));
-        //return the view
         return view;
     }
 }

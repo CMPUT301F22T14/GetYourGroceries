@@ -44,17 +44,15 @@ public class MealIngredientStorageAdapter extends ArrayAdapter<StoredIngredient>
         // Create the view if it doesn't exist.
         View view = convertView;
 
-
         if(view == null){
             view = LayoutInflater.from(context).inflate(R.layout.ingredient_item_meal, parent,false);
         }
+
         // Show the ingredient.
         StoredIngredient ingredient = ingredients.get(position);
         ((TextView)view.findViewById(R.id.ingredient_name)).setText(ingredient.getDescription());
         ((TextView)view.findViewById(R.id.ingredient_qty)).setText(String.valueOf(ingredient.getAmount()));
         ((TextView)view.findViewById(R.id.ingredient_bestbefore)).setText((new SimpleDateFormat("MM/dd/yyy")).format(ingredient.getBestBefore()));
-
-        //return the view
         return view;
     }
 }

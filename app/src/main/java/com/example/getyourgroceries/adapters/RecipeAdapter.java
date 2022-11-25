@@ -12,15 +12,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.getyourgroceries.GlideApp;
 import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.entity.Recipe;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-
-import java.security.Signature;
 import java.util.ArrayList;
 
 /**
@@ -29,7 +26,6 @@ import java.util.ArrayList;
 public class RecipeAdapter extends ArrayAdapter<Recipe> {
     private final ArrayList<Recipe> recipes;
     private final Context context;
-    //private StorageReference imageRef;
     private FirebaseStorage storage;
     private static final String TAG = "RecipeList";
 
@@ -53,12 +49,12 @@ public class RecipeAdapter extends ArrayAdapter<Recipe> {
      * @return The updated view.
      */
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+
         // Create the view if it doesn't exist.
         View view = convertView;
         if (view == null) {
             view = LayoutInflater.from(context).inflate(R.layout.recipe_item, parent, false);
         }
-
         storage = FirebaseStorage.getInstance();
 
         // Add the recipe.
@@ -79,7 +75,6 @@ public class RecipeAdapter extends ArrayAdapter<Recipe> {
         recipeServings.setText(servingsText);
 
         // get photo
-
         try {
             Log.d(TAG, "getView: " + recipe.getPhoto());
             StorageReference imageRef = storage.getReference().child(recipe.getPhoto());
@@ -92,7 +87,6 @@ public class RecipeAdapter extends ArrayAdapter<Recipe> {
         } catch (IllegalArgumentException e) {
             recipePhoto.setImageResource(R.drawable.placeholder);
         }
-
         return view;
     }
 }

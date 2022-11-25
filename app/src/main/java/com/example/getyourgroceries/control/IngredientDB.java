@@ -4,20 +4,15 @@ package com.example.getyourgroceries.control;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
 import com.example.getyourgroceries.entity.Ingredient;
 import com.example.getyourgroceries.entity.IngredientStorage;
 import com.example.getyourgroceries.entity.StoredIngredient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 

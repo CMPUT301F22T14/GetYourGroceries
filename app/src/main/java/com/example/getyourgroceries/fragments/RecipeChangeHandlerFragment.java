@@ -48,6 +48,7 @@ import android.widget.ListView;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.getyourgroceries.GlideApp;
 import com.example.getyourgroceries.R;
+import com.example.getyourgroceries.adapters.DayIngredientListAdapter;
 import com.example.getyourgroceries.adapters.RecipeIngredientAdapter;
 import com.example.getyourgroceries.control.RecipeDB;
 import com.example.getyourgroceries.entity.Ingredient;
@@ -463,6 +464,14 @@ public class RecipeChangeHandlerFragment extends Fragment implements AddIngredie
     public void onItemPressed(Ingredient newIngredient, int index) {
         ingredientList.set(index, newIngredient);
         ingredientAdapter.notifyDataSetChanged();
+    }
+    /**
+     * Executes when the user hits "ok" on the edit ingredient dialog
+     * @param newIngredient updated ingredient info
+     * @param index position in ingredient list
+     */
+    @Override
+    public void onMealOkPressed(Ingredient newIngredient, DayIngredientListAdapter dayIngredientListAdapter) { // FOR MEAL PLANS
     }
 
 }

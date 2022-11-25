@@ -16,6 +16,10 @@ public class MealPlanDay {
         this.ingredientList = new ArrayList<>();
     }
 
+    public MealPlanDay(){
+
+    }
+
     public void addRecipe(Recipe recipe){
         if (!recipeList.contains(recipe)) {
             recipeList.add(recipe);

@@ -19,9 +19,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 
 import com.example.getyourgroceries.MainActivity;
 import com.example.getyourgroceries.R;
+import com.example.getyourgroceries.adapters.DayIngredientListAdapter;
+import com.example.getyourgroceries.adapters.DayListAdapter;
 import com.example.getyourgroceries.entity.Ingredient;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -35,10 +38,13 @@ public class AddIngredientRecipeFragment extends DialogFragment {
     private EditText amount;
     private EditText unit;
     private int index;
+    private DayListAdapter dayListAdapter;
+    private DayIngredientListAdapter dayIngredientListAdapter;
 
     public interface OnFragmentInteractionListener {
         void onOkPressed(Ingredient newIngredient);
         void onItemPressed(Ingredient newIngredient, int index);
+        void onMealOkPressed(Ingredient newIngredient,DayIngredientListAdapter dayIngredientListAdapter);
     }
 
     AddIngredientRecipeFragment(Ingredient ingredient, int index) {
@@ -46,15 +52,25 @@ public class AddIngredientRecipeFragment extends DialogFragment {
         this.index = index;
     }
 
-    AddIngredientRecipeFragment() {}
+    public AddIngredientRecipeFragment(){
+    }
 
+    public AddIngredientRecipeFragment(DayListAdapter dayListAdapter, DayIngredientListAdapter dayIngredientListAdapter) {
+        this.dayListAdapter = dayListAdapter;
+        this.dayIngredientListAdapter = dayIngredientListAdapter;
+    }
+    
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         MainActivity act = (MainActivity) context;
-
-        RecipeChangeHandlerFragment frag = (RecipeChangeHandlerFragment) act.getSupportFragmentManager().findFragmentByTag("EDIT_RECIPE");
-        listener = (OnFragmentInteractionListener)frag;
+        if (dayListAdapter != null){
+            listener = (OnFragmentInteractionListener)dayListAdapter;
+        }
+        else{
+            OnFragmentInteractionListener frag = (OnFragmentInteractionListener) act.getSupportFragmentManager().findFragmentByTag("EDIT_RECIPE");
+            listener = (OnFragmentInteractionListener)frag;
+        }
     }
 
     @NonNull
@@ -169,7 +185,11 @@ public class AddIngredientRecipeFragment extends DialogFragment {
                     Double ingUnit2 = Double.parseDouble(ingUnit);
                     if (ingredient != null) {
                         listener.onItemPressed(new Ingredient(ingDescription, ingAmount2, ingUnit2, ingCategory), index);
-                    } else {
+                    }
+                    else if (dayIngredientListAdapter != null){
+                        listener.onMealOkPressed(new Ingredient(ingDescription, ingAmount2, ingUnit2, ingCategory),dayIngredientListAdapter);
+                    }
+                    else {
                         listener.onOkPressed(new Ingredient(ingDescription, ingAmount2, ingUnit2, ingCategory));
                     }
                     dialog.dismiss();

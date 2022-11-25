@@ -18,6 +18,7 @@ import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.adapters.MealPlanAdapter;
 import com.example.getyourgroceries.entity.MealPlan;
 import com.example.getyourgroceries.entity.MealPlanDay;
+import com.example.getyourgroceries.entity.MealPlanStorage;
 import com.example.getyourgroceries.entity.Recipe;
 import com.example.getyourgroceries.fragments.IngredientChangeHandlerFragment;
 import com.example.getyourgroceries.fragments.MealPlanChangeHandlerFragment;
@@ -42,6 +43,7 @@ public class MealPlansFragment extends Fragment {
         MealPlan x = new MealPlan("123","Bulksssss Up");
         MealPlanDay y= new MealPlanDay("1");
         x.addDay(y);
+        MealPlanStorage.getInstance().addMealPlan(x,true);
         
         mealPlanDataList= new ArrayList<MealPlan>();
         mealPlanDataList.add(x);
@@ -61,4 +63,5 @@ public class MealPlansFragment extends Fragment {
         });
         return v;
     }
+
 }

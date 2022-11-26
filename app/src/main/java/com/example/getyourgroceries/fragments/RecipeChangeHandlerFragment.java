@@ -39,8 +39,6 @@ import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.adapters.DayIngredientListAdapter;
 import com.example.getyourgroceries.adapters.RecipeIngredientAdapter;
 import com.example.getyourgroceries.entity.Ingredient;
-import com.example.getyourgroceries.entity.MealPlanDay;
-import com.example.getyourgroceries.entity.MealPlanStorage;
 import com.example.getyourgroceries.entity.Recipe;
 import com.example.getyourgroceries.entity.RecipeStorage;
 import com.example.getyourgroceries.interfaces.OnFragmentInteractionListener;

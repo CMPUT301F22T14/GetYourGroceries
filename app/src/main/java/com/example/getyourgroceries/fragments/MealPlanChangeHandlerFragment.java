@@ -1,10 +1,7 @@
 /* IngredientChangeHandlerFragment class. */
 package com.example.getyourgroceries.fragments;
 
-// Import statements.
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.LayoutInflater;
@@ -15,36 +12,36 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+
 import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.adapters.DayListAdapter;
+import com.example.getyourgroceries.entity.IngredientStorage;
+import com.example.getyourgroceries.entity.MealPlan;
 import com.example.getyourgroceries.entity.MealPlanDay;
+import com.example.getyourgroceries.entity.MealPlanStorage;
 import com.example.getyourgroceries.entity.Recipe;
 import com.example.getyourgroceries.entity.RecipeStorage;
 import com.example.getyourgroceries.entity.ScaledRecipe;
-import com.example.getyourgroceries.entity.StoredIngredient;
 import com.example.getyourgroceries.interfaces.OnMealPlanFragmentInteractionListener;
-import com.google.android.material.textfield.TextInputLayout;
 
-import java.text.DecimalFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Objects;
 
 /**
  * The AddIngredientFragment is the class for the add ingredient screen.
- * AddIngredientFragment extends {@link Fragment}.
+ * AddIngredientFragment extends {@link Fragment} and implements {@link OnMealPlanFragmentInteractionListener}
  */
 public class MealPlanChangeHandlerFragment extends Fragment implements OnMealPlanFragmentInteractionListener {
-
-    // Attributes.
     private View view;
     ArrayList<MealPlanDay> days;
     ArrayAdapter<MealPlanDay> daysAdapter;
+    MealPlan editMealPlan;
 
     /**
      * The AddIngredientFragment constructor.
@@ -63,47 +60,45 @@ public class MealPlanChangeHandlerFragment extends Fragment implements OnMealPla
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        // if returning from another page
         if (view != null){
             return view;
         }
 
         // Create the view.
+        ActionBar actionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
         view = inflater.inflate(R.layout.change_mealplan, container, false);
         Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         setHasOptionsMenu(true);
 
+        if (getArguments() != null) {
+            editMealPlan = MealPlanStorage.getInstance().getMealPlan(getArguments().getInt("editMealPlan"));
+            assert actionBar != null;
+            actionBar.setTitle("Edit Meal Plan");
+            days = editMealPlan.getMealPlanDays();
+        } else {
+            assert actionBar != null;
+            actionBar.setTitle("Add Meal Plan");
+            days = new ArrayList<>();
+        }
         ListView dayListView = view.findViewById(R.id.day_list);
-        days = new ArrayList<>();
+
         daysAdapter = new DayListAdapter(requireActivity().getBaseContext(), days,requireActivity().getSupportFragmentManager());
         dayListView.setAdapter(daysAdapter);
         Button addDay = view.findViewById(R.id.add_day);
-        addDay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setTitle("Add new day");
+        addDay.setOnClickListener(v -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setTitle("Add new day");
 
-                // Set up the input
-                final EditText input = new EditText(getContext());
-                // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-                //input.setInputType(InputType.NA | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                builder.setView(input);
+            // Set up the input
+            final EditText input = new EditText(getContext());
+            builder.setView(input);
 
-                // Set up the buttons
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        daysAdapter.add(new MealPlanDay(input.getText().toString()));
-                    }
-                });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-                builder.show();
-            }
+            // Set up the buttons
+            builder.setPositiveButton("OK", (dialog, which) -> daysAdapter.add(new MealPlanDay(input.getText().toString())));
+            builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
+            builder.show();
         });
 
         return view;
@@ -111,7 +106,6 @@ public class MealPlanChangeHandlerFragment extends Fragment implements OnMealPla
 
 
     public void onSubmitPressed(Recipe recipe, int dayPosition){
-
         AlertDialog.Builder scaleAlertBox = new AlertDialog.Builder(view.getRootView().getContext());
         scaleAlertBox.setTitle("Input desired scale (default 1)");
 
@@ -133,6 +127,9 @@ public class MealPlanChangeHandlerFragment extends Fragment implements OnMealPla
                 days.get(dayPosition).addRecipe(new ScaledRecipe(recipe, scale));
                 daysAdapter.notifyDataSetChanged();
             }
+
+            days.get(dayPosition).addRecipe(new ScaledRecipe(recipe, scale));
+            daysAdapter.notifyDataSetChanged();
         });
 
         // cancelling scale also cancels recipe add
@@ -140,16 +137,10 @@ public class MealPlanChangeHandlerFragment extends Fragment implements OnMealPla
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-            }
         });
 
         scaleAlertBox.show();
-
-
     }
-
-
-
 
     /**
      * The onOptionsItemSelected method will go to the previous fragment when the back button is pressed.

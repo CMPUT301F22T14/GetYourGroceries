@@ -13,11 +13,9 @@ public class MealPlan {
 
     /**
      * Constructor for the MealPlan class.
-     * @param id The ID of the meal plan.
      * @param mealPlanName The name of the meal plan.
      */
-    public MealPlan(String id, String mealPlanName){
-        this.id = id;
+    public MealPlan(String mealPlanName){
         this.mealPlanName = mealPlanName;
         this.mealPlanDays = new ArrayList<>();
     }

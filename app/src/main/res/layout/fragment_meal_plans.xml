@@ -5,35 +5,36 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:gravity="center"
     android:fillViewport = "true"
-    tools:context=".MealPlansFragment">
+    tools:context=".fragments.MealPlansFragment">
+
+
+    <Button
+        android:id="@+id/add_meal_plan"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="15dp"
+        android:backgroundTint="@color/primaryLightColor"
+        android:text="Add Meal Plan"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="20sp" />
 
     <ListView
         android:id="@+id/meal_plan_list"
-        android:layout_width="350dp"
-        android:layout_height="425dp"
-        android:layout_marginTop="50dp"
-        android:layout_gravity="center"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="10.0sp">
-
-    </ListView>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="84dp">
+        android:layout_height="wrap_content"
+        android:divider="@drawable/space_divider"
+        android:layout_marginHorizontal="10dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_marginBottom="75dp"
+        android:layout_marginTop="10dp"
+        android:showDividers="middle" />
 
-        <Button
-            android:id="@+id/add_meal_plan"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:backgroundTint="@color/primaryLightColor"
-            android:text="Add Meal Plan"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.949"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </LinearLayout>

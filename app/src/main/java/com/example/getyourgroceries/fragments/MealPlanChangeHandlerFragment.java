@@ -25,6 +25,7 @@ import com.example.getyourgroceries.entity.MealPlanDay;
 import com.example.getyourgroceries.entity.Recipe;
 import com.example.getyourgroceries.entity.ScaledRecipe;
 import com.example.getyourgroceries.entity.StoredIngredient;
+import com.example.getyourgroceries.interfaces.OnMealPlanFragmentInteractionListener;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.text.DecimalFormat;
@@ -37,7 +38,7 @@ import java.util.Objects;
  * The AddIngredientFragment is the class for the add ingredient screen.
  * AddIngredientFragment extends {@link Fragment}.
  */
-public class MealPlanChangeHandlerFragment extends Fragment implements RecipeChangeHandlerFragment.OnMealPlanFragmentInteractionListener{
+public class MealPlanChangeHandlerFragment extends Fragment implements OnMealPlanFragmentInteractionListener {
 
     // Attributes.
     private View view;

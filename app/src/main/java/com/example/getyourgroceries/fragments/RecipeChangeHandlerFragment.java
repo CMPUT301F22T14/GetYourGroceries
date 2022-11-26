@@ -335,15 +335,13 @@ public class RecipeChangeHandlerFragment extends Fragment implements OnFragmentI
                     editRecipe.setPhoto(new_photo);
                 }
                 RecipeStorage.getInstance().updateRecipe(editRecipe);
+            } else if (getArguments() != null && getArguments().containsKey("dayAdd")){
+                    Recipe newRecipe = new Recipe(description, Integer.parseInt(prepTime), Integer.parseInt(servings), categoryText, comments, new_photo, ingredientList);
+                    OnMealPlanFragmentInteractionListener frag = (OnMealPlanFragmentInteractionListener) fmManager.findFragmentByTag("MEAL_PLAN_EDIT");
+                    frag.onSubmitPressed(newRecipe, getArguments().getInt("dayEdit"));
             } else {
                 Recipe newRecipe = new Recipe(description, Integer.parseInt(prepTime), Integer.parseInt(servings), categoryText, comments, new_photo, ingredientList);
                 RecipeStorage.getInstance().addRecipe(newRecipe, true);
-
-                //if it was called from mealPlan page, call the function to add it to actual mealplan
-                if (getArguments().containsKey("dayAdd")){
-                    OnMealPlanFragmentInteractionListener frag = (OnMealPlanFragmentInteractionListener) fmManager.findFragmentByTag("MEAL_PLAN_EDIT");
-                    frag.onSubmitPressed(newRecipe, getArguments().getInt("dayEdit"));
-                }
 
             }
             fmManager.popBackStack();

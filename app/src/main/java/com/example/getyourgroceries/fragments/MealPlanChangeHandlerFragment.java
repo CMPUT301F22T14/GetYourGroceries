@@ -129,25 +129,17 @@ public class MealPlanChangeHandlerFragment extends Fragment implements OnMealPla
                     scale = 1;
                 }
 
+                RecipeStorage.getInstance().addRecipe(recipe, true);
                 days.get(dayPosition).addRecipe(new ScaledRecipe(recipe, scale));
                 daysAdapter.notifyDataSetChanged();
             }
         });
 
+        // cancelling scale also cancels recipe add
         scaleAlertBox.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-                //RecipeStorage recipeStorage = RecipeStorage.getInstance();
-            }
-        });
-
-        scaleAlertBox.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-
-                RecipeStorage recipeStorage = RecipeStorage.getInstance();
-                recipeStorage.deleteRecipe(recipe, true);
             }
         });
 

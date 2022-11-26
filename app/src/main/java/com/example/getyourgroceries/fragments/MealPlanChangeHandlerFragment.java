@@ -40,9 +40,9 @@ import java.util.Objects;
  */
 public class MealPlanChangeHandlerFragment extends Fragment implements OnMealPlanFragmentInteractionListener {
     private View view;
-    ArrayList<MealPlanDay> days;
-    ArrayAdapter<MealPlanDay> daysAdapter;
-    MealPlan editMealPlan;
+    private ArrayList<MealPlanDay> days;
+    private ArrayAdapter<MealPlanDay> daysAdapter;
+    private MealPlan editMealPlan;
 
     /**
      * The AddIngredientFragment constructor.
@@ -61,7 +61,6 @@ public class MealPlanChangeHandlerFragment extends Fragment implements OnMealPla
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         // if returning from another page
         if (view != null){
             return view;
@@ -113,29 +112,21 @@ public class MealPlanChangeHandlerFragment extends Fragment implements OnMealPla
         final EditText input = new EditText(view.getRootView().getContext());
         input.setInputType(InputType.TYPE_CLASS_NUMBER);
         scaleAlertBox.setView(input);
-        scaleAlertBox.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-                int scale;
-                try {
-                    scale = Integer.parseInt(String.valueOf(input.getText()));
-                } catch (NumberFormatException e) {
-                    scale = 1;
-                }
-
-                RecipeStorage.getInstance().addRecipe(recipe, true);
-                days.get(dayPosition).addRecipe(new ScaledRecipe(recipe, scale));
-                daysAdapter.notifyDataSetChanged();
+        scaleAlertBox.setPositiveButton("OK", (dialog, which) -> {
+            int scale;
+            try {
+                scale = Integer.parseInt(String.valueOf(input.getText()));
+            } catch (NumberFormatException e) {
+                scale = 1;
             }
+
+            RecipeStorage.getInstance().addRecipe(recipe, true);
+            days.get(dayPosition).addRecipe(new ScaledRecipe(recipe, scale));
+            daysAdapter.notifyDataSetChanged();
         });
 
         // cancelling scale also cancels recipe add
-        scaleAlertBox.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
+        scaleAlertBox.setNegativeButton("Cancel", (dialog, which) -> {
 
         });
 

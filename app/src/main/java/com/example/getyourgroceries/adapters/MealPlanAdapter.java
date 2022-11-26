@@ -42,10 +42,10 @@ public class MealPlanAdapter extends ArrayAdapter<MealPlan> {
         }
         MealPlan mealPlan = plans.get(position);
         TextView mealPlanName = view.findViewById(R.id.mealPlan_name);
-        TextView nextMeal = view.findViewById(R.id.mealPlan_next);
+        TextView numDays = view.findViewById(R.id.mealPlan_numDays);
 
         mealPlanName.setText(mealPlan.getName());
-        nextMeal.setText("yes");
+        numDays.setText("Number of Days: " + (mealPlan.getMealPlanDays().size()));
 
         return view;
     }

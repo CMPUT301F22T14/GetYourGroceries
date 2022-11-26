@@ -16,13 +16,16 @@ import com.example.getyourgroceries.GlideApp;
 import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.entity.MealPlanDay;
 import com.example.getyourgroceries.entity.Recipe;
+import com.example.getyourgroceries.entity.ScaledRecipe;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
-public class DayRecipeListAdapter extends ArrayAdapter<Recipe> {
-    private final ArrayList<Recipe> recipes;
+public class DayRecipeListAdapter extends ArrayAdapter<ScaledRecipe> {
+    private final ArrayList<ScaledRecipe> recipes;
     private StorageReference imageRef;
     private final Context context;
     private FirebaseStorage storage;
@@ -32,7 +35,7 @@ public class DayRecipeListAdapter extends ArrayAdapter<Recipe> {
      * @param context Context of the app.
      * @param recipes List of meal plans.
      */
-    public DayRecipeListAdapter(Context context, ArrayList<Recipe> recipes) {
+    public DayRecipeListAdapter(Context context, ArrayList<ScaledRecipe> recipes) {
         super(context, 0, recipes);
         this.recipes = recipes;
         this.context = context;
@@ -54,11 +57,14 @@ public class DayRecipeListAdapter extends ArrayAdapter<Recipe> {
         }
 
         // Add the recipe.
-        Recipe recipe = recipes.get(position);
+        Recipe recipe = recipes.get(position).getRecipe();
+        String scale = recipes.get(position).getScale() + "x";
+
         TextView recipeName = view.findViewById(R.id.recipe_title);
         TextView recipePrepTime = view.findViewById(R.id.recipe_prep_time);
         TextView recipeServings = view.findViewById(R.id.recipe_servings);
         TextView recipeCategory = view.findViewById(R.id.recipe_category);
+        TextView recipeScale = view.findViewById(R.id.recipe_scale);
         ImageView recipePhoto = view.findViewById(R.id.recipe_photo);
 
         int prep_hours = recipe.getPrepTime() / 60;
@@ -70,22 +76,12 @@ public class DayRecipeListAdapter extends ArrayAdapter<Recipe> {
         recipePrepTime.setText(prepTimeText);
         recipeCategory.setText(categoryText);
         recipeServings.setText(servingsText);
+        recipeScale.setText(scale);
 
         // get photo
         storage = FirebaseStorage.getInstance();
         try {
             imageRef = storage.getReference().child(recipe.getPhoto());
-
-            GlideApp.with(view)
-                    .load(imageRef)
-                    .override(300, 300)
-                    .into(recipePhoto);
-        } catch (IllegalArgumentException e) {
-            recipePhoto.setImageResource(R.drawable.placeholder);
-        }
-
-        try {
-            StorageReference imageRef = storage.getReference().child(recipe.getPhoto());
 
             GlideApp.with(view)
                     .load(imageRef)

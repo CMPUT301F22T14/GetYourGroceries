@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.InputType;
+import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -24,8 +26,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.ViewCompat;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentOnAttachListener;
 
 import com.example.getyourgroceries.MainActivity;
 import com.example.getyourgroceries.R;
@@ -34,9 +38,13 @@ import com.example.getyourgroceries.entity.IngredientStorage;
 import com.example.getyourgroceries.entity.MealPlan;
 import com.example.getyourgroceries.entity.MealPlanDay;
 import com.example.getyourgroceries.entity.MealPlanStorage;
+import com.example.getyourgroceries.entity.Recipe;
+import com.example.getyourgroceries.entity.RecipeStorage;
+import com.example.getyourgroceries.entity.ScaledRecipe;
 import com.example.getyourgroceries.fragments.AddIngredientRecipeFragment;
 import com.example.getyourgroceries.fragments.IngredientChangeHandlerFragment;
 import com.example.getyourgroceries.interfaces.OnFragmentInteractionListener;
+import com.example.getyourgroceries.fragments.RecipeChangeHandlerFragment;
 
 
 import java.util.ArrayList;
@@ -47,6 +55,8 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements OnFragm
     FragmentManager fm;
     ListView dayIngredientListView;
     MealPlanDay day;
+    private static final String TAG = "DayListAdapter";
+//    DayIngredientListAdapter dayIngredientListAdapter;
 
     /**
      * Class constructor.
@@ -130,15 +140,81 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements OnFragm
         });
 
         Button addRecipe = view.findViewById(R.id.add_recipe_day);
+        //Log.d(TAG, "onClick: got to fragment");
         addRecipe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                LayoutInflater inflater=(LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View layout = inflater.inflate(R.layout.mealplan_add_recipe,null);
+                ListView recipeListView = layout.findViewById(R.id.recipe_list_meal);
+                recipeListView.setAdapter(RecipeStorage.getInstance().getRecipeAdapter());
+
+                AlertDialog.Builder alertbox = new AlertDialog.Builder(v.getRootView().getContext());
+                alertbox.setView(layout);
+                AlertDialog a = alertbox.create();
+                a.show();
+                //Not sure how to get it to reappear after adding ingredient
+                Button addDayRecipe = layout.findViewById(R.id.addMealPlanRecipe);
+                addDayRecipe.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("dayAdd", position);
+
+                        RecipeChangeHandlerFragment recipeChangeHandlerFragment = new RecipeChangeHandlerFragment();
+                        recipeChangeHandlerFragment.setArguments(bundle);
+                        //a.dismiss();
+                        a.hide();
+                        fm.beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).
+                                replace(R.id.container, recipeChangeHandlerFragment,"EDIT_RECIPE").addToBackStack(null).commit();
+
+
+                    }
+                });
+
+                recipeListView.setOnItemClickListener((adapterView, view, i, l) -> {
+                    AlertDialog.Builder scaleAlertBox = new AlertDialog.Builder(view.getRootView().getContext());
+                    Recipe recipe = (Recipe) recipeListView.getItemAtPosition(i);
+                    scaleAlertBox.setTitle("Input desired scale (default 1)");
+
+                    final EditText input = new EditText(view.getRootView().getContext());
+                    input.setInputType(InputType.TYPE_CLASS_NUMBER);
+                    scaleAlertBox.setView(input);
+                    scaleAlertBox.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            int scale;
+                            try {
+                                scale = Integer.parseInt(String.valueOf(input.getText()));
+                            } catch (NumberFormatException e) {
+                                scale = 1;
+                            }
+
+                            day.addRecipe(new ScaledRecipe(recipe, scale));
+
+                            notifyDataSetChanged();
+                            a.dismiss();
+                        }
+                    });
+
+                    scaleAlertBox.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+                    scaleAlertBox.show();
+                    //day.addIngredient(ingredient);
+
+
+                });
 
             }
         });
 
         return view;
     }
+
 
     /**
      * Executes when the user hits "ok" on the add ingredient dialog

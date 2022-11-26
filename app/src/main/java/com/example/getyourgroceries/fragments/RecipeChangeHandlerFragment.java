@@ -39,6 +39,8 @@ import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.adapters.DayIngredientListAdapter;
 import com.example.getyourgroceries.adapters.RecipeIngredientAdapter;
 import com.example.getyourgroceries.entity.Ingredient;
+import com.example.getyourgroceries.entity.MealPlanDay;
+import com.example.getyourgroceries.entity.MealPlanStorage;
 import com.example.getyourgroceries.entity.Recipe;
 import com.example.getyourgroceries.entity.RecipeStorage;
 import com.example.getyourgroceries.interfaces.OnFragmentInteractionListener;
@@ -75,6 +77,9 @@ public class RecipeChangeHandlerFragment extends Fragment implements OnFragmentI
 
     Dialog photoDialog;
 
+    public interface OnMealPlanFragmentInteractionListener {
+        void onSubmitPressed(Recipe newRecipe, int dayPosition);
+    }
     /**
      * Fragment constructor to initialize its database class
      */
@@ -117,16 +122,28 @@ public class RecipeChangeHandlerFragment extends Fragment implements OnFragmentI
 
         ActionBar actionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
 
+        // add recipe to recipe list
+        // add recipe to day
+        // edit recipe
+
+        // add recipe to recipe list
+        // add recipe to day
+        // edit recipe
+
         if (getArguments() != null) {
-            editRecipe = RecipeStorage.getInstance().getRecipe(getArguments().getInt("editRecipe"));
-            assert actionBar != null;
-            actionBar.setTitle("Edit Recipe");
-            ingredientList = editRecipe.getIngredientList();
-        } else{
-            assert actionBar != null;
+            if (getArguments().containsKey("dayAdd")) {
+                actionBar.setTitle("Add Recipe to Meal Plan");
+                ingredientList = new ArrayList<>();
+            } else if (getArguments().containsKey("editRecipe")) {
+                editRecipe = RecipeStorage.getInstance().getRecipe(getArguments().getInt("editRecipe"));
+                actionBar.setTitle("Edit Recipe");
+                ingredientList = editRecipe.getIngredientList();
+            }
+        } else {
             actionBar.setTitle("Add Recipe");
             ingredientList = new ArrayList<>();
         }
+
         ingredientAdapter = new RecipeIngredientAdapter(requireActivity().getBaseContext(), ingredientList);
 
         // Set up category spinner.
@@ -324,9 +341,16 @@ public class RecipeChangeHandlerFragment extends Fragment implements OnFragmentI
             } else {
                 Recipe newRecipe = new Recipe(description, Integer.parseInt(prepTime), Integer.parseInt(servings), categoryText, comments, new_photo, ingredientList);
                 RecipeStorage.getInstance().addRecipe(newRecipe, true);
+
+                //if it was called from mealPlan page, call the function to add it to actual mealplan
+                if (getArguments().containsKey("dayAdd")){
+                    OnMealPlanFragmentInteractionListener frag = (OnMealPlanFragmentInteractionListener) fmManager.findFragmentByTag("MEAL_PLAN_EDIT");
+                    frag.onSubmitPressed(newRecipe, getArguments().getInt("dayEdit"));
+                }
+
             }
             fmManager.popBackStack();
-            fmManager.popBackStack();
+            //fmManager.popBackStack();
         });
     }
 

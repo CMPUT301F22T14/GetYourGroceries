@@ -29,8 +29,7 @@ public class ShoppingListFragment extends Fragment {
     Spinner sortDropDown;
     MaterialSwitch sorting_switch;
 
-    public ShoppingListFragment() {
-    }
+    public ShoppingListFragment() {}
 
     @Nullable
     @Override
@@ -64,15 +63,12 @@ public class ShoppingListFragment extends Fragment {
             }
         });
 
-        sorting_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                String type = sortDropDown.getSelectedItem().toString();
-                if (type.equals("Description")) {
-                    // TODO: sort based on description
-                } else if (type.equals("Category")) {
-                    // TODO: sort based on category
-                }
+        sorting_switch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            String type = sortDropDown.getSelectedItem().toString();
+            if (type.equals("Description")) {
+                // TODO: sort based on description
+            } else if (type.equals("Category")) {
+                // TODO: sort based on category
             }
         });
 

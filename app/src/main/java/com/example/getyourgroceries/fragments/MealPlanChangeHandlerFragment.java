@@ -15,12 +15,16 @@ import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.adapters.DayListAdapter;
+import com.example.getyourgroceries.entity.IngredientStorage;
+import com.example.getyourgroceries.entity.MealPlan;
 import com.example.getyourgroceries.entity.MealPlanDay;
+import com.example.getyourgroceries.entity.MealPlanStorage;
 import com.example.getyourgroceries.entity.Recipe;
 import com.example.getyourgroceries.entity.ScaledRecipe;
 import com.example.getyourgroceries.interfaces.OnMealPlanFragmentInteractionListener;
@@ -36,6 +40,7 @@ public class MealPlanChangeHandlerFragment extends Fragment implements OnMealPla
     private View view;
     ArrayList<MealPlanDay> days;
     ArrayAdapter<MealPlanDay> daysAdapter;
+    MealPlan editMealPlan;
 
     /**
      * The AddIngredientFragment constructor.
@@ -54,17 +59,30 @@ public class MealPlanChangeHandlerFragment extends Fragment implements OnMealPla
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        // if returning from another page
         if (view != null){
             return view;
         }
 
         // Create the view.
+        ActionBar actionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
         view = inflater.inflate(R.layout.change_mealplan, container, false);
         Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         setHasOptionsMenu(true);
 
+        if (getArguments() != null) {
+            editMealPlan = MealPlanStorage.getInstance().getMealPlan(getArguments().getInt("editMealPlan"));
+            assert actionBar != null;
+            actionBar.setTitle("Edit Meal Plan");
+            days = editMealPlan.getMealPlanDays();
+        } else {
+            assert actionBar != null;
+            actionBar.setTitle("Add Meal Plan");
+            days = new ArrayList<>();
+        }
         ListView dayListView = view.findViewById(R.id.day_list);
-        days = new ArrayList<>();
+
         daysAdapter = new DayListAdapter(requireActivity().getBaseContext(), days,requireActivity().getSupportFragmentManager());
         dayListView.setAdapter(daysAdapter);
         Button addDay = view.findViewById(R.id.add_day);

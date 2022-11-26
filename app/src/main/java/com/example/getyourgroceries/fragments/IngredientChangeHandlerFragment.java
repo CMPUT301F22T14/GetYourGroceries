@@ -2,11 +2,13 @@
 package com.example.getyourgroceries.fragments;
 
 // Import statements.
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -18,19 +20,24 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+
 import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.entity.IngredientStorage;
 import com.example.getyourgroceries.entity.StoredIngredient;
+import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -40,6 +47,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.TimeZone;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -115,26 +123,26 @@ public class IngredientChangeHandlerFragment extends Fragment {
         if (getArguments() != null) {
             cal.setTime(editIngredient.getBestBefore());
         }
-        AtomicInteger yearSet = new AtomicInteger(cal.get(Calendar.YEAR));
-        AtomicInteger monthSet = new AtomicInteger(cal.get(Calendar.MONTH));
-        AtomicInteger daySet = new AtomicInteger(cal.get(Calendar.DAY_OF_MONTH));
         TextView displayDate = requireActivity().findViewById(R.id.change_ingredient_expiry);
         displayDate.setTextSize(20);
         displayDate.setGravity(Gravity.CENTER_VERTICAL);
         displayDate.setOnClickListener(view2 -> {
-            DatePickerDialog dialog = new DatePickerDialog(getContext(), 0, dateSetListener, yearSet.get(), monthSet.get(), daySet.get());
-            dialog.getDatePicker().setMinDate(Calendar.getInstance().getTimeInMillis());
-            dialog.show();
-        });
+            MaterialDatePicker datePicker =
+                    MaterialDatePicker.Builder.datePicker()
+                            .setTitleText("Select date")
+                            .setSelection(cal.getTimeInMillis())
+                            .build();
 
-        // Change the calendar.
-        dateSetListener = (datePicker, year, month, day) -> {
-            yearSet.set(year);
-            monthSet.set(month);
-            daySet.set(day);
-            String date = (month + 1) + "/" + day + "/" + year;
-            displayDate.setText(date);
-        };
+            datePicker.addOnPositiveButtonClickListener(selection -> {
+                // for some reason it selects the day before so add 24hrs worth of milliseconds to make it the proper day
+                cal.setTimeInMillis((long) ((long)selection + 8.64e+7));
+                SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+                String formattedDate  = format.format(cal.getTime());
+                displayDate.setText(formattedDate);
+            });
+
+            datePicker.show(requireActivity().getSupportFragmentManager(), "");
+        });
 
         // Set up location spinner.
         Map<String, String> locationIDs = new HashMap<>();
@@ -163,41 +171,41 @@ public class IngredientChangeHandlerFragment extends Fragment {
                 final EditText newLocationInput = new EditText(getContext());
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder
-                    .setTitle("Add Location")
-                    .setMessage("Enter a new location:")
-                    .setCancelable(true)
-                    .setView(newLocationInput)
-                    .setPositiveButton("OK", (dialog, which) -> {
-                        String newLocation = newLocationInput.getText().toString();
-                        location.setText(newLocation);
-                        Map<String, Object> insertLocation = new HashMap<>();
-                        insertLocation.put("Location", newLocation);
-                        locationCollection.document().set(insertLocation);
-                        dialog.dismiss();
-                    })
-                    .setNegativeButton("Cancel", (dialog, which) -> dialog.cancel())
-                    .create()
-                    .show();
+                        .setTitle("Add Location")
+                        .setMessage("Enter a new location:")
+                        .setCancelable(true)
+                        .setView(newLocationInput)
+                        .setPositiveButton("OK", (dialog, which) -> {
+                            String newLocation = newLocationInput.getText().toString();
+                            location.setText(newLocation);
+                            Map<String, Object> insertLocation = new HashMap<>();
+                            insertLocation.put("Location", newLocation);
+                            locationCollection.document().set(insertLocation);
+                            dialog.dismiss();
+                        })
+                        .setNegativeButton("Cancel", (dialog, which) -> dialog.cancel())
+                        .create()
+                        .show();
             } else if (locations.get(i).equals("- Delete Saved Location")) {
                 location.setText("");
                 final EditText deleteLocationInput = new EditText(getContext());
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder
-                    .setTitle("Delete Location")
-                    .setMessage("Delete an existing location:")
-                    .setCancelable(true)
-                    .setView(deleteLocationInput)
-                    .setPositiveButton("OK", (dialog, which) -> {
-                        String deleteLocation = deleteLocationInput.getText().toString();
-                        String id = locationIDs.get(deleteLocation);
-                        if (id != null) {
-                            locationCollection.document(id).delete();
-                        }
-                        dialog.dismiss();
-                    })
-                    .setNegativeButton("Cancel", (dialog, which) -> dialog.cancel())
-                    .create()
-                    .show();
+                        .setTitle("Delete Location")
+                        .setMessage("Delete an existing location:")
+                        .setCancelable(true)
+                        .setView(deleteLocationInput)
+                        .setPositiveButton("OK", (dialog, which) -> {
+                            String deleteLocation = deleteLocationInput.getText().toString();
+                            String id = locationIDs.get(deleteLocation);
+                            if (id != null) {
+                                locationCollection.document(id).delete();
+                            }
+                            dialog.dismiss();
+                        })
+                        .setNegativeButton("Cancel", (dialog, which) -> dialog.cancel())
+                        .create()
+                        .show();
             }
         });
 
@@ -228,41 +236,41 @@ public class IngredientChangeHandlerFragment extends Fragment {
                 final EditText newCategoryInput = new EditText(getContext());
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder
-                    .setTitle("Add Category")
-                    .setMessage("Enter a new category:")
-                    .setCancelable(true)
-                    .setView(newCategoryInput)
-                    .setPositiveButton("OK", (dialog, which) -> {
-                        String newCategory = newCategoryInput.getText().toString();
-                        category.setText(newCategory);
-                        Map<String, Object> insertCategory = new HashMap<>();
-                        insertCategory.put("Category", newCategory);
-                        categoryCollection.document().set(insertCategory);
-                        dialog.dismiss();
-                    })
-                    .setNegativeButton("Cancel", (dialog, which) -> dialog.cancel())
-                    .create()
-                    .show();
+                        .setTitle("Add Category")
+                        .setMessage("Enter a new category:")
+                        .setCancelable(true)
+                        .setView(newCategoryInput)
+                        .setPositiveButton("OK", (dialog, which) -> {
+                            String newCategory = newCategoryInput.getText().toString();
+                            category.setText(newCategory);
+                            Map<String, Object> insertCategory = new HashMap<>();
+                            insertCategory.put("Category", newCategory);
+                            categoryCollection.document().set(insertCategory);
+                            dialog.dismiss();
+                        })
+                        .setNegativeButton("Cancel", (dialog, which) -> dialog.cancel())
+                        .create()
+                        .show();
             } else if (categories.get(i).equals("- Delete Saved Category")) {
                 category.setText("");
                 final EditText deleteCategoryInput = new EditText(getContext());
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder
-                    .setTitle("Delete Category")
-                    .setMessage("Delete an existing category:")
-                    .setCancelable(true)
-                    .setView(deleteCategoryInput)
-                    .setPositiveButton("OK", (dialog, which) -> {
-                        String deleteCategory = deleteCategoryInput.getText().toString();
-                        String id = categoryIDs.get(deleteCategory);
-                        if (id != null) {
-                            categoryCollection.document(id).delete();
-                        }
-                        dialog.dismiss();
-                    })
-                    .setNegativeButton("Cancel", (dialog, which) -> dialog.cancel())
-                    .create()
-                    .show();
+                        .setTitle("Delete Category")
+                        .setMessage("Delete an existing category:")
+                        .setCancelable(true)
+                        .setView(deleteCategoryInput)
+                        .setPositiveButton("OK", (dialog, which) -> {
+                            String deleteCategory = deleteCategoryInput.getText().toString();
+                            String id = categoryIDs.get(deleteCategory);
+                            if (id != null) {
+                                categoryCollection.document(id).delete();
+                            }
+                            dialog.dismiss();
+                        })
+                        .setNegativeButton("Cancel", (dialog, which) -> dialog.cancel())
+                        .create()
+                        .show();
             }
         }));
         TextView descriptionText = requireActivity().findViewById(R.id.change_ingredient_description);
@@ -318,7 +326,7 @@ public class IngredientChangeHandlerFragment extends Fragment {
             if (description.equals("")) {
                 tilDescription.setError("Description cannot be empty!");
                 error = 1;
-            } else if (IngredientStorage.getInstance().ingredientExists(description)) {
+            } else if (editIngredient == null && IngredientStorage.getInstance().ingredientExists(description)) {
                 tilDescription.setError("This ingredient already exists!");
                 error = 1;
             } else {

@@ -20,6 +20,8 @@ import com.example.getyourgroceries.entity.ScaledRecipe;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 public class DayRecipeListAdapter extends ArrayAdapter<ScaledRecipe> {
@@ -56,10 +58,13 @@ public class DayRecipeListAdapter extends ArrayAdapter<ScaledRecipe> {
 
         // Add the recipe.
         Recipe recipe = recipes.get(position).getRecipe();
+        String scale = recipes.get(position).getScale() + "x";
+
         TextView recipeName = view.findViewById(R.id.recipe_title);
         TextView recipePrepTime = view.findViewById(R.id.recipe_prep_time);
         TextView recipeServings = view.findViewById(R.id.recipe_servings);
         TextView recipeCategory = view.findViewById(R.id.recipe_category);
+        TextView recipeScale = view.findViewById(R.id.recipe_scale);
         ImageView recipePhoto = view.findViewById(R.id.recipe_photo);
 
         int prep_hours = recipe.getPrepTime() / 60;
@@ -71,6 +76,7 @@ public class DayRecipeListAdapter extends ArrayAdapter<ScaledRecipe> {
         recipePrepTime.setText(prepTimeText);
         recipeCategory.setText(categoryText);
         recipeServings.setText(servingsText);
+        recipeScale.setText(scale);
 
         // get photo
         storage = FirebaseStorage.getInstance();

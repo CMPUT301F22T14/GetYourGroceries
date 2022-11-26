@@ -172,51 +172,42 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements OnFragm
 
                 });
                 scaleAlertBox.show();
-                //day.addIngredient(ingredient);
             });
 
         });
 
-        recipeListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        recipeListview.setOnItemClickListener((parent1, view14, position1, id) -> {
+            ScaledRecipe scaledRecipe = day.getRecipeList().get(position1);
 
-                ScaledRecipe scaledRecipe = day.getRecipeList().get(position);
+            AlertDialog.Builder scaleAlertBox = new AlertDialog.Builder(view14.getRootView().getContext());
+            scaleAlertBox.setTitle("Change Scale");
 
-                AlertDialog.Builder scaleAlertBox = new AlertDialog.Builder(view.getRootView().getContext());
-                scaleAlertBox.setTitle("Change Scale");
+            final EditText input = new EditText(view14.getRootView().getContext());
+            input.setInputType(InputType.TYPE_CLASS_NUMBER);
+            input.setText(String.valueOf(scaledRecipe.getScale()));
+            scaleAlertBox.setView(input);
+            scaleAlertBox.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
 
-                final EditText input = new EditText(view.getRootView().getContext());
-                input.setInputType(InputType.TYPE_CLASS_NUMBER);
-                input.setText(String.valueOf(scaledRecipe.getScale()));
-                scaleAlertBox.setView(input);
-                scaleAlertBox.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        int scale;
-                        try {
-                            scale = Integer.parseInt(String.valueOf(input.getText()));
-                        } catch (NumberFormatException e) {
-                            scale = 1;
-                        }
-
-                        scaledRecipe.setScale(scale);
-                        day.updateRecipe(scaledRecipe, position);
-                        notifyDataSetChanged();
+                    int scale;
+                    try {
+                        scale = Integer.parseInt(String.valueOf(input.getText()));
+                    } catch (NumberFormatException e) {
+                        scale = 1;
                     }
-                });
 
-                scaleAlertBox.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    scaledRecipe.setScale(scale);
+                    day.updateRecipe(scaledRecipe, position1);
+                    notifyDataSetChanged();
+                }
+            });
 
-                    }
-                });
+            scaleAlertBox.setNegativeButton("Cancel", (dialog, which) -> {
 
-                scaleAlertBox.show();
+            });
 
-            }
+            scaleAlertBox.show();
         });
 
         return view;

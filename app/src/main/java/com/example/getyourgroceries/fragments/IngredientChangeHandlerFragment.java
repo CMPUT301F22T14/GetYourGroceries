@@ -51,7 +51,6 @@ import java.util.Objects;
  * AddIngredientFragment extends {@link Fragment}.
  */
 public class IngredientChangeHandlerFragment extends Fragment {
-    private DatePickerDialog.OnDateSetListener dateSetListener;
     private StoredIngredient editIngredient = null;
     private static final DecimalFormat df = new DecimalFormat("0.00");
     private String originalDescription;

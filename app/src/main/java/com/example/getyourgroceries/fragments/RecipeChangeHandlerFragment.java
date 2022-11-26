@@ -44,6 +44,7 @@ import com.example.getyourgroceries.entity.MealPlanStorage;
 import com.example.getyourgroceries.entity.Recipe;
 import com.example.getyourgroceries.entity.RecipeStorage;
 import com.example.getyourgroceries.interfaces.OnFragmentInteractionListener;
+import com.example.getyourgroceries.interfaces.OnMealPlanFragmentInteractionListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.CollectionReference;
@@ -77,9 +78,7 @@ public class RecipeChangeHandlerFragment extends Fragment implements OnFragmentI
 
     Dialog photoDialog;
 
-    public interface OnMealPlanFragmentInteractionListener {
-        void onSubmitPressed(Recipe newRecipe, int dayPosition);
-    }
+
     /**
      * Fragment constructor to initialize its database class
      */

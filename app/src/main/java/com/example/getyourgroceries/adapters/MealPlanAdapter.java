@@ -35,7 +35,6 @@ public class MealPlanAdapter extends ArrayAdapter<MealPlan> {
      * @return The updated view.
      */
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-
         //Create the view if it doesn't exist
         View view = convertView;
         if (view == null) {

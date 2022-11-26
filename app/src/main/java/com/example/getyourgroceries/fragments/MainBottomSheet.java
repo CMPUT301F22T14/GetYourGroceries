@@ -28,9 +28,7 @@ public class MainBottomSheet extends BottomSheetDialogFragment {
      */
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         View v = inflater.inflate(R.layout.main_bottom_drawer, container, false);
         Button addIngredient = v.findViewById(R.id.quickadd_ingredient);

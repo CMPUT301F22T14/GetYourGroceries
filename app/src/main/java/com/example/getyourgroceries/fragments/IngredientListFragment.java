@@ -31,7 +31,7 @@ import java.util.Objects;
  */
 public class IngredientListFragment extends Fragment {
     Spinner sortDropDown;
-    SwitchCompat sorting_switch;
+    SwitchCompat sortingSwitch;
     ListView ingredientListView;
 
     /**
@@ -49,7 +49,6 @@ public class IngredientListFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         //set title
         ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
         actionBar.setTitle("Ingredient Storage");
@@ -58,7 +57,7 @@ public class IngredientListFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_ingredient_list, container, false);
         Button addIngredientButton = v.findViewById(R.id.addIngredientButton);
         Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
-        sorting_switch = v.findViewById(R.id.sortingSwitchIngredient);
+        sortingSwitch = v.findViewById(R.id.sortingSwitchIngredient);
         // Button listener to add an ingredient.
         addIngredientButton.setOnClickListener(view -> {
             assert container != null;
@@ -107,17 +106,17 @@ public class IngredientListFragment extends Fragment {
         sortDropDown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                boolean desc = sorting_switch.isChecked();
+                boolean desc = sortingSwitch.isChecked();
                 IngredientStorage.getInstance().sortByCategory(position, desc);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
+                IngredientStorage.getInstance().sortByCategory(0, false);
             }
         });
 
-        sorting_switch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        sortingSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             String type = sortDropDown.getSelectedItem().toString();
             switch (type) {
                 case "Description":

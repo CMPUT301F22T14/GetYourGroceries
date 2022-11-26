@@ -13,7 +13,6 @@ import androidx.annotation.Nullable;
 import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.entity.StoredIngredient;
 
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
@@ -23,7 +22,12 @@ import java.util.ArrayList;
 public class MealIngredientStorageAdapter extends ArrayAdapter<StoredIngredient> {
     private final ArrayList<StoredIngredient> ingredients;
     private final Context context;
-    private static final DecimalFormat df = new DecimalFormat("0.00");
+
+    /**
+     * Constructor
+     * @param context for the adapter
+     * @param ingredients list of ingredients for the adapter
+     */
     public MealIngredientStorageAdapter(Context context, ArrayList<StoredIngredient> ingredients){
         super(context,0, ingredients);
         this.ingredients = ingredients;
@@ -40,7 +44,6 @@ public class MealIngredientStorageAdapter extends ArrayAdapter<StoredIngredient>
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-
         // Create the view if it doesn't exist.
         View view = convertView;
 

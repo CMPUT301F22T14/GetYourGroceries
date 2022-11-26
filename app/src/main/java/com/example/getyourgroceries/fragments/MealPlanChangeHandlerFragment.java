@@ -2,6 +2,7 @@
 package com.example.getyourgroceries.fragments;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.LayoutInflater;
@@ -26,6 +27,7 @@ import com.example.getyourgroceries.entity.MealPlan;
 import com.example.getyourgroceries.entity.MealPlanDay;
 import com.example.getyourgroceries.entity.MealPlanStorage;
 import com.example.getyourgroceries.entity.Recipe;
+import com.example.getyourgroceries.entity.RecipeStorage;
 import com.example.getyourgroceries.entity.ScaledRecipe;
 import com.example.getyourgroceries.interfaces.OnMealPlanFragmentInteractionListener;
 
@@ -111,19 +113,29 @@ public class MealPlanChangeHandlerFragment extends Fragment implements OnMealPla
         final EditText input = new EditText(view.getRootView().getContext());
         input.setInputType(InputType.TYPE_CLASS_NUMBER);
         scaleAlertBox.setView(input);
-        scaleAlertBox.setPositiveButton("OK", (dialog, which) -> {
-            int scale;
-            try {
-                scale = Integer.parseInt(String.valueOf(input.getText()));
-            } catch (NumberFormatException e) {
-                scale = 1;
-            }
+        scaleAlertBox.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
 
-            days.get(dayPosition).addRecipe(new ScaledRecipe(recipe, scale));
-            daysAdapter.notifyDataSetChanged();
+                int scale;
+                try {
+                    scale = Integer.parseInt(String.valueOf(input.getText()));
+                } catch (NumberFormatException e) {
+                    scale = 1;
+                }
+
+                RecipeStorage.getInstance().addRecipe(recipe, true);
+                days.get(dayPosition).addRecipe(new ScaledRecipe(recipe, scale));
+                daysAdapter.notifyDataSetChanged();
+            }
         });
 
-        scaleAlertBox.setNegativeButton("Cancel", (dialog, which) -> {
+        // cancelling scale also cancels recipe add
+        scaleAlertBox.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
 
         });
 

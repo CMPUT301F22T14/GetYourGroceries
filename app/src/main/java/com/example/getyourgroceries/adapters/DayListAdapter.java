@@ -2,11 +2,15 @@ package com.example.getyourgroceries.adapters;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -36,6 +40,7 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements OnFragm
     private final Context context;
     FragmentManager fm;
     ListView dayIngredientListView;
+    ListView recipeListview;
     MealPlanDay day;
 
     /**
@@ -71,7 +76,7 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements OnFragm
         dayIngredientListView = view.findViewById(R.id.day_ingredient_list);
         DayIngredientListAdapter dayIngredientListAdapter = new DayIngredientListAdapter(context, day.getIngredientList());
         dayIngredientListView.setAdapter(dayIngredientListAdapter);
-        ListView recipeListview = view.findViewById(R.id.day_recipe_list);
+        recipeListview = view.findViewById(R.id.day_recipe_list);
         recipeListview.setAdapter(new DayRecipeListAdapter(context, day.getRecipeList()));
         ViewCompat.setNestedScrollingEnabled(dayIngredientListView, true);
         ViewCompat.setNestedScrollingEnabled(recipeListview, true);
@@ -170,6 +175,48 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements OnFragm
                 //day.addIngredient(ingredient);
             });
 
+        });
+
+        recipeListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                ScaledRecipe scaledRecipe = day.getRecipeList().get(position);
+
+                AlertDialog.Builder scaleAlertBox = new AlertDialog.Builder(view.getRootView().getContext());
+                scaleAlertBox.setTitle("Change Scale");
+
+                final EditText input = new EditText(view.getRootView().getContext());
+                input.setInputType(InputType.TYPE_CLASS_NUMBER);
+                input.setText(String.valueOf(scaledRecipe.getScale()));
+                scaleAlertBox.setView(input);
+                scaleAlertBox.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        int scale;
+                        try {
+                            scale = Integer.parseInt(String.valueOf(input.getText()));
+                        } catch (NumberFormatException e) {
+                            scale = 1;
+                        }
+
+                        scaledRecipe.setScale(scale);
+                        day.updateRecipe(scaledRecipe, position);
+                        notifyDataSetChanged();
+                    }
+                });
+
+                scaleAlertBox.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+
+                scaleAlertBox.show();
+
+            }
         });
 
         return view;

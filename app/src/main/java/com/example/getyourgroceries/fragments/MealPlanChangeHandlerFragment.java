@@ -2,6 +2,7 @@
 package com.example.getyourgroceries.fragments;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.LayoutInflater;
@@ -127,15 +128,14 @@ public class MealPlanChangeHandlerFragment extends Fragment implements OnMealPla
                 days.get(dayPosition).addRecipe(new ScaledRecipe(recipe, scale));
                 daysAdapter.notifyDataSetChanged();
             }
-
-            days.get(dayPosition).addRecipe(new ScaledRecipe(recipe, scale));
-            daysAdapter.notifyDataSetChanged();
         });
 
         // cancelling scale also cancels recipe add
         scaleAlertBox.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+
+            }
 
         });
 

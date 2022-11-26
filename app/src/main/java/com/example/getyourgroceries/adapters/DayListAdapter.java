@@ -153,7 +153,6 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements OnFragm
                 alertbox.setView(layout);
                 AlertDialog a = alertbox.create();
                 a.show();
-                Log.d(TAG, "onClick: got to fragment");
                 //Not sure how to get it to reappear after adding ingredient
                 Button addDayRecipe = layout.findViewById(R.id.addMealPlanRecipe);
                 addDayRecipe.setOnClickListener(new View.OnClickListener() {
@@ -167,7 +166,7 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements OnFragm
                         //a.dismiss();
                         a.hide();
                         fm.beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).
-                                replace(R.id.container, recipeChangeHandlerFragment,"ADD_RECIPE").addToBackStack(null).commit();
+                                replace(R.id.container, recipeChangeHandlerFragment,"EDIT_RECIPE").addToBackStack(null).commit();
 
 
                     }

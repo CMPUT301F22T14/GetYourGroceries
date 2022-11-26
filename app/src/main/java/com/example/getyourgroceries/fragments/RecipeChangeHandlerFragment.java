@@ -133,14 +133,15 @@ public class RecipeChangeHandlerFragment extends Fragment implements OnFragmentI
         if (getArguments() != null) {
             if (getArguments().containsKey("dayAdd")) {
                 actionBar.setTitle("Add Recipe to Meal Plan");
+                ingredientList = new ArrayList<>();
             } else if (getArguments().containsKey("editRecipe")) {
                 editRecipe = RecipeStorage.getInstance().getRecipe(getArguments().getInt("editRecipe"));
                 actionBar.setTitle("Edit Recipe");
                 ingredientList = editRecipe.getIngredientList();
-            } else {
-                actionBar.setTitle("Add Recipe");
-                ingredientList = new ArrayList<>();
             }
+        } else {
+            actionBar.setTitle("Add Recipe");
+            ingredientList = new ArrayList<>();
         }
 
         ingredientAdapter = new RecipeIngredientAdapter(requireActivity().getBaseContext(), ingredientList);

@@ -107,39 +107,6 @@ public class MealPlanChangeHandlerFragment extends Fragment implements RecipeCha
         return view;
     }
 
-    public void onSubmitPressed(Recipe recipe, int dayPosition){
-
-        AlertDialog.Builder scaleAlertBox = new AlertDialog.Builder(view.getRootView().getContext());
-        scaleAlertBox.setTitle("Input desired scale (default 1)");
-
-        final EditText input = new EditText(view.getRootView().getContext());
-        input.setInputType(InputType.TYPE_CLASS_NUMBER);
-        scaleAlertBox.setView(input);
-        scaleAlertBox.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-                int scale;
-                try {
-                    scale = Integer.parseInt(String.valueOf(input.getText()));
-                } catch (NumberFormatException e) {
-                    scale = 1;
-                }
-
-                days.get(dayPosition).addRecipe(new ScaledRecipe(recipe, scale));
-                daysAdapter.notifyDataSetChanged();
-            }
-        });
-
-        scaleAlertBox.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
-
-        return view;
-    }
 
     public void onSubmitPressed(Recipe recipe, int dayPosition){
 

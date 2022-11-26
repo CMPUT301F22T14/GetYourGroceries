@@ -10,7 +10,6 @@ import java.util.ArrayList;
  * Create an object to store meal plans.
  */
 public class MealPlanStorage {
-
     // Actual singleton instance
     private static final MealPlanStorage instance = new MealPlanStorage();
 

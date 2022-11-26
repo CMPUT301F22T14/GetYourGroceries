@@ -1,42 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="350dp"
-    android:layout_height="wrap_content"
-    android:padding="10dp"
-    android:layout_margin="20dp"
-    android:orientation="horizontal"
-    android:descendantFocusability="blocksDescendants"
-    android:background="@drawable/meal_plan_item_bg">
+    android:clipToPadding="false"
+    android:paddingBottom="@dimen/cardview_default_elevation"
+    android:paddingTop="@dimen/cardview_default_elevation"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
-    <LinearLayout
-        android:layout_width="278dp"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:layout_margin="3dp"
+        android:theme="@style/Theme.Material3.DayNight"
+        app:cardElevation="2dp"
+        app:strokeWidth="0dp">
 
-        <TextView
-            android:id="@+id/mealPlan_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Bulk Up"
-            android:textColor="@color/black"
-            android:textSize="30sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/mealPlan_next"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Next Meal: Apple Pie"
-            android:textColor="@color/black"
-            android:textSize="12sp" />
+            android:orientation="vertical"
+            android:padding="16dp">
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/mealPlan_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bulk Up"
+                android:textColor="?android:attr/textColorPrimary"
+                android:textSize="25sp"
+                android:textAppearance="?attr/textAppearanceTitleLarge"
+                 />
+
+            <TextView
+                android:id="@+id/mealPlan_numDays"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Days: 0"
+                android:layout_marginTop="8dp"
+                android:textAppearance="?attr/textAppearanceBodyMedium"
+                android:textSize="20sp"
+                android:textColor="?android:attr/textColorSecondary"/>
+
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 
 
 </LinearLayout>

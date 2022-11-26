@@ -29,7 +29,6 @@ import java.util.Objects;
  * Create an object to be the start point of the app.
  */
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
-    // Attributes.
     BottomNavigationView bottomNavigationView;
     IngredientListFragment ingredientListFragment = new IngredientListFragment();
     HomeScreenFragment homeScreenFragment = new com.example.getyourgroceries.HomeScreenFragment();
@@ -53,11 +52,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(this);
         bottomNavigationView.setSelectedItemId(R.id.home_icon);
-
-
-        for (File f: getBaseContext().getCacheDir().listFiles()) {
-            f.delete();
-        }
     }
 
     /**

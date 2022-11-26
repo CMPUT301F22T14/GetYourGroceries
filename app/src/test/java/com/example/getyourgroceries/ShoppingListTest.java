@@ -2,12 +2,9 @@ package com.example.getyourgroceries;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
-
 import com.example.getyourgroceries.entity.Ingredient;
 import com.example.getyourgroceries.entity.ShoppingList;
-
 import org.junit.Test;
-
 import java.util.ArrayList;
 
 public class ShoppingListTest {
@@ -20,6 +17,34 @@ public class ShoppingListTest {
     public ShoppingList MockShoppingList(){
         shoppingList = new ShoppingList("grocery list", new ArrayList<>());
         return shoppingList;
+    }
+
+    /**
+     * Test getting the name of a shopping list.
+     */
+    @Test
+    public void testGetName() {
+        shoppingList = MockShoppingList();
+        assertEquals(shoppingList.getName(), "grocery list");
+    }
+
+    /**
+     * Test editing the name of a shopping list.
+     */
+    @Test
+    public void testEditName() {
+        shoppingList = MockShoppingList();
+        shoppingList.editName("Birthday Party List");
+        assertEquals(shoppingList.getName(), "Birthday Party List");
+    }
+
+    /**
+     * Test getting the list of ingredients of a shopping list.
+     */
+    @Test
+    public void testGetIngredientList() {
+        shoppingList = MockShoppingList();
+        assertEquals(shoppingList.getIngredientList().size(), 0);
     }
 
     /**

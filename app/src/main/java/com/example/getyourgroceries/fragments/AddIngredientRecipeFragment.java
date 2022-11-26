@@ -18,6 +18,7 @@ import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.adapters.DayIngredientListAdapter;
 import com.example.getyourgroceries.adapters.DayListAdapter;
 import com.example.getyourgroceries.entity.Ingredient;
+import com.example.getyourgroceries.interfaces.OnFragmentInteractionListener;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -41,15 +42,6 @@ public class AddIngredientRecipeFragment extends DialogFragment {
     private int index;
     private DayListAdapter dayListAdapter;
     private DayIngredientListAdapter dayIngredientListAdapter;
-
-    /**
-     * Allow callbacks for types.
-     */
-    public interface OnFragmentInteractionListener {
-        void onOkPressed(Ingredient newIngredient);
-        void onItemPressed(Ingredient newIngredient, int index);
-        void onMealOkPressed(Ingredient newIngredient,DayIngredientListAdapter dayIngredientListAdapter);
-    }
 
     /**
      * Constructor for the AddIngredientRecipeFragment class.

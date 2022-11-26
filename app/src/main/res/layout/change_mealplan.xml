@@ -54,6 +54,7 @@
         android:layout_height="wrap_content"
         android:text="Add Day"
         style="@style/Widget.Material3.Button.Icon"
+        android:backgroundTint="@color/primaryLightColor"
         android:textSize="20sp"
         app:icon="@drawable/ic_plus"
         app:layout_constraintEnd_toEndOf="parent"

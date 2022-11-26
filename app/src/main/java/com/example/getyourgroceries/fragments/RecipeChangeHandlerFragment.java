@@ -41,6 +41,7 @@ import com.example.getyourgroceries.adapters.RecipeIngredientAdapter;
 import com.example.getyourgroceries.entity.Ingredient;
 import com.example.getyourgroceries.entity.Recipe;
 import com.example.getyourgroceries.entity.RecipeStorage;
+import com.example.getyourgroceries.interfaces.OnFragmentInteractionListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.CollectionReference;
@@ -60,7 +61,7 @@ import java.util.Objects;
  * Use the  factory method to
  * create an instance of this fragment.
  */
-public class RecipeChangeHandlerFragment extends Fragment implements AddIngredientRecipeFragment.OnFragmentInteractionListener {
+public class RecipeChangeHandlerFragment extends Fragment implements OnFragmentInteractionListener {
     private ArrayList<Ingredient> ingredientList;
     private RecipeIngredientAdapter ingredientAdapter;
     private Recipe editRecipe;

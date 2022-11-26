@@ -22,8 +22,7 @@ public class MealPlanDay {
     /**
      * Empty Constructor
      */
-    public MealPlanDay() {
-    }
+    public MealPlanDay() {}
 
     /**
      * Add a scaled recipe to the meal plan day
@@ -45,11 +44,15 @@ public class MealPlanDay {
         recipeList.remove(recipe);
     }
 
+    /**
+     * Updates the scaled recipe on a meal plan day
+     * @param recipe scaled recipe to update
+     * @param position index in the recipe list
+     */
     public void updateRecipe(ScaledRecipe recipe, int position) {
         recipeList.set(position, recipe);
     }
 
-    
     /**
      * Add an ingredient to a meal plan day.
      *

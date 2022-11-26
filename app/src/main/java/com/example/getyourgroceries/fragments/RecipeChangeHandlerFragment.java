@@ -66,23 +66,20 @@ public class RecipeChangeHandlerFragment extends Fragment implements OnFragmentI
     private ArrayList<Ingredient> ingredientList;
     private RecipeIngredientAdapter ingredientAdapter;
     private Recipe editRecipe;
-    FirebaseStorage storage;
-    StorageReference imageRef;
-    StorageReference newImageRef;
+    private FirebaseStorage storage;
+    private StorageReference imageRef;
+    private StorageReference newImageRef;
     private static final String TAG = "RecipeChangeHandlerFrag";
-    Bitmap myBitmap;
-    ImageView image;
-    boolean gotImage = false;
-
-    Dialog photoDialog;
-
+    private Bitmap myBitmap;
+    private ImageView image;
+    private boolean gotImage = false;
+    private Dialog photoDialog;
 
     /**
      * Fragment constructor to initialize its database class
      */
     public RecipeChangeHandlerFragment() {
         super();
-
     }
 
     /**
@@ -94,8 +91,7 @@ public class RecipeChangeHandlerFragment extends Fragment implements OnFragmentI
      * @return view to display
      */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_recipe_change_handler, container, false);
         Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
@@ -118,14 +114,6 @@ public class RecipeChangeHandlerFragment extends Fragment implements OnFragmentI
         FragmentManager fmManager = requireActivity().getSupportFragmentManager();
 
         ActionBar actionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
-
-        // add recipe to recipe list
-        // add recipe to day
-        // edit recipe
-
-        // add recipe to recipe list
-        // add recipe to day
-        // edit recipe
 
         if (getArguments() != null) {
             if (getArguments().containsKey("dayAdd")) {
@@ -369,7 +357,6 @@ public class RecipeChangeHandlerFragment extends Fragment implements OnFragmentI
     }
 
     public void PhotoPickerDialog() {
-
         storage = FirebaseStorage.getInstance();
 
         photoDialog = new Dialog(getContext());
@@ -450,7 +437,8 @@ public class RecipeChangeHandlerFragment extends Fragment implements OnFragmentI
      * @param dayIngredientListAdapter Adapter
      */
     @Override
-    public void onMealOkPressed(Ingredient newIngredient, DayIngredientListAdapter dayIngredientListAdapter) { // FOR MEAL PLANS
+    public void onMealOkPressed(Ingredient newIngredient, DayIngredientListAdapter dayIngredientListAdapter) {
+        // DO NOT IMPLEMENT, FOR MEAL PLANS
     }
 
 }

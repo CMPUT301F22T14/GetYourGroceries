@@ -15,6 +15,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -44,8 +45,8 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements AddIngr
     private final Context context;
     ListView ingredientListView;
     FragmentManager fm;
-    MealPlanDay day;
     ListView dayIngredientListView;
+    MealPlanDay day;
 //    DayIngredientListAdapter dayIngredientListAdapter;
 
     /**
@@ -86,7 +87,60 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements AddIngr
 
         dayName.setText(day.getTitle());
         Button addIngredient = view.findViewById(R.id.add_ingredient_day);
-        addIngredient.setOnClickListener(view12 -> new AddIngredientRecipeFragment(this,dayIngredientListAdapter).show(fm, "ADD_INGREDIENT_RECIPE"));
+
+        DayListAdapter classAdapter = this;
+
+        addIngredient.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LayoutInflater inflater=(LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View layout = inflater.inflate(R.layout.mealplan_add_ingredient,null);
+                ListView ingredientListView = layout.findViewById(R.id.ingredient_list_meal);
+                ingredientListView.setAdapter(IngredientStorage.getInstance().getMealIngredientAdapter());
+                AlertDialog.Builder alertbox = new AlertDialog.Builder(v.getRootView().getContext());
+                alertbox.setView(layout);
+                AlertDialog a = alertbox.create();
+                a.show();
+                Button addNewIngredient = layout.findViewById(R.id.addMealPlanIngredient);
+                addNewIngredient.setOnClickListener(view12 -> new AddIngredientRecipeFragment(classAdapter, dayIngredientListAdapter).show(fm, "ADD_INGREDIENT_RECIPE"));
+                //Do something to dismiss "a"
+
+
+                ingredientListView.setOnItemClickListener((adapterView, view, i, l) -> {
+                    Ingredient ingredient = (Ingredient) ingredientListView.getItemAtPosition(i);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(view.getRootView().getContext());
+                    builder.setTitle("How much quantity u need dawg?");
+                    // Set up the input
+                    final EditText input = new EditText(getContext());
+                    // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+                    //input.setInputType(InputType.NA | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    builder.setView(input);
+                    // Set up the buttons
+                    builder.setPositiveButton("OK", (dialog, which) -> {
+                        day = days.get(position);
+                        Ingredient newIngredient = new Ingredient(ingredient.getDescription(), Integer.parseInt(input.getText().toString()), ingredient.getUnit(), ingredient.getCategory());
+                        day.addIngredient(newIngredient);
+                        notifyDataSetChanged();
+                    });
+                    builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
+                    builder.show();
+                });
+
+
+
+
+
+
+
+            }
+        });
+
+
+
+
+
+
+
 
         Button addRecipe = view.findViewById(R.id.add_recipe_day);
         addRecipe.setOnClickListener(new View.OnClickListener() {

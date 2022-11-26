@@ -126,6 +126,10 @@ public class RecipeChangeHandlerFragment extends Fragment implements OnFragmentI
         // add recipe to day
         // edit recipe
 
+        // add recipe to recipe list
+        // add recipe to day
+        // edit recipe
+
         if (getArguments() != null) {
             if (getArguments().containsKey("dayAdd")) {
                 actionBar.setTitle("Add Recipe to Meal Plan");

@@ -36,23 +36,23 @@ import com.example.getyourgroceries.entity.MealPlanDay;
 import com.example.getyourgroceries.entity.MealPlanStorage;
 import com.example.getyourgroceries.fragments.AddIngredientRecipeFragment;
 import com.example.getyourgroceries.fragments.IngredientChangeHandlerFragment;
+import com.example.getyourgroceries.interfaces.OnFragmentInteractionListener;
 
 
 import java.util.ArrayList;
 
-public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements AddIngredientRecipeFragment.OnFragmentInteractionListener {
+public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements OnFragmentInteractionListener {
     private final ArrayList<MealPlanDay> days;
     private final Context context;
-    ListView ingredientListView;
     FragmentManager fm;
     ListView dayIngredientListView;
     MealPlanDay day;
-//    DayIngredientListAdapter dayIngredientListAdapter;
 
     /**
      * Class constructor.
+     *
      * @param context Context of the app.
-     * @param days List of meal plans.
+     * @param days    List of meal plans.
      */
     public DayListAdapter(Context context, ArrayList<MealPlanDay> days, FragmentManager fm) {
         super(context, 0, days);
@@ -63,9 +63,10 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements AddIngr
 
     /**
      * Update the view.
-     * @param position Position of the recipe in the list.
+     *
+     * @param position    Position of the recipe in the list.
      * @param convertView The view to convert.
-     * @param parent The parent view.
+     * @param parent      The parent view.
      * @return The updated view.
      */
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -93,8 +94,8 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements AddIngr
         addIngredient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LayoutInflater inflater=(LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                View layout = inflater.inflate(R.layout.mealplan_add_ingredient,null);
+                LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View layout = inflater.inflate(R.layout.mealplan_add_ingredient, null);
                 ListView ingredientListView = layout.findViewById(R.id.ingredient_list_meal);
                 ingredientListView.setAdapter(IngredientStorage.getInstance().getMealIngredientAdapter());
                 AlertDialog.Builder alertbox = new AlertDialog.Builder(v.getRootView().getContext());
@@ -102,18 +103,17 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements AddIngr
                 AlertDialog a = alertbox.create();
                 a.show();
                 Button addNewIngredient = layout.findViewById(R.id.addMealPlanIngredient);
-                addNewIngredient.setOnClickListener(view12 -> new AddIngredientRecipeFragment(classAdapter, dayIngredientListAdapter).show(fm, "ADD_INGREDIENT_RECIPE"));
-                //Do something to dismiss "a"
-
+                addNewIngredient.setOnClickListener(view12 -> {
+                    new AddIngredientRecipeFragment(classAdapter, dayIngredientListAdapter).show(fm, "ADD_INGREDIENT_RECIPE");
+                    a.dismiss();
+                });
 
                 ingredientListView.setOnItemClickListener((adapterView, view, i, l) -> {
                     Ingredient ingredient = (Ingredient) ingredientListView.getItemAtPosition(i);
                     AlertDialog.Builder builder = new AlertDialog.Builder(view.getRootView().getContext());
-                    builder.setTitle("How much quantity u need dawg?");
+                    builder.setTitle("How many do you need?");
                     // Set up the input
                     final EditText input = new EditText(getContext());
-                    // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-                    //input.setInputType(InputType.NA | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                     builder.setView(input);
                     // Set up the buttons
                     builder.setPositiveButton("OK", (dialog, which) -> {
@@ -121,26 +121,13 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements AddIngr
                         Ingredient newIngredient = new Ingredient(ingredient.getDescription(), Integer.parseInt(input.getText().toString()), ingredient.getUnit(), ingredient.getCategory());
                         day.addIngredient(newIngredient);
                         notifyDataSetChanged();
+                        a.dismiss();
                     });
                     builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
                     builder.show();
                 });
-
-
-
-
-
-
-
             }
         });
-
-
-
-
-
-
-
 
         Button addRecipe = view.findViewById(R.id.add_recipe_day);
         addRecipe.setOnClickListener(new View.OnClickListener() {
@@ -161,26 +148,22 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements AddIngr
     @Override
     public void onOkPressed(Ingredient newIngredient) {
         day.addIngredient(newIngredient);
-//        dayIngredientListAdapter.notifyDataSetChanged();
     }
 
     /**
      * Executes when the user hits "ok" on the edit ingredient dialog
+     *
      * @param newIngredient updated ingredient info
-     * @param index position in ingredient list
+     * @param index         position in ingredient list
      */
     @Override
     public void onItemPressed(Ingredient newIngredient, int index) {
-//        ingredientList.set(index, newIngredient);
-//        ingredientAdapter.notifyDataSetChanged();
+        // DO NOT IMPLEMENT
     }
+
     @Override
-    public void onMealOkPressed(Ingredient newIngredient,DayIngredientListAdapter dayIngredientListAdapter) {
+    public void onMealOkPressed(Ingredient newIngredient, DayIngredientListAdapter dayIngredientListAdapter) {
         dayIngredientListAdapter.add(newIngredient);
-//        days.get(position).addIngredient(newIngredient);
         dayIngredientListAdapter.notifyDataSetChanged();
-
     }
-
-
 }

@@ -19,7 +19,8 @@ public class MealPlanTest {
      * Create a mock meal plan for testing.
      */
     public MealPlan mockMealPlan() {
-        mealPlan = new MealPlan("69420", "Bulking Szn");
+        mealPlan = new MealPlan("Bulking Szn");
+        mealPlan.setId("69420");
         return mealPlan;
     }
 

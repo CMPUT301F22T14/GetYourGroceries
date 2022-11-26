@@ -23,6 +23,7 @@ import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.adapters.DayListAdapter;
 import com.example.getyourgroceries.entity.MealPlanDay;
 import com.example.getyourgroceries.entity.Recipe;
+import com.example.getyourgroceries.entity.RecipeStorage;
 import com.example.getyourgroceries.entity.ScaledRecipe;
 import com.example.getyourgroceries.entity.StoredIngredient;
 import com.example.getyourgroceries.interfaces.OnMealPlanFragmentInteractionListener;
@@ -137,6 +138,16 @@ public class MealPlanChangeHandlerFragment extends Fragment implements OnMealPla
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
+                //RecipeStorage recipeStorage = RecipeStorage.getInstance();
+            }
+        });
+
+        scaleAlertBox.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+
+                RecipeStorage recipeStorage = RecipeStorage.getInstance();
+                recipeStorage.deleteRecipe(recipe, true);
             }
         });
 

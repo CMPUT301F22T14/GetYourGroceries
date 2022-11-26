@@ -35,6 +35,10 @@ public class MealPlanDay {
         recipeList.remove(recipe);
     }
 
+    public void updateRecipe(ScaledRecipe recipe, int position) {
+        recipeList.set(position, recipe);
+    }
+
     
     /**
      * Add an ingredient to a meal plan day.

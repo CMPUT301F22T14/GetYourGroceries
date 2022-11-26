@@ -342,7 +342,7 @@ public class RecipeChangeHandlerFragment extends Fragment implements OnFragmentI
                 RecipeStorage.getInstance().addRecipe(newRecipe, true);
 
                 //if it was called from mealPlan page, call the function to add it to actual mealplan
-                if (getArguments().containsKey("dayAdd")){
+                if (getArguments() != null && getArguments().containsKey("dayAdd")){
                     OnMealPlanFragmentInteractionListener frag = (OnMealPlanFragmentInteractionListener) fmManager.findFragmentByTag("MEAL_PLAN_EDIT");
                     frag.onSubmitPressed(newRecipe, getArguments().getInt("dayEdit"));
                 }

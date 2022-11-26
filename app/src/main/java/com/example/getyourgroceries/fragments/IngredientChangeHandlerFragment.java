@@ -8,7 +8,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -32,7 +31,6 @@ import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.entity.IngredientStorage;
 import com.example.getyourgroceries.entity.StoredIngredient;
 import com.google.android.material.datepicker.MaterialDatePicker;
-import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -47,8 +45,6 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
-import java.util.TimeZone;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * The AddIngredientFragment is the class for the add ingredient screen.
@@ -58,6 +54,7 @@ public class IngredientChangeHandlerFragment extends Fragment {
     private DatePickerDialog.OnDateSetListener dateSetListener;
     private StoredIngredient editIngredient = null;
     private static final DecimalFormat df = new DecimalFormat("0.00");
+    private String originalDescription;
 
     /**
      * The AddIngredientFragment constructor.
@@ -111,6 +108,7 @@ public class IngredientChangeHandlerFragment extends Fragment {
         if (getArguments() != null) {
             editIngredient = IngredientStorage.getInstance().getIngredient(getArguments().getInt("editIngredient"));
             assert actionBar != null;
+            originalDescription = editIngredient.getDescription();
             actionBar.setTitle("Edit Ingredient");
         } else {
             assert actionBar != null;
@@ -325,9 +323,11 @@ public class IngredientChangeHandlerFragment extends Fragment {
             if (description.equals("")) {
                 tilDescription.setError("Description cannot be empty!");
                 error = 1;
-            } else if (editIngredient == null && IngredientStorage.getInstance().ingredientExists(description)) {
-                tilDescription.setError("This ingredient already exists!");
-                error = 1;
+            } else if (IngredientStorage.getInstance().ingredientExists(description)) {
+                if((editIngredient == null) || ((editIngredient != null) && (!Objects.equals(originalDescription, description)))) {
+                    tilDescription.setError("This ingredient already exists!");
+                    error = 1;
+                }
             } else {
                 tilDescription.setErrorEnabled(false);
             }

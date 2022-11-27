@@ -422,35 +422,38 @@ public class RecipeFragmentTest {
         // Click category
         AutoCompleteTextView categoryView = (AutoCompleteTextView) solo.getView(R.id.change_recipe_category);
         solo.clearEditText(categoryView);
-        solo.enterText(categoryView, "Lu");
-        solo.clickOnView(categoryView);
-        solo.waitForText("Lunch");
-        solo.clickOnText("Lunch");
+        solo.enterText(categoryView, "Lunch");
 
         solo.enterText((EditText) solo.getView(R.id.change_recipe_comments), "This is a test.");
         assertTrue(solo.waitForText("This is a test.", 1, 2000));
 
         // Add ingredient to recipe
+        solo.scrollToBottom();
+        NestedScrollView scrollView = (NestedScrollView) solo.getView(R.id.change_recipe_layout);
+        scrollView.post(() -> {
+            for(int i = 0; i < 11; i++) {
+                scrollView.arrowScroll(ScrollView.FOCUS_DOWN);
+            }
+        });
         solo.clickOnView(solo.getView(R.id.change_recipe_add_ingredient));
         solo.enterText((EditText) solo.getView(R.id.change_ingredient_description), "Add Ingredient Recipe Test");
         solo.enterText((EditText) solo.getView(R.id.change_ingredient_quantity), "2");
         AutoCompleteTextView ingredientCategoryView = (AutoCompleteTextView) solo.getView(R.id.change_ingredient_category);
         solo.clearEditText(ingredientCategoryView);
-        solo.enterText(ingredientCategoryView, "Fr");
-        solo.clickOnView(ingredientCategoryView);
-        solo.waitForText("Frying");
-        solo.clickOnText("Frying");
+        solo.enterText(ingredientCategoryView, "Frying");
 
         solo.enterText((EditText) solo.getView(R.id.change_ingredient_unit), "1.99");
         solo.clickOnButton("OK");
 
+        solo.sleep(200);
+
         // Scroll to bottom
-        NestedScrollView scrollView = (NestedScrollView) solo.getView(R.id.change_recipe_layout);
         scrollView.post(() -> {
-            scrollView.arrowScroll(ScrollView.FOCUS_DOWN);
-            scrollView.arrowScroll(ScrollView.FOCUS_DOWN);
-            scrollView.arrowScroll(ScrollView.FOCUS_DOWN);
+            for(int i = 0; i < 11; i++) {
+                scrollView.arrowScroll(ScrollView.FOCUS_DOWN);
+            }
         });
+
         solo.sleep(1000);
         solo.clickOnView(solo.getView(R.id.change_recipe_confirm));
 
@@ -517,13 +520,9 @@ public class RecipeFragmentTest {
                 // Scroll to bottom
                 NestedScrollView scrollView = (NestedScrollView) solo.getView(R.id.change_recipe_layout);
                 scrollView.post(() -> {
-                    scrollView.arrowScroll(ScrollView.FOCUS_DOWN);
-                    scrollView.arrowScroll(ScrollView.FOCUS_DOWN);
-                    scrollView.arrowScroll(ScrollView.FOCUS_DOWN);
-                    scrollView.arrowScroll(ScrollView.FOCUS_DOWN);
-                    scrollView.arrowScroll(ScrollView.FOCUS_DOWN);
-                    scrollView.arrowScroll(ScrollView.FOCUS_DOWN);
-                    scrollView.arrowScroll(ScrollView.FOCUS_DOWN);
+                    for(int j = 0; j < 11; j++) {
+                        scrollView.arrowScroll(ScrollView.FOCUS_DOWN);
+                    }
                 });
                 solo.sleep(800);
 

@@ -100,17 +100,11 @@ public class IngredientFragmentTest {
 
         // Click location
         AutoCompleteTextView locationView = (AutoCompleteTextView) solo.getView(R.id.change_ingredient_location);
-        solo.enterText(locationView, "Pan");
-        solo.clickOnView(locationView);
-        solo.waitForText("Pantry");
-        solo.clickOnText("Pantry");
+        solo.enterText(locationView, "Pantry");
 
         // Click Category
         AutoCompleteTextView categoryView = (AutoCompleteTextView) solo.getView(R.id.change_ingredient_category);
-        solo.enterText(categoryView, "Veg");
-        solo.clickOnView(categoryView);
-        solo.waitForText("Vegetables");
-        solo.clickOnText("Vegetables");
+        solo.enterText(categoryView, "Vegetables");
 
         solo.enterText((EditText) solo.getView(R.id.change_ingredient_unit), "0.99");
         assertTrue(solo.waitForText("0.99", 1, 2000));

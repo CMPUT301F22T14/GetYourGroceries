@@ -34,6 +34,12 @@ public class ShoppingListAdapter extends ArrayAdapter<Ingredient> implements OnC
     private static final DecimalFormat df = new DecimalFormat("0.00");
     private FragmentManager fm;
 
+    /**
+     * Constructor
+     * @param context of the fragment
+     * @param ingredients list of ingredients
+     * @param fm fragment manager
+     */
     public ShoppingListAdapter(Context context, ArrayList<Ingredient> ingredients, FragmentManager fm){
         super(context,0, ingredients);
         this.ingredients = ingredients;
@@ -72,10 +78,19 @@ public class ShoppingListAdapter extends ArrayAdapter<Ingredient> implements OnC
         return view;
     }
 
+    /**
+     * Called after user has entered details for "Mark Collected"
+     * @param newIngredient to add to stored ingredients
+     */
     @Override
     public void onSubmitPressed(StoredIngredient newIngredient) {
-        // TODO: add new stored ingredient to ingredient storage, remove ingredient from shopping list
-        Log.d("HEEEEEE", "HI: " + newIngredient.getDescription());
-        IngredientStorage.getInstance().addIngredient(newIngredient, true);
+        // Update amount if ingredient already exists in storage
+        if(IngredientStorage.getInstance().ingredientExists(newIngredient.getDescription())) {
+            StoredIngredient oldIngredient = IngredientStorage.getInstance().getIngredient(newIngredient.getDescription());
+            oldIngredient.setAmount(oldIngredient.getAmount() + newIngredient.getAmount());
+            IngredientStorage.getInstance().updateIngredient(oldIngredient);
+        } else {
+            IngredientStorage.getInstance().addIngredient(newIngredient, true);
+        }
     }
 }

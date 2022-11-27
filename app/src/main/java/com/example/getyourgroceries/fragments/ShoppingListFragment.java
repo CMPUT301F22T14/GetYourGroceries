@@ -29,13 +29,28 @@ import com.google.android.material.materialswitch.MaterialSwitch;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+/**
+ * Fragment representing the shopping list view
+ */
 public class ShoppingListFragment extends Fragment {
     ListView shoppingListView;
     Spinner sortDropDown;
     MaterialSwitch sortingSwitch;
 
-    public ShoppingListFragment() {}
+    /**
+     * Empty constructor
+     */
+    public ShoppingListFragment() {
+    }
 
+    /**
+     * Calls when the view is created
+     *
+     * @param inflater           to inflate the layout
+     * @param container          outer container of the layout
+     * @param savedInstanceState state going into the fragment
+     * @return
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -54,7 +69,7 @@ public class ShoppingListFragment extends Fragment {
         sortAdapter.setDropDownViewResource(R.layout.ingredient_spinner_dropdown);
         sortDropDown.setAdapter(sortAdapter);
 
-        //Sorting
+        // Sorting
         sortDropDown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -82,36 +97,41 @@ public class ShoppingListFragment extends Fragment {
         return view;
     }
 
-    public ArrayList<Ingredient> calculateItems(){
+    /**
+     * Calculates the shopping list
+     *
+     * @return list of ingredients in the shopping list
+     */
+    public ArrayList<Ingredient> calculateItems() {
         ArrayList<Ingredient> calculatedItems = new ArrayList<>();
-        for (MealPlan mealPlan: MealPlanStorage.getInstance().getMealPlanList()){
-            for (MealPlanDay mealPlanDay: mealPlan.getMealPlanDays()){
-                for (Ingredient ingredient : mealPlanDay.getIngredientList()){
+        for (MealPlan mealPlan : MealPlanStorage.getInstance().getMealPlanList()) {
+            for (MealPlanDay mealPlanDay : mealPlan.getMealPlanDays()) {
+                for (Ingredient ingredient : mealPlanDay.getIngredientList()) {
                     // now loop over calculated items and see if matching ingredient is there
                     boolean found = false;
-                    for (Ingredient calcItem : calculatedItems){
-                        if (calcItem.getDescription().equals(ingredient.getDescription())){
+                    for (Ingredient calcItem : calculatedItems) {
+                        if (calcItem.getDescription().equals(ingredient.getDescription())) {
                             calcItem.setAmount(calcItem.getAmount() + ingredient.getAmount());
                             found = true;
                         }
                     }
                     // if not found then add to items
-                    if (!found){
+                    if (!found) {
                         calculatedItems.add(new Ingredient(ingredient.getDescription(), ingredient.getAmount(), ingredient.getUnit(), ingredient.getCategory()));
                     }
                 }
-                for (ScaledRecipe recipe : mealPlanDay.getRecipeList()){
-                    for (Ingredient ingredient : recipe.getRecipe().getIngredientList()){
+                for (ScaledRecipe recipe : mealPlanDay.getRecipeList()) {
+                    for (Ingredient ingredient : recipe.getRecipe().getIngredientList()) {
                         boolean found = false;
-                        for (Ingredient calcItem : calculatedItems){
-                            if (calcItem.getDescription().equals(ingredient.getDescription())){
-                                calcItem.setAmount(calcItem.getAmount() + (ingredient.getAmount())*recipe.getScale());
+                        for (Ingredient calcItem : calculatedItems) {
+                            if (calcItem.getDescription().equals(ingredient.getDescription())) {
+                                calcItem.setAmount(calcItem.getAmount() + (ingredient.getAmount()) * recipe.getScale());
                                 found = true;
                             }
                         }
                         // if not found then add to items
-                        if (!found){
-                            calculatedItems.add(new Ingredient(ingredient.getDescription(), ingredient.getAmount()*recipe.getScale(), ingredient.getUnit(), ingredient.getCategory()));
+                        if (!found) {
+                            calculatedItems.add(new Ingredient(ingredient.getDescription(), ingredient.getAmount() * recipe.getScale(), ingredient.getUnit(), ingredient.getCategory()));
                         }
                     }
                 }
@@ -120,12 +140,12 @@ public class ShoppingListFragment extends Fragment {
 
 
         Iterator<Ingredient> itr = calculatedItems.iterator();
-        while (itr.hasNext()){
+        while (itr.hasNext()) {
             Ingredient ingredient = itr.next();
-            for (StoredIngredient storedIngredient: IngredientStorage.getInstance().getIngredientList()){
-                if (ingredient.getDescription().equals(storedIngredient.getDescription())){
+            for (StoredIngredient storedIngredient : IngredientStorage.getInstance().getIngredientList()) {
+                if (ingredient.getDescription().equals(storedIngredient.getDescription())) {
                     int res = ingredient.getAmount() - storedIngredient.getAmount();
-                    if (res < 0)
+                    if (res <= 0)
                         itr.remove();
                     else
                         ingredient.setAmount(res);

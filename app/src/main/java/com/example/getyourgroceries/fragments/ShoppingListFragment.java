@@ -40,7 +40,7 @@ public class ShoppingListFragment extends Fragment {
         actionBar.setTitle("Shopping List");
         shoppingListView = view.findViewById(R.id.shoppingListView);
         ArrayList<Ingredient> shoppingItems = new ArrayList<>();
-        ArrayAdapter<Ingredient> adapter = new ShoppingListAdapter(requireActivity().getBaseContext(), shoppingItems);
+        ArrayAdapter<Ingredient> adapter = new ShoppingListAdapter(requireActivity().getBaseContext(), shoppingItems, requireActivity().getSupportFragmentManager());
         shoppingListView.setAdapter(adapter);
 
         sorting_switch = view.findViewById(R.id.sorting_switch_shoppinglist);

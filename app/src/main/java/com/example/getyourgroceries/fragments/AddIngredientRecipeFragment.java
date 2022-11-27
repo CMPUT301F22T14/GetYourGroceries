@@ -77,8 +77,6 @@ public class AddIngredientRecipeFragment extends DialogFragment {
         this.dayIngredientListAdapter = dayIngredientListAdapter;
     }
 
-
-
     /**
      * Call when a fragment gets attached to its context.
      * @param context The context of the fragment.
@@ -182,8 +180,6 @@ public class AddIngredientRecipeFragment extends DialogFragment {
             amount.setText(ingredient.getAmount().toString());
             unit.setText(ingredient.getUnit().toString());
         }
-
-
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 

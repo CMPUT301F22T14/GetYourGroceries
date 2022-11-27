@@ -99,17 +99,6 @@ public class MealPlanChangeHandlerFragment extends Fragment implements OnMealPla
 
         addDay.setOnClickListener(v -> {
             daysAdapter.add(new MealPlanDay("Day " + (daysAdapter.getCount() + 1)));
-//            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-//            builder.setTitle("Add new day");
-//
-//            // Set up the input
-//            final EditText input = new EditText(getContext());
-//            builder.setView(input);
-//
-//            // Set up the buttons
-//            builder.setPositiveButton("OK", (dialog, which) -> daysAdapter.add(new MealPlanDay(input.getText().toString())));
-//            builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
-//            builder.show();
         });
 
         confirm.setOnClickListener(v -> {

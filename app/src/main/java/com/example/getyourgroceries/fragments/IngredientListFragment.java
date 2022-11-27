@@ -106,12 +106,14 @@ public class IngredientListFragment extends Fragment {
         sortDropDown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // sort descending order
                 boolean desc = sortingSwitch.isChecked();
                 IngredientStorage.getInstance().sortByCategory(position, desc);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+                // sort ascending order
                 IngredientStorage.getInstance().sortByCategory(0, false);
             }
         });

@@ -54,26 +54,35 @@ public class ShoppingListFragment extends Fragment {
         sortAdapter.setDropDownViewResource(R.layout.ingredient_spinner_dropdown);
         sortDropDown.setAdapter(sortAdapter);
 
-        //Sorting
+
+        // Sorting functionality by ingredient category and ingredient description
         sortDropDown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 boolean desc = sortingSwitch.isChecked();
                 // TODO: sort based on desc variable
+                IngredientStorage.getInstance().sortByCategory(position, desc);
+
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 // TODO: sort as ascending
+                IngredientStorage.getInstance().sortByCategory(0, false);
+
             }
         });
 
         sortingSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             String type = sortDropDown.getSelectedItem().toString();
-            if (type.equals("Description")) {
-                // TODO: sort based on description
-            } else if (type.equals("Category")) {
-                // TODO: sort based on category
+            switch(type){
+                case("Description"):
+                    // TODO: sort based on ingredient description
+                    IngredientStorage.getInstance().sortByCategory(0, isChecked);
+                    break;
+                case("Category"):
+                    // TODO: sort based on ingredient category
+                    IngredientStorage.getInstance().sortByCategory(3, isChecked);
             }
         });
 

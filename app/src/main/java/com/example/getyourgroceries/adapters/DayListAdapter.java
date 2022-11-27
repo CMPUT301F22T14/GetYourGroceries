@@ -74,22 +74,25 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements OnFragm
         }
 
         day = days.get(position);
+
         TextView dayName = view.findViewById(R.id.day_title);
+
         dayIngredientListView = view.findViewById(R.id.day_ingredient_list);
         DayIngredientListAdapter dayIngredientListAdapter = new DayIngredientListAdapter(context, day.getIngredientList());
         dayIngredientListView.setAdapter(dayIngredientListAdapter);
+
         recipeListview = view.findViewById(R.id.day_recipe_list);
         DayRecipeListAdapter dayRecipeListAdapter = new DayRecipeListAdapter(context, day.getRecipeList());
         recipeListview.setAdapter(dayRecipeListAdapter);
-        ViewCompat.setNestedScrollingEnabled(dayIngredientListView, true);
-        ViewCompat.setNestedScrollingEnabled(recipeListview, true);
+
+        dayIngredientListView.setNestedScrollingEnabled(true);
+        recipeListview.setNestedScrollingEnabled(true);
 
         dayName.setText(day.getTitle());
         Button addIngredient = view.findViewById(R.id.add_ingredient_day);
 
         DayListAdapter classAdapter = this;
         dayIngredientListView.setOnItemClickListener((adapterView, view12, i, l) -> new AddIngredientRecipeFragment(days, i,position,classAdapter, dayIngredientListAdapter).show(fm, "EDIT_INGREDIENT_RECIPE"));
-
 
         // Long press to delete ingredient
         dayIngredientListView.setOnItemLongClickListener((adapterView, view2, i, l) -> {
@@ -125,6 +128,7 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements OnFragm
             return true;
         });
 
+        // Add New Ingredient
         addIngredient.setOnClickListener(v -> {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View layout = inflater.inflate(R.layout.mealplan_add_ingredient, null);
@@ -160,6 +164,7 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements OnFragm
             });
         });
 
+        // Add new recipe
         Button addRecipe = view.findViewById(R.id.add_recipe_day);
         addRecipe.setOnClickListener(v -> {
             LayoutInflater inflater=(LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -179,7 +184,6 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements OnFragm
 
                 RecipeChangeHandlerFragment recipeChangeHandlerFragment = new RecipeChangeHandlerFragment();
                 recipeChangeHandlerFragment.setArguments(bundle);
-                //a.dismiss();
                 a.hide();
                 fm.beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).
                         replace(R.id.container, recipeChangeHandlerFragment,"EDIT_RECIPE").addToBackStack(null).commit();

@@ -37,7 +37,7 @@
         <ListView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:paddingVertical="10dp"
+            android:paddingVertical="20dp"
             android:id="@+id/day_list"
             android:divider="@drawable/space_divider"
             android:layout_marginHorizontal="10dp"

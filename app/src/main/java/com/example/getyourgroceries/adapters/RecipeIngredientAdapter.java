@@ -51,7 +51,7 @@ public class RecipeIngredientAdapter extends ArrayAdapter<Ingredient> {
         ((TextView)view.findViewById(R.id.recipe_ingredient_name)).setText(ingredient.getDescription());
         ((TextView)view.findViewById(R.id.recipe_ingredient_qty)).setText(String.valueOf(ingredient.getAmount()));
         ((TextView)view.findViewById(R.id.recipe_ingredient_category)).setText(ingredient.getCategory());
-        ((TextView)view.findViewById(R.id.recipe_ingredient_unit)).setText("$"+ df.format(ingredient.getUnit()));
+        ((TextView)view.findViewById(R.id.recipe_ingredient_unit)).setText(df.format(ingredient.getUnit()));
         return view;
     }
 }

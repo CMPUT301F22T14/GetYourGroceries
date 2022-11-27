@@ -10,4 +10,5 @@ public interface OnFragmentInteractionListener {
     void onOkPressed(Ingredient newIngredient);
     void onItemPressed(Ingredient newIngredient, int index);
     void onMealOkPressed(Ingredient newIngredient, DayIngredientListAdapter dayIngredientListAdapter);
+    void onMealItemPressed(Ingredient newIngredient,int index,int position,DayIngredientListAdapter dayIngredientListAdapter);
 }

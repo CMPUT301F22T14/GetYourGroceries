@@ -440,5 +440,15 @@ public class RecipeChangeHandlerFragment extends Fragment implements OnFragmentI
     public void onMealOkPressed(Ingredient newIngredient, DayIngredientListAdapter dayIngredientListAdapter) {
         // DO NOT IMPLEMENT, FOR MEAL PLANS
     }
+    /**
+     * Executes when the user hits "ok" on the edit ingredient dialog
+     * @param newIngredient updated ingredient info
+     * @param dayIngredientListAdapter Adapter
+     */
+    @Override
+    public void onMealItemPressed(Ingredient newIngredient, int index, int position,DayIngredientListAdapter dayIngredientListAdapter) {
+        // DO NOT IMPLEMENT, FOR MEAL PLANS
+    }
+
 
 }

@@ -88,6 +88,8 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements OnFragm
         Button addIngredient = view.findViewById(R.id.add_ingredient_day);
 
         DayListAdapter classAdapter = this;
+        dayIngredientListView.setOnItemClickListener((adapterView, view12, i, l) -> new AddIngredientRecipeFragment(days, i,position,classAdapter, dayIngredientListAdapter).show(fm, "EDIT_INGREDIENT_RECIPE"));
+
 
         // Long press to delete ingredient
         dayIngredientListView.setOnItemLongClickListener((adapterView, view2, i, l) -> {
@@ -275,6 +277,11 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements OnFragm
     @Override
     public void onMealOkPressed(Ingredient newIngredient, DayIngredientListAdapter dayIngredientListAdapter) {
         dayIngredientListAdapter.add(newIngredient);
+        dayIngredientListAdapter.notifyDataSetChanged();
+    }
+    @Override
+    public void onMealItemPressed(Ingredient newIngredient,int index,int position, DayIngredientListAdapter dayIngredientListAdapter) {
+        days.get(position).getIngredientList().set(index,newIngredient);
         dayIngredientListAdapter.notifyDataSetChanged();
     }
 }

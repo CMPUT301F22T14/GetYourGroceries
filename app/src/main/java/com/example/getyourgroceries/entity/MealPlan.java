@@ -83,4 +83,9 @@ public class MealPlan {
     public ArrayList<MealPlanDay> getMealPlanDays() {
         return mealPlanDays;
     }
+
+
+    public void setMealPlanDays(ArrayList<MealPlanDay> days){
+        this.mealPlanDays = days;
+    }
 }

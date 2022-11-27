@@ -33,6 +33,7 @@ import com.example.getyourgroceries.entity.ScaledRecipe;
 import com.example.getyourgroceries.interfaces.OnMealPlanFragmentInteractionListener;
 import com.google.android.material.datepicker.MaterialTextInputPicker;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textview.MaterialTextView;
 
 import java.util.ArrayList;
@@ -80,7 +81,8 @@ public class MealPlanChangeHandlerFragment extends Fragment implements OnMealPla
             editMealPlan = MealPlanStorage.getInstance().getMealPlan(getArguments().getInt("editMealPlan"));
             assert actionBar != null;
             actionBar.setTitle("Edit Meal Plan");
-            //SET TITLE
+            EditText mealPlanName = view.findViewById(R.id.change_mealplan_title);
+            mealPlanName.setText(editMealPlan.getName());
             days = editMealPlan.getMealPlanDays();
         } else {
             assert actionBar != null;
@@ -111,13 +113,15 @@ public class MealPlanChangeHandlerFragment extends Fragment implements OnMealPla
             //Check title is not empty
             EditText mealPlanName = requireActivity().findViewById(R.id.change_mealplan_title);
             String name = mealPlanName.getText().toString();
+            TextInputLayout tilDescription = requireActivity().findViewById(R.id.change_mealplan_title_til);
             if (name.equals("")){
-
+                tilDescription.setError("Title Cannot be Empty!");
+                return;
             }
-
-
-            if (editMealPlan != null){
-                //EDIT MODE***********************
+            else if (editMealPlan != null){
+                editMealPlan.setName(name);
+                editMealPlan.setMealPlanDays(days);
+                MealPlanStorage.getInstance().updateMealPlan(editMealPlan);
             }
             else{
                 MealPlan newMealPlan = new MealPlan(name,days);

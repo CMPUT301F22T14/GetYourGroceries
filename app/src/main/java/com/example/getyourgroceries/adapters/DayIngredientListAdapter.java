@@ -41,17 +41,17 @@ public class DayIngredientListAdapter extends ArrayAdapter<Ingredient> {
      * @return The updated view.
      */
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-
         //Create the view if it doesn't exist
         View view = convertView;
         if (view == null) {
             view = LayoutInflater.from(context).inflate(R.layout.recipe_ingredient_item, parent, false);
         }
+
         Ingredient ingredient = ingredients.get(position);
         ((TextView)view.findViewById(R.id.recipe_ingredient_name)).setText(ingredient.getDescription());
         ((TextView)view.findViewById(R.id.recipe_ingredient_qty)).setText(String.valueOf(ingredient.getAmount()));
         ((TextView)view.findViewById(R.id.recipe_ingredient_category)).setText(ingredient.getCategory());
-        ((TextView)view.findViewById(R.id.recipe_ingredient_unit)).setText("Unit Cost: $"+ df.format(ingredient.getUnit()));
+        ((TextView)view.findViewById(R.id.recipe_ingredient_unit)).setText(df.format(ingredient.getUnit()));
 
         return view;
     }

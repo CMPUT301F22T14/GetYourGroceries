@@ -38,7 +38,6 @@ public class ShoppingListAdapter extends ArrayAdapter<Ingredient> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-
         // Create the view if it doesn't exist.
         View view = convertView;
         if(view == null){
@@ -48,9 +47,9 @@ public class ShoppingListAdapter extends ArrayAdapter<Ingredient> {
         // Show the ingredient.
         Ingredient ingredient = ingredients.get(position);
         ((TextView)view.findViewById(R.id.shoppingItemTitle)).setText(ingredient.getDescription());
-        ((TextView)view.findViewById(R.id.shoppingItemAmount)).setText("Qty: "+ ingredient.getAmount());
+        ((TextView)view.findViewById(R.id.shoppingItemAmount)).setText(String.valueOf(ingredient.getAmount()));
         ((TextView)view.findViewById(R.id.shoppingItemCategory)).setText(ingredient.getCategory());
-        ((TextView)view.findViewById(R.id.shoppingItemPrice)).setText("$"+ df.format(ingredient.getUnit()));
+        ((TextView)view.findViewById(R.id.shoppingItemPrice)).setText(df.format(ingredient.getUnit()));
         return view;
     }
 }

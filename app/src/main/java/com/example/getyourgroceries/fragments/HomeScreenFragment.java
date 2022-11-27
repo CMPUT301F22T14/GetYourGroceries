@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.getyourgroceries.entity.IngredientStorage;
 import com.example.getyourgroceries.fragments.MainBottomSheet;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 

@@ -187,8 +187,9 @@ public class ShoppingListFragment extends Fragment implements OnCollectIngredien
         } else {
             IngredientStorage.getInstance().addIngredient(newIngredient, true);
         }
-
+        adapter.clear();
         shoppingItems = calculateItems();
+        adapter.addAll(shoppingItems);
         adapter.notifyDataSetChanged();
     }
 }

@@ -54,11 +54,11 @@ public class MealPlanStorage {
      * @param toDB determines whether or not to add to database
      */
     public void addMealPlan(MealPlan plan, boolean toDB) {
+        if(toDB) {
+            plan.setId(mealPlanDB.addMealPlan(plan));
+        }
         mealPlanAdapter.add(plan);
 
-        if(toDB) {
-            mealPlanDB.addMealPlan(plan);
-        }
         mealPlanAdapter.notifyDataSetChanged();
     }
 

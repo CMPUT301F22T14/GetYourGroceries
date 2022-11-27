@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -387,13 +388,16 @@ public class RecipeChangeHandlerFragment extends Fragment implements OnFragmentI
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == 100 || requestCode == 3) {
-            if (resultCode == Activity.RESULT_OK) {
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == 100) {
                 assert data != null;
                 myBitmap = (Bitmap) data.getExtras().get("data");
                 image.setImageBitmap(myBitmap);
-            }  // do nothing
-
+            } else if (requestCode == 3) {
+                assert data != null;
+                Uri uri = data.getData();
+                image.setImageURI(uri);
+            }
         }
     }
 

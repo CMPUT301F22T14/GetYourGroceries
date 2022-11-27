@@ -118,6 +118,44 @@ public class MealPlanFragmentTest {
         });
     }
 
+    /**
+     * Tests updating the scale of a recipe in a meal plan (US 3.02.01).
+     * @throws Throwable Exception for running delete on the UI thread.
+     */
+    @Test
+    public void testScaleMealPlan() throws Throwable {
+
+        /* Add a meal plan with a recipe. */
+        ArrayList<MealPlanDay> mealPlanDays = new ArrayList<>();
+        mealPlanDays.add(new MealPlanDay("Day 1"));
+        ScaledRecipe scaledRecipe = new ScaledRecipe(new Recipe("Pasta", 20, 2, "Dinner", "", ""), 1);
+        mealPlanDays.get(0).addRecipe(scaledRecipe);
+        MealPlan mealPlan = new MealPlan("Cheat Day", mealPlanDays);
+        MealPlanStorage.getInstance().addMealPlan(mealPlan, true);
+
+        /* Test for the existence of the added recipe. */
+        solo.clickOnView(((BottomNavigationItemView) solo.getView(R.id.meal_icon)).getChildAt(1));
+        assertTrue(solo.waitForText("Cheat Day", 1, 2000));
+        solo.clickOnText("Cheat Day");
+        solo.waitForText("Pasta", 1, 2000);
+        solo.waitForText("1x", 1, 2000);
+        solo.goBack();
+
+        /* Change the scale of the recipe. */
+        scaledRecipe.setScale(69);
+        mealPlan.getMealPlanDays().get(0).updateRecipe(scaledRecipe, 0);
+        MealPlanStorage.getInstance().updateMealPlan(mealPlan);
+
+        /* Check if the scale changed correctly. */
+        solo.clickOnText("Cheat Day");
+        solo.waitForText("69x", 1, 2000);
+
+        /* Delete the added meal plan. */
+        runOnUiThread(() -> {
+            MealPlanStorage.getInstance().deleteMealPlan(mealPlan, true);
+        });
+    }
+
     @After
     public void tearDown() throws Exception {
         solo.finishOpenedActivities();

@@ -65,6 +65,8 @@ public class MealPlanDB {
                 .add(plan)
                 .addOnSuccessListener(documentReference -> {
                     id[0] = documentReference.getId();
+                    plan.setId(id[0]);
+                    mealPlanCollection.document(id[0]).update("id", id[0]);
                     Log.d(TAG, "Added Meal Plan to db");
                 })
                 .addOnFailureListener(e -> Log.w(TAG, "Error adding meal plan", e));

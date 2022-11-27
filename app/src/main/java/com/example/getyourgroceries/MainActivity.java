@@ -11,18 +11,15 @@ import android.view.MenuItem;
 import com.example.getyourgroceries.entity.IngredientStorage;
 import com.example.getyourgroceries.entity.MealPlanStorage;
 import com.example.getyourgroceries.entity.RecipeStorage;
-import com.example.getyourgroceries.fragments.MainBottomSheet;
+import com.example.getyourgroceries.fragments.HomeScreenFragment;
 import com.example.getyourgroceries.fragments.RecipeListFragment;
 
 import com.example.getyourgroceries.fragments.IngredientListFragment;
-import com.example.getyourgroceries.fragments.RecipeListFragment;
-import com.example.getyourgroceries.HomeScreenFragment;
 import com.example.getyourgroceries.fragments.MealPlansFragment;
 import com.example.getyourgroceries.fragments.ShoppingListFragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.io.File;
 import java.util.Objects;
 
 /**
@@ -31,7 +28,7 @@ import java.util.Objects;
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
     BottomNavigationView bottomNavigationView;
     IngredientListFragment ingredientListFragment = new IngredientListFragment();
-    HomeScreenFragment homeScreenFragment = new com.example.getyourgroceries.HomeScreenFragment();
+    HomeScreenFragment homeScreenFragment = new HomeScreenFragment();
     RecipeListFragment recipeListFragment = new RecipeListFragment();
     MealPlansFragment mealPlansFragment = new com.example.getyourgroceries.fragments.MealPlansFragment();
     ShoppingListFragment shoppingListFragment = new com.example.getyourgroceries.fragments.ShoppingListFragment();

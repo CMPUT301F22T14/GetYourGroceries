@@ -55,7 +55,7 @@
                         android:layout_gravity="right"
                         style="?attr/materialCardViewElevatedStyle"
                         app:cardBackgroundColor="@color/primaryLightColor"
-                        app:cardCornerRadius="20dp">
+                        app:cardCornerRadius="10dp">
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -94,7 +94,7 @@
                         android:layout_gravity="right"
                         style="?attr/materialCardViewElevatedStyle"
                         app:cardBackgroundColor="@color/primaryLightColor"
-                        app:cardCornerRadius="20dp">
+                        app:cardCornerRadius="10dp">
 
                         <LinearLayout
                             android:layout_width="wrap_content"

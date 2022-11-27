@@ -40,7 +40,6 @@ public class RecipeIngredientAdapter extends ArrayAdapter<Ingredient> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-
         // Create the view if it doesn't exist.
         View view = convertView;
         if(view == null){
@@ -50,9 +49,9 @@ public class RecipeIngredientAdapter extends ArrayAdapter<Ingredient> {
         // Show the ingredient.
         Ingredient ingredient = ingredients.get(position);
         ((TextView)view.findViewById(R.id.recipe_ingredient_name)).setText(ingredient.getDescription());
-        ((TextView)view.findViewById(R.id.recipe_ingredient_qty)).setText("Quantity: "+ ingredient.getAmount());
-        ((TextView)view.findViewById(R.id.recipe_ingredient_category)).setText("Category: "+ ingredient.getCategory());
-        ((TextView)view.findViewById(R.id.recipe_ingredient_unit)).setText("$"+ df.format(ingredient.getUnit()));
+        ((TextView)view.findViewById(R.id.recipe_ingredient_qty)).setText(String.valueOf(ingredient.getAmount()));
+        ((TextView)view.findViewById(R.id.recipe_ingredient_category)).setText(ingredient.getCategory());
+        ((TextView)view.findViewById(R.id.recipe_ingredient_unit)).setText(df.format(ingredient.getUnit()));
         return view;
     }
 }

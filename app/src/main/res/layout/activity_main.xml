@@ -11,6 +11,7 @@
     app:layout_constraintStart_toEndOf="@+id/textView2"
     tools:context=".MainActivity">
 
+
     <!--<FrameLayout
         android:id="@+id/flFragment"
         android:layout_width="match_parent"
@@ -22,9 +23,10 @@
         app:layout_constraintTop_toTopOf="parent" />-->
 
 
+
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/container"
-        android:name="com.example.getyourgroceries.HomeScreenFragment"
+        android:name="com.example.getyourgroceries.fragments.HomeScreenFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
@@ -35,6 +37,7 @@
         app:layout_constraintVertical_bias="0.0"
         tools:layout="@layout/fragment_home_screen" />
 
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"
@@ -44,32 +47,5 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/bottom_nav_menu" />
-
-
-
-
-    <!--<TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="16dp"
-        android:text="Welcome"
-        android:textSize="48sp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="100dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></LinearLayout>-->
 
 </androidx.constraintlayout.motion.widget.MotionLayout>

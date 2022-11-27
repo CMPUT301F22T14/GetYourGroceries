@@ -20,6 +20,12 @@ public class MealPlan {
         this.mealPlanDays = new ArrayList<>();
     }
 
+    public MealPlan(String mealPlanName, ArrayList<MealPlanDay> mealPlanDays){
+        this.mealPlanName = mealPlanName;
+        this.mealPlanDays = mealPlanDays;
+    }
+
+
     /**
      * Get the meal plan's ID.
      * @return The meal plan's ID.

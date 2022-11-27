@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -90,6 +91,7 @@ public class MealPlanChangeHandlerFragment extends Fragment implements OnMealPla
         daysAdapter = new DayListAdapter(requireActivity().getBaseContext(), days,requireActivity().getSupportFragmentManager());
         dayListView.setAdapter(daysAdapter);
         Button addDay = view.findViewById(R.id.add_day);
+        Button confirm = view.findViewById(R.id.change_mealplan_confirm);
         addDay.setOnClickListener(v -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
             builder.setTitle("Add new day");
@@ -102,6 +104,19 @@ public class MealPlanChangeHandlerFragment extends Fragment implements OnMealPla
             builder.setPositiveButton("OK", (dialog, which) -> daysAdapter.add(new MealPlanDay(input.getText().toString())));
             builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
             builder.show();
+        });
+
+        confirm.setOnClickListener(v -> {
+            EditText mealPlanName = requireActivity().findViewById(R.id.change_mealplan_title);
+            String name = mealPlanName.getText().toString();
+            if (editMealPlan != null){
+                //EDIT MODE***********************
+            }
+            else{
+                MealPlan newMealPlan = new MealPlan(name,days);
+                MealPlanStorage.getInstance().addMealPlan(newMealPlan,true);
+            }
+            requireActivity().getSupportFragmentManager().popBackStack();
         });
 
         return view;

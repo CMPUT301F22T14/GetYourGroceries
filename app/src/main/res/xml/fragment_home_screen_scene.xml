@@ -33,10 +33,10 @@
             android:layout_width="wrap_content"
             android:id="@+id/home_description"
             motion:layout_constraintTop_toBottomOf="@+id/imageView3"
-            android:layout_marginTop="44dp"
-            android:scaleX="1"
+            android:layout_marginTop="36dp"
+            android:scaleX="0"
             android:visibility="invisible"
-            android:scaleY="1"
+            android:scaleY="0"
             motion:layout_constraintHorizontal_bias="0.498" />
         <Constraint
             android:layout_height="200dp"
@@ -55,19 +55,20 @@
             android:layout_width="wrap_content"
             android:id="@+id/textView"
             android:visibility="invisible"
-            android:scaleX="1"
+            android:scaleX="0"
             motion:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginBottom="172dp"
             motion:layout_constraintHorizontal_bias="0.498"
-            android:scaleY="1" />
+            android:scaleY="0" />
         <Constraint
             android:layout_height="wrap_content"
             motion:layout_constraintStart_toStartOf="parent"
             motion:layout_constraintHorizontal_bias="0.498"
             motion:layout_constraintEnd_toEndOf="parent"
             android:layout_width="wrap_content"
-            motion:layout_constraintTop_toBottomOf="@+id/home_logoimage"
-            android:id="@+id/home_description" />
+            motion:layout_constraintTop_toBottomOf="@+id/imageView3"
+            android:id="@+id/home_description"
+            android:layout_marginTop="44dp" />
         <Constraint
             android:layout_height="wrap_content"
             motion:layout_constraintBottom_toBottomOf="parent"
@@ -79,7 +80,7 @@
             motion:layout_constraintVertical_bias="0.809"
             motion:layout_constraintHorizontal_bias="0.498" />
         <Constraint
-            motion:layout_constraintVertical_bias="0.351"
+            motion:layout_constraintVertical_bias="0.456"
             android:layout_height="wrap_content"
             motion:layout_constraintStart_toStartOf="parent"
             motion:layout_constraintBottom_toBottomOf="parent"
@@ -140,5 +141,16 @@
             android:scaleX="1"
             motion:layout_constraintTop_toBottomOf="@+id/home_description"
             android:layout_marginTop="84dp" />
+        <Constraint
+            android:layout_height="wrap_content"
+            motion:layout_constraintStart_toStartOf="parent"
+            android:layout_marginBottom="0dp"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintHorizontal_bias="0.498"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="wrap_content"
+            motion:layout_constraintTop_toBottomOf="@+id/home_description"
+            android:id="@+id/quickadd_button"
+            motion:layout_constraintVertical_bias="0.456" />
     </ConstraintSet>
 </MotionScene>

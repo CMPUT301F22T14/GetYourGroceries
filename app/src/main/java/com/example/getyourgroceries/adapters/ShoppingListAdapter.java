@@ -28,7 +28,7 @@ import java.util.ArrayList;
 /**
  * Create an object to represent the list of ingredients.
  */
-public class ShoppingListAdapter extends ArrayAdapter<Ingredient> implements OnCollectIngredientFragmentInteractionListener {
+public class ShoppingListAdapter extends ArrayAdapter<Ingredient>  {
     private final ArrayList<Ingredient> ingredients;
     private final Context context;
     private static final DecimalFormat df = new DecimalFormat("0.00");
@@ -72,7 +72,7 @@ public class ShoppingListAdapter extends ArrayAdapter<Ingredient> implements OnC
 
         Button collectBtn = view.findViewById(R.id.collect_ingredient);
         collectBtn.setOnClickListener(v -> {
-            new CollectIngredientFragment(this, ingredient).show(fm, "COLLECT_INGREDIENT");
+            new CollectIngredientFragment(ingredient).show(fm, "COLLECT_INGREDIENT");
         });
 
         return view;
@@ -81,16 +81,16 @@ public class ShoppingListAdapter extends ArrayAdapter<Ingredient> implements OnC
     /**
      * Called after user has entered details for "Mark Collected"
      * @param newIngredient to add to stored ingredients
-     */
-    @Override
-    public void onSubmitPressed(StoredIngredient newIngredient) {
-        // Update amount if ingredient already exists in storage
-        if(IngredientStorage.getInstance().ingredientExists(newIngredient.getDescription())) {
-            StoredIngredient oldIngredient = IngredientStorage.getInstance().getIngredient(newIngredient.getDescription());
-            oldIngredient.setAmount(oldIngredient.getAmount() + newIngredient.getAmount());
-            IngredientStorage.getInstance().updateIngredient(oldIngredient);
-        } else {
-            IngredientStorage.getInstance().addIngredient(newIngredient, true);
-        }
-    }
+//     */
+//    @Override
+//    public void onSubmitPressed(StoredIngredient newIngredient) {
+//        // Update amount if ingredient already exists in storage
+//        if(IngredientStorage.getInstance().ingredientExists(newIngredient.getDescription())) {
+//            StoredIngredient oldIngredient = IngredientStorage.getInstance().getIngredient(newIngredient.getDescription());
+//            oldIngredient.setAmount(oldIngredient.getAmount() + newIngredient.getAmount());
+//            IngredientStorage.getInstance().updateIngredient(oldIngredient);
+//        } else {
+//            IngredientStorage.getInstance().addIngredient(newIngredient, true);
+//        }
+//    }
 }

@@ -1,6 +1,9 @@
 package com.example.getyourgroceries.fragments;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +27,7 @@ import com.example.getyourgroceries.entity.MealPlanDay;
 import com.example.getyourgroceries.entity.MealPlanStorage;
 import com.example.getyourgroceries.entity.ScaledRecipe;
 import com.example.getyourgroceries.entity.StoredIngredient;
+import com.example.getyourgroceries.interfaces.OnCollectIngredientFragmentInteractionListener;
 import com.google.android.material.materialswitch.MaterialSwitch;
 
 import java.util.ArrayList;
@@ -32,10 +36,12 @@ import java.util.Iterator;
 /**
  * Fragment representing the shopping list view
  */
-public class ShoppingListFragment extends Fragment {
+public class ShoppingListFragment extends Fragment implements OnCollectIngredientFragmentInteractionListener {
     ListView shoppingListView;
     Spinner sortDropDown;
     MaterialSwitch sortingSwitch;
+    ArrayList<Ingredient> shoppingItems;
+    ArrayAdapter<Ingredient> adapter;
 
     /**
      * Empty constructor
@@ -59,8 +65,8 @@ public class ShoppingListFragment extends Fragment {
 
         actionBar.setTitle("Shopping List");
         shoppingListView = view.findViewById(R.id.shoppingListView);
-        ArrayList<Ingredient> shoppingItems = calculateItems();
-        ArrayAdapter<Ingredient> adapter = new ShoppingListAdapter(requireActivity().getBaseContext(), shoppingItems, requireActivity().getSupportFragmentManager());
+        shoppingItems = calculateItems();
+        adapter = new ShoppingListAdapter(requireActivity().getBaseContext(), shoppingItems, requireActivity().getSupportFragmentManager());
         shoppingListView.setAdapter(adapter);
 
         sortingSwitch = view.findViewById(R.id.sorting_switch_shoppinglist);
@@ -154,5 +160,25 @@ public class ShoppingListFragment extends Fragment {
         }
         return calculatedItems;
 
+    }
+
+    /**
+     * Called after user has entered details for "Mark Collected"
+     *
+     * @param newIngredient to add to stored ingredients
+     */
+    @Override
+    public void onSubmitPressed(StoredIngredient newIngredient) {
+        // Update amount if ingredient already exists in storage
+        if (IngredientStorage.getInstance().ingredientExists(newIngredient.getDescription())) {
+            StoredIngredient oldIngredient = IngredientStorage.getInstance().getIngredient(newIngredient.getDescription());
+            oldIngredient.setAmount(oldIngredient.getAmount() + newIngredient.getAmount());
+            IngredientStorage.getInstance().updateIngredient(oldIngredient);
+        } else {
+            IngredientStorage.getInstance().addIngredient(newIngredient, true);
+        }
+
+        shoppingItems = calculateItems();
+        adapter.notifyDataSetChanged();
     }
 }

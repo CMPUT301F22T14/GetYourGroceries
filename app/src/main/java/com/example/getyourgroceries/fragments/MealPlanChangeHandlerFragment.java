@@ -93,6 +93,7 @@ public class MealPlanChangeHandlerFragment extends Fragment implements OnMealPla
 
         daysAdapter = new DayListAdapter(requireActivity().getBaseContext(), days,requireActivity().getSupportFragmentManager());
         dayListView.setAdapter(daysAdapter);
+        dayListView.setNestedScrollingEnabled(true);
         Button addDay = view.findViewById(R.id.add_day);
         Button confirm = view.findViewById(R.id.change_mealplan_confirm);
         addDay.setOnClickListener(v -> {

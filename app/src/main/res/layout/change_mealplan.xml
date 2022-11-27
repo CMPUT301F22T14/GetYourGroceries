@@ -1,84 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/change_ingredient_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:clickable="true"
-    android:focusableInTouchMode="true">
+    android:fillViewport="true"
+    android:layout_height="match_parent">
 
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/change_mealplan_title_til"
-        android:layout_width="300dp"
-        android:layout_height="85dp"
-        android:layout_centerInParent="true"
-        app:layout_constraintBottom_toTopOf="@+id/day_list"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:counterEnabled="true"
-        app:counterMaxLength="30"
-        android:hint="Title"
-        >
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/change_mealplan_title"
-            android:layout_width="300dp"
-            android:layout_height="60dp"
-            android:autofillHints=""
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:minHeight="48dp"
-            android:textAlignment="center"
-            android:textSize="20sp"
-            android:maxLength="30"/>
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <ListView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/day_list"
-        android:divider="@drawable/space_divider"
-        android:layout_marginHorizontal="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/change_mealplan_title_til"
-        app:layout_constraintBottom_toTopOf="@id/add_day"
-        />
+        android:layout_height="match_parent"
+        android:layout_marginTop="15dp"
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/add_day"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Add Day"
-        style="@style/Widget.Material3.Button.Icon"
-        android:backgroundTint="@color/primaryLightColor"
-        android:textSize="16sp"
-        app:icon="@drawable/ic_plus"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/day_list"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/change_mealplan_title_til"
+            android:layout_width="300dp"
+            android:layout_height="85dp"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center_horizontal"
+            android:hint="Enter Meal Plan Title"
+            app:counterEnabled="true"
+            app:counterMaxLength="30">
 
-    <Button
-        android:id="@+id/change_mealplan_confirm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center"
-        android:width="250dp"
-        android:backgroundTint="@color/primaryLightColor"
-        android:text="Confirm"
-        android:textSize= "20sp"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_day"
-        app:layout_constraintVertical_bias="0.114" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/change_mealplan_title"
+                android:layout_width="300dp"
+                android:layout_height="60dp"
+                android:autofillHints=""
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:maxLength="30"
+                android:minHeight="48dp"
+                android:textAlignment="center"
+                android:textSize="20sp" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:paddingVertical="10dp"
+            android:id="@+id/day_list"
+            android:divider="@drawable/space_divider"
+            android:layout_marginHorizontal="10dp"
+            android:layout_weight="1"
+            />
+
+        <Button
+            android:id="@+id/add_day"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add Day"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginBottom="10dp"
+            style="?attr/materialButtonOutlinedStyle"
+            android:textSize="16sp"
+            android:paddingHorizontal="50dp"
+            app:icon="@drawable/ic_plus"
+            />
+
+        <Button
+            android:id="@+id/change_mealplan_confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center"
+            android:width="250dp"
+            android:backgroundTint="@color/primaryLightColor"
+            android:text="Confirm"
+            android:textSize= "22sp"
+            android:layout_marginBottom="85dp"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            />
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

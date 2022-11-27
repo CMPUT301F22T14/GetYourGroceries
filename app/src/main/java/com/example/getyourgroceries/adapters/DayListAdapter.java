@@ -189,6 +189,7 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements OnFragm
                         replace(R.id.container, recipeChangeHandlerFragment,"EDIT_RECIPE").addToBackStack(null).commit();
             });
 
+            // Add existing recipe
             recipeListView.setOnItemClickListener((adapterView, view13, i, l) -> {
                 AlertDialog.Builder scaleAlertBox = new AlertDialog.Builder(view13.getRootView().getContext());
                 Recipe recipe = (Recipe) recipeListView.getItemAtPosition(i);
@@ -205,7 +206,8 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements OnFragm
                         scale = 1;
                     }
 
-                    day.addRecipe(new ScaledRecipe(recipe, scale));
+                    MealPlanDay newDay = days.get(position);
+                    newDay.addRecipe(new ScaledRecipe(recipe, scale));
 
                     notifyDataSetChanged();
                     a.dismiss();
@@ -229,21 +231,17 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements OnFragm
             input.setInputType(InputType.TYPE_CLASS_NUMBER);
             input.setText(String.valueOf(scaledRecipe.getScale()));
             scaleAlertBox.setView(input);
-            scaleAlertBox.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-
-                    int scale;
-                    try {
-                        scale = Integer.parseInt(String.valueOf(input.getText()));
-                    } catch (NumberFormatException e) {
-                        scale = 1;
-                    }
-
-                    scaledRecipe.setScale(scale);
-                    day.updateRecipe(scaledRecipe, position1);
-                    notifyDataSetChanged();
+            scaleAlertBox.setPositiveButton("OK", (dialog, which) -> {
+                int scale;
+                try {
+                    scale = Integer.parseInt(String.valueOf(input.getText()));
+                } catch (NumberFormatException e) {
+                    scale = 1;
                 }
+
+                scaledRecipe.setScale(scale);
+                day.updateRecipe(scaledRecipe, position1);
+                notifyDataSetChanged();
             });
 
             scaleAlertBox.setNegativeButton("Cancel", (dialog, which) -> {

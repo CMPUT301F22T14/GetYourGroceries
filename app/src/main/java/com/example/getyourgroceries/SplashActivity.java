@@ -3,7 +3,6 @@ package com.example.getyourgroceries;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,17 +15,12 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        ImageView logo = findViewById(R.id.appLogo);
 
         Intent iHome = new Intent(SplashActivity.this, MainActivity.class);
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                startActivity(iHome);
-                finish();
-
-            }
-        },3000);
+        new Handler().postDelayed(() -> {
+            startActivity(iHome);
+            finish();
+        },1500);
     }
 }

@@ -66,9 +66,9 @@ public class RecipeAdapter extends ArrayAdapter<Recipe> {
         ImageView recipePhoto = view.findViewById(R.id.recipe_photo);
         int prep_hours = recipe.getPrepTime() / 60;
         int prep_min = recipe.getPrepTime() % 60;
-        String prepTimeText = "Preparation Time: " + prep_hours + "h " + prep_min + "m";
-        String categoryText = "Category: " + recipe.getRecipeCategory();
-        String servingsText = "Servings: " + recipe.getNumOfServings();
+        String prepTimeText = prep_hours + "h " + prep_min + "m";
+        String categoryText = recipe.getRecipeCategory();
+        String servingsText = String.valueOf(recipe.getNumOfServings());
         recipeName.setText(recipe.getName());
         recipePrepTime.setText(prepTimeText);
         recipeCategory.setText(categoryText);

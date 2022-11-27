@@ -1,237 +1,214 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-android:clipToPadding="false"
-android:paddingBottom="@dimen/cardview_default_elevation"
-android:paddingTop="@dimen/cardview_default_elevation"
-android:layout_width="match_parent"
-android:layout_height="wrap_content">
-
-<com.google.android.material.card.MaterialCardView
-    android:id="@+id/card"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="3dp"
-    android:theme="@style/Theme.Material3.DayNight"
-    app:cardElevation="2dp"
-    app:strokeWidth="0dp">
+    android:clipToPadding="false"
+    android:paddingTop="@dimen/cardview_default_elevation"
+    android:paddingBottom="@dimen/cardview_default_elevation">
 
-    <LinearLayout
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_margin="3dp"
+        android:theme="@style/Theme.Material3.DayNight"
+        app:cardElevation="2dp"
+        app:strokeWidth="0dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
-
-            <!-- Title, secondary and supporting text -->
-            <TextView
-                android:id="@+id/ingredient_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Sample Shopping Ingredient"
-                android:textAppearance="?attr/textAppearanceTitleLarge"
-                android:textSize="25sp"
-                android:textColor="?android:attr/textColorPrimary"
-                />
-            <TextView
-                android:id="@+id/ingredient_unit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Test Unit Price"
-                android:textAppearance="?attr/textAppearanceBodyMedium"
-                android:textSize="20sp"
-                android:textColor="?android:attr/textColorSecondary"
-                />
-
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginVertical="10sp">
-
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1"/>
-
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    style="?attr/materialCardViewElevatedStyle"
-                    app:cardBackgroundColor="@color/primaryLightColor"
-                    app:cardCornerRadius="20dp"
-                    >
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginHorizontal="5sp"
-                        >
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/location_icon"
-                            android:layout_marginLeft="7dp"
-                            android:layout_marginVertical="7dp"/>
-                        <TextView
-                            android:id="@+id/ingredient_location"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="7dp"
-                            android:textSize="13sp"
-                            android:text="Test Location"
-                            android:layout_gravity="center"
-                            android:textAppearance="?attr/textAppearanceBodyMedium"
-                            android:textColor="@color/white"
-                            />
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1"/>
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    style="?attr/materialCardViewElevatedStyle"
-                    app:cardBackgroundColor="@color/primaryLightColor"
-                    app:cardCornerRadius="20dp">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginHorizontal="5sp"
-                        >
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/category_icon"
-                            android:layout_marginLeft="7dp"
-                            android:layout_marginVertical="7dp"/>
-                        <TextView
-                            android:id="@+id/ingredient_category"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="7dp"
-                            android:textSize="13sp"
-                            android:text="Test Category"
-                            android:layout_gravity="center"
-                            android:textAppearance="?attr/textAppearanceBodyMedium"
-                            android:textColor="@color/white"
-                            />
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1"/>
-            </LinearLayout>
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                >
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1"/>
+                android:orientation="vertical"
+                android:padding="16dp">
 
-                <com.google.android.material.card.MaterialCardView
+                <!-- Title, secondary and supporting text -->
+                <TextView
+                    android:id="@+id/ingredient_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    style="?attr/materialCardViewElevatedStyle"
-                    app:cardBackgroundColor="@color/primaryLightColor"
-                    app:cardCornerRadius="20dp">
+                    android:text="Sample Shopping Ingredient"
+                    android:textAppearance="?attr/textAppearanceTitleLarge"
+                    android:textColor="?android:attr/textColorPrimary"
+                    android:textSize="25sp" />
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginHorizontal="5sp"
-                        >
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/quantity_icon"
-                            android:layout_marginLeft="7dp"
-                            android:layout_marginVertical="7dp"/>
-                        <TextView
-                            android:id="@+id/ingredient_qty"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="7dp"
-                            android:textSize="13sp"
-                            android:text="Test Best Before"
-                            android:layout_gravity="center"
-                            android:textAppearance="?attr/textAppearanceBodyMedium"
-                            android:textColor="@color/white"
-                            />
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1"/>
-
-                <com.google.android.material.card.MaterialCardView
+                <TextView
+                    android:id="@+id/ingredient_unit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    style="?attr/materialCardViewElevatedStyle"
-                    app:cardBackgroundColor="@color/primaryLightColor"
-                    app:cardCornerRadius="20dp">
+                    android:layout_marginTop="8dp"
+                    android:layout_weight="1"
+                    android:text="Test Unit Price"
+                    android:textAppearance="?attr/textAppearanceBodyMedium"
+                    android:textColor="?android:attr/textColorSecondary"
+                    android:textSize="20sp" />
 
-                    <LinearLayout
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="10sp"
+                    android:orientation="horizontal">
+
+
+                    <com.google.android.material.card.MaterialCardView
+                        style="?attr/materialCardViewElevatedStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginHorizontal="5sp"
-                        >
-                        <ImageView
+                        android:minWidth="150dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_weight="1"
+                        app:cardBackgroundColor="@color/primaryLightColor"
+                        app:cardCornerRadius="10dp">
+
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/calendar_icon"
-                            android:layout_marginLeft="7dp"
-                            android:layout_marginVertical="7dp"/>
-                        <TextView
-                            android:id="@+id/ingredient_bestbefore"
+                            android:layout_marginHorizontal="5sp"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginVertical="7dp"
+                                android:layout_marginStart="7dp"
+                                android:src="@drawable/location_icon" />
+
+                            <TextView
+                                android:id="@+id/ingredient_location"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_margin="7dp"
+                                android:text="Test Location"
+                                android:textAppearance="?attr/textAppearanceBodyMedium"
+                                android:textColor="@color/white"
+                                android:textSize="13sp" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.card.MaterialCardView
+                        style="?attr/materialCardViewElevatedStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:minWidth="150dp"
+                        android:layout_weight="1"
+                        app:cardBackgroundColor="@color/primaryLightColor"
+                        app:cardCornerRadius="10dp">
+
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_margin="7dp"
-                            android:textSize="13sp"
-                            android:text="Test Best Before"
-                            android:layout_gravity="center"
-                            android:textAppearance="?attr/textAppearanceBodyMedium"
-                            android:textColor="@color/white"
-                            />
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1"/>
+                            android:layout_marginHorizontal="5sp"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginVertical="7dp"
+                                android:layout_marginLeft="7dp"
+                                android:src="@drawable/category_icon" />
+
+                            <TextView
+                                android:id="@+id/ingredient_category"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_margin="7dp"
+                                android:text="Test Category"
+                                android:textAppearance="?attr/textAppearanceBodyMedium"
+                                android:textColor="@color/white"
+                                android:textSize="13sp" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.card.MaterialCardView
+                        style="?attr/materialCardViewElevatedStyle"
+                        android:layout_width="wrap_content"
+                        android:minWidth="150dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="20dp"
+                        android:layout_weight="1"
+                        app:cardBackgroundColor="@color/primaryLightColor"
+                        app:cardCornerRadius="10dp">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="5sp"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginVertical="7dp"
+                                android:layout_marginStart="7dp"
+                                android:src="@drawable/quantity_icon" />
+
+                            <TextView
+                                android:id="@+id/ingredient_qty"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_margin="7dp"
+                                android:text="Test Best Before"
+                                android:textAppearance="?attr/textAppearanceBodyMedium"
+                                android:textColor="@color/white"
+                                android:textSize="13sp" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.card.MaterialCardView
+                        style="?attr/materialCardViewElevatedStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:minWidth="150dp"
+                        android:layout_weight="1"
+                        app:cardBackgroundColor="@color/primaryLightColor"
+                        app:cardCornerRadius="10dp">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="5sp"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginVertical="7dp"
+                                android:layout_marginStart="7dp"
+                                android:src="@drawable/calendar_icon" />
+
+                            <TextView
+                                android:id="@+id/ingredient_bestbefore"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_margin="7dp"
+                                android:text="Test Best Before"
+                                android:textAppearance="?attr/textAppearanceBodyMedium"
+                                android:textColor="@color/white"
+                                android:textSize="13sp" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
             </LinearLayout>
+
+
         </LinearLayout>
 
-
-
-
-    </LinearLayout>
-
-</com.google.android.material.card.MaterialCardView>
+    </com.google.android.material.card.MaterialCardView>
 
 </LinearLayout>

@@ -1,5 +1,5 @@
 /* HomeScreenFragment class. */
-package com.example.getyourgroceries;
+package com.example.getyourgroceries.fragments;
 
 import android.os.Bundle;
 import androidx.appcompat.app.ActionBar;
@@ -8,9 +8,9 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-import com.example.getyourgroceries.fragments.MainBottomSheet;
+
+import com.example.getyourgroceries.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 /**
@@ -20,8 +20,7 @@ public class HomeScreenFragment extends Fragment {
     /**
      * Empty constructor.
      */
-    public HomeScreenFragment() {
-    }
+    public HomeScreenFragment() {}
 
     /**
      * Create the view.
@@ -40,11 +39,10 @@ public class HomeScreenFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_home_screen, container, false);
         TextView description = v.findViewById(R.id.home_description);
         description.setText("Plan your meals with ease and efficiency!");
-        ImageView homelogo = v.findViewById(R.id.imageView3);
-        FloatingActionButton quickaddButton = v.findViewById(R.id.quickadd_button);
+        FloatingActionButton quickAddButton = v.findViewById(R.id.quickadd_button);
 
         // make bottom drawer popup
-        quickaddButton.setOnClickListener(l -> {
+        quickAddButton.setOnClickListener(l -> {
             MainBottomSheet modalBottomSheet = new MainBottomSheet();
             modalBottomSheet.show(requireActivity().getSupportFragmentManager(), MainBottomSheet.TAG);
         });

@@ -73,7 +73,7 @@
                                 android:text="0h 20m"
                                 android:textAppearance="?attr/textAppearanceBodyMedium"
                                 android:textColor="@color/white"
-                                android:textSize="12sp" />
+                                android:textSize="13sp" />
                         </LinearLayout>
                     </com.google.android.material.card.MaterialCardView>
                     <com.google.android.material.card.MaterialCardView

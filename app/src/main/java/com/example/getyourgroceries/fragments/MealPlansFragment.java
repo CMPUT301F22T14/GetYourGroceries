@@ -1,5 +1,7 @@
 package com.example.getyourgroceries.fragments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,9 +17,11 @@ import androidx.fragment.app.Fragment;
 
 import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.adapters.MealPlanAdapter;
+import com.example.getyourgroceries.entity.IngredientStorage;
 import com.example.getyourgroceries.entity.MealPlan;
 import com.example.getyourgroceries.entity.MealPlanDay;
 import com.example.getyourgroceries.entity.MealPlanStorage;
+import com.example.getyourgroceries.entity.StoredIngredient;
 
 import java.util.ArrayList;
 
@@ -61,12 +65,24 @@ public class MealPlansFragment extends Fragment {
             requireActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).replace(container.getId(), mealPlanChangeHandlerFragment, "MEAL_PLAN_EDIT").addToBackStack(null).commit();
         });
 
-        addMeal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MealPlanChangeHandlerFragment mealPlanChangeHandlerFragment = new MealPlanChangeHandlerFragment();
-                requireActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).replace(container.getId(), mealPlanChangeHandlerFragment, "MEAL_PLAN_EDIT").addToBackStack(null).commit();
-            }
+        mealPlanList.setOnItemLongClickListener((adapterView, view, i, l) -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setMessage("Would you like to delete this meal plan?");
+            builder.setTitle("Delete Meal Plan");
+            builder.setCancelable(true);
+            builder.setPositiveButton("Yes", (DialogInterface.OnClickListener) (dialog, which) -> {
+                MealPlan mealPlan = (MealPlan) mealPlanList.getItemAtPosition(i);
+                MealPlanStorage.getInstance().deleteMealPlan(mealPlan, true);
+            });
+            builder.setNegativeButton("No", (DialogInterface.OnClickListener) (dialog, which) -> dialog.cancel());
+            AlertDialog alert = builder.create();
+            alert.show();
+            return true;
+        });
+
+        addMeal.setOnClickListener(v1 -> {
+            MealPlanChangeHandlerFragment mealPlanChangeHandlerFragment = new MealPlanChangeHandlerFragment();
+            requireActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).replace(container.getId(), mealPlanChangeHandlerFragment, "MEAL_PLAN_EDIT").addToBackStack(null).commit();
         });
         return v;
     }

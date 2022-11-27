@@ -25,7 +25,9 @@ import androidx.fragment.app.FragmentManager;
 import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.entity.Ingredient;
 import com.example.getyourgroceries.entity.IngredientStorage;
+import com.example.getyourgroceries.entity.MealPlan;
 import com.example.getyourgroceries.entity.MealPlanDay;
+import com.example.getyourgroceries.entity.MealPlanStorage;
 import com.example.getyourgroceries.entity.Recipe;
 import com.example.getyourgroceries.entity.RecipeStorage;
 import com.example.getyourgroceries.entity.ScaledRecipe;
@@ -77,7 +79,8 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements OnFragm
         DayIngredientListAdapter dayIngredientListAdapter = new DayIngredientListAdapter(context, day.getIngredientList());
         dayIngredientListView.setAdapter(dayIngredientListAdapter);
         recipeListview = view.findViewById(R.id.day_recipe_list);
-        recipeListview.setAdapter(new DayRecipeListAdapter(context, day.getRecipeList()));
+        DayRecipeListAdapter dayRecipeListAdapter = new DayRecipeListAdapter(context, day.getRecipeList());
+        recipeListview.setAdapter(dayRecipeListAdapter);
         ViewCompat.setNestedScrollingEnabled(dayIngredientListView, true);
         ViewCompat.setNestedScrollingEnabled(recipeListview, true);
 
@@ -85,6 +88,40 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements OnFragm
         Button addIngredient = view.findViewById(R.id.add_ingredient_day);
 
         DayListAdapter classAdapter = this;
+
+        // Long press to delete ingredient
+        dayIngredientListView.setOnItemLongClickListener((adapterView, view2, i, l) -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(view2.getRootView().getContext());
+            builder.setMessage("Would you like to delete this ingredient?");
+            builder.setTitle("Delete Ingredient");
+            builder.setCancelable(true);
+            builder.setPositiveButton("Yes", (DialogInterface.OnClickListener) (dialog, which) -> {
+                Ingredient ingredient = (Ingredient) dayIngredientListView.getItemAtPosition(i);
+                dayIngredientListAdapter.remove(ingredient);
+                dayIngredientListAdapter.notifyDataSetChanged();
+            });
+            builder.setNegativeButton("No", (DialogInterface.OnClickListener) (dialog, which) -> dialog.cancel());
+            AlertDialog alert = builder.create();
+            alert.show();
+            return true;
+        });
+
+        // Long press to delete recipe
+        recipeListview.setOnItemLongClickListener((adapterView, view2, i, l) -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(view2.getRootView().getContext());
+            builder.setMessage("Would you like to delete this recipe?");
+            builder.setTitle("Delete Recipe");
+            builder.setCancelable(true);
+            builder.setPositiveButton("Yes", (DialogInterface.OnClickListener) (dialog, which) -> {
+                ScaledRecipe recipe = (ScaledRecipe) recipeListview.getItemAtPosition(i);
+                dayRecipeListAdapter.remove(recipe);
+                dayRecipeListAdapter.notifyDataSetChanged();
+            });
+            builder.setNegativeButton("No", (DialogInterface.OnClickListener) (dialog, which) -> dialog.cancel());
+            AlertDialog alert = builder.create();
+            alert.show();
+            return true;
+        });
 
         addIngredient.setOnClickListener(v -> {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

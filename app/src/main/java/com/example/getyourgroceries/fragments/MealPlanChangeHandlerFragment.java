@@ -80,6 +80,7 @@ public class MealPlanChangeHandlerFragment extends Fragment implements OnMealPla
             editMealPlan = MealPlanStorage.getInstance().getMealPlan(getArguments().getInt("editMealPlan"));
             assert actionBar != null;
             actionBar.setTitle("Edit Meal Plan");
+            //SET TITLE
             days = editMealPlan.getMealPlanDays();
         } else {
             assert actionBar != null;
@@ -107,8 +108,14 @@ public class MealPlanChangeHandlerFragment extends Fragment implements OnMealPla
         });
 
         confirm.setOnClickListener(v -> {
+            //Check title is not empty
             EditText mealPlanName = requireActivity().findViewById(R.id.change_mealplan_title);
             String name = mealPlanName.getText().toString();
+            if (name.equals("")){
+
+            }
+
+
             if (editMealPlan != null){
                 //EDIT MODE***********************
             }

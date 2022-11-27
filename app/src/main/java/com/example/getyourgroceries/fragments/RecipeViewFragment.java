@@ -115,6 +115,8 @@ public class RecipeViewFragment extends Fragment {
             RecipeIngredientAdapter ingredientAdapter = new RecipeIngredientAdapter(requireActivity().getBaseContext(), viewRecipe.getIngredientList());
             ingredientListView.setAdapter(ingredientAdapter);
 
+            ingredientListView.setNestedScrollingEnabled(true);
+
             // get photo
             storage = FirebaseStorage.getInstance();
             try {

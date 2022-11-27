@@ -119,4 +119,6 @@
     <string name="ingredients_header">Ingredients:</string>
     <string name="change_recipe_photo_text">Photo</string>
     <string name="accessibility_recipe_image">Image of the Recipe Product</string>
+    <string name="shopping_list_collected">Mark Collected</string>
+    <string name="shopping_list_delete">Delete</string>
 </resources>

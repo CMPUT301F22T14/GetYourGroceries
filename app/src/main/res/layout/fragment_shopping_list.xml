@@ -4,23 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:gravity="center"
-    >
+    android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="8dp"
         android:orientation="horizontal">
+
         <Space
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
+
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sort by:    "
-            android:layout_gravity="center_vertical"/>
+            android:layout_gravity="center_vertical"
+            android:text="Sort by:    " />
 
         <Spinner
             android:id="@+id/sort_shoppinglist_spinner"
@@ -29,39 +31,37 @@
             android:layout_gravity="center_vertical"
             android:dropDownVerticalOffset="27dp"
             android:popupBackground="@drawable/ingredient_spinner_dropdown"
-            android:spinnerMode="dropdown"
-            />
+            android:spinnerMode="dropdown" />
+
         <Space
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
+
         <com.google.android.material.materialswitch.MaterialSwitch
             android:id="@+id/sorting_switch_shoppinglist"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:theme="@style/Theme.Material3.DayNight"
             android:checked="false"
-            android:text="Descending"/>
+            android:text="Descending"
+            android:theme="@style/Theme.Material3.DayNight" />
 
         <Space
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_weight="1"/>
-
+            android:layout_weight="1" />
     </LinearLayout>
-
 
     <ListView
         android:id="@+id/shoppingListView"
         android:layout_width="match_parent"
-        android:layout_height="630dp"
-        android:layout_margin="20dp"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginVertical="8dp"
+        android:layout_weight="1"
         android:divider="@android:color/transparent"
         android:gravity="center"
         android:orientation="vertical"
         android:paddingBottom="70sp"
-        android:showDividers="middle">
-
-
-    </ListView>
+        android:showDividers="middle" />
 </LinearLayout>

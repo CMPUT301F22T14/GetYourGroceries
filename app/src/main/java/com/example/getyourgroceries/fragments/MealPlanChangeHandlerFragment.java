@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,6 +33,7 @@ import com.example.getyourgroceries.entity.ScaledRecipe;
 import com.example.getyourgroceries.interfaces.OnMealPlanFragmentInteractionListener;
 import com.google.android.material.datepicker.MaterialTextInputPicker;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textview.MaterialTextView;
 
 import java.util.ArrayList;
@@ -79,6 +81,8 @@ public class MealPlanChangeHandlerFragment extends Fragment implements OnMealPla
             editMealPlan = MealPlanStorage.getInstance().getMealPlan(getArguments().getInt("editMealPlan"));
             assert actionBar != null;
             actionBar.setTitle("Edit Meal Plan");
+            EditText mealPlanName = view.findViewById(R.id.change_mealplan_title);
+            mealPlanName.setText(editMealPlan.getName());
             days = editMealPlan.getMealPlanDays();
         } else {
             assert actionBar != null;
@@ -89,25 +93,43 @@ public class MealPlanChangeHandlerFragment extends Fragment implements OnMealPla
 
         daysAdapter = new DayListAdapter(requireActivity().getBaseContext(), days,requireActivity().getSupportFragmentManager());
         dayListView.setAdapter(daysAdapter);
+        dayListView.setNestedScrollingEnabled(true);
         Button addDay = view.findViewById(R.id.add_day);
+        Button confirm = view.findViewById(R.id.change_mealplan_confirm);
+
         addDay.setOnClickListener(v -> {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-            builder.setTitle("Add new day");
+            daysAdapter.add(new MealPlanDay("Day " + (daysAdapter.getCount() + 1)));
+        });
 
-            // Set up the input
-            final EditText input = new EditText(getContext());
-            builder.setView(input);
-
-            // Set up the buttons
-            builder.setPositiveButton("OK", (dialog, which) -> daysAdapter.add(new MealPlanDay(input.getText().toString())));
-            builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
-            builder.show();
+        confirm.setOnClickListener(v -> {
+            // Check title is not empty
+            EditText mealPlanName = requireActivity().findViewById(R.id.change_mealplan_title);
+            String name = mealPlanName.getText().toString();
+            TextInputLayout tilDescription = requireActivity().findViewById(R.id.change_mealplan_title_til);
+            if (name.equals("")){
+                tilDescription.setError("Title Cannot be Empty!");
+                return;
+            }
+            else if (editMealPlan != null){
+                editMealPlan.setName(name);
+                editMealPlan.setMealPlanDays(days);
+                MealPlanStorage.getInstance().updateMealPlan(editMealPlan);
+            }
+            else{
+                MealPlan newMealPlan = new MealPlan(name,days);
+                MealPlanStorage.getInstance().addMealPlan(newMealPlan,true);
+            }
+            requireActivity().getSupportFragmentManager().popBackStack();
         });
 
         return view;
     }
 
-
+    /**
+     * Call back for adding a new recipe to the day
+     * @param recipe object to add
+     * @param dayPosition index of the day to add the recipe to
+     */
     public void onSubmitPressed(Recipe recipe, int dayPosition){
         AlertDialog.Builder scaleAlertBox = new AlertDialog.Builder(view.getRootView().getContext());
         scaleAlertBox.setTitle("Input desired scale (default 1)");
@@ -129,9 +151,7 @@ public class MealPlanChangeHandlerFragment extends Fragment implements OnMealPla
         });
 
         // cancelling scale also cancels recipe add
-        scaleAlertBox.setNegativeButton("Cancel", (dialog, which) -> {
-
-        });
+        scaleAlertBox.setNegativeButton("Cancel", (dialog, which) -> {});
 
         scaleAlertBox.show();
     }

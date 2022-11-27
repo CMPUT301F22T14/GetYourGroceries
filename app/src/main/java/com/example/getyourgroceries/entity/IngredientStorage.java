@@ -74,6 +74,21 @@ public class IngredientStorage {
     }
 
     /**
+     * Finds a stored ingredient with a matching description
+     * @param description of the ingredient
+     * @return the stored ingredient with the description
+     */
+    public StoredIngredient getIngredient(String description) {
+        final StoredIngredient[] ret = new StoredIngredient[1];
+        ingredientStorage.forEach(ingredient -> {
+            if(Objects.equals(ingredient.getDescription(), description)) {
+                ret[0] = ingredient;
+            }
+        });
+        return ret[0];
+    }
+
+    /**
      * Retrieve a specific ingredient from the storage by index
      * @param i index of ingredient in array
      * @return the requested ingredient

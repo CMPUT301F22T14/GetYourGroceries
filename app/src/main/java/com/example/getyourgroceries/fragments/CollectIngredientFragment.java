@@ -18,10 +18,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import com.example.getyourgroceries.MainActivity;
 import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.entity.Ingredient;
 import com.example.getyourgroceries.entity.StoredIngredient;
 import com.example.getyourgroceries.interfaces.OnCollectIngredientFragmentInteractionListener;
+import com.example.getyourgroceries.interfaces.OnFragmentInteractionListener;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.CollectionReference;
@@ -44,11 +46,10 @@ public class CollectIngredientFragment extends DialogFragment {
     /**
      * Constructor
      *
-     * @param listener   for callback
      * @param ingredient object being passed in
      */
-    public CollectIngredientFragment(OnCollectIngredientFragmentInteractionListener listener, Ingredient ingredient) {
-        this.listener = listener;
+    public CollectIngredientFragment(Ingredient ingredient) {
+//        this.listener = listener;
         this.ingredient = ingredient;
     }
 
@@ -60,6 +61,9 @@ public class CollectIngredientFragment extends DialogFragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
+        MainActivity act = (MainActivity) context;
+
+        listener = (OnCollectIngredientFragmentInteractionListener) act.getSupportFragmentManager().findFragmentByTag("SHOPPING_LIST");
     }
 
     /**
@@ -198,8 +202,8 @@ public class CollectIngredientFragment extends DialogFragment {
                 if (hasError) {
                     return;
                 }
-                dialog.dismiss();
                 listener.onSubmitPressed(new StoredIngredient(ingredient, ingDate[0], locationText[0]));
+                dialog.dismiss();
             });
         });
 

@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 return true;
             case R.id.shopping_icon:
                 Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
-                getSupportFragmentManager().beginTransaction().replace(R.id.container, shoppingListFragment).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.container, shoppingListFragment, "SHOPPING_LIST").commit();
                 return true;
         }
         return false;

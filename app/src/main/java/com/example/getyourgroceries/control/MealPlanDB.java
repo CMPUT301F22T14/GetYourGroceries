@@ -78,7 +78,13 @@ public class MealPlanDB {
      * @param plan: meal plan to delete.
      */
     public void deleteMealPlan(MealPlan plan) {
-        mealPlanCollection.document(plan.getId()).delete();
+        try{
+            mealPlanCollection.document(plan.getId()).delete();
+        }
+        catch(NullPointerException e){
+            Log.d(TAG, "deleteMealPlan: Error");
+        }
+        
     }
 
     /**

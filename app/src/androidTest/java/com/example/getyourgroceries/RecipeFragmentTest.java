@@ -487,7 +487,7 @@ public class RecipeFragmentTest {
                 solo.clickInList(i);
 
                 // Go to edit page
-                solo.clickOnImageButton(0);
+                solo.clickOnView(solo.getView(R.id.editRecipeButton));
 
                 EditText description = (EditText) solo.getView(R.id.change_recipe_description);
                 solo.clearEditText(description);
@@ -536,6 +536,7 @@ public class RecipeFragmentTest {
         }
 
         // Delete recipe
+        solo.goBack();
         solo.sleep(1000);
         ListView recipesList = (ListView) solo.getView(R.id.recipe_list);
         for (int i = 0; i < size; i++) {

@@ -14,7 +14,6 @@ import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.entity.StoredIngredient;
 
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 /**

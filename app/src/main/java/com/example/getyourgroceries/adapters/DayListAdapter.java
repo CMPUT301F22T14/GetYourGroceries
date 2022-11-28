@@ -153,14 +153,21 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements OnFragm
             ingredientListView.setOnItemClickListener((adapterView, view1, i, l) -> {
                 Ingredient ingredient = (Ingredient) ingredientListView.getItemAtPosition(i);
                 AlertDialog.Builder builder = new AlertDialog.Builder(view1.getRootView().getContext());
-                builder.setTitle("How many do you need?");
+                builder.setTitle("How many do you need?(default 1)");
                 // Set up the input
                 final EditText input = new EditText(getContext());
+                input.setHint("1");
+                input.setInputType(InputType.TYPE_CLASS_NUMBER);
                 builder.setView(input);
                 // Set up the buttons
                 builder.setPositiveButton("OK", (dialog, which) -> {
                     day = days.get(position);
-                    Ingredient newIngredient = new Ingredient(ingredient.getDescription(), Integer.parseInt(input.getText().toString()), ingredient.getUnit(), ingredient.getCategory());
+                    String countText = input.getText().toString();
+                    int count = 1;
+                    if(!"".equals(countText)) {
+                        Integer.parseInt(countText);
+                    }
+                    Ingredient newIngredient = new Ingredient(ingredient.getDescription(), count, ingredient.getUnit(), ingredient.getCategory());
                     day.addIngredient(newIngredient);
                     notifyDataSetChanged();
                     a.dismiss();
@@ -199,17 +206,17 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements OnFragm
             recipeListView.setOnItemClickListener((adapterView, view13, i, l) -> {
                 AlertDialog.Builder scaleAlertBox = new AlertDialog.Builder(view13.getRootView().getContext());
                 Recipe recipe = (Recipe) recipeListView.getItemAtPosition(i);
-                scaleAlertBox.setTitle("Input desired scale (default 1)");
+                scaleAlertBox.setTitle("What is your desired scale?(default 1)");
 
                 final EditText input = new EditText(view13.getRootView().getContext());
                 input.setInputType(InputType.TYPE_CLASS_NUMBER);
+                input.setHint("1");
                 scaleAlertBox.setView(input);
                 scaleAlertBox.setPositiveButton("OK", (dialog, which) -> {
-                    int scale;
-                    try {
-                        scale = Integer.parseInt(String.valueOf(input.getText()));
-                    } catch (NumberFormatException e) {
-                        scale = 1;
+                    String scaleTest = input.getText().toString();
+                    int scale = 1;
+                    if(!scaleTest.equals("")) {
+                        scale = Integer.parseInt(scaleTest);
                     }
 
                     MealPlanDay newDay = days.get(position);
@@ -219,8 +226,7 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements OnFragm
                     a.dismiss();
                 });
 
-                scaleAlertBox.setNegativeButton("Cancel", (dialog, which) -> {
-                });
+                scaleAlertBox.setNegativeButton("Cancel", (dialog, which) -> {});
                 scaleAlertBox.show();
             });
 

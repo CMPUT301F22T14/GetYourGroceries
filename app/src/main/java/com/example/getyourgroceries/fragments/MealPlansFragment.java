@@ -56,6 +56,7 @@ public class MealPlansFragment extends Fragment {
         mealPlanList.setAdapter(MealPlanStorage.getInstance().getMealPlanAdapter());
         Button addMeal = v.findViewById(R.id.add_meal_plan);
 
+        // edit a meal plan on press
         mealPlanList.setOnItemClickListener((adapterView, view, i, l) -> {
             Bundle bundle = new Bundle();
             bundle.putInt("editMealPlan", i);
@@ -65,6 +66,7 @@ public class MealPlansFragment extends Fragment {
             requireActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).replace(container.getId(), mealPlanChangeHandlerFragment, "MEAL_PLAN_EDIT").addToBackStack(null).commit();
         });
 
+        // delete a meal plan on long press
         mealPlanList.setOnItemLongClickListener((adapterView, view, i, l) -> {
             AlertDialog.Builder builder = new MaterialAlertDialogBuilder(getContext());
             builder.setMessage("Would you like to delete this meal plan?");
@@ -79,7 +81,7 @@ public class MealPlansFragment extends Fragment {
             alert.show();
             return true;
         });
-
+        // button will add new meal plan
         addMeal.setOnClickListener(v1 -> {
             MealPlanChangeHandlerFragment mealPlanChangeHandlerFragment = new MealPlanChangeHandlerFragment();
             requireActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).replace(container.getId(), mealPlanChangeHandlerFragment, "MEAL_PLAN_EDIT").addToBackStack(null).commit();

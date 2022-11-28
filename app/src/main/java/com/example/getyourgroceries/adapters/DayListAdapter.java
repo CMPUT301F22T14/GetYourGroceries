@@ -20,9 +20,7 @@ import androidx.fragment.app.FragmentManager;
 import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.entity.Ingredient;
 import com.example.getyourgroceries.entity.IngredientStorage;
-import com.example.getyourgroceries.entity.MealPlan;
 import com.example.getyourgroceries.entity.MealPlanDay;
-import com.example.getyourgroceries.entity.MealPlanStorage;
 import com.example.getyourgroceries.entity.Recipe;
 import com.example.getyourgroceries.entity.RecipeStorage;
 import com.example.getyourgroceries.entity.ScaledRecipe;
@@ -79,10 +77,12 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements OnFragm
 
         TextView dayName = view.findViewById(R.id.day_title);
 
+        //configure ingredient view for day
         dayIngredientListView = view.findViewById(R.id.day_ingredient_list);
         DayIngredientListAdapter dayIngredientListAdapter = new DayIngredientListAdapter(context, day.getIngredientList());
         dayIngredientListView.setAdapter(dayIngredientListAdapter);
 
+        // configure recipe view for day
         recipeListview = view.findViewById(R.id.day_recipe_list);
         DayRecipeListAdapter dayRecipeListAdapter = new DayRecipeListAdapter(context, day.getRecipeList());
         recipeListview.setAdapter(dayRecipeListAdapter);
@@ -160,11 +160,13 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements OnFragm
             AlertDialog a = alertbox.create();
             a.show();
             Button addNewIngredient = layout.findViewById(R.id.addMealPlanIngredient);
+            // inflate new fragment if button pressed
             addNewIngredient.setOnClickListener(view12 -> {
                 new AddIngredientRecipeFragment(classAdapter, dayIngredientListAdapter).show(fm, "ADD_INGREDIENT_RECIPE");
                 a.dismiss();
             });
 
+            // input quantity on press
             ingredientListView.setOnItemClickListener((adapterView, view1, i, l) -> {
                 Ingredient ingredient = (Ingredient) ingredientListView.getItemAtPosition(i);
                 AlertDialog.Builder builder = new AlertDialog.Builder(view1.getRootView().getContext());
@@ -252,7 +254,7 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements OnFragm
 
             AlertDialog.Builder scaleAlertBox = new MaterialAlertDialogBuilder(view14.getRootView().getContext());
             scaleAlertBox.setTitle("Change Scale");
-
+            // setup input
             final EditText input = new EditText(view14.getRootView().getContext());
             input.setInputType(InputType.TYPE_CLASS_NUMBER);
             input.setText(String.valueOf(scaledRecipe.getScale()));

@@ -11,7 +11,7 @@ public class StoredIngredient extends Ingredient {
     private Date bestBefore;
     private String location;
 
-
+    // empty constructor for firebase storage
     StoredIngredient() {}
 
     /**

@@ -126,6 +126,7 @@ public class ShoppingListFragment extends Fragment implements OnCollectIngredien
      */
     public ArrayList<Ingredient> calculateItems() {
         ArrayList<Ingredient> calculatedItems = new ArrayList<>();
+        // add needed ingredients by looping over mealplans
         for (MealPlan mealPlan : MealPlanStorage.getInstance().getMealPlanList()) {
             for (MealPlanDay mealPlanDay : mealPlan.getMealPlanDays()) {
                 for (Ingredient ingredient : mealPlanDay.getIngredientList()) {
@@ -160,7 +161,7 @@ public class ShoppingListFragment extends Fragment implements OnCollectIngredien
             }
         }
 
-
+        // loop over stored ingredients and subtract amounts that are present
         Iterator<Ingredient> itr = calculatedItems.iterator();
         while (itr.hasNext()) {
             Ingredient ingredient = itr.next();

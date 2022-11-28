@@ -72,6 +72,8 @@ public class DayRecipeListAdapter extends ArrayAdapter<ScaledRecipe> {
         String prepTimeText = prep_hours + "h " + prep_min + "m";
         String categoryText = recipe.getRecipeCategory();
         String servingsText = String.valueOf(recipe.getNumOfServings());
+
+        // set textview to proper values
         recipeName.setText(recipe.getName());
         recipePrepTime.setText(prepTimeText);
         recipeCategory.setText(categoryText);

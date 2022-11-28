@@ -46,6 +46,8 @@ public class IngredientDB {
      */
     public String addIngredient(Ingredient ingredient) {
         final String[] id = new String[1];
+
+        //add ingredient to remote collection
         ingredientCollection
                 .add(ingredient)
                 .addOnSuccessListener(documentReference -> {

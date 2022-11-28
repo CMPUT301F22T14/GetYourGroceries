@@ -74,6 +74,7 @@ public class RecipeAdapter extends ArrayAdapter<Recipe> {
         String categoryText = recipe.getRecipeCategory();
         String servingsText = String.valueOf(recipe.getNumOfServings());
 
+        // set textView to proper values
         recipeName.setText(recipe.getName());
         recipePrepTime.setText(prepTimeText);
         recipeCategory.setText(categoryText);

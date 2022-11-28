@@ -50,6 +50,7 @@ public class DayIngredientListAdapter extends ArrayAdapter<Ingredient> {
         }
 
         Ingredient ingredient = ingredients.get(position);
+        // set textviews to their respective values
         ((TextView)view.findViewById(R.id.recipe_ingredient_name)).setText(ingredient.getDescription());
         ((TextView)view.findViewById(R.id.recipe_ingredient_qty)).setText(String.valueOf(ingredient.getAmount()));
         ((TextView)view.findViewById(R.id.recipe_ingredient_category)).setText(ingredient.getCategory());

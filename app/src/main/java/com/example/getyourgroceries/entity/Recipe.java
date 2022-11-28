@@ -59,7 +59,7 @@ public class Recipe {
     }
 
     /**
-     * Empty constructor
+     * Empty constructor for firebase storage
      */
     public Recipe() {
         ingredientList = new ArrayList<>();

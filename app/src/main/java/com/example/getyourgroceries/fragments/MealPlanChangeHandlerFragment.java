@@ -91,7 +91,7 @@ public class MealPlanChangeHandlerFragment extends Fragment implements OnMealPla
             days = new ArrayList<>();
         }
         ListView dayListView = view.findViewById(R.id.day_list);
-
+        // setup view to see separate days
         daysAdapter = new DayListAdapter(requireActivity().getBaseContext(), days, requireActivity().getSupportFragmentManager());
         dayListView.setAdapter(daysAdapter);
         dayListView.setNestedScrollingEnabled(true);

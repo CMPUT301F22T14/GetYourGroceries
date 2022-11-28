@@ -52,6 +52,8 @@ public class IngredientStorageAdapter extends ArrayAdapter<StoredIngredient> {
 
         // Show the ingredient.
         StoredIngredient ingredient = ingredients.get(position);
+
+        // set textview to ingredient values
         ((TextView) view.findViewById(R.id.ingredient_name)).setText(ingredient.getDescription());
         ((TextView) view.findViewById(R.id.ingredient_qty)).setText(String.valueOf(ingredient.getAmount()));
         ((TextView) view.findViewById(R.id.ingredient_bestbefore)).setText((new SimpleDateFormat("MM/dd/yyy")).format(ingredient.getBestBefore()));

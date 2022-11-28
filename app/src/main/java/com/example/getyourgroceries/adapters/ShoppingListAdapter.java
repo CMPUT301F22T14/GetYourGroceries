@@ -62,6 +62,8 @@ public class ShoppingListAdapter extends ArrayAdapter<Ingredient> {
 
         // Show the ingredient.
         Ingredient ingredient = ingredients.get(position);
+
+        // set textviews to proper values
         ((TextView) view.findViewById(R.id.shoppingItemTitle)).setText(ingredient.getDescription());
         ((TextView) view.findViewById(R.id.shoppingItemAmount)).setText(String.valueOf(ingredient.getAmount()));
         ((TextView) view.findViewById(R.id.shoppingItemCategory)).setText(ingredient.getCategory());

@@ -10,6 +10,7 @@ public class MealPlan {
     private String mealPlanName;
     private ArrayList<MealPlanDay> mealPlanDays;
 
+    // empty constructor for firebase storage
     public MealPlan() {}
 
     /**

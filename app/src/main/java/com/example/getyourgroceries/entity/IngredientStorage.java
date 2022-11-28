@@ -149,6 +149,7 @@ public class IngredientStorage {
     public void sortByCategory(int type, boolean desc) {
         switch (type) {
             case 0:
+                // sort by description
                 if (desc) {
                     this.ingredientAdapter.sort((o1, o2) -> o1.getDescription().compareTo(o2.getDescription()) * -1);
                 } else {
@@ -158,6 +159,7 @@ public class IngredientStorage {
                 break;
 
             case 1:
+                // sort by best before
                 if (desc) {
                     this.ingredientAdapter.sort((o1, o2) -> o1.getBestBefore().compareTo(o2.getBestBefore()) * -1);
 
@@ -167,6 +169,7 @@ public class IngredientStorage {
                 this.ingredientAdapter.notifyDataSetChanged();
                 break;
             case 2:
+                // sort by location
                 if (desc) {
                     this.ingredientAdapter.sort((o1, o2) -> o1.getLocation().compareTo(o2.getLocation()) * -1);
                 } else {
@@ -176,6 +179,7 @@ public class IngredientStorage {
                 this.ingredientAdapter.notifyDataSetChanged();
                 break;
             case 3:
+                // sort by category
                 if (desc) {
                     this.ingredientAdapter.sort((o1, o2) -> o1.getCategory().compareTo(o2.getCategory()) * -1);
                 } else {

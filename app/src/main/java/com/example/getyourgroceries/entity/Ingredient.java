@@ -10,6 +10,7 @@ public class Ingredient {
     private Double unit;
     private String category;
     private String id;
+    // empty constructor for firebase storage
     protected Ingredient() {}
 
     /**

@@ -130,6 +130,7 @@ public class RecipeStorage {
     public void sortCategory(int type, boolean desc) {
         switch (type) {
             case 0:
+                // sort by description
                 if (desc) {
                     recipeAdapter.sort((o1, o2) -> o1.getName().compareTo(o2.getName()) * -1);
                 } else {
@@ -139,6 +140,7 @@ public class RecipeStorage {
                 break;
 
             case 1:
+                // sort by prep time
                 if (desc) {
                     recipeAdapter.sort(Comparator.comparingInt(Recipe::getPrepTime).reversed());
                 } else {
@@ -147,6 +149,7 @@ public class RecipeStorage {
                 recipeAdapter.notifyDataSetChanged();
                 break;
             case 2:
+                // sort by number of servings
                 if (desc) {
                     recipeAdapter.sort(Comparator.comparingInt(Recipe::getNumOfServings).reversed());
                 } else {
@@ -155,6 +158,7 @@ public class RecipeStorage {
                 recipeAdapter.notifyDataSetChanged();
                 break;
             case 3:
+                // sort by recipe category
                 if (desc) {
                     recipeAdapter.sort((o1, o2) -> o1.getRecipeCategory().compareTo(o2.getRecipeCategory()) * -1);
                 } else {

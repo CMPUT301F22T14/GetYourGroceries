@@ -123,6 +123,7 @@ public class CollectIngredientFragment extends DialogFragment {
         location.setAdapter(locationAdapter);
         location.setThreshold(200);
         location.setOnItemClickListener((adapterView, view12, i, l) -> {
+            // add new location option to database
             if (locations.get(i).equals("+ Save New Location")) {
                 location.setText("");
                 final EditText newLocationInput = new EditText(getContext());
@@ -144,6 +145,7 @@ public class CollectIngredientFragment extends DialogFragment {
                         .create()
                         .show();
             } else if (locations.get(i).equals("- Delete Saved Location")) {
+                // delete location option from database
                 location.setText("");
                 final EditText deleteLocationInput = new EditText(getContext());
                 AlertDialog.Builder builder = new MaterialAlertDialogBuilder(getContext());

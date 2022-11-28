@@ -136,6 +136,7 @@ public class AddIngredientRecipeFragment extends DialogFragment {
         category.setThreshold(200);
         category.setOnItemClickListener(((adapterView, view1, i, l) -> {
             if (Objects.equals(categories.get(i), "+ Save New Category")) {
+                // add new category to database
                 category.setText("");
                 final EditText newCategoryInput = new EditText(getContext());
                 AlertDialog.Builder builder = new MaterialAlertDialogBuilder(getContext());
@@ -156,6 +157,7 @@ public class AddIngredientRecipeFragment extends DialogFragment {
                         .create()
                         .show();
             } else if (categories.get(i).equals("- Delete Saved Category")) {
+                // remove category from database
                 category.setText("");
                 final EditText deleteCategoryInput = new EditText(getContext());
                 AlertDialog.Builder builder = new MaterialAlertDialogBuilder(getContext());
@@ -190,6 +192,7 @@ public class AddIngredientRecipeFragment extends DialogFragment {
 
         AlertDialog.Builder builder = new MaterialAlertDialogBuilder(getContext());
 
+        // set title based on context
         if (ingredient != null) {
             builder = builder.setTitle("Edit Ingredient");
         } else {

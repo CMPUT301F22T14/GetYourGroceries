@@ -149,6 +149,7 @@ public class RecipeViewFragment extends Fragment {
      */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        // if edit recipe button is pressed
         if (item.getItemId() == R.id.editRecipeButton) {
             Bundle bundle = new Bundle();
             bundle.putInt("editRecipe", getArguments().getInt("viewRecipe"));

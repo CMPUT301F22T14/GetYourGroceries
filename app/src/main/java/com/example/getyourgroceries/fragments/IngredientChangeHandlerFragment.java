@@ -118,6 +118,7 @@ public class IngredientChangeHandlerFragment extends Fragment {
             cal.setTime(editIngredient.getBestBefore());
         }
 
+        // datepicker logic on press
         TextView displayDate = requireActivity().findViewById(R.id.change_ingredient_expiry);
         displayDate.setTextSize(20);
         displayDate.setGravity(Gravity.CENTER_VERTICAL);

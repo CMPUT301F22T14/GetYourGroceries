@@ -56,6 +56,8 @@ public class MealIngredientStorageAdapter extends ArrayAdapter<StoredIngredient>
 
         // Show the ingredient.
         StoredIngredient ingredient = ingredients.get(position);
+
+        // set textviews to ingredient values
         ((TextView) view.findViewById(R.id.ingredient_name)).setText(ingredient.getDescription());
         ((TextView)view.findViewById(R.id.ingredient_unit)).setText(df.format(ingredient.getUnit()));
         ((TextView)view.findViewById(R.id.ingredient_category)).setText(ingredient.getCategory());

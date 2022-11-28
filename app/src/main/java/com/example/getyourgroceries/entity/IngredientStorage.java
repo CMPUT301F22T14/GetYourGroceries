@@ -28,7 +28,6 @@ public class IngredientStorage {
     // ArrayList and db connection
     private final ArrayList<StoredIngredient> ingredientStorage = new ArrayList<>();
     private ArrayAdapter<StoredIngredient> ingredientAdapter;
-    private ArrayAdapter<StoredIngredient> mealIngredientAdapter;
     private IngredientDB ingredientDB;
 
     /**
@@ -47,7 +46,6 @@ public class IngredientStorage {
      */
     public void setupStorage(Context context) {
         ingredientAdapter = new IngredientStorageAdapter(context, this.ingredientStorage);
-        mealIngredientAdapter = new MealIngredientStorageAdapter(context, this.ingredientStorage);
         this.ingredientDB = new IngredientDB();
     }
 
@@ -60,9 +58,7 @@ public class IngredientStorage {
         return ingredientAdapter;
     }
 
-    public ArrayAdapter<StoredIngredient> getMealIngredientAdapter() {
-        return mealIngredientAdapter;
-    }
+
 
     /**
      * Add ingredient to storage

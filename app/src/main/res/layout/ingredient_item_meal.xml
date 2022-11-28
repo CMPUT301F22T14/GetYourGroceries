@@ -66,16 +66,16 @@
                             <ImageView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:src="@drawable/quantity_icon"
+                                android:src="@drawable/dollar_sign"
                                 android:layout_marginLeft="7dp"
                                 android:layout_marginVertical="7dp"/>
                             <TextView
-                                android:id="@+id/ingredient_qty"
+                                android:id="@+id/ingredient_unit"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="7dp"
                                 android:textSize="13sp"
-                                android:text="Test Best Before"
+                                android:text="Test Price"
                                 android:layout_gravity="center"
                                 android:textAppearance="?attr/textAppearanceBodyMedium"
                                 android:textColor="@color/white"
@@ -105,11 +105,11 @@
                             <ImageView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:src="@drawable/calendar_icon"
+                                android:src="@drawable/category_icon"
                                 android:layout_marginLeft="7dp"
                                 android:layout_marginVertical="7dp"/>
                             <TextView
-                                android:id="@+id/ingredient_bestbefore"
+                                android:id="@+id/ingredient_category"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="7dp"

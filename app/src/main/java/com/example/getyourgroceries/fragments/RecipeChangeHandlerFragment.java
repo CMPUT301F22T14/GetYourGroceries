@@ -342,6 +342,11 @@ public class RecipeChangeHandlerFragment extends Fragment implements OnFragmentI
         });
     }
 
+    /**
+     * Logic for uploading a photo
+     * @param description of the photo
+     * @return reference of the photo
+     */
     private String uploadPhoto(String description) {
         image.setDrawingCacheEnabled(true);
         image.buildDrawingCache();
@@ -361,6 +366,9 @@ public class RecipeChangeHandlerFragment extends Fragment implements OnFragmentI
         return imageRefStr.toLowerCase();
     }
 
+    /**
+     * The dialog box for adding/selecting a photo
+     */
     public void PhotoPickerDialog() {
         storage = FirebaseStorage.getInstance();
 
@@ -388,6 +396,12 @@ public class RecipeChangeHandlerFragment extends Fragment implements OnFragmentI
         photoDialog.show();
     }
 
+    /**
+     * Occurs when coming to this fragment from meal plan
+     * @param requestCode code from the meal plan
+     * @param resultCode code from the change handler
+     * @param data being passed
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

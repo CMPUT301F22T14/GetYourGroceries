@@ -59,6 +59,10 @@ public class ShoppingListFragmentTest {
         assertTrue(solo.waitForText("Shopping List"));
     }
 
+    /**
+     * Test viewing the list of ingredients that are required and not currently stored (US. 4.01.01).
+     * @throws Throwable Exception for deleting from the database.
+     */
     @Test
     public void testViewShoppingList() throws Throwable {
 
@@ -66,7 +70,7 @@ public class ShoppingListFragmentTest {
         Calendar calendar = Calendar.getInstance();
         calendar.set(2022, 12, 25);
         Date date = calendar.getTime();
-        StoredIngredient storedIngredient = new StoredIngredient("Apples", 3, 0.75, "Fruit", date, "Fruit Basket");
+        StoredIngredient storedIngredient = new StoredIngredient("Apple", 3, 0.75, "Fruit", date, "Fruit Basket");
         IngredientStorage.getInstance().addIngredient(storedIngredient, true);
 
         /* Add recipes to meal plan. */
@@ -85,15 +89,51 @@ public class ShoppingListFragmentTest {
 
         /* Check the shopping list for the required ingredients. */
         solo.clickOnView(((BottomNavigationItemView) solo.getView(R.id.shopping_icon)).getChildAt(1));
-        solo.waitForText("Apples", 1, 2000);
-        solo.waitForText("17", 1, 2000);
-        solo.waitForText("Watermelon", 1, 2000);
+        assertTrue(solo.waitForText("Apple", 1, 2000));
+        assertTrue(solo.waitForText("17", 1, 2000));
+        assertTrue(solo.waitForText("Watermelon", 1, 2000));
 
         /* Delete the added meal plans. */
         runOnUiThread(() -> {
             IngredientStorage.getInstance().deleteIngredient(storedIngredient, true);
             MealPlanStorage.getInstance().deleteMealPlan(mealPlan1, true);
             MealPlanStorage.getInstance().deleteMealPlan(mealPlan2, true);
+        });
+    }
+
+    /**
+     * Test viewing the details of an ingredient in the shopping list (US 4.02.01).
+     * @throws Throwable Exception for deleting from the database.
+     */
+    @Test
+    public void testShowIngredientDetails() throws Throwable {
+
+        /* Add an ingredient to ingredient storage. */
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(2022, 12, 25);
+        Date date = calendar.getTime();
+        StoredIngredient storedIngredient = new StoredIngredient("Apple", 3, 0.75, "Fruit", date, "Fruit Basket");
+        IngredientStorage.getInstance().addIngredient(storedIngredient, true);
+
+        /* Add recipes to meal plan. */
+        ArrayList<MealPlanDay> mealPlanDayList1 = new ArrayList<>();
+        mealPlanDayList1.add(new MealPlanDay("Day 1"));
+        Recipe recipe = new Recipe("Apple Pie", 60, 8, "Dessert", "", "");
+        recipe.addIngredient(new Ingredient("Apple", 10, 0.75, "Fruit"));
+        mealPlanDayList1.get(0).addRecipe(new ScaledRecipe(recipe, 2));
+        MealPlan mealPlan1 = new MealPlan("Cheat Life", mealPlanDayList1);
+        MealPlanStorage.getInstance().addMealPlan(mealPlan1, true);
+
+        /* Check the shopping list for the details of the ingredient. */
+        solo.clickOnView(((BottomNavigationItemView) solo.getView(R.id.shopping_icon)).getChildAt(1));
+        assertTrue(solo.waitForText("Apple", 1, 2000));
+        assertTrue(solo.waitForText("17", 1, 2000));
+        assertTrue(solo.waitForText("Fruit", 1, 2000));
+        assertTrue(solo.waitForText("0.75", 1, 2000));
+
+        /* Delete the added ingredient. */
+        runOnUiThread(() -> {
+            IngredientStorage.getInstance().deleteIngredient(storedIngredient, true);
         });
     }
 

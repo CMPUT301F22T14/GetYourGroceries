@@ -77,6 +77,7 @@ public class IngredientFragmentTest {
      */
     @Test
     public void testAddIngredient() throws InterruptedException {
+        IngredientStorage.getInstance().clearLocalStorage();
         solo.assertCurrentActivity("Wrong Activity!", MainActivity.class);
         BottomNavigationItemView navItem = (BottomNavigationItemView) solo.getView(R.id.ingredients_icon);
         solo.clickOnView(navItem.getChildAt(1));

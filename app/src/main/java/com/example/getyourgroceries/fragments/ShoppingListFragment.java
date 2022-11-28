@@ -31,6 +31,7 @@ import com.example.getyourgroceries.interfaces.OnCollectIngredientFragmentIntera
 import com.google.android.material.materialswitch.MaterialSwitch;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Iterator;
 
 /**
@@ -77,39 +78,52 @@ public class ShoppingListFragment extends Fragment implements OnCollectIngredien
         
 
         // Sorting functionality by ingredient category and ingredient description
-
         sortDropDown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 boolean desc = sortingSwitch.isChecked();
-                // TODO: sort based on desc variable
-                IngredientStorage.getInstance().sortByCategory(position, desc);
+                String type = sortDropDown.getSelectedItem().toString();
+                if (type.equals("Description") && desc){
+                    adapter.sort((o1, o2) -> o1.getDescription().compareTo(o2.getDescription())*-1);
+                }
+                else if (type.equals("Description") && !desc){
+                    adapter.sort(Comparator.comparing(Ingredient::getDescription));
+                }
+
+                else if (type.equals("Category") && desc){
+                    adapter.sort((o1, o2) -> o1.getCategory().compareTo(o2.getCategory())*-1);
+                }
+                else{
+                    adapter.sort(Comparator.comparing(Ingredient::getCategory));
+                }
+                adapter.notifyDataSetChanged();
 
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                // TODO: sort as ascending
-                IngredientStorage.getInstance().sortByCategory(0, false);
 
             }
         });
 
         sortingSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             String type = sortDropDown.getSelectedItem().toString();
-            switch(type){
-                case("Description"):
-                    // TODO: sort based on ingredient description
-                    IngredientStorage.getInstance().sortByCategory(0, isChecked);
-                    break;
-                case("Category"):
-                    // TODO: sort based on ingredient category
-                    IngredientStorage.getInstance().sortByCategory(3, isChecked);
+            boolean desc = sortingSwitch.isChecked();
+            if (type.equals("Description") && desc){
+                adapter.sort((o1, o2) -> o1.getDescription().compareTo(o2.getDescription())*-1);
             }
+            else if (type.equals("Description") && !desc){
+                adapter.sort(Comparator.comparing(Ingredient::getDescription));
+            }
+            else if (type.equals("Category") && desc){
+                adapter.sort((o1, o2) -> o1.getCategory().compareTo(o2.getCategory())*-1);
+            }
+            else{
+                adapter.sort(Comparator.comparing(Ingredient::getCategory));
+            }
+            adapter.notifyDataSetChanged();
         });
-
         adapter.notifyDataSetChanged();
-
         return view;
     }
 

@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +22,6 @@ import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.entity.Ingredient;
 import com.example.getyourgroceries.entity.StoredIngredient;
 import com.example.getyourgroceries.interfaces.OnCollectIngredientFragmentInteractionListener;
-import com.example.getyourgroceries.interfaces.OnFragmentInteractionListener;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.CollectionReference;
@@ -170,6 +168,7 @@ public class CollectIngredientFragment extends DialogFragment {
 
         TextInputLayout tilExpiry = view.findViewById(R.id.change_ingredient_expiry_til);
         TextInputLayout tilLocation = view.findViewById(R.id.change_ingredient_location_til);
+        TextInputLayout tilQty = view.findViewById(R.id.change_ingredient_quantity_til);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         final AlertDialog dialog = builder
@@ -180,8 +179,8 @@ public class CollectIngredientFragment extends DialogFragment {
         final String[] locationText = {""};
         dialog.setOnShowListener(dialogInterface -> {
             Button button = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
-
             button.setOnClickListener(l -> {
+                String ingAmount = ((TextView)view.findViewById(R.id.change_ingredient_quantity)).getText().toString();
                 locationText[0] = location.getText().toString();
                 boolean hasError = false;
 
@@ -199,10 +198,17 @@ public class CollectIngredientFragment extends DialogFragment {
                     tilExpiry.setErrorEnabled(false);
                 }
 
+                if (ingAmount.equals("")) {
+                    tilQty.setError("Amount cannot be empty!");
+                    hasError= true;
+                } else {
+                    tilQty.setErrorEnabled(false);
+                }
+
                 if (hasError) {
                     return;
                 }
-                listener.onSubmitPressed(new StoredIngredient(ingredient, ingDate[0], locationText[0]));
+                listener.onSubmitPressed(new StoredIngredient(ingredient.getDescription(),Integer.parseInt(ingAmount),ingredient.getUnit(),ingredient.getCategory(),ingDate[0],locationText[0]));
                 dialog.dismiss();
             });
         });

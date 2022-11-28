@@ -18,7 +18,6 @@ import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.adapters.DayIngredientListAdapter;
 import com.example.getyourgroceries.adapters.DayListAdapter;
 import com.example.getyourgroceries.entity.Ingredient;
-import com.example.getyourgroceries.entity.MealPlan;
 import com.example.getyourgroceries.entity.MealPlanDay;
 import com.example.getyourgroceries.interfaces.OnFragmentInteractionListener;
 import com.google.android.material.textfield.TextInputLayout;
@@ -26,7 +25,6 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;

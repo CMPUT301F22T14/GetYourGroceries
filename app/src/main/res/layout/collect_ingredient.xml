@@ -47,7 +47,32 @@
             android:layout_width="300dp"
             android:layout_height="60dp"
             android:inputType="textPersonName" />
-
-
     </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/change_ingredient_location_til"
+        android:id="@+id/change_ingredient_quantity_til"
+        android:layout_width="300dp"
+        android:layout_height="85dp"
+        android:layout_centerInParent="true"
+        android:hint="@string/enter_the_quantity"
+        app:layout_constraintHorizontal_bias="0.505"
+        app:startIconDrawable="@drawable/quantity_icon"
+        tools:layout_editor_absoluteY="193dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/change_ingredient_quantity"
+            android:layout_width="300dp"
+            android:layout_height="60dp"
+            android:autofillHints=""
+            android:ems="10"
+            android:inputType="number"
+            android:textAlignment="center"
+            android:textSize="20sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

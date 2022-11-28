@@ -95,6 +95,13 @@ public class MealPlanFragmentTest {
         solo.enterText(3, "Fruit");
         solo.enterText(4, "0.75");
         solo.clickOnText("OK");
+
+        NestedScrollView scrollView2 = (NestedScrollView) solo.getView(R.id.change_recipe_layout);
+        scrollView2.post(() -> {
+            for (int i = 0; i < 11; i++) {
+                scrollView2.arrowScroll(ScrollView.FOCUS_DOWN);
+            }
+        });
         solo.clickOnText("Confirm");
 
         /* Check for the existence of the meal plan days. */

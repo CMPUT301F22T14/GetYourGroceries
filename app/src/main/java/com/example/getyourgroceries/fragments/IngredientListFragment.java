@@ -1,7 +1,6 @@
 /* IngredientListFragment class. */
 package com.example.getyourgroceries.fragments;
 
-// Import statements.
 import android.content.Context;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -14,15 +13,18 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
+
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.entity.IngredientStorage;
 import com.example.getyourgroceries.entity.StoredIngredient;
+
 import java.util.Objects;
 
 /**
@@ -37,12 +39,13 @@ public class IngredientListFragment extends Fragment {
     /**
      * Empty constructor.
      */
-    public IngredientListFragment(){}
+    public IngredientListFragment() {}
 
     /**
      * Create the view.
-     * @param inflater Inflater to set an XML file.
-     * @param container Containing view.
+     *
+     * @param inflater           Inflater to set an XML file.
+     * @param container          Containing view.
      * @param savedInstanceState The saved state.
      * @return The created view.
      */
@@ -50,7 +53,7 @@ public class IngredientListFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         //set title
-        ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         actionBar.setTitle("Ingredient Storage");
 
         // Inflate the layout for this fragment.
@@ -84,11 +87,11 @@ public class IngredientListFragment extends Fragment {
             builder.setMessage("Would you like to delete this ingredient?");
             builder.setTitle("Delete Ingredient");
             builder.setCancelable(true);
-            builder.setPositiveButton("Yes", (DialogInterface.OnClickListener) (dialog, which) -> {
-               StoredIngredient ingredient = (StoredIngredient) ingredientListView.getItemAtPosition(i);
-               IngredientStorage.getInstance().deleteIngredient(ingredient, true);
+            builder.setPositiveButton("Yes", (dialog, which) -> {
+                StoredIngredient ingredient = (StoredIngredient) ingredientListView.getItemAtPosition(i);
+                IngredientStorage.getInstance().deleteIngredient(ingredient, true);
             });
-            builder.setNegativeButton("No", (DialogInterface.OnClickListener) (dialog, which) -> dialog.cancel());
+            builder.setNegativeButton("No", (dialog, which) -> dialog.cancel());
             AlertDialog alert = builder.create();
             alert.show();
             return true;
@@ -98,11 +101,11 @@ public class IngredientListFragment extends Fragment {
         ingredientListView.setAdapter(IngredientStorage.getInstance().getIngredientAdapter());
         Context context = this.getContext();
         sortDropDown = v.findViewById(R.id.sortIngredientSpinner);
-        ArrayAdapter<CharSequence> sortAdapter = ArrayAdapter.createFromResource(context,R.array.ingredientSortBy,R.layout.ingredient_spinner_selected);
+        ArrayAdapter<CharSequence> sortAdapter = ArrayAdapter.createFromResource(context, R.array.ingredientSortBy, R.layout.ingredient_spinner_selected);
         sortAdapter.setDropDownViewResource(R.layout.ingredient_spinner_dropdown);
         sortDropDown.setAdapter(sortAdapter);
 
-        //Sorting
+        // Sorting
         sortDropDown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -118,6 +121,7 @@ public class IngredientListFragment extends Fragment {
             }
         });
 
+        // Sort Ingredient List
         sortingSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             String type = sortDropDown.getSelectedItem().toString();
             switch (type) {

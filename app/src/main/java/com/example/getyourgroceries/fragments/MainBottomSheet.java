@@ -6,8 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import com.example.getyourgroceries.R;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -21,8 +23,9 @@ public class MainBottomSheet extends BottomSheetDialogFragment {
 
     /**
      * Initialization after creating the view.
-     * @param inflater The XML file to inflate.
-     * @param container The view container.
+     *
+     * @param inflater           The XML file to inflate.
+     * @param container          The view container.
      * @param savedInstanceState The saved state of the object.
      * @return The view to show.
      */
@@ -35,24 +38,29 @@ public class MainBottomSheet extends BottomSheetDialogFragment {
         Button addRecipe = v.findViewById(R.id.quickadd_recipe);
         Button addMealPlan = v.findViewById(R.id.quickadd_mealplan);
         FrameLayout viewBottomSheet = v.findViewById(R.id.standard_bottom_sheet);
+
         BottomSheetBehavior<FrameLayout> bottomSheetBehavior = BottomSheetBehavior.from(viewBottomSheet);
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
         bottomSheetBehavior.setSaveFlags(BottomSheetBehavior.SAVE_ALL);
+
         addIngredient.setOnClickListener(v2 -> {
             IngredientChangeHandlerFragment ingredientChangeHandlerFragment = new IngredientChangeHandlerFragment();
             dismiss();
             requireActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).replace(R.id.container, ingredientChangeHandlerFragment).addToBackStack(null).commit();
         });
+
         addRecipe.setOnClickListener(v2 -> {
             RecipeChangeHandlerFragment recipeChangeHandlerFragment = new RecipeChangeHandlerFragment();
             dismiss();
             requireActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).replace(R.id.container, recipeChangeHandlerFragment, "EDIT_RECIPE").addToBackStack("EDIT_RECIPE").commit();
         });
+
         addMealPlan.setOnClickListener(v2 -> {
             MealPlanChangeHandlerFragment mealPlanChangeHandlerFragment = new MealPlanChangeHandlerFragment();
             dismiss();
             requireActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).replace(R.id.container, mealPlanChangeHandlerFragment).addToBackStack(null).commit();
         });
+
         return v;
     }
 }

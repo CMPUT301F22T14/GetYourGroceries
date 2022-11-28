@@ -12,6 +12,9 @@ import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.entity.MealPlan;
 import java.util.ArrayList;
 
+/**
+ * Adapter for displaying entire meal plans
+ */
 public class MealPlanAdapter extends ArrayAdapter<MealPlan> {
     private final ArrayList<MealPlan> plans;
     private final Context context;
@@ -40,6 +43,7 @@ public class MealPlanAdapter extends ArrayAdapter<MealPlan> {
         if (view == null) {
             view = LayoutInflater.from(context).inflate(R.layout.meal_item, parent, false);
         }
+
         MealPlan mealPlan = plans.get(position);
         TextView mealPlanName = view.findViewById(R.id.mealPlan_name);
         TextView numDays = view.findViewById(R.id.mealPlan_numDays);

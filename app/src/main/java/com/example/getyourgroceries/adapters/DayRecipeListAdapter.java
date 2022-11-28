@@ -14,16 +14,16 @@ import androidx.annotation.Nullable;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.getyourgroceries.GlideApp;
 import com.example.getyourgroceries.R;
-import com.example.getyourgroceries.entity.MealPlanDay;
 import com.example.getyourgroceries.entity.Recipe;
 import com.example.getyourgroceries.entity.ScaledRecipe;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 
+/**
+ * Adapter for displaying scaled recipes in a meal plan day
+ */
 public class DayRecipeListAdapter extends ArrayAdapter<ScaledRecipe> {
     private final ArrayList<ScaledRecipe> recipes;
     private StorageReference imageRef;

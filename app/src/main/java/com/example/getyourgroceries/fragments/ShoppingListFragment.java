@@ -1,9 +1,6 @@
 package com.example.getyourgroceries.fragments;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,8 +44,7 @@ public class ShoppingListFragment extends Fragment implements OnCollectIngredien
     /**
      * Empty constructor
      */
-    public ShoppingListFragment() {
-    }
+    public ShoppingListFragment() {}
 
     /**
      * Calls when the view is created
@@ -75,7 +71,7 @@ public class ShoppingListFragment extends Fragment implements OnCollectIngredien
         ArrayAdapter<CharSequence> sortAdapter = ArrayAdapter.createFromResource(getContext(), R.array.shoppingListSortBy, R.layout.ingredient_spinner_selected);
         sortAdapter.setDropDownViewResource(R.layout.ingredient_spinner_dropdown);
         sortDropDown.setAdapter(sortAdapter);
-        
+
 
         // Sorting functionality by ingredient category and ingredient description
         sortDropDown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -83,17 +79,13 @@ public class ShoppingListFragment extends Fragment implements OnCollectIngredien
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 boolean desc = sortingSwitch.isChecked();
                 String type = sortDropDown.getSelectedItem().toString();
-                if (type.equals("Description") && desc){
-                    adapter.sort((o1, o2) -> o1.getDescription().compareTo(o2.getDescription())*-1);
-                }
-                else if (type.equals("Description") && !desc){
+                if (type.equals("Description") && desc) {
+                    adapter.sort((o1, o2) -> o1.getDescription().compareTo(o2.getDescription()) * -1);
+                } else if (type.equals("Description") && !desc) {
                     adapter.sort(Comparator.comparing(Ingredient::getDescription));
-                }
-
-                else if (type.equals("Category") && desc){
-                    adapter.sort((o1, o2) -> o1.getCategory().compareTo(o2.getCategory())*-1);
-                }
-                else{
+                } else if (type.equals("Category") && desc) {
+                    adapter.sort((o1, o2) -> o1.getCategory().compareTo(o2.getCategory()) * -1);
+                } else {
                     adapter.sort(Comparator.comparing(Ingredient::getCategory));
                 }
                 adapter.notifyDataSetChanged();
@@ -102,28 +94,28 @@ public class ShoppingListFragment extends Fragment implements OnCollectIngredien
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
+                // Sort by description ascending by default
+                adapter.sort(Comparator.comparing(Ingredient::getDescription));
             }
         });
 
         sortingSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             String type = sortDropDown.getSelectedItem().toString();
             boolean desc = sortingSwitch.isChecked();
-            if (type.equals("Description") && desc){
-                adapter.sort((o1, o2) -> o1.getDescription().compareTo(o2.getDescription())*-1);
-            }
-            else if (type.equals("Description") && !desc){
+            if (type.equals("Description") && desc) {
+                adapter.sort((o1, o2) -> o1.getDescription().compareTo(o2.getDescription()) * -1);
+            } else if (type.equals("Description") && !desc) {
                 adapter.sort(Comparator.comparing(Ingredient::getDescription));
-            }
-            else if (type.equals("Category") && desc){
-                adapter.sort((o1, o2) -> o1.getCategory().compareTo(o2.getCategory())*-1);
-            }
-            else{
+            } else if (type.equals("Category") && desc) {
+                adapter.sort((o1, o2) -> o1.getCategory().compareTo(o2.getCategory()) * -1);
+            } else {
                 adapter.sort(Comparator.comparing(Ingredient::getCategory));
             }
             adapter.notifyDataSetChanged();
         });
+
         adapter.notifyDataSetChanged();
+
         return view;
     }
 
@@ -196,10 +188,9 @@ public class ShoppingListFragment extends Fragment implements OnCollectIngredien
         // Update amount if ingredient already exists in storage
         if (IngredientStorage.getInstance().ingredientExists(newIngredient.getDescription())) {
             StoredIngredient oldIngredient = IngredientStorage.getInstance().getIngredient(newIngredient.getDescription());
-            if (!oldIngredient.getBestBefore().equals(newIngredient.getBestBefore())){
+            if (!oldIngredient.getBestBefore().equals(newIngredient.getBestBefore())) {
                 IngredientStorage.getInstance().addIngredient(newIngredient, true);
-            }
-            else {
+            } else {
                 oldIngredient.setAmount(oldIngredient.getAmount() + newIngredient.getAmount());
                 IngredientStorage.getInstance().updateIngredient(oldIngredient);
             }

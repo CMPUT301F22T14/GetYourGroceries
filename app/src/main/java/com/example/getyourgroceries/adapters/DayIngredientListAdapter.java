@@ -12,11 +12,13 @@ import androidx.annotation.Nullable;
 
 import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.entity.Ingredient;
-import com.example.getyourgroceries.entity.MealPlanDay;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
+/**
+ * The adapter for being able to display individual items in a meal plan day
+ */
 public class DayIngredientListAdapter extends ArrayAdapter<Ingredient> {
     private final ArrayList<Ingredient> ingredients;
     private final Context context;

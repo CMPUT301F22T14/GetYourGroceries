@@ -11,6 +11,9 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.InputStream;
 
+/**
+ * Registers the photo glide app module to work with the app
+ */
 @GlideModule
 public class MyAppGlideModule extends AppGlideModule {
     @Override

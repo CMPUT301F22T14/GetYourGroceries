@@ -164,4 +164,11 @@ public class RecipeStorage {
                 break;
         }
     }
+
+    /**
+     * Update local storage based on remote database
+     */
+    public void updateStorage(){
+        recipeDB.refreshStorage();
+    }
 }

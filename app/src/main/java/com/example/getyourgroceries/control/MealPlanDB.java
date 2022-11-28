@@ -27,30 +27,7 @@ public class MealPlanDB {
     public MealPlanDB() {
         db = FirebaseFirestore.getInstance();
         mealPlanCollection = db.collection("Meal Plans");
-        mealPlanCollection
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<>() {
-                    /**
-                     * Execute the code when getting the meal plan collection is completed (or fails).
-                     *
-                     * @param task The task being done.
-                     */
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            // Successful.
-                            MealPlanStorage.getInstance().clearLocalStorage();
-                            for (QueryDocumentSnapshot doc : task.getResult()) {
-                                MealPlan plan = doc.toObject(MealPlan.class);
-                                plan.setId(doc.getId());
-                                MealPlanStorage.getInstance().addMealPlan(plan, false);
-                            }
-                        } else {
-                            // Failed.
-                            Log.d(TAG, "Error getting meal plans: ", task.getException());
-                        }
-                    }
-                });
+        refreshStorage();
     }
 
     /**
@@ -92,5 +69,35 @@ public class MealPlanDB {
      */
     public void updateMealPlan(MealPlan plan) {
         mealPlanCollection.document(plan.getId()).set(plan);
+    }
+
+    /**
+     * Query the database for current values
+     */
+    public void refreshStorage(){
+        mealPlanCollection
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<>() {
+                    /**
+                     * Execute the code when getting the meal plan collection is completed (or fails).
+                     *
+                     * @param task The task being done.
+                     */
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            // Successful.
+                            MealPlanStorage.getInstance().clearLocalStorage();
+                            for (QueryDocumentSnapshot doc : task.getResult()) {
+                                MealPlan plan = doc.toObject(MealPlan.class);
+                                plan.setId(doc.getId());
+                                MealPlanStorage.getInstance().addMealPlan(plan, false);
+                            }
+                        } else {
+                            // Failed.
+                            Log.d(TAG, "Error getting meal plans: ", task.getException());
+                        }
+                    }
+                });
     }
 }

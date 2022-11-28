@@ -1,10 +1,16 @@
 /* IngredientChangeHandlerFragment class. */
 package com.example.getyourgroceries.fragments;
 
-import android.app.AlertDialog;
+import androidx.appcompat.app.AlertDialog;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -125,7 +131,7 @@ public class MealPlanChangeHandlerFragment extends Fragment implements OnMealPla
      * @param dayPosition index of the day to add the recipe to
      */
     public void onSubmitPressed(Recipe recipe, int dayPosition) {
-        AlertDialog.Builder scaleAlertBox = new AlertDialog.Builder(view.getRootView().getContext());
+        AlertDialog.Builder scaleAlertBox = new MaterialAlertDialogBuilder(view.getRootView().getContext());
         scaleAlertBox.setTitle("Input desired scale (default 1)");
 
         final EditText input = new EditText(view.getRootView().getContext());
@@ -152,6 +158,20 @@ public class MealPlanChangeHandlerFragment extends Fragment implements OnMealPla
     }
 
     /**
+     * Initialize menu options.
+     *
+     * @param menu     The menu.
+     * @param inflater The XML file to inflate.
+     */
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        if (getArguments() != null) {
+            inflater.inflate(R.menu.edit_mealplan_menu, menu);
+            menu.findItem(R.id.delete_mealplan).getIcon().mutate().setColorFilter(getResources().getColor(R.color.primaryColor), PorterDuff.Mode.SRC_ATOP);
+        }
+    }
+
+    /**
      * The onOptionsItemSelected method will go to the previous fragment when the back button is pressed.
      *
      * @param item The item selected.
@@ -159,6 +179,10 @@ public class MealPlanChangeHandlerFragment extends Fragment implements OnMealPla
      */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.delete_mealplan) {
+            MealPlanStorage.getInstance().deleteMealPlan(editMealPlan, true);
+        }
         return requireActivity().getSupportFragmentManager().popBackStackImmediate();
+
     }
 }

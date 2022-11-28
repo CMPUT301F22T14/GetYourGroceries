@@ -1,6 +1,7 @@
 package com.example.getyourgroceries.fragments;
 
-import android.app.AlertDialog;
+import androidx.appcompat.app.AlertDialog;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -125,7 +126,7 @@ public class CollectIngredientFragment extends DialogFragment {
             if (locations.get(i).equals("+ Save New Location")) {
                 location.setText("");
                 final EditText newLocationInput = new EditText(getContext());
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                AlertDialog.Builder builder = new MaterialAlertDialogBuilder(getContext());
                 builder
                         .setTitle("Add Location")
                         .setMessage("Enter a new location:")
@@ -145,7 +146,7 @@ public class CollectIngredientFragment extends DialogFragment {
             } else if (locations.get(i).equals("- Delete Saved Location")) {
                 location.setText("");
                 final EditText deleteLocationInput = new EditText(getContext());
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                AlertDialog.Builder builder = new MaterialAlertDialogBuilder(getContext());
                 builder
                         .setTitle("Delete Location")
                         .setMessage("Delete an existing location:")
@@ -169,7 +170,7 @@ public class CollectIngredientFragment extends DialogFragment {
         TextInputLayout tilLocation = view.findViewById(R.id.change_ingredient_location_til);
         TextInputLayout tilQty = view.findViewById(R.id.change_ingredient_quantity_til);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        AlertDialog.Builder builder = new MaterialAlertDialogBuilder(getContext());
         final AlertDialog dialog = builder
                 .setView(view)
                 .setNegativeButton("Cancel", null)

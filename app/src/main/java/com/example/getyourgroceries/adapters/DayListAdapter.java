@@ -1,6 +1,6 @@
 package com.example.getyourgroceries.adapters;
 
-import android.app.AlertDialog;
+import androidx.appcompat.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.InputType;
@@ -20,7 +20,9 @@ import androidx.fragment.app.FragmentManager;
 import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.entity.Ingredient;
 import com.example.getyourgroceries.entity.IngredientStorage;
+import com.example.getyourgroceries.entity.MealPlan;
 import com.example.getyourgroceries.entity.MealPlanDay;
+import com.example.getyourgroceries.entity.MealPlanStorage;
 import com.example.getyourgroceries.entity.Recipe;
 import com.example.getyourgroceries.entity.RecipeStorage;
 import com.example.getyourgroceries.entity.ScaledRecipe;
@@ -28,6 +30,7 @@ import com.example.getyourgroceries.entity.StoredIngredient;
 import com.example.getyourgroceries.fragments.AddIngredientRecipeFragment;
 import com.example.getyourgroceries.fragments.RecipeChangeHandlerFragment;
 import com.example.getyourgroceries.interfaces.OnFragmentInteractionListener;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -93,14 +96,26 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements OnFragm
         DayListAdapter classAdapter = this;
         dayIngredientListView.setOnItemClickListener((adapterView, view12, i, l) -> new AddIngredientRecipeFragment(days, i, position, classAdapter, dayIngredientListAdapter).show(fm, "EDIT_INGREDIENT_RECIPE"));
 
+        Button deleteButton = view.findViewById(R.id.delete_day);
+        deleteButton.setOnClickListener((v) -> {
+            days.remove(position);
+            // Fix ordering on days
+            int i = 1;
+            for (MealPlanDay day: days) {
+                day.setTitle("Day " + i);
+                i++;
+            }
+
+            this.notifyDataSetChanged();
+        });
         // Long press to delete ingredient
         dayIngredientListView.setOnItemLongClickListener((adapterView, view2, i, l) -> {
-            AlertDialog.Builder builder = new AlertDialog.Builder(view2.getRootView().getContext());
+            AlertDialog.Builder builder = new MaterialAlertDialogBuilder(view2.getRootView().getContext());
             builder.setMessage("Would you like to delete this ingredient?");
             builder.setTitle("Delete Ingredient");
             builder.setCancelable(true);
             builder.setPositiveButton("Yes", (dialog, which) -> {
-                Ingredient ingredient = (Ingredient) dayIngredientListView.getItemAtPosition(i);
+                Ingredient ingredient = (Ingredient) dayIngredientListAdapter.getItem(i);
                 dayIngredientListAdapter.remove(ingredient);
                 dayIngredientListAdapter.notifyDataSetChanged();
             });
@@ -112,12 +127,12 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements OnFragm
 
         // Long press to delete recipe
         recipeListview.setOnItemLongClickListener((adapterView, view2, i, l) -> {
-            AlertDialog.Builder builder = new AlertDialog.Builder(view2.getRootView().getContext());
+            AlertDialog.Builder builder = new MaterialAlertDialogBuilder(view2.getRootView().getContext());
             builder.setMessage("Would you like to delete this recipe?");
             builder.setTitle("Delete Recipe");
             builder.setCancelable(true);
             builder.setPositiveButton("Yes", (dialog, which) -> {
-                ScaledRecipe recipe = (ScaledRecipe) recipeListview.getItemAtPosition(i);
+                ScaledRecipe recipe = (ScaledRecipe) dayRecipeListAdapter.getItem(i);
                 dayRecipeListAdapter.remove(recipe);
                 dayRecipeListAdapter.notifyDataSetChanged();
             });
@@ -140,7 +155,7 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements OnFragm
             ingredients.removeIf(c -> !seen.add(Arrays.asList(c.getDescription(), c.getCategory(), c.getUnit())));
 
             ingredientListView.setAdapter(new MealIngredientStorageAdapter(context,ingredients));
-            AlertDialog.Builder alertbox = new AlertDialog.Builder(v.getRootView().getContext());
+            AlertDialog.Builder alertbox = new MaterialAlertDialogBuilder(v.getRootView().getContext());
             alertbox.setView(layout);
             AlertDialog a = alertbox.create();
             a.show();
@@ -185,7 +200,7 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements OnFragm
             ListView recipeListView = layout.findViewById(R.id.recipe_list_meal);
             recipeListView.setAdapter(RecipeStorage.getInstance().getRecipeAdapter());
 
-            AlertDialog.Builder alertbox = new AlertDialog.Builder(v.getRootView().getContext());
+            AlertDialog.Builder alertbox = new MaterialAlertDialogBuilder(v.getRootView().getContext());
             alertbox.setView(layout);
             AlertDialog a = alertbox.create();
             a.show();
@@ -204,7 +219,7 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements OnFragm
 
             // Add existing recipe
             recipeListView.setOnItemClickListener((adapterView, view13, i, l) -> {
-                AlertDialog.Builder scaleAlertBox = new AlertDialog.Builder(view13.getRootView().getContext());
+                AlertDialog.Builder scaleAlertBox = new MaterialAlertDialogBuilder(view13.getRootView().getContext());
                 Recipe recipe = (Recipe) recipeListView.getItemAtPosition(i);
                 scaleAlertBox.setTitle("What is your desired scale?(default 1)");
 
@@ -233,10 +248,9 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements OnFragm
         });
 
         recipeListview.setOnItemClickListener((parent1, view14, position1, id) -> {
-            MealPlanDay newDay = days.get(position);
-            ScaledRecipe scaledRecipe = newDay.getRecipeList().get(position1);
+            ScaledRecipe scaledRecipe = days.get(position).getRecipeList().get(position1);
 
-            AlertDialog.Builder scaleAlertBox = new AlertDialog.Builder(view14.getRootView().getContext());
+            AlertDialog.Builder scaleAlertBox = new MaterialAlertDialogBuilder(view14.getRootView().getContext());
             scaleAlertBox.setTitle("Change Scale");
 
             final EditText input = new EditText(view14.getRootView().getContext());
@@ -252,7 +266,7 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements OnFragm
                 }
 
                 scaledRecipe.setScale(scale);
-                day.updateRecipe(scaledRecipe, position1);
+                days.get(position).updateRecipe(scaledRecipe, position1);
                 notifyDataSetChanged();
             });
 

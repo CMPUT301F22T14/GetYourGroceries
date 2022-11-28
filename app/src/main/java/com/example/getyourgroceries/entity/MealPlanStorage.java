@@ -117,4 +117,11 @@ public class MealPlanStorage {
         mealPlanAdapter.clear();
         mealPlanAdapter.notifyDataSetChanged();
     }
+
+    /**
+     * Update local storage based on remote database
+     */
+    public void updateStorage(){
+        mealPlanDB.refreshStorage();
+    }
 }

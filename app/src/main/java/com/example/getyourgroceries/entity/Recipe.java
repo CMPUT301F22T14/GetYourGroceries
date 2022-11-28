@@ -7,7 +7,7 @@ import java.util.ArrayList;
 /**
  * Create an object to represent a recipe.
  */
-public class Recipe implements Serializable {
+public class Recipe {
     private String name;
     private int prepTime;
     private int numOfServings;

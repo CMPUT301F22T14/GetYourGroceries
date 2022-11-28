@@ -28,30 +28,7 @@ public class RecipeDB {
     public RecipeDB() {
         db = FirebaseFirestore.getInstance();
         recipeCollection = db.collection("Recipes");
-        recipeCollection
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<>() {
-                    /**
-                     * Execute the code when getting the ingredient collection is completed (or fails).
-                     *
-                     * @param task The task being done.
-                     */
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            // Successful.
-                            RecipeStorage.getInstance().clearLocalStorage();
-                            for (QueryDocumentSnapshot doc : task.getResult()) {
-                                Recipe recipe = doc.toObject(Recipe.class);
-                                recipe.setId(doc.getId());
-                                RecipeStorage.getInstance().addRecipe(recipe, false);
-                            }
-                        } else {
-                            // Failed.
-                            Log.d(TAG, "Error getting recipes: ", task.getException());
-                        }
-                    }
-                });
+        refreshStorage();
     }
 
     /**
@@ -93,5 +70,35 @@ public class RecipeDB {
      */
     public void updateRecipe(Recipe recipe) {
         recipeCollection.document(recipe.getId()).set(recipe);
+    }
+
+    /**
+     * Query the database for current values
+     */
+    public void refreshStorage(){
+        recipeCollection
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<>() {
+                    /**
+                     * Execute the code when getting the ingredient collection is completed (or fails).
+                     *
+                     * @param task The task being done.
+                     */
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            // Successful.
+                            RecipeStorage.getInstance().clearLocalStorage();
+                            for (QueryDocumentSnapshot doc : task.getResult()) {
+                                Recipe recipe = doc.toObject(Recipe.class);
+                                recipe.setId(doc.getId());
+                                RecipeStorage.getInstance().addRecipe(recipe, false);
+                            }
+                        } else {
+                            // Failed.
+                            Log.d(TAG, "Error getting recipes: ", task.getException());
+                        }
+                    }
+                });
     }
 }

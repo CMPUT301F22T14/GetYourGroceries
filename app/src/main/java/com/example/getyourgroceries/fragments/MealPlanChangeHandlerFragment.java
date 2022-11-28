@@ -1,7 +1,8 @@
 /* IngredientChangeHandlerFragment class. */
 package com.example.getyourgroceries.fragments;
 
-import android.app.AlertDialog;
+import androidx.appcompat.app.AlertDialog;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.LayoutInflater;
@@ -125,7 +126,7 @@ public class MealPlanChangeHandlerFragment extends Fragment implements OnMealPla
      * @param dayPosition index of the day to add the recipe to
      */
     public void onSubmitPressed(Recipe recipe, int dayPosition) {
-        AlertDialog.Builder scaleAlertBox = new AlertDialog.Builder(view.getRootView().getContext());
+        AlertDialog.Builder scaleAlertBox = new MaterialAlertDialogBuilder(view.getRootView().getContext());
         scaleAlertBox.setTitle("Input desired scale (default 1)");
 
         final EditText input = new EditText(view.getRootView().getContext());

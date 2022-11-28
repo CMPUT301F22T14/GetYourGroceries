@@ -1,7 +1,7 @@
 /* RecipeListFragment class. */
 package com.example.getyourgroceries.fragments;
 
-import android.app.AlertDialog;
+import androidx.appcompat.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,6 +17,7 @@ import com.example.getyourgroceries.R;
 
 import com.example.getyourgroceries.entity.RecipeStorage;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.materialswitch.MaterialSwitch;
 
 import androidx.appcompat.app.ActionBar;
@@ -79,7 +80,7 @@ public class RecipeListFragment extends Fragment {
 
         // Listener to delete a recipe.
         recipeList.setOnItemLongClickListener((adapterView, view, i, l) -> {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            AlertDialog.Builder builder = new MaterialAlertDialogBuilder(getContext());
             builder.setMessage("Would you like to delete this recipe?");
             builder.setTitle("Delete Recipe");
             builder.setCancelable(true);

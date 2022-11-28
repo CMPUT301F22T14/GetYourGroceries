@@ -1,6 +1,6 @@
 package com.example.getyourgroceries.adapters;
 
-import android.app.AlertDialog;
+import androidx.appcompat.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.InputType;
@@ -28,6 +28,7 @@ import com.example.getyourgroceries.entity.StoredIngredient;
 import com.example.getyourgroceries.fragments.AddIngredientRecipeFragment;
 import com.example.getyourgroceries.fragments.RecipeChangeHandlerFragment;
 import com.example.getyourgroceries.interfaces.OnFragmentInteractionListener;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -95,7 +96,7 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements OnFragm
 
         // Long press to delete ingredient
         dayIngredientListView.setOnItemLongClickListener((adapterView, view2, i, l) -> {
-            AlertDialog.Builder builder = new AlertDialog.Builder(view2.getRootView().getContext());
+            AlertDialog.Builder builder = new MaterialAlertDialogBuilder(view2.getRootView().getContext());
             builder.setMessage("Would you like to delete this ingredient?");
             builder.setTitle("Delete Ingredient");
             builder.setCancelable(true);
@@ -112,7 +113,7 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements OnFragm
 
         // Long press to delete recipe
         recipeListview.setOnItemLongClickListener((adapterView, view2, i, l) -> {
-            AlertDialog.Builder builder = new AlertDialog.Builder(view2.getRootView().getContext());
+            AlertDialog.Builder builder = new MaterialAlertDialogBuilder(view2.getRootView().getContext());
             builder.setMessage("Would you like to delete this recipe?");
             builder.setTitle("Delete Recipe");
             builder.setCancelable(true);
@@ -140,7 +141,7 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements OnFragm
             ingredients.removeIf(c -> !seen.add(Arrays.asList(c.getDescription(), c.getCategory(), c.getUnit())));
 
             ingredientListView.setAdapter(new MealIngredientStorageAdapter(context,ingredients));
-            AlertDialog.Builder alertbox = new AlertDialog.Builder(v.getRootView().getContext());
+            AlertDialog.Builder alertbox = new MaterialAlertDialogBuilder(v.getRootView().getContext());
             alertbox.setView(layout);
             AlertDialog a = alertbox.create();
             a.show();
@@ -152,10 +153,11 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements OnFragm
 
             ingredientListView.setOnItemClickListener((adapterView, view1, i, l) -> {
                 Ingredient ingredient = (Ingredient) ingredientListView.getItemAtPosition(i);
-                AlertDialog.Builder builder = new AlertDialog.Builder(view1.getRootView().getContext());
+                AlertDialog.Builder builder = new MaterialAlertDialogBuilder(view1.getRootView().getContext());
                 builder.setTitle("How many do you need?");
                 // Set up the input
                 final EditText input = new EditText(getContext());
+                input.setInputType(InputType.TYPE_CLASS_NUMBER);
                 builder.setView(input);
                 // Set up the buttons
                 builder.setPositiveButton("OK", (dialog, which) -> {
@@ -178,7 +180,7 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements OnFragm
             ListView recipeListView = layout.findViewById(R.id.recipe_list_meal);
             recipeListView.setAdapter(RecipeStorage.getInstance().getRecipeAdapter());
 
-            AlertDialog.Builder alertbox = new AlertDialog.Builder(v.getRootView().getContext());
+            AlertDialog.Builder alertbox = new MaterialAlertDialogBuilder(v.getRootView().getContext());
             alertbox.setView(layout);
             AlertDialog a = alertbox.create();
             a.show();
@@ -197,7 +199,7 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements OnFragm
 
             // Add existing recipe
             recipeListView.setOnItemClickListener((adapterView, view13, i, l) -> {
-                AlertDialog.Builder scaleAlertBox = new AlertDialog.Builder(view13.getRootView().getContext());
+                AlertDialog.Builder scaleAlertBox = new MaterialAlertDialogBuilder(view13.getRootView().getContext());
                 Recipe recipe = (Recipe) recipeListView.getItemAtPosition(i);
                 scaleAlertBox.setTitle("Input desired scale (default 1)");
 
@@ -227,9 +229,9 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements OnFragm
         });
 
         recipeListview.setOnItemClickListener((parent1, view14, position1, id) -> {
-            ScaledRecipe scaledRecipe = day.getRecipeList().get(position1);
+            ScaledRecipe scaledRecipe = days.get(position).getRecipeList().get(position1);
 
-            AlertDialog.Builder scaleAlertBox = new AlertDialog.Builder(view14.getRootView().getContext());
+            AlertDialog.Builder scaleAlertBox = new MaterialAlertDialogBuilder(view14.getRootView().getContext());
             scaleAlertBox.setTitle("Change Scale");
 
             final EditText input = new EditText(view14.getRootView().getContext());
@@ -245,7 +247,7 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements OnFragm
                 }
 
                 scaledRecipe.setScale(scale);
-                day.updateRecipe(scaledRecipe, position1);
+                days.get(position).updateRecipe(scaledRecipe, position1);
                 notifyDataSetChanged();
             });
 

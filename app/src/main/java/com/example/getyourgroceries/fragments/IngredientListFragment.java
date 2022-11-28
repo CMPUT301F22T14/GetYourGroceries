@@ -2,7 +2,8 @@
 package com.example.getyourgroceries.fragments;
 
 import android.content.Context;
-import android.app.AlertDialog;
+import androidx.appcompat.app.AlertDialog;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -83,7 +84,7 @@ public class IngredientListFragment extends Fragment {
 
         // Listener to delete an ingredient.
         ingredientListView.setOnItemLongClickListener((adapterView, view, i, l) -> {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            AlertDialog.Builder builder = new MaterialAlertDialogBuilder(getContext());
             builder.setMessage("Would you like to delete this ingredient?");
             builder.setTitle("Delete Ingredient");
             builder.setCancelable(true);

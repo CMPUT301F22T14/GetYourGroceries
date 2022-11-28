@@ -1,6 +1,7 @@
 package com.example.getyourgroceries.fragments;
 
-import android.app.AlertDialog;
+import androidx.appcompat.app.AlertDialog;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import com.example.getyourgroceries.adapters.DayListAdapter;
 import com.example.getyourgroceries.entity.Ingredient;
 import com.example.getyourgroceries.entity.MealPlanDay;
 import com.example.getyourgroceries.interfaces.OnFragmentInteractionListener;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -136,7 +138,7 @@ public class AddIngredientRecipeFragment extends DialogFragment {
             if (Objects.equals(categories.get(i), "+ Save New Category")) {
                 category.setText("");
                 final EditText newCategoryInput = new EditText(getContext());
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                AlertDialog.Builder builder = new MaterialAlertDialogBuilder(getContext());
                 builder
                         .setTitle("Add Category")
                         .setMessage("Enter a new category:")
@@ -156,7 +158,7 @@ public class AddIngredientRecipeFragment extends DialogFragment {
             } else if (categories.get(i).equals("- Delete Saved Category")) {
                 category.setText("");
                 final EditText deleteCategoryInput = new EditText(getContext());
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                AlertDialog.Builder builder = new MaterialAlertDialogBuilder(getContext());
                 builder
                         .setTitle("Delete Category")
                         .setMessage("Delete an existing category:")
@@ -186,7 +188,7 @@ public class AddIngredientRecipeFragment extends DialogFragment {
             unit.setText(ingredient.getUnit().toString());
         }
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        AlertDialog.Builder builder = new MaterialAlertDialogBuilder(getContext());
 
         if (ingredient != null) {
             builder = builder.setTitle("Edit Ingredient");
@@ -224,19 +226,19 @@ public class AddIngredientRecipeFragment extends DialogFragment {
                     categoryTIL.setError("Category cannot be empty!");
                     error = 1;
                 } else {
-                    descriptionTIL.setErrorEnabled(false);
+                    categoryTIL.setErrorEnabled(false);
                 }
                 if (ingAmount.equals("")) {
                     quantityTIL.setError("Amount cannot be empty!");
                     error = 1;
                 } else {
-                    descriptionTIL.setErrorEnabled(false);
+                    quantityTIL.setErrorEnabled(false);
                 }
                 if (ingUnit.equals("")) {
                     unitTIL.setError("Unit price cannot be empty!");
                     error = 1;
                 } else {
-                    descriptionTIL.setErrorEnabled(false);
+                    unitTIL.setErrorEnabled(false);
                 }
                 if (error == 0) {
                     int ingAmount2 = Integer.parseInt(ingAmount);

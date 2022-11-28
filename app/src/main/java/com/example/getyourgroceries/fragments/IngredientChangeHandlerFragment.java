@@ -3,7 +3,8 @@ package com.example.getyourgroceries.fragments;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
+import androidx.appcompat.app.AlertDialog;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -163,7 +164,7 @@ public class IngredientChangeHandlerFragment extends Fragment {
             if (locations.get(i).equals("+ Save New Location")) {
                 location.setText("");
                 final EditText newLocationInput = new EditText(getContext());
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                AlertDialog.Builder builder = new MaterialAlertDialogBuilder(getContext());
                 builder
                         .setTitle("Add Location")
                         .setMessage("Enter a new location:")
@@ -183,7 +184,7 @@ public class IngredientChangeHandlerFragment extends Fragment {
             } else if (locations.get(i).equals("- Delete Saved Location")) {
                 location.setText("");
                 final EditText deleteLocationInput = new EditText(getContext());
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                AlertDialog.Builder builder = new MaterialAlertDialogBuilder(getContext());
                 builder
                         .setTitle("Delete Location")
                         .setMessage("Delete an existing location:")
@@ -228,7 +229,7 @@ public class IngredientChangeHandlerFragment extends Fragment {
             if (Objects.equals(categories.get(i), "+ Save New Category")) {
                 category.setText("");
                 final EditText newCategoryInput = new EditText(getContext());
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                AlertDialog.Builder builder = new MaterialAlertDialogBuilder(getContext());
                 builder
                         .setTitle("Add Category")
                         .setMessage("Enter a new category:")
@@ -248,7 +249,7 @@ public class IngredientChangeHandlerFragment extends Fragment {
             } else if (categories.get(i).equals("- Delete Saved Category")) {
                 category.setText("");
                 final EditText deleteCategoryInput = new EditText(getContext());
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                AlertDialog.Builder builder = new MaterialAlertDialogBuilder(getContext());
                 builder
                         .setTitle("Delete Category")
                         .setMessage("Delete an existing category:")

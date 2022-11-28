@@ -3,7 +3,8 @@ package com.example.getyourgroceries.fragments;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
+import androidx.appcompat.app.AlertDialog;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -160,7 +161,7 @@ public class RecipeChangeHandlerFragment extends Fragment implements OnFragmentI
             if (Objects.equals(categories.get(i), "+ Save New Category")) {
                 category.setText("");
                 final EditText newCategoryInput = new EditText(getContext());
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                AlertDialog.Builder builder = new MaterialAlertDialogBuilder(getContext());
                 builder
                         .setTitle("Add Category")
                         .setMessage("Enter a new category:")
@@ -180,7 +181,7 @@ public class RecipeChangeHandlerFragment extends Fragment implements OnFragmentI
             } else if (categories.get(i).equals("- Delete Saved Category")) {
                 category.setText("");
                 final EditText deleteCategoryInput = new EditText(getContext());
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                AlertDialog.Builder builder = new MaterialAlertDialogBuilder(getContext());
                 builder
                         .setTitle("Delete Category")
                         .setMessage("Delete an existing category:")
@@ -214,7 +215,7 @@ public class RecipeChangeHandlerFragment extends Fragment implements OnFragmentI
         ingredientListView.setOnItemClickListener((adapterView, view12, i, l) -> new AddIngredientRecipeFragment(ingredientList.get(i), i).show(requireActivity().getSupportFragmentManager(), "EDIT_INGREDIENT_RECIPE"));
 
         ingredientListView.setOnItemLongClickListener((adapterView, view2, i, l) -> {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            AlertDialog.Builder builder = new MaterialAlertDialogBuilder(getContext());
             builder.setMessage("Would you like to delete this ingredient?");
             builder.setTitle("Delete Ingredient");
             builder.setCancelable(true);

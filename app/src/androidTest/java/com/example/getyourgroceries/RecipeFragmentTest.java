@@ -520,7 +520,7 @@ public class RecipeFragmentTest {
 
                 // Delete ingredient from recipe
                 ListView ingredients = (ListView) solo.getView(R.id.add_ingredients_recipe);
-                for (int j = 0; j < size; j++) {
+                for (int j = 0; j < ingredients.getAdapter().getCount(); j++) {
                     Ingredient ing = (Ingredient) ingredients.getAdapter().getItem(j);
                     if (Objects.equals(ing.getDescription(), "Ingredient To Delete")) {
                         solo.clickLongInList(j, 0);

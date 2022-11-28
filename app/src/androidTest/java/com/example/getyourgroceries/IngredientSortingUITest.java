@@ -77,6 +77,8 @@ public class IngredientSortingUITest {
     @Test
     public void testDescriptionSortAsc() {
         solo.clickOnView(solo.getView(R.id.sortIngredientSpinner));
+        solo.clickOnText("Date");
+        solo.clickOnView(solo.getView(R.id.sortIngredientSpinner));
         solo.clickOnText("Description");
         solo.scrollToTop();
 

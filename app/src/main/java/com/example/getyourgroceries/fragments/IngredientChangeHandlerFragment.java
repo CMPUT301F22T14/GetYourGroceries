@@ -6,7 +6,6 @@ package com.example.getyourgroceries.fragments;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -119,6 +118,7 @@ public class IngredientChangeHandlerFragment extends Fragment {
         if (getArguments() != null) {
             cal.setTime(editIngredient.getBestBefore());
         }
+
         TextView displayDate = requireActivity().findViewById(R.id.change_ingredient_expiry);
         displayDate.setTextSize(20);
         displayDate.setGravity(Gravity.CENTER_VERTICAL);

@@ -4,30 +4,22 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import android.app.Activity;
-import android.util.Log;
-import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ScrollView;
-import android.widget.Spinner;
-import android.widget.TextView;
 
-import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
 import com.example.getyourgroceries.entity.Ingredient;
-import com.example.getyourgroceries.entity.IngredientStorage;
 import com.example.getyourgroceries.entity.Recipe;
 import com.example.getyourgroceries.entity.RecipeStorage;
-import com.example.getyourgroceries.entity.StoredIngredient;
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.robotium.solo.Solo;
 
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;

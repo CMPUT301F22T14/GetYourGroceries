@@ -13,9 +13,9 @@ public class StoredIngredient extends Ingredient{
     // Attributes.
     private Date bestBefore;
     private String location;
-    public StoredIngredient(){
-        super();
-    }
+
+
+    StoredIngredient() {}
 
     /**
      * Constructor for stored ingredients.
@@ -27,8 +27,6 @@ public class StoredIngredient extends Ingredient{
      * @param location The storage location.
      */
     public StoredIngredient(String description, Integer amount, Double unit, String category, Date bestBefore, String location) {
-
-        // Set the attributes.
         super(description, amount, unit, category);
         this.bestBefore = bestBefore;
         this.location = location;
@@ -41,8 +39,19 @@ public class StoredIngredient extends Ingredient{
      * @param location The storage location.
      */
     public StoredIngredient(Ingredient ingredient, Date bestBefore, String location) {
+        super(ingredient.getDescription(), ingredient.getAmount(), ingredient.getUnit(), ingredient.getCategory());
+        this.bestBefore = bestBefore;
+        this.location = location;
+    }
 
-        // Set the attributes.
+
+    /**
+     * Constructor for stored ingredients given an existing ingredient.
+     * @param ingredient An existing ingredient.
+     * @param bestBefore The best before date.
+     * @param location The storage location.
+     */
+    public StoredIngredient(Ingredient ingredient, Date bestBefore, String location,int quantity) {
         super(ingredient.getDescription(), ingredient.getAmount(), ingredient.getUnit(), ingredient.getCategory());
         this.bestBefore = bestBefore;
         this.location = location;

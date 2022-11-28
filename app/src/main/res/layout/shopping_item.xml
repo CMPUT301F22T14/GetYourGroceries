@@ -167,14 +167,9 @@
                     style="?attr/borderlessButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:id="@+id/collect_ingredient"
                     android:layout_marginEnd="8dp"
                     android:text="@string/shopping_list_collected" />
-
-                <com.google.android.material.button.MaterialButton
-                    style="?attr/borderlessButtonStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/shopping_list_delete" />
             </LinearLayout>
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>

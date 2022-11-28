@@ -2,8 +2,9 @@
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:fillViewport="true"
-    android:layout_height="match_parent">
+    android:id="@+id/change_recipe_layout"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -35,41 +36,38 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <ListView
+            android:id="@+id/day_list"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:paddingVertical="20dp"
-            android:id="@+id/day_list"
-            android:divider="@drawable/space_divider"
             android:layout_marginHorizontal="10dp"
             android:layout_weight="1"
-            />
+            android:divider="@drawable/space_divider"
+            android:paddingVertical="20dp" />
 
         <Button
             android:id="@+id/add_day"
+            style="?attr/materialButtonOutlinedStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add Day"
             android:layout_gravity="bottom|center_horizontal"
             android:layout_marginBottom="10dp"
-            style="?attr/materialButtonOutlinedStyle"
-            android:textSize="16sp"
             android:paddingHorizontal="50dp"
-            app:icon="@drawable/ic_plus"
-            />
+            android:text="Add Day"
+            android:textSize="16sp"
+            app:icon="@drawable/ic_plus" />
 
         <Button
             android:id="@+id/change_mealplan_confirm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center"
+            android:layout_marginBottom="85dp"
             android:width="250dp"
             android:backgroundTint="@color/primaryLightColor"
             android:text="Confirm"
-            android:textSize= "22sp"
-            android:layout_marginBottom="85dp"
             android:textAlignment="center"
             android:textColor="@color/white"
-            />
+            android:textSize="22sp" />
 
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

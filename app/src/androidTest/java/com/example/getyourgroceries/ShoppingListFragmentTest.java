@@ -4,6 +4,7 @@ import static androidx.test.internal.runner.junit4.statement.UiThreadStatement.r
 import static org.junit.Assert.assertTrue;
 
 import android.app.Activity;
+import android.widget.ListView;
 
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
@@ -134,6 +135,88 @@ public class ShoppingListFragmentTest {
         /* Delete the added ingredient. */
         runOnUiThread(() -> {
             IngredientStorage.getInstance().deleteIngredient(storedIngredient, true);
+            MealPlanStorage.getInstance().deleteMealPlan(mealPlan1, true);
+        });
+    }
+
+    /**
+     * Test sorting the shopping list by description or category, ascending or descending (US 4.03.01).
+     * @throws Throwable Exception for deleting from the database.
+     */
+    @Test
+    public void testSortShoppingList() throws Throwable {
+
+        /* Add recipes to meal plan. */
+        ArrayList<MealPlanDay> mealPlanDayList1 = new ArrayList<>();
+        mealPlanDayList1.add(new MealPlanDay("Day 1"));
+        Recipe recipe = new Recipe("Apple Pie", 60, 8, "Dessert", "", "");
+        recipe.addIngredient(new Ingredient("Apple", 10, 0.75, "Fruit"));
+        mealPlanDayList1.get(0).addRecipe(new ScaledRecipe(recipe, 2));
+        MealPlan mealPlan1 = new MealPlan("Cheat Life", mealPlanDayList1);
+        MealPlanStorage.getInstance().addMealPlan(mealPlan1, true);
+        ArrayList<MealPlanDay> mealPlanDayList2 = new ArrayList<>();
+        mealPlanDayList2.add(new MealPlanDay("Sunday"));
+        mealPlanDayList2.get(0).addIngredient(new Ingredient("Watermelon", 1, 3.00, "Fruit"));
+        MealPlan mealPlan2 = new MealPlan("Bulking Szn", mealPlanDayList2);
+        MealPlanStorage.getInstance().addMealPlan(mealPlan2, true);
+
+        /* Sort by description ascending. */
+        solo.clickOnView(((BottomNavigationItemView) solo.getView(R.id.shopping_icon)).getChildAt(1));
+        solo.clickOnView(solo.getView(R.id.sort_shoppinglist_spinner));
+        solo.clickOnText("Description");
+        solo.sleep(2000);
+
+        /* Make sure the ingredients sorted correctly. */
+        ListView ingredients = (ListView) solo.getView(R.id.shoppingListView);
+        for (int i = 0; i < ingredients.getAdapter().getCount() - 1; i++) {
+            Ingredient ingredient1 = (Ingredient) ingredients.getAdapter().getItem(i);
+            Ingredient ingredient2 = (Ingredient) ingredients.getAdapter().getItem(i + 1);
+            assertTrue(ingredient1.getDescription().compareTo(ingredient2.getDescription()) <= 0);
+        }
+
+        /* Sort by description descending. */
+        solo.clickOnView(solo.getView(R.id.sort_shoppinglist_spinner));
+        solo.clickOnText("Description");
+        solo.clickOnView(solo.getView(R.id.sorting_switch_shoppinglist));
+        solo.sleep(2000);
+
+        /* Make sure the ingredients sorted correctly. */
+        for (int i = 0; i < ingredients.getAdapter().getCount() - 1; i++) {
+            Ingredient ingredient1 = (Ingredient) ingredients.getAdapter().getItem(i);
+            Ingredient ingredient2 = (Ingredient) ingredients.getAdapter().getItem(i + 1);
+            assertTrue(ingredient1.getDescription().compareTo(ingredient2.getDescription()) >= 0);
+        }
+
+        /* Sort by category ascending. */
+        solo.clickOnView(solo.getView(R.id.sort_shoppinglist_spinner));
+        solo.clickOnText("Category");
+        solo.clickOnView(solo.getView(R.id.sorting_switch_shoppinglist));
+        solo.sleep(2000);
+
+        /* Make sure the ingredients sorted correctly. */
+        for (int i = 0; i < ingredients.getAdapter().getCount() - 1; i++) {
+            Ingredient ingredient1 = (Ingredient) ingredients.getAdapter().getItem(i);
+            Ingredient ingredient2 = (Ingredient) ingredients.getAdapter().getItem(i + 1);
+            assertTrue(ingredient1.getCategory().compareTo(ingredient2.getCategory()) <= 0);
+        }
+
+        /* Sort by category descending. */
+        solo.clickOnView(solo.getView(R.id.sort_shoppinglist_spinner));
+        solo.clickOnText("Category");
+        solo.clickOnView(solo.getView(R.id.sorting_switch_shoppinglist));
+        solo.sleep(2000);
+
+        /* Make sure the ingredients sorted correctly. */
+        for (int i = 0; i < ingredients.getAdapter().getCount() - 1; i++) {
+            Ingredient ingredient1 = (Ingredient) ingredients.getAdapter().getItem(i);
+            Ingredient ingredient2 = (Ingredient) ingredients.getAdapter().getItem(i + 1);
+            assertTrue(ingredient1.getCategory().compareTo(ingredient2.getCategory()) >= 0);
+        }
+
+        /* Delete the added meal plans. */
+        runOnUiThread(() -> {
+            MealPlanStorage.getInstance().deleteMealPlan(mealPlan1, true);
+            MealPlanStorage.getInstance().deleteMealPlan(mealPlan2, true);
         });
     }
 

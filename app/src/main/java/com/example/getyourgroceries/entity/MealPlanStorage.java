@@ -117,4 +117,8 @@ public class MealPlanStorage {
         mealPlanAdapter.clear();
         mealPlanAdapter.notifyDataSetChanged();
     }
+
+    public void updateStorage(){
+        mealPlanDB.refreshStorage();
+    }
 }

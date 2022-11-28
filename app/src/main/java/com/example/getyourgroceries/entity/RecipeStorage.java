@@ -164,4 +164,8 @@ public class RecipeStorage {
                 break;
         }
     }
+
+    public void updateStorage(){
+        recipeDB.refreshStorage();
+    }
 }

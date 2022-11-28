@@ -48,7 +48,7 @@ public class MealPlansFragment extends Fragment {
         ActionBar actionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
         assert actionBar != null;
         actionBar.setTitle("Meal Plan List");
-
+        MealPlanStorage.getInstance().updateStorage();
 
         View v = inflater.inflate(R.layout.fragment_meal_plans, container, false);
         mealPlanList = v.findViewById(R.id.meal_plan_list);

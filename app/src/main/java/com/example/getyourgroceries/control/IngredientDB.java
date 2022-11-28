@@ -32,32 +32,9 @@ public class IngredientDB {
     public IngredientDB() {
         db = FirebaseFirestore.getInstance();
         ingredientCollection = db.collection("Ingredients");
-        new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
 
         // Get the initial ingredient collection from firebase and populate the ingredient storage.
-        ingredientCollection
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<>() {
-                    /**
-                     * Execute the code when getting the ingredient collection is completed (or fails).
-                     *
-                     * @param task The task being done.
-                     */
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            // Successful.
-                            IngredientStorage.getInstance().clearLocalStorage();
-                            for (QueryDocumentSnapshot doc : task.getResult()) {
-                                StoredIngredient s = doc.toObject(StoredIngredient.class);
-                                IngredientStorage.getInstance().addIngredient(s, false);
-                            }
-                        } else {
-                            // Failed.
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
+        refreshStorage();
     }
 
     /**
@@ -101,5 +78,31 @@ public class IngredientDB {
      */
     public void deleteIngredient(Ingredient ingredient) {
         ingredientCollection.document(ingredient.getId()).delete();
+    }
+
+    public void refreshStorage(){
+        ingredientCollection
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<>() {
+                    /**
+                     * Execute the code when getting the ingredient collection is completed (or fails).
+                     *
+                     * @param task The task being done.
+                     */
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            // Successful.
+                            IngredientStorage.getInstance().clearLocalStorage();
+                            for (QueryDocumentSnapshot doc : task.getResult()) {
+                                StoredIngredient s = doc.toObject(StoredIngredient.class);
+                                IngredientStorage.getInstance().addIngredient(s, false);
+                            }
+                        } else {
+                            // Failed.
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
     }
 }

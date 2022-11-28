@@ -201,4 +201,8 @@ public class IngredientStorage {
         }
         return false;
     }
+
+    public void updateStorage(){
+        ingredientDB.refreshStorage();
+    }
 }

@@ -106,7 +106,7 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements OnFragm
             builder.setTitle("Delete Ingredient");
             builder.setCancelable(true);
             builder.setPositiveButton("Yes", (dialog, which) -> {
-                Ingredient ingredient = (Ingredient) dayIngredientListView.getItemAtPosition(i);
+                Ingredient ingredient = (Ingredient) dayIngredientListAdapter.getItem(i);
                 dayIngredientListAdapter.remove(ingredient);
                 dayIngredientListAdapter.notifyDataSetChanged();
             });
@@ -123,7 +123,7 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements OnFragm
             builder.setTitle("Delete Recipe");
             builder.setCancelable(true);
             builder.setPositiveButton("Yes", (dialog, which) -> {
-                ScaledRecipe recipe = (ScaledRecipe) recipeListview.getItemAtPosition(i);
+                ScaledRecipe recipe = (ScaledRecipe) dayRecipeListAdapter.getItem(i);
                 dayRecipeListAdapter.remove(recipe);
                 dayRecipeListAdapter.notifyDataSetChanged();
             });

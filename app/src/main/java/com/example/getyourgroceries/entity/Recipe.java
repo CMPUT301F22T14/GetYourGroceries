@@ -1,7 +1,6 @@
 /* Recipe class. */
 package com.example.getyourgroceries.entity;
 
-// Import statements.
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -20,12 +19,13 @@ public class Recipe implements Serializable {
 
     /**
      * Constructor for recipe.
-     * @param name The name.
-     * @param prepTime The preparation time.
-     * @param numOfServings The number of servings.
+     *
+     * @param name           The name.
+     * @param prepTime       The preparation time.
+     * @param numOfServings  The number of servings.
      * @param recipeCategory The category.
-     * @param comment The comments.
-     * @param photo The photo.
+     * @param comment        The comments.
+     * @param photo          The photo.
      */
     public Recipe(String name, int prepTime, int numOfServings, String recipeCategory, String comment, String photo) {
         this.name = name;
@@ -39,13 +39,14 @@ public class Recipe implements Serializable {
 
     /**
      * Constructor for recipe including ingredient list.
-     * @param name The name.
-     * @param prepTime The preparation time.
-     * @param numOfServings The number of servings.
+     *
+     * @param name           The name.
+     * @param prepTime       The preparation time.
+     * @param numOfServings  The number of servings.
      * @param recipeCategory The category.
-     * @param comment The comments.
-     * @param photo The photo.
-     * @param ingredients The list of ingredients
+     * @param comment        The comments.
+     * @param photo          The photo.
+     * @param ingredients    The list of ingredients
      */
     public Recipe(String name, int prepTime, int numOfServings, String recipeCategory, String comment, String photo, ArrayList<Ingredient> ingredients) {
         this.name = name;
@@ -66,6 +67,7 @@ public class Recipe implements Serializable {
 
     /**
      * Get the name.
+     *
      * @return The name.
      */
     public String getName() {
@@ -74,6 +76,7 @@ public class Recipe implements Serializable {
 
     /**
      * Set the name.
+     *
      * @param name The name.
      */
     public void setName(String name) {
@@ -82,6 +85,7 @@ public class Recipe implements Serializable {
 
     /**
      * Get the preparation time.
+     *
      * @return The preparation time.
      */
     public int getPrepTime() {
@@ -90,6 +94,7 @@ public class Recipe implements Serializable {
 
     /**
      * Set the preparation time.
+     *
      * @param prepTime The preparation time.
      */
     public void setPrepTime(int prepTime) {
@@ -98,6 +103,7 @@ public class Recipe implements Serializable {
 
     /**
      * Get the number of servings.
+     *
      * @return The number of servings.
      */
     public int getNumOfServings() {
@@ -106,6 +112,7 @@ public class Recipe implements Serializable {
 
     /**
      * Set the number of servings.
+     *
      * @param numOfServings The number of servings.
      */
     public void setNumOfServings(int numOfServings) {
@@ -114,6 +121,7 @@ public class Recipe implements Serializable {
 
     /**
      * Get the category.
+     *
      * @return The category.
      */
     public String getRecipeCategory() {
@@ -122,6 +130,7 @@ public class Recipe implements Serializable {
 
     /**
      * Set the category.
+     *
      * @param recipeCategory The category.
      */
     public void setRecipeCategory(String recipeCategory) {
@@ -130,6 +139,7 @@ public class Recipe implements Serializable {
 
     /**
      * Get the comment.
+     *
      * @return The comment.
      */
     public String getComment() {
@@ -138,6 +148,7 @@ public class Recipe implements Serializable {
 
     /**
      * Set the comment.
+     *
      * @param comment The comment.
      */
     public void setComment(String comment) {
@@ -146,6 +157,7 @@ public class Recipe implements Serializable {
 
     /**
      * Get the photo.
+     *
      * @return The photo.
      */
     public String getPhoto() {
@@ -154,6 +166,7 @@ public class Recipe implements Serializable {
 
     /**
      * Set the photo.
+     *
      * @param photo The photo.
      */
     public void setPhoto(String photo) {
@@ -162,6 +175,7 @@ public class Recipe implements Serializable {
 
     /**
      * Get the ingredients.
+     *
      * @return The ingredients.
      */
     public ArrayList<Ingredient> getIngredientList() {
@@ -170,6 +184,7 @@ public class Recipe implements Serializable {
 
     /**
      * Add an ingredient to the recipe.
+     *
      * @param ingredient The ingredient to add.
      */
     public void addIngredient(Ingredient ingredient) {
@@ -182,10 +197,11 @@ public class Recipe implements Serializable {
 
     /**
      * Delete an ingredient from the recipe.
+     *
      * @param ingredient The ingredient to delete.
      */
     public void deleteIngredient(Ingredient ingredient) throws IllegalArgumentException {
-        if(!ingredientList.contains(ingredient)){
+        if (!ingredientList.contains(ingredient)) {
             throw new IllegalArgumentException();
         }
         ingredientList.remove(ingredient);
@@ -193,6 +209,7 @@ public class Recipe implements Serializable {
 
     /**
      * Get the ID.
+     *
      * @return The ID.
      */
     public String getId() {
@@ -201,6 +218,7 @@ public class Recipe implements Serializable {
 
     /**
      * Set the ID.
+     *
      * @param id The ID.
      */
     public void setId(String id) {

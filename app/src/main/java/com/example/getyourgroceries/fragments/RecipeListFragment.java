@@ -3,7 +3,6 @@ package com.example.getyourgroceries.fragments;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,7 +49,7 @@ public class RecipeListFragment extends Fragment {
     /**
      * Create the view.
      *
-     * @param inflater           Object to connect an XML file.
+     * @param inflater            Object to connect an XML file.
      * @param container          The parent view.
      * @param savedInstanceState The saved state.
      * @return The created view.
@@ -84,11 +83,11 @@ public class RecipeListFragment extends Fragment {
             builder.setMessage("Would you like to delete this recipe?");
             builder.setTitle("Delete Recipe");
             builder.setCancelable(true);
-            builder.setPositiveButton("Yes", (DialogInterface.OnClickListener) (dialog, which) -> {
+            builder.setPositiveButton("Yes", (dialog, which) -> {
                 Recipe recipe = (Recipe) recipeList.getItemAtPosition(i);
                 RecipeStorage.getInstance().deleteRecipe(recipe, true);
             });
-            builder.setNegativeButton("No", (DialogInterface.OnClickListener) (dialog, which) -> dialog.cancel());
+            builder.setNegativeButton("No", (dialog, which) -> dialog.cancel());
             AlertDialog alert = builder.create();
             alert.show();
             return true;
@@ -108,7 +107,7 @@ public class RecipeListFragment extends Fragment {
         sortAdapter.setDropDownViewResource(R.layout.ingredient_spinner_dropdown);
         sortDropDown.setAdapter(sortAdapter);
 
-        //Sorting
+        // Sorting
         sortDropDown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -122,6 +121,7 @@ public class RecipeListFragment extends Fragment {
             }
         });
 
+        // Sort recipe list
         sortingSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             String type = sortDropDown.getSelectedItem().toString();
             switch (type) {

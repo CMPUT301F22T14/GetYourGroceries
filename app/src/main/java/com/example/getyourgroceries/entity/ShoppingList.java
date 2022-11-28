@@ -8,6 +8,7 @@ public class ShoppingList {
 
     /**
      * Constructor for shopping list to initialize an empty ingredient
+     *
      * @param name shopping list name
      */
     public ShoppingList(String name, ArrayList<Ingredient> ingredients) {
@@ -17,6 +18,7 @@ public class ShoppingList {
 
     /**
      * Name getter
+     *
      * @return shopping list name
      */
     public String getName() {
@@ -25,6 +27,7 @@ public class ShoppingList {
 
     /**
      * Updates shopping list name
+     *
      * @param name shopping list name
      */
     public void editName(String name) {
@@ -33,6 +36,7 @@ public class ShoppingList {
 
     /**
      * Gets the total shopping list
+     *
      * @return list of ingredients
      */
     public ArrayList<Ingredient> getIngredientList() {
@@ -41,6 +45,7 @@ public class ShoppingList {
 
     /**
      * Adds ingredient to shopping list
+     *
      * @param ingredient new ingredient to add
      */
     public void addIngredient(Ingredient ingredient) {
@@ -49,10 +54,11 @@ public class ShoppingList {
 
     /**
      * Deletes ingredient from shopping list
+     *
      * @param ingredient to add
      */
     public void deleteIngredient(Ingredient ingredient) {
-        if(!ingredientList.contains(ingredient)) {
+        if (!ingredientList.contains(ingredient)) {
             throw new IllegalArgumentException();
         }
         ingredientList.remove(ingredient);

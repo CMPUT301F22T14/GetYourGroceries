@@ -24,6 +24,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -34,6 +35,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.getyourgroceries.GlideApp;
 import com.example.getyourgroceries.R;
@@ -52,6 +54,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -324,10 +327,10 @@ public class RecipeChangeHandlerFragment extends Fragment implements OnFragmentI
                     editRecipe.setPhoto(new_photo);
                 }
                 RecipeStorage.getInstance().updateRecipe(editRecipe);
-            } else if (getArguments() != null && getArguments().containsKey("dayAdd")){
-                    Recipe newRecipe = new Recipe(description, Integer.parseInt(prepTime), Integer.parseInt(servings), categoryText, comments, new_photo, ingredientList);
-                    OnMealPlanFragmentInteractionListener frag = (OnMealPlanFragmentInteractionListener) fmManager.findFragmentByTag("MEAL_PLAN_EDIT");
-                    frag.onSubmitPressed(newRecipe, getArguments().getInt("dayEdit"));
+            } else if (getArguments() != null && getArguments().containsKey("dayAdd")) {
+                Recipe newRecipe = new Recipe(description, Integer.parseInt(prepTime), Integer.parseInt(servings), categoryText, comments, new_photo, ingredientList);
+                OnMealPlanFragmentInteractionListener frag = (OnMealPlanFragmentInteractionListener) fmManager.findFragmentByTag("MEAL_PLAN_EDIT");
+                frag.onSubmitPressed(newRecipe, getArguments().getInt("dayEdit"));
             } else {
                 Recipe newRecipe = new Recipe(description, Integer.parseInt(prepTime), Integer.parseInt(servings), categoryText, comments, new_photo, ingredientList);
                 RecipeStorage.getInstance().addRecipe(newRecipe, true);
@@ -421,38 +424,41 @@ public class RecipeChangeHandlerFragment extends Fragment implements OnFragmentI
     public void onOkPressed(Ingredient newIngredient) {
         if (!ingredientList.contains(newIngredient)) {
             ingredientList.add(newIngredient);
-            ingredientAdapter.notifyDataSetChanged() ;
+            ingredientAdapter.notifyDataSetChanged();
         }
     }
 
     /**
      * Executes when the user hits "ok" on the edit ingredient dialog
+     *
      * @param newIngredient updated ingredient info
-     * @param index position in ingredient list
+     * @param index         position in ingredient list
      */
     @Override
     public void onItemPressed(Ingredient newIngredient, int index) {
         ingredientList.set(index, newIngredient);
         ingredientAdapter.notifyDataSetChanged();
     }
+
     /**
      * Executes when the user hits "ok" on the edit ingredient dialog
-     * @param newIngredient updated ingredient info
+     *
+     * @param newIngredient            updated ingredient info
      * @param dayIngredientListAdapter Adapter
      */
     @Override
     public void onMealOkPressed(Ingredient newIngredient, DayIngredientListAdapter dayIngredientListAdapter) {
         // DO NOT IMPLEMENT, FOR MEAL PLANS
     }
+
     /**
      * Executes when the user hits "ok" on the edit ingredient dialog
-     * @param newIngredient updated ingredient info
+     *
+     * @param newIngredient            updated ingredient info
      * @param dayIngredientListAdapter Adapter
      */
     @Override
-    public void onMealItemPressed(Ingredient newIngredient, int index, int position,DayIngredientListAdapter dayIngredientListAdapter) {
+    public void onMealItemPressed(Ingredient newIngredient, int index, int position, DayIngredientListAdapter dayIngredientListAdapter) {
         // DO NOT IMPLEMENT, FOR MEAL PLANS
     }
-
-
 }

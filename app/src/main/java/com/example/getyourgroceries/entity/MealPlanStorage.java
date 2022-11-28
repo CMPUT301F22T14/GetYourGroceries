@@ -2,8 +2,10 @@ package com.example.getyourgroceries.entity;
 
 import android.content.Context;
 import android.widget.ArrayAdapter;
+
 import com.example.getyourgroceries.adapters.MealPlanAdapter;
 import com.example.getyourgroceries.control.MealPlanDB;
+
 import java.util.ArrayList;
 
 /**
@@ -24,6 +26,7 @@ public class MealPlanStorage {
 
     /**
      * Get the instance of the MealPlanStorage class.
+     *
      * @return A reference to the instance.
      */
     public static MealPlanStorage getInstance() {
@@ -32,8 +35,8 @@ public class MealPlanStorage {
 
     /**
      * Setup storage adapter using provided context
+     *
      * @param context to bind to
-     * @return newly bound adapter
      */
     public void setupStorage(Context context) {
         mealPlanAdapter = new MealPlanAdapter(context, mealPlanStorage);
@@ -42,6 +45,7 @@ public class MealPlanStorage {
 
     /**
      * Gets the associated adapter
+     *
      * @return meal plan adapter
      */
     public ArrayAdapter<MealPlan> getMealPlanAdapter() {
@@ -50,11 +54,12 @@ public class MealPlanStorage {
 
     /**
      * Adds a meal plan to list and potentially database
+     *
      * @param plan meal plan to add
      * @param toDB determines whether or not to add to database
      */
     public void addMealPlan(MealPlan plan, boolean toDB) {
-        if(toDB) {
+        if (toDB) {
             plan.setId(mealPlanDB.addMealPlan(plan));
         }
         mealPlanAdapter.add(plan);
@@ -64,6 +69,7 @@ public class MealPlanStorage {
 
     /**
      * Fetches specific meal plan in list
+     *
      * @param i index of meal plan
      * @return meal plan at index
      */
@@ -73,6 +79,7 @@ public class MealPlanStorage {
 
     /**
      * Updates a meal plan in list and database
+     *
      * @param plan meal plan to update(updated version)
      */
     public void updateMealPlan(MealPlan plan) {
@@ -81,13 +88,14 @@ public class MealPlanStorage {
 
     /**
      * Deletes meal plan from list and potentially database
+     *
      * @param plan meal plan to delete
      * @param toDB determines whether or not to remove from database
      */
     public void deleteMealPlan(MealPlan plan, boolean toDB) {
         mealPlanAdapter.remove(plan);
 
-        if(toDB) {
+        if (toDB) {
             mealPlanDB.deleteMealPlan(plan);
         }
         mealPlanAdapter.notifyDataSetChanged();
@@ -95,6 +103,7 @@ public class MealPlanStorage {
 
     /**
      * Fetch list of meal plans
+     *
      * @return meal plans
      */
     public ArrayList<MealPlan> getMealPlanList() {

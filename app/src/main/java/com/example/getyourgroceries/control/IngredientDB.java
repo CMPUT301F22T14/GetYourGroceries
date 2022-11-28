@@ -4,6 +4,7 @@ package com.example.getyourgroceries.control;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+
 import com.example.getyourgroceries.entity.Ingredient;
 import com.example.getyourgroceries.entity.IngredientStorage;
 import com.example.getyourgroceries.entity.StoredIngredient;
@@ -13,6 +14,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
@@ -36,7 +38,6 @@ public class IngredientDB {
         ingredientCollection
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<>() {
-
                     /**
                      * Execute the code when getting the ingredient collection is completed (or fails).
                      *
@@ -45,7 +46,6 @@ public class IngredientDB {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-
                             // Successful.
                             IngredientStorage.getInstance().clearLocalStorage();
                             for (QueryDocumentSnapshot doc : task.getResult()) {
@@ -53,7 +53,6 @@ public class IngredientDB {
                                 IngredientStorage.getInstance().addIngredient(s, false);
                             }
                         } else {
-
                             // Failed.
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
@@ -91,8 +90,7 @@ public class IngredientDB {
      */
     public void updateIngredient(Ingredient ingredient) {
         if (ingredient.getId() != null) {
-            ingredientCollection.document(ingredient.getId())
-                    .set(ingredient);
+            ingredientCollection.document(ingredient.getId()).set(ingredient);
         }
     }
 

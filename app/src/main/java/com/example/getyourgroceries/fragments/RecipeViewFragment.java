@@ -1,6 +1,5 @@
 package com.example.getyourgroceries.fragments;
 
-/* Import statements. */
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,12 +11,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
+
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.getyourgroceries.GlideApp;
 import com.example.getyourgroceries.R;
@@ -26,6 +27,7 @@ import com.example.getyourgroceries.entity.Recipe;
 import com.example.getyourgroceries.entity.RecipeStorage;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+
 import java.util.Objects;
 
 /**
@@ -33,9 +35,6 @@ import java.util.Objects;
  * RecipeViewFragment extends {@link Fragment}.
  */
 public class RecipeViewFragment extends Fragment {
-
-    /* Attributes. */
-    private static final String TAG = "RecipeViewFrag";
     private Recipe viewRecipe;
     FirebaseStorage storage;
     ViewGroup containerView;
@@ -51,14 +50,14 @@ public class RecipeViewFragment extends Fragment {
 
     /**
      * Initialize the view.
-     * @param inflater Inflate the XML file.
-     * @param container The view container.
+     *
+     * @param inflater           Inflate the XML file.
+     * @param container          The view container.
      * @param savedInstanceState The saved state.
      * @return The created view.
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_view_recipe, container, false);
         ActionBar actionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
@@ -66,7 +65,7 @@ public class RecipeViewFragment extends Fragment {
         actionBar.setTitle("View Recipe");
         Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         setHasOptionsMenu(true);
-        containerView= container;
+        containerView = container;
 
         return view;
     }
@@ -80,8 +79,6 @@ public class RecipeViewFragment extends Fragment {
     @SuppressLint("SimpleDateFormat")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-
-        // Initialization.
         NestedScrollView viewIngredientLayout = requireActivity().findViewById(R.id.view_recipe_layout);
         viewIngredientLayout.setImportantForAutofill(View.IMPORTANT_FOR_AUTOFILL_NO);
         ActionBar actionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
@@ -102,7 +99,7 @@ public class RecipeViewFragment extends Fragment {
         ingredientListView = requireActivity().findViewById(R.id.ingredientListView);
 
         // Set the values to the previous values.
-        if (viewRecipe != null){
+        if (viewRecipe != null) {
             int prep_hours = viewRecipe.getPrepTime() / 60;
             int prep_min = viewRecipe.getPrepTime() % 60;
             String prepTimeText = prep_hours + "h " + prep_min + "m";
@@ -133,7 +130,8 @@ public class RecipeViewFragment extends Fragment {
 
     /**
      * Initialize menu options.
-     * @param menu The menu.
+     *
+     * @param menu     The menu.
      * @param inflater The XML file to inflate.
      */
     @Override
@@ -143,6 +141,7 @@ public class RecipeViewFragment extends Fragment {
 
     /**
      * The onOptionsItemSelected method will go to the previous fragment when the back button is pressed.
+     *
      * @param item The item selected.
      * @return On success, true.
      */
@@ -150,7 +149,6 @@ public class RecipeViewFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.editRecipeButton) {
             Bundle bundle = new Bundle();
-            Recipe editRecipe = viewRecipe;
             bundle.putInt("editRecipe", getArguments().getInt("viewRecipe"));
             RecipeChangeHandlerFragment recipeChangeHandlerFragment = new RecipeChangeHandlerFragment();
             recipeChangeHandlerFragment.setArguments(bundle);
@@ -158,6 +156,7 @@ public class RecipeViewFragment extends Fragment {
         } else {
             return requireActivity().getSupportFragmentManager().popBackStackImmediate();
         }
+
         return true;
     }
 }

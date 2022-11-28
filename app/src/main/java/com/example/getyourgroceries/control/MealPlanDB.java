@@ -55,6 +55,7 @@ public class MealPlanDB {
 
     /**
      * Adds a given Meal Plan to the firebase database
+     *
      * @param plan: Meal Plan to add.
      * @return Newly created document ID.
      * @NOTE Make sure to assign the meal plan the given returned ID after calling function.
@@ -77,6 +78,7 @@ public class MealPlanDB {
 
     /**
      * Deletes a given meal plan from the firebase database
+     *
      * @param plan: meal plan to delete.
      */
     public void deleteMealPlan(MealPlan plan) {
@@ -85,6 +87,7 @@ public class MealPlanDB {
 
     /**
      * Updates a given meal plan in the database.
+     *
      * @param plan meal plan to update.
      */
     public void updateMealPlan(MealPlan plan) {

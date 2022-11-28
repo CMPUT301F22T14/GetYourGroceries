@@ -5,8 +5,6 @@ package com.example.getyourgroceries.entity;
  * Create an object to represent an ingredient/
  */
 public class Ingredient {
-
-    // Attributes.
     private String description;
     private Integer amount;
     private Double unit;
@@ -22,8 +20,6 @@ public class Ingredient {
      * @param category The category.
      */
     public Ingredient(String description, Integer amount, Double unit, String category) {
-
-        // Set the attributes
         this.description = description;
         this.amount = amount;
         this.unit = unit;

@@ -2,7 +2,6 @@
 package com.example.getyourgroceries.fragments;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.LayoutInflater;
@@ -13,7 +12,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,7 +21,6 @@ import androidx.fragment.app.Fragment;
 
 import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.adapters.DayListAdapter;
-import com.example.getyourgroceries.entity.IngredientStorage;
 import com.example.getyourgroceries.entity.MealPlan;
 import com.example.getyourgroceries.entity.MealPlanDay;
 import com.example.getyourgroceries.entity.MealPlanStorage;
@@ -31,10 +28,7 @@ import com.example.getyourgroceries.entity.Recipe;
 import com.example.getyourgroceries.entity.RecipeStorage;
 import com.example.getyourgroceries.entity.ScaledRecipe;
 import com.example.getyourgroceries.interfaces.OnMealPlanFragmentInteractionListener;
-import com.google.android.material.datepicker.MaterialTextInputPicker;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.android.material.textview.MaterialTextView;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -58,8 +52,9 @@ public class MealPlanChangeHandlerFragment extends Fragment implements OnMealPla
 
     /**
      * The onCreateView method will be called when this fragment becomes active.
-     * @param inflater Allows the new view to be created.
-     * @param container The container of the view.
+     *
+     * @param inflater           Allows the new view to be created.
+     * @param container          The container of the view.
      * @param savedInstanceState The saved state.
      * @return A view that will be shown on the screen.
      */
@@ -67,7 +62,7 @@ public class MealPlanChangeHandlerFragment extends Fragment implements OnMealPla
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // if returning from another page
-        if (view != null){
+        if (view != null) {
             return view;
         }
 
@@ -91,7 +86,7 @@ public class MealPlanChangeHandlerFragment extends Fragment implements OnMealPla
         }
         ListView dayListView = view.findViewById(R.id.day_list);
 
-        daysAdapter = new DayListAdapter(requireActivity().getBaseContext(), days,requireActivity().getSupportFragmentManager());
+        daysAdapter = new DayListAdapter(requireActivity().getBaseContext(), days, requireActivity().getSupportFragmentManager());
         dayListView.setAdapter(daysAdapter);
         dayListView.setNestedScrollingEnabled(true);
         Button addDay = view.findViewById(R.id.add_day);
@@ -106,18 +101,16 @@ public class MealPlanChangeHandlerFragment extends Fragment implements OnMealPla
             EditText mealPlanName = requireActivity().findViewById(R.id.change_mealplan_title);
             String name = mealPlanName.getText().toString();
             TextInputLayout tilDescription = requireActivity().findViewById(R.id.change_mealplan_title_til);
-            if (name.equals("")){
+            if (name.equals("")) {
                 tilDescription.setError("Title Cannot be Empty!");
                 return;
-            }
-            else if (editMealPlan != null){
+            } else if (editMealPlan != null) {
                 editMealPlan.setName(name);
                 editMealPlan.setMealPlanDays(days);
                 MealPlanStorage.getInstance().updateMealPlan(editMealPlan);
-            }
-            else{
-                MealPlan newMealPlan = new MealPlan(name,days);
-                MealPlanStorage.getInstance().addMealPlan(newMealPlan,true);
+            } else {
+                MealPlan newMealPlan = new MealPlan(name, days);
+                MealPlanStorage.getInstance().addMealPlan(newMealPlan, true);
             }
             requireActivity().getSupportFragmentManager().popBackStack();
         });
@@ -127,10 +120,11 @@ public class MealPlanChangeHandlerFragment extends Fragment implements OnMealPla
 
     /**
      * Call back for adding a new recipe to the day
-     * @param recipe object to add
+     *
+     * @param recipe      object to add
      * @param dayPosition index of the day to add the recipe to
      */
-    public void onSubmitPressed(Recipe recipe, int dayPosition){
+    public void onSubmitPressed(Recipe recipe, int dayPosition) {
         AlertDialog.Builder scaleAlertBox = new AlertDialog.Builder(view.getRootView().getContext());
         scaleAlertBox.setTitle("Input desired scale (default 1)");
 
@@ -151,13 +145,15 @@ public class MealPlanChangeHandlerFragment extends Fragment implements OnMealPla
         });
 
         // cancelling scale also cancels recipe add
-        scaleAlertBox.setNegativeButton("Cancel", (dialog, which) -> {});
+        scaleAlertBox.setNegativeButton("Cancel", (dialog, which) -> {
+        });
 
         scaleAlertBox.show();
     }
 
     /**
      * The onOptionsItemSelected method will go to the previous fragment when the back button is pressed.
+     *
      * @param item The item selected.
      * @return On success, true.
      */

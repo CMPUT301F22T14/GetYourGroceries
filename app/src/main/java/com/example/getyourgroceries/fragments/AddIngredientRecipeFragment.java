@@ -10,9 +10,11 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+
 import com.example.getyourgroceries.MainActivity;
 import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.adapters.DayIngredientListAdapter;
@@ -49,24 +51,28 @@ public class AddIngredientRecipeFragment extends DialogFragment {
 
     /**
      * Constructor for the AddIngredientRecipeFragment class.
+     *
      * @param ingredient The ingredient being added.
-     * @param index The position of the ingredient.
+     * @param index      The position of the ingredient.
      */
     public AddIngredientRecipeFragment(Ingredient ingredient, int index) {
         this.ingredient = ingredient;
         this.index = index;
     }
-    public AddIngredientRecipeFragment(){}
+
+    public AddIngredientRecipeFragment() {}
 
     /**
      * Constructor for the AddIngredientRecipeFragment class.
-     * @param dayListAdapter The adapter for the list of days.
+     *
+     * @param dayListAdapter           The adapter for the list of days.
      * @param dayIngredientListAdapter The adapter for the list of ingredients.
      */
     public AddIngredientRecipeFragment(DayListAdapter dayListAdapter, DayIngredientListAdapter dayIngredientListAdapter) {
         this.dayListAdapter = dayListAdapter;
         this.dayIngredientListAdapter = dayIngredientListAdapter;
     }
+
     public AddIngredientRecipeFragment(ArrayList<MealPlanDay> days, int index, int position, DayListAdapter dayListAdapter, DayIngredientListAdapter dayIngredientListAdapter) {
         this.days = days;
         this.index = index;
@@ -77,22 +83,23 @@ public class AddIngredientRecipeFragment extends DialogFragment {
 
     /**
      * Call when a fragment gets attached to its context.
+     *
      * @param context The context of the fragment.
      */
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         MainActivity act = (MainActivity) context;
-        if (dayListAdapter != null){
+        if (dayListAdapter != null) {
             listener = dayListAdapter;
-        }
-        else{
+        } else {
             listener = (OnFragmentInteractionListener) act.getSupportFragmentManager().findFragmentByTag("EDIT_RECIPE");
         }
     }
 
     /**
      * Allow users to add ingredients to recipes.
+     *
      * @param savedInstanceState The saved state of the fragment.
      * @return A dialog that allows ingredient addition.
      */
@@ -169,11 +176,11 @@ public class AddIngredientRecipeFragment extends DialogFragment {
             }
         }));
 
-        if(days != null) {
+        if (days != null) {
             ingredient = days.get(position).getIngredientList().get(index);
             category.setText(ingredient.getCategory());
         }
-        if(ingredient != null) {
+        if (ingredient != null) {
             description.setText(ingredient.getDescription());
             amount.setText(ingredient.getAmount().toString());
             unit.setText(ingredient.getUnit().toString());
@@ -181,7 +188,7 @@ public class AddIngredientRecipeFragment extends DialogFragment {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
-        if(ingredient != null) {
+        if (ingredient != null) {
             builder = builder.setTitle("Edit Ingredient");
         } else {
             builder = builder.setTitle("Add Ingredient");
@@ -194,9 +201,9 @@ public class AddIngredientRecipeFragment extends DialogFragment {
                 categoryTIL = view.findViewById(R.id.change_ingredient_category_til),
                 unitTIL = view.findViewById(R.id.change_ingredient_unit_til);
         final AlertDialog dialog = builder
-            .setView(view)
-            .setNegativeButton("Cancel", null)
-            .setPositiveButton("OK", null).create();
+                .setView(view)
+                .setNegativeButton("Cancel", null)
+                .setPositiveButton("OK", null).create();
         dialog.setOnShowListener(dialogInterface -> {
             Button button = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
             button.setOnClickListener(view1 -> {
@@ -234,17 +241,13 @@ public class AddIngredientRecipeFragment extends DialogFragment {
                 if (error == 0) {
                     int ingAmount2 = Integer.parseInt(ingAmount);
                     Double ingUnit2 = Double.parseDouble(ingUnit);
-                    if (ingredient != null && dayIngredientListAdapter != null){
-                        listener.onMealItemPressed(new Ingredient(ingDescription, ingAmount2, ingUnit2, ingCategory), index,position,dayIngredientListAdapter);
-                    }
-
-                    else if (ingredient != null) {
+                    if (ingredient != null && dayIngredientListAdapter != null) {
+                        listener.onMealItemPressed(new Ingredient(ingDescription, ingAmount2, ingUnit2, ingCategory), index, position, dayIngredientListAdapter);
+                    } else if (ingredient != null) {
                         listener.onItemPressed(new Ingredient(ingDescription, ingAmount2, ingUnit2, ingCategory), index);
-                    }
-                    else if (dayIngredientListAdapter != null){
-                        listener.onMealOkPressed(new Ingredient(ingDescription, ingAmount2, ingUnit2, ingCategory),dayIngredientListAdapter);
-                    }
-                    else {
+                    } else if (dayIngredientListAdapter != null) {
+                        listener.onMealOkPressed(new Ingredient(ingDescription, ingAmount2, ingUnit2, ingCategory), dayIngredientListAdapter);
+                    } else {
                         listener.onOkPressed(new Ingredient(ingDescription, ingAmount2, ingUnit2, ingCategory));
                     }
                     dialog.dismiss();

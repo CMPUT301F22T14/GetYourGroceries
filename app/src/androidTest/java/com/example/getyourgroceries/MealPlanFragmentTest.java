@@ -69,7 +69,7 @@ public class MealPlanFragmentTest {
         /* Add two meal plans. */
         solo.clickOnView(((BottomNavigationItemView) solo.getView(R.id.meal_icon)).getChildAt(1));
         solo.clickOnText("Add Meal Plan");
-        solo.enterText(0, "Bulking Szn");
+        solo.enterText(0, "BulkingSzn_Test");
         solo.clickOnText("Add Day");
         solo.clickOnText("Add Day");
         solo.clickOnText("Add Recipe");
@@ -98,8 +98,8 @@ public class MealPlanFragmentTest {
         solo.clickOnText("Confirm");
 
         /* Check for the existence of the meal plan days. */
-        solo.waitForText("Bulking Szn", 1, 2000);
-        solo.clickOnText("Bulking Szn");
+        solo.waitForText("BulkingSzn_Test", 1, 2000);
+        solo.clickOnText("BulkingSzn_Test");
         assertTrue(solo.waitForText("Day 1", 1, 2000));
         assertTrue( solo.waitForText("Day 2", 1, 2000));
 
@@ -109,7 +109,7 @@ public class MealPlanFragmentTest {
 
         /* Delete the test meal plans. */
         solo.goBack();
-        solo.clickLongOnText("Bulking Szn");
+        solo.clickLongOnText("BulkingSzn_Test");
         solo.clickOnText("Yes");
     }
 

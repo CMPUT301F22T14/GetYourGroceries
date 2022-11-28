@@ -4,7 +4,9 @@ import static androidx.test.internal.runner.junit4.statement.UiThreadStatement.r
 import static org.junit.Assert.assertTrue;
 
 import android.app.Activity;
+import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
@@ -18,6 +20,7 @@ import com.example.getyourgroceries.entity.Recipe;
 import com.example.getyourgroceries.entity.ScaledRecipe;
 import com.example.getyourgroceries.entity.StoredIngredient;
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
+import com.google.android.material.textfield.TextInputEditText;
 import com.robotium.solo.Solo;
 
 import org.junit.After;
@@ -217,6 +220,69 @@ public class ShoppingListFragmentTest {
         runOnUiThread(() -> {
             MealPlanStorage.getInstance().deleteMealPlan(mealPlan1, true);
             MealPlanStorage.getInstance().deleteMealPlan(mealPlan2, true);
+        });
+    }
+
+    /**
+     * Test that users can check off items from the shopping list (US 4.04.01).
+     * @throws Throwable Exception for deleting from the database.
+     */
+    @Test
+    public void testCheckItem() throws Throwable {
+
+        /* Add recipes to meal plan. */
+        ArrayList<MealPlanDay> mealPlanDayList1 = new ArrayList<>();
+        mealPlanDayList1.add(new MealPlanDay("Day 1"));
+        Recipe recipe = new Recipe("Apple Pie", 60, 8, "Dessert", "", "");
+        recipe.addIngredient(new Ingredient("Apple", 10, 0.75, "Fruit"));
+        mealPlanDayList1.get(0).addRecipe(new ScaledRecipe(recipe, 2));
+        MealPlan mealPlan1 = new MealPlan("Cheat Life", mealPlanDayList1);
+        MealPlanStorage.getInstance().addMealPlan(mealPlan1, true);
+
+        /* Make sure that a check button exists. */
+        solo.clickOnView(((BottomNavigationItemView) solo.getView(R.id.shopping_icon)).getChildAt(1));
+        assertTrue(solo.waitForText("Mark Collected", 1, 2000));
+
+        /* Delete the added meal plan. */
+        runOnUiThread(() -> {
+            MealPlanStorage.getInstance().deleteMealPlan(mealPlan1, true);
+        });
+    }
+
+    /**
+     * Test that checking a shopping list item moves it to ingredient storage (US 4.05.01).
+     * @throws Throwable Exception for deleting from the database.
+     */
+    @Test
+    public void testCompleteCheckedItem() throws Throwable {
+
+        /* Add recipes to meal plan. */
+        ArrayList<MealPlanDay> mealPlanDayList1 = new ArrayList<>();
+        mealPlanDayList1.add(new MealPlanDay("Day 1"));
+        Recipe recipe = new Recipe("Apple Pie", 60, 8, "Dessert", "", "");
+        recipe.addIngredient(new Ingredient("Apple", 10, 0.75, "Fruit"));
+        mealPlanDayList1.get(0).addRecipe(new ScaledRecipe(recipe, 2));
+        MealPlan mealPlan1 = new MealPlan("Cheat Life", mealPlanDayList1);
+        MealPlanStorage.getInstance().addMealPlan(mealPlan1, true);
+
+        /* Mark the ingredient as collected and add the remaining information. */
+        solo.clickOnView(((BottomNavigationItemView) solo.getView(R.id.shopping_icon)).getChildAt(1));
+        solo.clickOnText("Mark Collected", 0);
+        solo.clickOnView((TextView) solo.getView(R.id.change_ingredient_expiry));
+        solo.clickOnButton("OK");
+        solo.sleep(500);
+        solo.enterText((AutoCompleteTextView) solo.getView(R.id.change_ingredient_location), "Fruit Basket");
+        solo.sleep(500);
+        solo.enterText((TextInputEditText) solo.getView(R.id.change_ingredient_quantity),"17");
+        solo.sleep(500);
+
+        /* Check ingredient storage for the added ingredient. */
+        solo.clickOnView(((BottomNavigationItemView) solo.getView(R.id.ingredients_icon)).getChildAt(1));
+        solo.waitForText("Apple", 2000, 1);
+
+        /* Delete the ingredient and meal plan. */
+        runOnUiThread(() -> {
+            MealPlanStorage.getInstance().deleteMealPlan(mealPlan1, true);
         });
     }
 

@@ -202,6 +202,9 @@ public class IngredientStorage {
         return false;
     }
 
+    /**
+     * Update local storage based on remote database
+     */
     public void updateStorage(){
         ingredientDB.refreshStorage();
     }

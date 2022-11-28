@@ -71,6 +71,9 @@ public class MealPlanDB {
         mealPlanCollection.document(plan.getId()).set(plan);
     }
 
+    /**
+     * Query the database for current values
+     */
     public void refreshStorage(){
         mealPlanCollection
                 .get()

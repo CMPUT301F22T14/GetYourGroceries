@@ -80,6 +80,9 @@ public class IngredientDB {
         ingredientCollection.document(ingredient.getId()).delete();
     }
 
+    /**
+     * Query the database for current values
+     */
     public void refreshStorage(){
         ingredientCollection
                 .get()

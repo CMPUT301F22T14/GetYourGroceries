@@ -72,6 +72,9 @@ public class RecipeDB {
         recipeCollection.document(recipe.getId()).set(recipe);
     }
 
+    /**
+     * Query the database for current values
+     */
     public void refreshStorage(){
         recipeCollection
                 .get()

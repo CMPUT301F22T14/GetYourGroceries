@@ -74,28 +74,28 @@ public class ShoppingListFragmentTest {
         Calendar calendar = Calendar.getInstance();
         calendar.set(2022, 12, 25);
         Date date = calendar.getTime();
-        StoredIngredient storedIngredient = new StoredIngredient("Apple", 3, 0.75, "Fruit", date, "Fruit Basket");
+        StoredIngredient storedIngredient = new StoredIngredient("Apple_Test", 3, 0.75, "Fruit", date, "Fruit Basket");
         IngredientStorage.getInstance().addIngredient(storedIngredient, true);
 
         /* Add recipes to meal plan. */
         ArrayList<MealPlanDay> mealPlanDayList1 = new ArrayList<>();
         mealPlanDayList1.add(new MealPlanDay("Day 1"));
-        Recipe recipe = new Recipe("Apple Pie", 60, 8, "Dessert", "", "");
-        recipe.addIngredient(new Ingredient("Apple", 10, 0.75, "Fruit"));
+        Recipe recipe = new Recipe("ApplePie_Test", 60, 8, "Dessert", "", "");
+        recipe.addIngredient(new Ingredient("Apple_Test", 10, 0.75, "Fruit"));
         mealPlanDayList1.get(0).addRecipe(new ScaledRecipe(recipe, 2));
-        MealPlan mealPlan1 = new MealPlan("Cheat Life", mealPlanDayList1);
+        MealPlan mealPlan1 = new MealPlan("CheatLife_Test", mealPlanDayList1);
         MealPlanStorage.getInstance().addMealPlan(mealPlan1, true);
         ArrayList<MealPlanDay> mealPlanDayList2 = new ArrayList<>();
         mealPlanDayList2.add(new MealPlanDay("Sunday"));
-        mealPlanDayList2.get(0).addIngredient(new Ingredient("Watermelon", 1, 3.00, "Fruit"));
-        MealPlan mealPlan2 = new MealPlan("Bulking Szn", mealPlanDayList2);
+        mealPlanDayList2.get(0).addIngredient(new Ingredient("Watermelon_Test", 1, 3.00, "Fruit"));
+        MealPlan mealPlan2 = new MealPlan("BulkingSzn_Test", mealPlanDayList2);
         MealPlanStorage.getInstance().addMealPlan(mealPlan2, true);
 
         /* Check the shopping list for the required ingredients. */
         solo.clickOnView(((BottomNavigationItemView) solo.getView(R.id.shopping_icon)).getChildAt(1));
-        assertTrue(solo.waitForText("Apple", 1, 2000));
+        assertTrue(solo.waitForText("Apple_Test", 1, 2000));
         assertTrue(solo.waitForText("17", 1, 2000));
-        assertTrue(solo.waitForText("Watermelon", 1, 2000));
+        assertTrue(solo.waitForText("Watermelon_Test", 1, 2000));
 
         /* Delete the added meal plans. */
         runOnUiThread(() -> {
@@ -116,23 +116,23 @@ public class ShoppingListFragmentTest {
         Calendar calendar = Calendar.getInstance();
         calendar.set(2022, 12, 25);
         Date date = calendar.getTime();
-        StoredIngredient storedIngredient = new StoredIngredient("Apple", 3, 0.75, "Fruit", date, "Fruit Basket");
+        StoredIngredient storedIngredient = new StoredIngredient("Apple_Test2", 3, 0.75, "Fruit", date, "Fruit Basket");
         IngredientStorage.getInstance().addIngredient(storedIngredient, true);
 
         /* Add recipes to meal plan. */
         ArrayList<MealPlanDay> mealPlanDayList1 = new ArrayList<>();
         mealPlanDayList1.add(new MealPlanDay("Day 1"));
-        Recipe recipe = new Recipe("Apple Pie", 60, 8, "Dessert", "", "");
-        recipe.addIngredient(new Ingredient("Apple", 10, 0.75, "Fruit"));
+        Recipe recipe = new Recipe("ApplePie_Test2", 60, 8, "Dessert", "", "");
+        recipe.addIngredient(new Ingredient("Apple_Test2", 10, 0.75, "Fruit_Test"));
         mealPlanDayList1.get(0).addRecipe(new ScaledRecipe(recipe, 2));
-        MealPlan mealPlan1 = new MealPlan("Cheat Life", mealPlanDayList1);
+        MealPlan mealPlan1 = new MealPlan("CheatLife_Test2", mealPlanDayList1);
         MealPlanStorage.getInstance().addMealPlan(mealPlan1, true);
 
         /* Check the shopping list for the details of the ingredient. */
         solo.clickOnView(((BottomNavigationItemView) solo.getView(R.id.shopping_icon)).getChildAt(1));
-        assertTrue(solo.waitForText("Apple", 1, 2000));
+        assertTrue(solo.waitForText("Apple_Test2", 1, 2000));
         assertTrue(solo.waitForText("17", 1, 2000));
-        assertTrue(solo.waitForText("Fruit", 1, 2000));
+        assertTrue(solo.waitForText("Fruit_Test", 1, 2000));
         assertTrue(solo.waitForText("0.75", 1, 2000));
 
         /* Delete the added ingredient. */

@@ -161,14 +161,14 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements OnFragm
                 builder.setView(input);
                 // Set up the buttons
                 builder.setPositiveButton("OK", (dialog, which) -> {
-                    day = days.get(position);
+                    MealPlanDay newDay = days.get(position);
                     String countText = input.getText().toString();
                     int count = 1;
                     if(!"".equals(countText)) {
                         Integer.parseInt(countText);
                     }
                     Ingredient newIngredient = new Ingredient(ingredient.getDescription(), count, ingredient.getUnit(), ingredient.getCategory());
-                    day.addIngredient(newIngredient);
+                    newDay.addIngredient(newIngredient);
                     notifyDataSetChanged();
                     a.dismiss();
                 });
@@ -233,7 +233,8 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements OnFragm
         });
 
         recipeListview.setOnItemClickListener((parent1, view14, position1, id) -> {
-            ScaledRecipe scaledRecipe = day.getRecipeList().get(position1);
+            MealPlanDay newDay = days.get(position);
+            ScaledRecipe scaledRecipe = newDay.getRecipeList().get(position1);
 
             AlertDialog.Builder scaleAlertBox = new AlertDialog.Builder(view14.getRootView().getContext());
             scaleAlertBox.setTitle("Change Scale");

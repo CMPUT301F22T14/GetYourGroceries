@@ -94,6 +94,11 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements OnFragm
         DayListAdapter classAdapter = this;
         dayIngredientListView.setOnItemClickListener((adapterView, view12, i, l) -> new AddIngredientRecipeFragment(days, i, position, classAdapter, dayIngredientListAdapter).show(fm, "EDIT_INGREDIENT_RECIPE"));
 
+        Button deleteButton = view.findViewById(R.id.delete_day);
+        deleteButton.setOnClickListener((v) -> {
+            days.remove(position);
+            this.notifyDataSetChanged();
+        });
         // Long press to delete ingredient
         dayIngredientListView.setOnItemLongClickListener((adapterView, view2, i, l) -> {
             AlertDialog.Builder builder = new MaterialAlertDialogBuilder(view2.getRootView().getContext());
@@ -161,8 +166,14 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements OnFragm
                 builder.setView(input);
                 // Set up the buttons
                 builder.setPositiveButton("OK", (dialog, which) -> {
+                    int num;
+                    try {
+                        num = Integer.parseInt(String.valueOf(input.getText()));
+                    } catch (NumberFormatException e) {
+                        num = 1;
+                    }
                     day = days.get(position);
-                    Ingredient newIngredient = new Ingredient(ingredient.getDescription(), Integer.parseInt(input.getText().toString()), ingredient.getUnit(), ingredient.getCategory());
+                    Ingredient newIngredient = new Ingredient(ingredient.getDescription(), num, ingredient.getUnit(), ingredient.getCategory());
                     day.addIngredient(newIngredient);
                     notifyDataSetChanged();
                     a.dismiss();

@@ -320,11 +320,7 @@ public class IngredientChangeHandlerFragment extends Fragment {
             if (description.equals("")) {
                 tilDescription.setError("Description cannot be empty!");
                 error = 1;
-            } else if (IngredientStorage.getInstance().ingredientExists(description)) {
-                if ((editIngredient == null) || ((editIngredient != null) && (!Objects.equals(originalDescription, description)))) {
-                    tilDescription.setError("This ingredient already exists!");
-                    error = 1;
-                }
+
             } else {
                 tilDescription.setErrorEnabled(false);
             }

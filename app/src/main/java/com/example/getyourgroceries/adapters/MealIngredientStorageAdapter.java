@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.entity.StoredIngredient;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 public class MealIngredientStorageAdapter extends ArrayAdapter<StoredIngredient> {
     private final ArrayList<StoredIngredient> ingredients;
     private final Context context;
+    private static final DecimalFormat df = new DecimalFormat("0.00");
 
     /**
      * Constructor
@@ -56,8 +58,8 @@ public class MealIngredientStorageAdapter extends ArrayAdapter<StoredIngredient>
         // Show the ingredient.
         StoredIngredient ingredient = ingredients.get(position);
         ((TextView) view.findViewById(R.id.ingredient_name)).setText(ingredient.getDescription());
-        ((TextView) view.findViewById(R.id.ingredient_qty)).setText(String.valueOf(ingredient.getAmount()));
-        ((TextView) view.findViewById(R.id.ingredient_bestbefore)).setText((new SimpleDateFormat("MM/dd/yyy")).format(ingredient.getBestBefore()));
+        ((TextView)view.findViewById(R.id.ingredient_unit)).setText(df.format(ingredient.getUnit()));
+        ((TextView)view.findViewById(R.id.ingredient_category)).setText(ingredient.getCategory());
 
         return view;
     }

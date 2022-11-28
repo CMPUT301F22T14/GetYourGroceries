@@ -24,11 +24,14 @@ import com.example.getyourgroceries.entity.MealPlanDay;
 import com.example.getyourgroceries.entity.Recipe;
 import com.example.getyourgroceries.entity.RecipeStorage;
 import com.example.getyourgroceries.entity.ScaledRecipe;
+import com.example.getyourgroceries.entity.StoredIngredient;
 import com.example.getyourgroceries.fragments.AddIngredientRecipeFragment;
 import com.example.getyourgroceries.fragments.RecipeChangeHandlerFragment;
 import com.example.getyourgroceries.interfaces.OnFragmentInteractionListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 
 /**
  * Adapter for displaying meal plan days
@@ -129,7 +132,14 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements OnFragm
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View layout = inflater.inflate(R.layout.mealplan_add_ingredient, null);
             ListView ingredientListView = layout.findViewById(R.id.ingredient_list_meal);
-            ingredientListView.setAdapter(IngredientStorage.getInstance().getMealIngredientAdapter());
+
+            //shallow copy to prevent changes to original list
+            // only list ingredients with different description, category, and price
+            ArrayList<StoredIngredient> ingredients = new ArrayList<>(IngredientStorage.getInstance().getIngredientList());
+            HashSet<Object> seen = new HashSet<>();
+            ingredients.removeIf(c -> !seen.add(Arrays.asList(c.getDescription(), c.getCategory(), c.getUnit())));
+
+            ingredientListView.setAdapter(new MealIngredientStorageAdapter(context,ingredients));
             AlertDialog.Builder alertbox = new AlertDialog.Builder(v.getRootView().getContext());
             alertbox.setView(layout);
             AlertDialog a = alertbox.create();

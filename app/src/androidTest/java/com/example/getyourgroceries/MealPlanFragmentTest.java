@@ -134,16 +134,15 @@ public class MealPlanFragmentTest {
         solo.clickOnText("Cheat Day");
         assertTrue(solo.waitForText("Pasta", 1, 2000));
         assertTrue(solo.waitForText("1", 1, 2000));
-        solo.goBack();
 
         /* Change the scale of the recipe. */
-        scaledRecipe.setScale(69);
-        mealPlan.getMealPlanDays().get(0).updateRecipe(scaledRecipe, 0);
-        MealPlanStorage.getInstance().updateMealPlan(mealPlan);
+        solo.clickOnText("Pasta");
+        solo.enterText(0, "69");
+        solo.clickOnText("OK");
 
         /* Check if the scale changed correctly. */
-        solo.clickOnText("Cheat Day");
         assertTrue(solo.waitForText("69", 1, 2000));
+        solo.clickOnText("Confirm");
 
         /* Delete the added meal plan. */
         runOnUiThread(() -> {

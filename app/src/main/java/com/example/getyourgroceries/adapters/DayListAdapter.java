@@ -20,7 +20,9 @@ import androidx.fragment.app.FragmentManager;
 import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.entity.Ingredient;
 import com.example.getyourgroceries.entity.IngredientStorage;
+import com.example.getyourgroceries.entity.MealPlan;
 import com.example.getyourgroceries.entity.MealPlanDay;
+import com.example.getyourgroceries.entity.MealPlanStorage;
 import com.example.getyourgroceries.entity.Recipe;
 import com.example.getyourgroceries.entity.RecipeStorage;
 import com.example.getyourgroceries.entity.ScaledRecipe;
@@ -97,6 +99,13 @@ public class DayListAdapter extends ArrayAdapter<MealPlanDay> implements OnFragm
         Button deleteButton = view.findViewById(R.id.delete_day);
         deleteButton.setOnClickListener((v) -> {
             days.remove(position);
+            // Fix ordering on days
+            int i = 1;
+            for (MealPlanDay day: days) {
+                day.setTitle("Day " + i);
+                i++;
+            }
+
             this.notifyDataSetChanged();
         });
         // Long press to delete ingredient

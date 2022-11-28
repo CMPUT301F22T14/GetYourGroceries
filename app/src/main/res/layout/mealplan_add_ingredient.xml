@@ -6,19 +6,27 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        <Button
+            android:id="@+id/addMealPlanIngredient"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:backgroundTint="@color/primaryLightColor"
+            android:text="Add Ingredient"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            />
 
         <TextView
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
+            android:layout_gravity="center"
             android:text="Add Existing Ingredient"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/addMealPlanIngredient" />
 
         <ListView
@@ -26,26 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:layout_marginTop="76dp"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginBottom="20dp"
             tools:layout_editor_absoluteX="0dp" />
-
-        <Button
-            android:id="@+id/addMealPlanIngredient"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="15dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="24dp"
-            android:backgroundTint="@color/primaryLightColor"
-            android:text="Add Ingredient"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@+id/ingredient_list_meal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

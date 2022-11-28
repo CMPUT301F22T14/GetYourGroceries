@@ -10,22 +10,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_margin="6dp">
+        android:layout_margin="12dp">
 
         <TextView
             android:id="@+id/day_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Title"
-            android:textAppearance="?attr/textAppearanceTitleLarge"
-            android:textSize="25sp"/>
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="25sp"
+            android:textAppearance="?attr/textAppearanceTitleLarge"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Recipes"
             android:textAppearance="?attr/textAppearanceBodyMedium"
-            android:textSize="15sp"
+            android:textColor="?android:attr/textColorSecondary"
+            android:textSize="20sp"
             />
         <ListView
             android:id="@+id/day_recipe_list"
@@ -38,7 +40,8 @@
             android:layout_height="wrap_content"
             android:text="Ingredients"
             android:textAppearance="?attr/textAppearanceBodyMedium"
-            android:textSize="15sp"/>
+            android:textColor="?android:attr/textColorSecondary"
+            android:textSize="20sp"/>
         <ListView
             android:id="@+id/day_ingredient_list"
             android:layout_width="match_parent"

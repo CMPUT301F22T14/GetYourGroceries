@@ -90,30 +90,32 @@ public class MealPlanFragmentTest {
 
         /* Check for the existence of the meal plan days. */
         solo.clickOnText("Bulking Szn");
-        solo.waitForText("Day 1", 1, 2000);
-        solo.waitForText("Day 2", 1, 2000);
-        solo.waitForText("Day 3", 1, 2000);
+        assertTrue(solo.waitForText("Day 1", 1, 2000));
+        assertTrue( solo.waitForText("Day 2", 1, 2000));
+        solo.scrollToBottom();
+        assertTrue(solo.waitForText("Day 3", 1, 2000));
         solo.goBack();
         solo.clickOnText("Cutting Szn");
-        solo.waitForText("Sunday", 1, 2000);
-        solo.waitForText("Wednesday", 1, 2000);
+        assertTrue(solo.waitForText("Sunday", 1, 2000));
+        assertTrue(solo.waitForText("Wednesday", 1, 2000));
         solo.goBack();
 
         /* Check for the existence of the added recipes and ingredients. */
         solo.clickOnText("Bulking Szn");
-        solo.waitForText("Fried Rice", 1, 2000);
-        solo.waitForText("Scrambled Eggs", 1, 2000);
-        solo.waitForText("Banana", 1, 2000);
-        solo.waitForText("Apple", 1, 2000);
+        assertTrue(solo.waitForText("Fried Rice", 1, 2000));
+        assertTrue(solo.waitForText("Scrambled Eggs", 1, 2000));
+        solo.scrollToBottom();
+        assertTrue(solo.waitForText("Banana", 1, 2000));
+        assertTrue(solo.waitForText("Apple", 1, 2000));
         solo.goBack();
         solo.clickOnText("Cutting Szn");
-        solo.waitForText("Yogurt", 1, 2000);
-        solo.waitForText("Protein Shake", 1, 2000);
+        assertTrue(solo.waitForText("Yogurt", 1, 2000));
+        assertTrue(solo.waitForText("Protein Shake", 1, 2000));
         solo.goBack();
 
         /* Delete the test meal plans. */
         runOnUiThread(() -> {
-            MealPlanStorage.getInstance().deleteMealPlan(mealPlan2, true);
+            MealPlanStorage.getInstance().deleteMealPlan(mealPlan1, true);
             MealPlanStorage.getInstance().deleteMealPlan(mealPlan2, true);
         });
     }
@@ -137,8 +139,8 @@ public class MealPlanFragmentTest {
         solo.clickOnView(((BottomNavigationItemView) solo.getView(R.id.meal_icon)).getChildAt(1));
         assertTrue(solo.waitForText("Cheat Day", 1, 2000));
         solo.clickOnText("Cheat Day");
-        solo.waitForText("Pasta", 1, 2000);
-        solo.waitForText("1x", 1, 2000);
+        assertTrue(solo.waitForText("Pasta", 1, 2000));
+        assertTrue(solo.waitForText("1", 1, 2000));
         solo.goBack();
 
         /* Change the scale of the recipe. */
@@ -148,7 +150,7 @@ public class MealPlanFragmentTest {
 
         /* Check if the scale changed correctly. */
         solo.clickOnText("Cheat Day");
-        solo.waitForText("69x", 1, 2000);
+        assertTrue(solo.waitForText("69", 1, 2000));
 
         /* Delete the added meal plan. */
         runOnUiThread(() -> {

@@ -14,8 +14,9 @@ public class ScaledRecipe extends Recipe {
 
     /**
      * Constructor
+     *
      * @param recipe sets internal recipe object
-     * @param scale number scale of the recipe
+     * @param scale  number scale of the recipe
      */
     public ScaledRecipe(Recipe recipe, int scale) {
         this.recipe = recipe;
@@ -24,6 +25,7 @@ public class ScaledRecipe extends Recipe {
 
     /**
      * Fetches recipe
+     *
      * @return recipe object
      */
     public Recipe getRecipe() {
@@ -32,6 +34,7 @@ public class ScaledRecipe extends Recipe {
 
     /**
      * Fetches scale of recipe
+     *
      * @return number scale
      */
     public int getScale() {
@@ -40,6 +43,7 @@ public class ScaledRecipe extends Recipe {
 
     /**
      * Sets the internal recipe
+     *
      * @param recipe object to set to
      */
     public void setRecipe(Recipe recipe) {
@@ -48,6 +52,7 @@ public class ScaledRecipe extends Recipe {
 
     /**
      * Sets the scale of the recipe
+     *
      * @param scale number to set to
      */
     public void setScale(int scale) {

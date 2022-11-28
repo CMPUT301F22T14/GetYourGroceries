@@ -47,7 +47,6 @@ public class CollectIngredientFragment extends DialogFragment {
      * @param ingredient object being passed in
      */
     public CollectIngredientFragment(Ingredient ingredient) {
-//        this.listener = listener;
         this.ingredient = ingredient;
     }
 
@@ -180,7 +179,7 @@ public class CollectIngredientFragment extends DialogFragment {
         dialog.setOnShowListener(dialogInterface -> {
             Button button = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
             button.setOnClickListener(l -> {
-                String ingAmount = ((TextView)view.findViewById(R.id.change_ingredient_quantity)).getText().toString();
+                String ingAmount = ((TextView) view.findViewById(R.id.change_ingredient_quantity)).getText().toString();
                 locationText[0] = location.getText().toString();
                 boolean hasError = false;
 
@@ -200,7 +199,7 @@ public class CollectIngredientFragment extends DialogFragment {
 
                 if (ingAmount.equals("")) {
                     tilQty.setError("Amount cannot be empty!");
-                    hasError= true;
+                    hasError = true;
                 } else {
                     tilQty.setErrorEnabled(false);
                 }
@@ -208,7 +207,7 @@ public class CollectIngredientFragment extends DialogFragment {
                 if (hasError) {
                     return;
                 }
-                listener.onSubmitPressed(new StoredIngredient(ingredient.getDescription(),Integer.parseInt(ingAmount),ingredient.getUnit(),ingredient.getCategory(),ingDate[0],locationText[0]));
+                listener.onSubmitPressed(new StoredIngredient(ingredient.getDescription(), Integer.parseInt(ingAmount), ingredient.getUnit(), ingredient.getCategory(), ingDate[0], locationText[0]));
                 dialog.dismiss();
             });
         });

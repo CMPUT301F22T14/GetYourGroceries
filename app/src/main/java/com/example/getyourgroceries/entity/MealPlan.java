@@ -100,6 +100,7 @@ public class MealPlan {
 
     /**
      * Sets the meal plan days
+     *
      * @param days list of days
      */
     public void setMealPlanDays(ArrayList<MealPlanDay> days) {

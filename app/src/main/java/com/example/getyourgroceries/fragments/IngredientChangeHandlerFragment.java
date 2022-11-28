@@ -1,8 +1,6 @@
 /* IngredientChangeHandlerFragment class. */
 package com.example.getyourgroceries.fragments;
 
-// Import statements.
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -131,9 +129,9 @@ public class IngredientChangeHandlerFragment extends Fragment {
 
             datePicker.addOnPositiveButtonClickListener(selection -> {
                 // for some reason it selects the day before so add 24hrs worth of milliseconds to make it the proper day
-                cal.setTimeInMillis((long) ((long)selection + 8.64e+7));
+                cal.setTimeInMillis((long) ((long) selection + 8.64e+7));
                 SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-                String formattedDate  = format.format(cal.getTime());
+                String formattedDate = format.format(cal.getTime());
                 displayDate.setText(formattedDate);
             });
 
@@ -323,7 +321,7 @@ public class IngredientChangeHandlerFragment extends Fragment {
                 tilDescription.setError("Description cannot be empty!");
                 error = 1;
             } else if (IngredientStorage.getInstance().ingredientExists(description)) {
-                if((editIngredient == null) || ((editIngredient != null) && (!Objects.equals(originalDescription, description)))) {
+                if ((editIngredient == null) || ((editIngredient != null) && (!Objects.equals(originalDescription, description)))) {
                     tilDescription.setError("This ingredient already exists!");
                     error = 1;
                 }

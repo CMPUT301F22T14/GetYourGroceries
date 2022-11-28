@@ -1,9 +1,10 @@
 /* RecipeDB class. */
 package com.example.getyourgroceries.control;
 
-// Import statements.
 import android.util.Log;
+
 import androidx.annotation.NonNull;
+
 import com.example.getyourgroceries.entity.Recipe;
 import com.example.getyourgroceries.entity.RecipeStorage;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -55,6 +56,7 @@ public class RecipeDB {
 
     /**
      * Adds a given recipe to the firebase database
+     *
      * @param recipe: Recipe to add.
      * @return Newly created document ID.
      * @NOTE Make sure to assign the recipe the given returned ID after calling function.
@@ -77,6 +79,7 @@ public class RecipeDB {
 
     /**
      * Deletes a given recipe from the firebase database
+     *
      * @param recipe: recipe to delete.
      */
     public void deleteRecipe(Recipe recipe) {
@@ -85,6 +88,7 @@ public class RecipeDB {
 
     /**
      * Updates a given recipe in the database.
+     *
      * @param recipe The recipe to update.
      */
     public void updateRecipe(Recipe recipe) {

@@ -2,6 +2,7 @@
 
 // Import statements.
 package com.example.getyourgroceries.adapters;
+
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -49,26 +50,30 @@ public class RecipeAdapter extends ArrayAdapter<Recipe> {
      * @return The updated view.
      */
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-
         // Create the view if it doesn't exist.
         View view = convertView;
         if (view == null) {
             view = LayoutInflater.from(context).inflate(R.layout.recipe_item, parent, false);
         }
+
         storage = FirebaseStorage.getInstance();
 
         // Add the recipe.
         Recipe recipe = recipes.get(position);
+
         TextView recipeName = view.findViewById(R.id.recipe_title);
         TextView recipePrepTime = view.findViewById(R.id.recipe_prep_time);
         TextView recipeCategory = view.findViewById(R.id.recipe_category);
         TextView recipeServings = view.findViewById(R.id.recipe_servings);
         ImageView recipePhoto = view.findViewById(R.id.recipe_photo);
+
         int prep_hours = recipe.getPrepTime() / 60;
         int prep_min = recipe.getPrepTime() % 60;
+
         String prepTimeText = prep_hours + "h " + prep_min + "m";
         String categoryText = recipe.getRecipeCategory();
         String servingsText = String.valueOf(recipe.getNumOfServings());
+
         recipeName.setText(recipe.getName());
         recipePrepTime.setText(prepTimeText);
         recipeCategory.setText(categoryText);

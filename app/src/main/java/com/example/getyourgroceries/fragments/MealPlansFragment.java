@@ -17,11 +17,8 @@ import androidx.fragment.app.Fragment;
 
 import com.example.getyourgroceries.R;
 import com.example.getyourgroceries.adapters.MealPlanAdapter;
-import com.example.getyourgroceries.entity.IngredientStorage;
 import com.example.getyourgroceries.entity.MealPlan;
-import com.example.getyourgroceries.entity.MealPlanDay;
 import com.example.getyourgroceries.entity.MealPlanStorage;
-import com.example.getyourgroceries.entity.StoredIngredient;
 
 import java.util.ArrayList;
 
@@ -33,12 +30,14 @@ public class MealPlansFragment extends Fragment {
     ArrayList<MealPlan> mealPlanDataList;
     MealPlanAdapter mealPlanAdapter;
     ListView mealPlanList;
-    public MealPlansFragment(){}
+
+    public MealPlansFragment() {}
 
     /**
      * Initialize the view.
-     * @param inflater The XML file to inflate.
-     * @param container The view container.
+     *
+     * @param inflater           The XML file to inflate.
+     * @param container          The view container.
      * @param savedInstanceState The saved state.
      * @return The created view.
      */
@@ -52,7 +51,7 @@ public class MealPlansFragment extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_meal_plans, container, false);
         mealPlanList = v.findViewById(R.id.meal_plan_list);
-        mealPlanAdapter = new MealPlanAdapter(getActivity(),mealPlanDataList);
+        mealPlanAdapter = new MealPlanAdapter(getActivity(), mealPlanDataList);
         mealPlanList.setAdapter(MealPlanStorage.getInstance().getMealPlanAdapter());
         Button addMeal = v.findViewById(R.id.add_meal_plan);
 
@@ -70,11 +69,11 @@ public class MealPlansFragment extends Fragment {
             builder.setMessage("Would you like to delete this meal plan?");
             builder.setTitle("Delete Meal Plan");
             builder.setCancelable(true);
-            builder.setPositiveButton("Yes", (DialogInterface.OnClickListener) (dialog, which) -> {
+            builder.setPositiveButton("Yes", (dialog, which) -> {
                 MealPlan mealPlan = (MealPlan) mealPlanList.getItemAtPosition(i);
                 MealPlanStorage.getInstance().deleteMealPlan(mealPlan, true);
             });
-            builder.setNegativeButton("No", (DialogInterface.OnClickListener) (dialog, which) -> dialog.cancel());
+            builder.setNegativeButton("No", (dialog, which) -> dialog.cancel());
             AlertDialog alert = builder.create();
             alert.show();
             return true;
@@ -84,6 +83,7 @@ public class MealPlansFragment extends Fragment {
             MealPlanChangeHandlerFragment mealPlanChangeHandlerFragment = new MealPlanChangeHandlerFragment();
             requireActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out).replace(container.getId(), mealPlanChangeHandlerFragment, "MEAL_PLAN_EDIT").addToBackStack(null).commit();
         });
+
         return v;
     }
 

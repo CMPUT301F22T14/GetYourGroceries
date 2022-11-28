@@ -2,9 +2,11 @@
 package com.example.getyourgroceries.fragments;
 
 import android.os.Bundle;
+
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +22,8 @@ public class HomeScreenFragment extends Fragment {
     /**
      * Empty constructor.
      */
-    public HomeScreenFragment() {}
+    public HomeScreenFragment() {
+    }
 
     /**
      * Create the view.
@@ -46,6 +49,7 @@ public class HomeScreenFragment extends Fragment {
             MainBottomSheet modalBottomSheet = new MainBottomSheet();
             modalBottomSheet.show(requireActivity().getSupportFragmentManager(), MainBottomSheet.TAG);
         });
+
         return v;
     }
 }

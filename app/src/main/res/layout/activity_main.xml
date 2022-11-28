@@ -11,19 +11,6 @@
     app:layout_constraintStart_toEndOf="@+id/textView2"
     tools:context=".MainActivity">
 
-
-    <!--<FrameLayout
-        android:id="@+id/flFragment"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />-->
-
-
-
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/container"
         android:name="com.example.getyourgroceries.fragments.HomeScreenFragment"
@@ -34,9 +21,8 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintVertical_bias="0.653"
         tools:layout="@layout/fragment_home_screen" />
-
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"

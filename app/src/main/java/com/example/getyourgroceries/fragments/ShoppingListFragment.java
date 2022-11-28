@@ -196,8 +196,13 @@ public class ShoppingListFragment extends Fragment implements OnCollectIngredien
         // Update amount if ingredient already exists in storage
         if (IngredientStorage.getInstance().ingredientExists(newIngredient.getDescription())) {
             StoredIngredient oldIngredient = IngredientStorage.getInstance().getIngredient(newIngredient.getDescription());
-            oldIngredient.setAmount(oldIngredient.getAmount() + newIngredient.getAmount());
-            IngredientStorage.getInstance().updateIngredient(oldIngredient);
+            if (!oldIngredient.getBestBefore().equals(newIngredient.getBestBefore())){
+                IngredientStorage.getInstance().addIngredient(newIngredient, true);
+            }
+            else {
+                oldIngredient.setAmount(oldIngredient.getAmount() + newIngredient.getAmount());
+                IngredientStorage.getInstance().updateIngredient(oldIngredient);
+            }
         } else {
             IngredientStorage.getInstance().addIngredient(newIngredient, true);
         }

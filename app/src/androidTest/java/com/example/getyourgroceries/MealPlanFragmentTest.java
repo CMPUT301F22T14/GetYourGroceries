@@ -4,7 +4,9 @@ import static androidx.test.internal.runner.junit4.statement.UiThreadStatement.r
 import static org.junit.Assert.assertTrue;
 
 import android.app.Activity;
+import android.widget.ScrollView;
 
+import androidx.core.widget.NestedScrollView;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
@@ -65,59 +67,50 @@ public class MealPlanFragmentTest {
     public void testAddMealPlan() throws Throwable {
 
         /* Add two meal plans. */
-        ArrayList<MealPlanDay> mealPlanDays1 = new ArrayList<>();
-        mealPlanDays1.add(new MealPlanDay("Day 1"));
-        mealPlanDays1.add(new MealPlanDay("Day 2"));
-        mealPlanDays1.add(new MealPlanDay("Day 3"));
-        mealPlanDays1.get(0).addRecipe(new ScaledRecipe(new Recipe("Fried Rice", 25, 3, "Dinner", "", ""), 1));
-        mealPlanDays1.get(1).addRecipe(new ScaledRecipe(new Recipe("Scrambled Eggs", 10, 1, "Breakfast", "", ""), 1));
-        mealPlanDays1.get(1).addIngredient(new Ingredient("Banana", 1, 0.50, "Fruit"));
-        mealPlanDays1.get(2).addIngredient(new Ingredient("Apple", 1, 0.75, "Fruit"));
-        MealPlan mealPlan1 = new MealPlan("Bulking Szn", mealPlanDays1);
-        MealPlanStorage.getInstance().addMealPlan(mealPlan1, true);
-        ArrayList<MealPlanDay> mealPlanDays2 = new ArrayList<>();
-        mealPlanDays2.add(new MealPlanDay("Sunday"));
-        mealPlanDays2.add(new MealPlanDay("Wednesday"));
-        mealPlanDays2.get(0).addIngredient(new Ingredient("Yogurt", 1, 1.50, "Dairy"));
-        mealPlanDays2.get(1).addRecipe(new ScaledRecipe(new Recipe("Protein Shake", 5, 1, "Supplements", "", ""), 1));
-        MealPlan mealPlan2 = new MealPlan("Cutting Szn", mealPlanDays2);
-        MealPlanStorage.getInstance().addMealPlan(mealPlan2, true);
-
-        /* Check for the existence of the created meal plans. */
         solo.clickOnView(((BottomNavigationItemView) solo.getView(R.id.meal_icon)).getChildAt(1));
-        assertTrue(solo.waitForText("Bulking Szn", 1, 2000));
-        assertTrue(solo.waitForText("Cutting Szn", 1, 2000));
+        solo.clickOnText("Add Meal Plan");
+        solo.enterText(0, "Bulking Szn");
+        solo.clickOnText("Add Day");
+        solo.clickOnText("Add Day");
+        solo.clickOnText("Add Recipe");
+        solo.sleep(2000);
+        solo.clickOnView(solo.getView(R.id.addMealPlanRecipe));
+        solo.enterText(0, "Fried Rice");
+        solo.enterText(1, "25");
+        solo.enterText(2, "3");
+        solo.enterText(3, "Dinner");
+        NestedScrollView scrollView = (NestedScrollView) solo.getView(R.id.change_recipe_layout);
+        scrollView.post(() -> {
+            for (int i = 0; i < 11; i++) {
+                scrollView.arrowScroll(ScrollView.FOCUS_DOWN);
+            }
+        });
+        solo.clickOnText("Confirm");
+        solo.clickOnText("OK");
+        solo.clickOnText("Add Ingredient", 2);
+        solo.sleep(500);
+        solo.clickOnView(solo.getView(R.id.addMealPlanIngredient));
+        solo.enterText(1, "Banana");
+        solo.enterText(2, "1");
+        solo.enterText(3, "Fruit");
+        solo.enterText(4, "0.75");
+        solo.clickOnText("OK");
+        solo.clickOnText("Confirm");
 
         /* Check for the existence of the meal plan days. */
+        solo.waitForText("Bulking Szn", 1, 2000);
         solo.clickOnText("Bulking Szn");
         assertTrue(solo.waitForText("Day 1", 1, 2000));
         assertTrue( solo.waitForText("Day 2", 1, 2000));
-        solo.scrollToBottom();
-        assertTrue(solo.waitForText("Day 3", 1, 2000));
-        solo.goBack();
-        solo.clickOnText("Cutting Szn");
-        assertTrue(solo.waitForText("Sunday", 1, 2000));
-        assertTrue(solo.waitForText("Wednesday", 1, 2000));
-        solo.goBack();
 
         /* Check for the existence of the added recipes and ingredients. */
-        solo.clickOnText("Bulking Szn");
         assertTrue(solo.waitForText("Fried Rice", 1, 2000));
-        assertTrue(solo.waitForText("Scrambled Eggs", 1, 2000));
-        solo.scrollToBottom();
         assertTrue(solo.waitForText("Banana", 1, 2000));
-        assertTrue(solo.waitForText("Apple", 1, 2000));
-        solo.goBack();
-        solo.clickOnText("Cutting Szn");
-        assertTrue(solo.waitForText("Yogurt", 1, 2000));
-        assertTrue(solo.waitForText("Protein Shake", 1, 2000));
-        solo.goBack();
 
         /* Delete the test meal plans. */
-        runOnUiThread(() -> {
-            MealPlanStorage.getInstance().deleteMealPlan(mealPlan1, true);
-            MealPlanStorage.getInstance().deleteMealPlan(mealPlan2, true);
-        });
+        solo.goBack();
+        solo.clickLongOnText("Bulking Szn");
+        solo.clickOnText("Yes");
     }
 
     /**
